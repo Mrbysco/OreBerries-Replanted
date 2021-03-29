@@ -1,0 +1,27 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "value": {
+            "tag": "forge:nuggets/tin",
+            "type": "forge:tag_empty"
+          },
+          "type": "forge:not"
+        }
+      ],
+      "recipe": {
+        "type": "oreberriesreplanted:blasting",
+        "ingredient": {
+          "item": "oreberriesreplanted:tin_oreberry"
+        },
+        "result": {
+          "tag": "forge:nuggets/tin"
+        },
+        "experience": 0.2,
+        "cookingtime": 100
+      }
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "value": {
+            "tag": "forge:nuggets/lead",
+            "type": "forge:tag_empty"
+          },
+          "type": "forge:not"
+        }
+      ],
+      "recipe": {
+        "type": "oreberriesreplanted:furnace",
+        "ingredient": {
+          "item": "oreberriesreplanted:lead_oreberry"
+        },
+        "result": {
+          "tag": "forge:nuggets/lead"
+        },
+        "experience": 0.2,
+        "cookingtime": 200
+      }
+    }
+  ]
+}

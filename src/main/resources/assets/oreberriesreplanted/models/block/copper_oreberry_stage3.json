@@ -1,0 +1,6 @@
+{
+  "parent": "oreberriesreplanted:block/base/oreberry_stage2",
+  "textures": {
+    "all": "oreberriesreplanted:block/copper_oreberry_ripe"
+  }
+}

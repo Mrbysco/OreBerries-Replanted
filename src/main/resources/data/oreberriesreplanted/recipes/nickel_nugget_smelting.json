@@ -1,0 +1,27 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "value": {
+            "tag": "forge:nuggets/nickel",
+            "type": "forge:tag_empty"
+          },
+          "type": "forge:not"
+        }
+      ],
+      "recipe": {
+        "type": "oreberriesreplanted:furnace",
+        "ingredient": {
+          "item": "oreberriesreplanted:nickel_oreberry"
+        },
+        "result": {
+          "tag": "forge:nuggets/nickel"
+        },
+        "experience": 0.2,
+        "cookingtime": 200
+      }
+    }
+  ]
+}
