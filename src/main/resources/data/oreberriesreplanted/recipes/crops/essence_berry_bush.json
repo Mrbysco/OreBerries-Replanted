@@ -1,0 +1,39 @@
+{
+  "type": "botanypots:crop",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "botanypots"
+    },
+    {
+      "value": {
+        "tag": "forge:ores/lapis",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ],
+  "seed": {
+    "item": "oreberriesreplanted:essence_berry_bush"
+  },
+  "categories": [
+    "lapis_ore"
+  ],
+  "growthTicks": 1200,
+  "display": {
+    "block": "oreberriesreplanted:essence_berry_bush",
+    "properties": {
+      "age": 3
+    }
+  },
+  "results": [
+    {
+      "chance": 0.75,
+      "output": {
+        "item": "oreberriesreplanted:essence_berry"
+      },
+      "minRolls": 1,
+      "maxRolls": 1
+    }
+  ]
+}

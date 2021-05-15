@@ -1,0 +1,39 @@
+{
+  "type": "botanypots:crop",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "botanypots"
+    },
+    {
+      "value": {
+        "tag": "forge:ores/zinc",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ],
+  "seed": {
+    "item": "oreberriesreplanted:zinc_oreberry_bush"
+  },
+  "categories": [
+    "zinc_ore"
+  ],
+  "growthTicks": 1200,
+  "display": {
+    "block": "oreberriesreplanted:zinc_oreberry_bush",
+    "properties": {
+      "age": 3
+    }
+  },
+  "results": [
+    {
+      "chance": 0.75,
+      "output": {
+        "item": "oreberriesreplanted:zinc_oreberry"
+      },
+      "minRolls": 1,
+      "maxRolls": 1
+    }
+  ]
+}

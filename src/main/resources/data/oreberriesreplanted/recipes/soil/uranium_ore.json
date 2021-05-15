@@ -1,0 +1,26 @@
+{
+    "type": "botanypots:soil",
+	"conditions": [
+      {
+        "type": "forge:mod_loaded",
+        "modid": "botanypots"
+      },
+      {
+        "value": {
+          "tag": "forge:ores/uranium",
+          "type": "forge:tag_empty"
+        },
+        "type": "forge:not"
+      }
+	],
+    "input": {
+        "tag": "forge:ores/uranium"
+    },
+    "display": {
+        "block": "minecraft:stone"
+    },
+    "categories": [
+        "uranium_ore"
+    ],
+    "growthModifier": 0
+}

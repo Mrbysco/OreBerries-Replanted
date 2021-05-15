@@ -1,0 +1,39 @@
+{
+  "type": "botanypots:crop",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "botanypots"
+    },
+    {
+      "value": {
+        "tag": "forge:ores/osmium",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ],
+  "seed": {
+    "item": "oreberriesreplanted:osmium_oreberry_bush"
+  },
+  "categories": [
+    "osmium_ore"
+  ],
+  "growthTicks": 1200,
+  "display": {
+    "block": "oreberriesreplanted:osmium_oreberry_bush",
+    "properties": {
+      "age": 3
+    }
+  },
+  "results": [
+    {
+      "chance": 0.75,
+      "output": {
+        "item": "oreberriesreplanted:osmium_oreberry"
+      },
+      "minRolls": 1,
+      "maxRolls": 1
+    }
+  ]
+}

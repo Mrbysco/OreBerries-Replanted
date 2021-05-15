@@ -1,0 +1,26 @@
+{
+  "type": "botanypots:soil",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "botanypots"
+    },
+    {
+      "value": {
+        "tag": "forge:ores/gold",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ],
+  "input": {
+    "tag": "forge:ores/gold"
+  },
+  "display": {
+    "block": "minecraft:gold_ore"
+  },
+  "categories": [
+    "gold_ore"
+  ],
+  "growthModifier": 0
+}

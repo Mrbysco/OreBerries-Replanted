@@ -1,0 +1,26 @@
+{
+  "type": "botanypots:soil",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "botanypots"
+    },
+    {
+      "value": {
+        "tag": "forge:ores/copper",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ],
+  "input": {
+    "tag": "forge:ores/copper"
+  },
+  "display": {
+    "block": "minecraft:stone"
+  },
+  "categories": [
+    "copper_ore"
+  ],
+  "growthModifier": 0
+}

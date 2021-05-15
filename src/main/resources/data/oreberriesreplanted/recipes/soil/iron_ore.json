@@ -1,0 +1,26 @@
+{
+  "type": "botanypots:soil",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "botanypots"
+    },
+    {
+      "value": {
+        "tag": "forge:ores/iron",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ],
+  "input": {
+    "tag": "forge:ores/iron"
+  },
+  "display": {
+    "block": "minecraft:iron_ore"
+  },
+  "categories": [
+    "iron_ore"
+  ],
+  "growthModifier": 0
+}

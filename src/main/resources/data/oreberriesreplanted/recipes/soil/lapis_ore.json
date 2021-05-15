@@ -1,0 +1,19 @@
+{
+    "type": "botanypots:soil",
+	"conditions": [
+		{
+		  "type": "forge:mod_loaded",
+		  "modid": "botanypots"
+		}
+	],
+    "input": {
+        "item": "minecraft:lapis_ore"
+    },
+    "display": {
+        "block": "minecraft:lapis_ore"
+    },
+    "categories": [
+        "lapis_ore"
+    ],
+    "growthModifier": 0
+}

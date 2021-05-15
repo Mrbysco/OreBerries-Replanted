@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[36,)"
+loaderVersion="[35,)"
 issueTrackerURL="https://github.com/Mrbysco/Oreberries-Replanted"
 license="MIT"
 
@@ -12,3 +12,9 @@ authors="Mrbysco, ShyNieke"
 description='''
 Bringing back the Ore berries idea from Tinkers' 1.7.10 to recent minecraft
 '''
+[[dependencies.oreberriesreplanted]]
+modId="minecraft"
+mandatory=true
+versionRange="[1.16.4,1.17)"
+ordering="NONE"
+side="BOTH"

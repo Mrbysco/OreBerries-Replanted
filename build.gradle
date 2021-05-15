@@ -86,6 +86,9 @@ repositories {
         name 'JEI maven'
         url = "https://dvs1.progwml6.com/files/maven"
     }
+    maven {
+        url 'https://maven.blamejared.com'
+    }
 }
 
 dependencies {
@@ -93,6 +96,9 @@ dependencies {
 
     compileOnly fg.deobf("mezz.jei:jei-1.16.4:${jei_version}")
     runtimeOnly fg.deobf("mezz.jei:jei-1.16.4:${jei_version}")
+
+    compile fg.deobf("net.darkhax.bookshelf:Bookshelf-1.16.5:${bookshelf_version}")
+    compile fg.deobf("net.darkhax.botanybots:BotanyPots-1.16.5:${botanypots_version}")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..

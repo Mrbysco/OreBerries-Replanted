@@ -1,0 +1,26 @@
+{
+  "type": "botanypots:soil",
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "botanypots"
+    },
+    {
+      "value": {
+        "tag": "forge:ores/lead",
+        "type": "forge:tag_empty"
+      },
+      "type": "forge:not"
+    }
+  ],
+  "input": {
+    "tag": "forge:ores/lead"
+  },
+  "display": {
+    "block": "minecraft:stone"
+  },
+  "categories": [
+    "lead_ore"
+  ],
+  "growthModifier": 0
+}
