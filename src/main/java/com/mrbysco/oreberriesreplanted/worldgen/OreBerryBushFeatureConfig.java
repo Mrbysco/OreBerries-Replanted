@@ -8,7 +8,7 @@ import net.minecraft.world.gen.feature.template.RuleTest;
 
 public class OreBerryBushFeatureConfig implements IFeatureConfig {
 	public static final Codec<OreBerryBushFeatureConfig> CODEC = RecordCodecBuilder.create((bushFeatureConfig) -> {
-		return bushFeatureConfig.group(RuleTest.field_237127_c_.fieldOf("target").forGetter((config) -> {
+		return bushFeatureConfig.group(RuleTest.CODEC.fieldOf("target").forGetter((config) -> {
 			return config.target;
 		}), BlockState.CODEC.fieldOf("state").forGetter((config) -> {
 			return config.state;
