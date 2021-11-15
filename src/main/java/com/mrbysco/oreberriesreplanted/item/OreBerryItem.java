@@ -24,9 +24,9 @@ public class OreBerryItem extends Item {
 	}
 
 	@Override
-	public void addInformation(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
+	public void appendHoverText(ItemStack stack, @Nullable World worldIn, List<ITextComponent> tooltip, ITooltipFlag flagIn) {
 		if(!tooltip.isEmpty()) {
-			tooltip.add(new TranslationTextComponent(this.tooltip).mergeStyle(TextFormatting.GRAY));
+			tooltip.add(new TranslationTextComponent(this.tooltip).withStyle(TextFormatting.GRAY));
 		}
 	}
 }

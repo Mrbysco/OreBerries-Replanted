@@ -18,7 +18,7 @@ public class OreBerryBushFeature extends Feature<OreBerryBushFeatureConfig> {
 	}
 
 	@Override
-	public boolean generate(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, OreBerryBushFeatureConfig config) {
+	public boolean place(ISeedReader reader, ChunkGenerator generator, Random rand, BlockPos pos, OreBerryBushFeatureConfig config) {
 		BlockPos adequateLocation = findAdequateLocation(reader, pos, generator, config);
 		if(adequateLocation != null) {
 			int type = rand.nextInt(config.chance);
@@ -35,7 +35,7 @@ public class OreBerryBushFeature extends Feature<OreBerryBushFeatureConfig> {
 
 	protected BlockPos findAdequateLocation(IWorld world, BlockPos blockPos, ChunkGenerator generator, OreBerryBushFeatureConfig config) {
 		int minY = 0;
-		int maxY = generator.getGroundHeight();
+		int maxY = generator.getSpawnHeight();
 
 		if(config.state.getBlock() instanceof OreBerryBushBlock) {
 			OreBerryBushBlock block = (OreBerryBushBlock)config.state.getBlock();
@@ -45,16 +45,16 @@ public class OreBerryBushFeature extends Feature<OreBerryBushFeatureConfig> {
 
 		BlockPos pos = new BlockPos(blockPos);
 		do {
-			if(world.isAirBlock(pos) && !world.isAirBlock(pos.up()))
-				return pos.up();
-			pos = pos.up();
+			if(world.isEmptyBlock(pos) && !world.isEmptyBlock(pos.above()))
+				return pos.above();
+			pos = pos.above();
 		} while (pos.getY() <maxY);
 
 		pos = new BlockPos(blockPos);
 		do {
-			if(world.isAirBlock(pos) && !world.isAirBlock(pos.down()))
-				return pos.down();
-			pos = pos.down();
+			if(world.isEmptyBlock(pos) && !world.isEmptyBlock(pos.below()))
+				return pos.below();
+			pos = pos.below();
 		} while (pos.getY() > minY);
 
 		return null;
@@ -65,7 +65,7 @@ public class OreBerryBushFeature extends Feature<OreBerryBushFeatureConfig> {
 			for (int yPos = -1; yPos <= 1; yPos++)
 				for (int zPos = -1; zPos <= 1; zPos++)
 					if (random.nextInt(4) == 0)
-						generateBerryBlock(world, pos.add(xPos, yPos, zPos), random, config);
+						generateBerryBlock(world, pos.offset(xPos, yPos, zPos), random, config);
 
 		generateSmallNode(world, random, pos, config);
 	}
@@ -81,7 +81,7 @@ public class OreBerryBushFeature extends Feature<OreBerryBushFeatureConfig> {
 		if (random.nextBoolean())
 			generateBerryBlock(world, pos.north(), random, config);
 		if (random.nextInt(4) != 0)
-			generateBerryBlock(world, pos.up(), random, config);
+			generateBerryBlock(world, pos.above(), random, config);
 	}
 
 	public void generateTinyNode(IWorld world, Random random, BlockPos pos, OreBerryBushFeatureConfig config) {
@@ -95,13 +95,13 @@ public class OreBerryBushFeature extends Feature<OreBerryBushFeatureConfig> {
 		if (random.nextInt(4) == 0)
 			generateBerryBlock(world, pos.north(), random, config);
 		if (random.nextInt(16) < 7)
-			generateBerryBlock(world, pos.up(), random, config);
+			generateBerryBlock(world, pos.above(), random, config);
 	}
 
 	void generateBerryBlock(IWorld world, BlockPos pos, Random random, OreBerryBushFeatureConfig config) {
 		BlockState state = world.getBlockState(pos);
-		if ((!world.isAirBlock(pos.up()) || !world.isAirBlock(pos.down())) && (isCaveAir(world, pos) || config.target.test(state, random))) {
-			world.setBlockState(pos, config.state, 2);
+		if ((!world.isEmptyBlock(pos.above()) || !world.isEmptyBlock(pos.below())) && (isCaveAir(world, pos) || config.target.test(state, random))) {
+			world.setBlock(pos, config.state, 2);
 		}
 	}
 

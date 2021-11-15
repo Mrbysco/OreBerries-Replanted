@@ -96,15 +96,15 @@ public class OreBerryRegistry {
 	public static final RegistryObject<Item> ESSENCE_BERRY = ITEMS.register("essence_berry", () -> new EssenceBerryItem(itemBuilder(), Reference.ESSENCE_TOOLTIP));
 
 	private static AbstractBlock.Properties blockBuilder() {
-		return AbstractBlock.Properties.create(Material.LEAVES).notSolid().setSuffocates(OreBerryBushBlock::isntSolid).setBlocksVision(OreBerryBushBlock::isntSolid);
+		return AbstractBlock.Properties.of(Material.LEAVES).noOcclusion().isSuffocating(OreBerryBushBlock::isntSolid).isViewBlocking(OreBerryBushBlock::isntSolid);
 	}
 
 	private static AbstractBlock.Properties potBuilder() {
-		return AbstractBlock.Properties.create(Material.MISCELLANEOUS).zeroHardnessAndResistance().notSolid();
+		return AbstractBlock.Properties.of(Material.DECORATION).instabreak().noOcclusion();
 	}
 
 	private static Item.Properties itemBuilder() {
-		return new Item.Properties().group(OreBerryTab.TAB);
+		return new Item.Properties().tab(OreBerryTab.TAB);
 	}
 
 	public static void registerBlockData() {

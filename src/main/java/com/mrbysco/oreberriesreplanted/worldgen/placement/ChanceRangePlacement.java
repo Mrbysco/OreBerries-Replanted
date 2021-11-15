@@ -12,7 +12,7 @@ public class ChanceRangePlacement extends SimplePlacement<ChanceTopSolidRangeCon
 		super(codec);
 	}
 
-	public Stream<BlockPos> getPositions(Random random, ChanceTopSolidRangeConfig config, BlockPos pos) {
+	public Stream<BlockPos> place(Random random, ChanceTopSolidRangeConfig config, BlockPos pos) {
 		if(random.nextInt(config.rarity) == 0) {
 			int i = pos.getX();
 			int j = pos.getZ();

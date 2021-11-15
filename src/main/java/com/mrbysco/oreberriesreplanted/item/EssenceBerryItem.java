@@ -17,26 +17,26 @@ public class EssenceBerryItem extends OreBerryItem {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-		ItemStack itemstack = playerIn.getHeldItem(handIn);
+	public ActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand handIn) {
+		ItemStack itemstack = playerIn.getItemInHand(handIn);
 		int xpGained = random.nextInt(14) + 6;
-		if(playerIn.isSneaking()) {
+		if(playerIn.isShiftKeyDown()) {
 			xpGained = 0;
 			for(int i = 0; i < itemstack.getCount(); i++) {
 				xpGained += random.nextInt(14) + 6;
 			}
 		}
-		ExperienceOrbEntity xpEntity = new ExperienceOrbEntity(worldIn, playerIn.getPosX(), playerIn.getPosY(), playerIn.getPosZ(), xpGained);
-		if(!worldIn.isRemote) {
-			worldIn.addEntity(xpEntity);
+		ExperienceOrbEntity xpEntity = new ExperienceOrbEntity(worldIn, playerIn.getX(), playerIn.getY(), playerIn.getZ(), xpGained);
+		if(!worldIn.isClientSide) {
+			worldIn.addFreshEntity(xpEntity);
 		}
-		if(!playerIn.abilities.isCreativeMode) {
-			if(playerIn.isSneaking()) {
+		if(!playerIn.abilities.instabuild) {
+			if(playerIn.isShiftKeyDown()) {
 				itemstack.shrink(itemstack.getCount());
 			} else {
 				itemstack.shrink(1);
 			}
 		}
-		return ActionResult.resultSuccess(itemstack);
+		return ActionResult.success(itemstack);
 	}
 }

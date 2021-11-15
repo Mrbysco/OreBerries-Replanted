@@ -33,19 +33,19 @@ import java.util.Random;
 import java.util.function.Supplier;
 
 public class OreBerryBushBlock extends Block implements IPlantable {
-	public static final IntegerProperty AGE = BlockStateProperties.AGE_0_3;
+	public static final IntegerProperty AGE = BlockStateProperties.AGE_3;
 	private static final VoxelShape[] SHAPE_BY_AGE = new VoxelShape[]{
-			Block.makeCuboidShape(4.0D, 0.0D, 4.0D, 12.0D, 8.0D, 12.0D),
-			Block.makeCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 12.0D, 14.0D),
-			Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D),
-			Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)};
+			Block.box(4.0D, 0.0D, 4.0D, 12.0D, 8.0D, 12.0D),
+			Block.box(2.0D, 0.0D, 2.0D, 14.0D, 12.0D, 14.0D),
+			Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D),
+			Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)};
 	private final Supplier<Item> berryItem;
 	private final OreEnum oreType;
 
 	public OreBerryBushBlock(Properties properties, Supplier<Item> berryItem, OreEnum oreType) {
-		super(properties.tickRandomly().hardnessAndResistance(0.3F).sound(SoundType.METAL).notSolid()
-				.setSuffocates(OreBerryBushBlock::isntSolid).setBlocksVision(OreBerryBushBlock::isntSolid));
-		this.setDefaultState(this.stateContainer.getBaseState().with(this.getAgeProperty(), Integer.valueOf(0)));
+		super(properties.randomTicks().strength(0.3F).sound(SoundType.METAL).noOcclusion()
+				.isSuffocating(OreBerryBushBlock::isntSolid).isViewBlocking(OreBerryBushBlock::isntSolid));
+		this.registerDefaultState(this.stateDefinition.any().setValue(this.getAgeProperty(), Integer.valueOf(0)));
 
 		this.berryItem = berryItem;
 		this.oreType = oreType;
@@ -76,47 +76,47 @@ public class OreBerryBushBlock extends Block implements IPlantable {
 	}
 
 	protected int getAge(BlockState state) {
-		return state.get(this.getAgeProperty());
+		return state.getValue(this.getAgeProperty());
 	}
 
 	public BlockState withAge(int age) {
-		return this.getDefaultState().with(this.getAgeProperty(), Integer.valueOf(age));
+		return this.defaultBlockState().setValue(this.getAgeProperty(), Integer.valueOf(age));
 	}
 
 	public boolean isMaxAge(BlockState state) {
-		return state.get(this.getAgeProperty()) >= this.getMaxAge();
+		return state.getValue(this.getAgeProperty()) >= this.getMaxAge();
 	}
 
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return SHAPE_BY_AGE[state.get(this.getAgeProperty())];
+		return SHAPE_BY_AGE[state.getValue(this.getAgeProperty())];
 	}
 
 	@Override
 	public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
-		if(!worldIn.isRemote && !isMaxAge(state) && worldIn.getLightSubtracted(pos, 0) < 10 && ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt() == OreBerriesConfig.COMMON.growthChance.get())) {
+		if(!worldIn.isClientSide && !isMaxAge(state) && worldIn.getRawBrightness(pos, 0) < 10 && ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt() == OreBerriesConfig.COMMON.growthChance.get())) {
 			int currentAge = getAge(state);
-			worldIn.setBlockState(pos, withAge(currentAge + 1), 3);
+			worldIn.setBlock(pos, withAge(currentAge + 1), 3);
 			ForgeHooks.onCropsGrowPost(worldIn, pos, worldIn.getBlockState(pos));
 		}
 	}
 
 	@Override
-	public void onBlockClicked(BlockState state, World worldIn, BlockPos pos, PlayerEntity player) {
+	public void attack(BlockState state, World worldIn, BlockPos pos, PlayerEntity player) {
 		harvestBerry(state, worldIn, pos);
 	}
 
 	@Override
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
 		return harvestBerry(state, worldIn, pos);
 	}
 
 	public ActionResultType harvestBerry(BlockState state, World worldIn, BlockPos pos) {
 		if(isMaxAge(state)) {
-			if(worldIn.isRemote)
+			if(worldIn.isClientSide)
 				return ActionResultType.SUCCESS;
 
-			worldIn.setBlockState(pos, withAge(getMaxAge() - 1), 3);
-			spawnAsEntity(worldIn, pos, new ItemStack(getBerryItem(), worldIn.rand.nextInt(3) + 1));
+			worldIn.setBlock(pos, withAge(getMaxAge() - 1), 3);
+			popResource(worldIn, pos, new ItemStack(getBerryItem(), worldIn.random.nextInt(3) + 1));
 		}
 
 		return ActionResultType.PASS;
@@ -125,30 +125,30 @@ public class OreBerryBushBlock extends Block implements IPlantable {
 	@Override
 	public boolean canSustainPlant(BlockState state, IBlockReader world, BlockPos pos, Direction facing, IPlantable plantable) {
 		if (state.getBlock() == this)
-			return state.get(this.getAgeProperty()) >= 2;
+			return state.getValue(this.getAgeProperty()) >= 2;
 
 		return super.canSustainPlant(state, world, pos, facing, plantable);
 	}
 
 	@Override
-	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
-		BlockPos blockpos = pos.down();
+	public boolean canSurvive(BlockState state, IWorldReader worldIn, BlockPos pos) {
+		BlockPos blockpos = pos.below();
 		BlockState blockstate = worldIn.getBlockState(blockpos);
-		boolean flag = oreType.getDarknessOnly() ? worldIn.getLightSubtracted(pos, 0) < 13 : true;
+		boolean flag = oreType.getDarknessOnly() ? worldIn.getRawBrightness(pos, 0) < 13 : true;
 		return flag && blockstate.canSustainPlant(worldIn, blockpos, net.minecraft.util.Direction.UP, this);
 	}
 
 	@Override
-	public void onEntityCollision(BlockState state, World worldIn, BlockPos pos, Entity entityIn) {
+	public void entityInside(BlockState state, World worldIn, BlockPos pos, Entity entityIn) {
 		if(!(entityIn instanceof ItemEntity)) {
-			entityIn.attackEntityFrom(DamageSource.CACTUS, 1.0F);
+			entityIn.hurt(DamageSource.CACTUS, 1.0F);
 		}
 	}
 
 	@Override
 	public BlockState getPlant(IBlockReader world, BlockPos pos) {
 		BlockState state = world.getBlockState(pos);
-		if (state.getBlock() != this) return getDefaultState();
+		if (state.getBlock() != this) return defaultBlockState();
 		return state;
 	}
 
@@ -157,7 +157,7 @@ public class OreBerryBushBlock extends Block implements IPlantable {
 		return PlantType.CAVE;
 	}
 
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
 		builder.add(AGE);
 	}
 }
