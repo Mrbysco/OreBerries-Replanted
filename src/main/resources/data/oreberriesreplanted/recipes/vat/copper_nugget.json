@@ -1,0 +1,27 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "value": {
+            "tag": "forge:nuggets/copper",
+            "type": "forge:tag_empty"
+          },
+          "type": "forge:not"
+        }
+      ],
+      "recipe": {
+        "type": "oreberriesreplanted:vat",
+        "ingredient": {
+          "item": "oreberriesreplanted:copper_oreberry"
+        },
+        "fluid": "oreberriesreplanted:liquid_copper_oreberry",
+        "result": {
+          "tag": "forge:nuggets/copper"
+        },
+        "evaporationtime": 100
+      }
+    }
+  ]
+}

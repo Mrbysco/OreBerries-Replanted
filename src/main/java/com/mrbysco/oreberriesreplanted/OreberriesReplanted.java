@@ -29,6 +29,8 @@ public class OreberriesReplanted {
 
         OreBerryRegistry.BLOCKS.register(eventBus);
         OreBerryRegistry.ITEMS.register(eventBus);
+        OreBerryRegistry.FLUIDS.register(eventBus);
+        OreBerryRegistry.TILES.register(eventBus);
         OreBerryRegistry.RECIPE_SERIALIZERS.register(eventBus);
         OreBerryRegistry.FEATURES.register(eventBus);
         OreBerryRegistry.DECORATORS.register(eventBus);

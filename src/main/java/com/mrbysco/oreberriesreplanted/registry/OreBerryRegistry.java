@@ -3,11 +3,14 @@ package com.mrbysco.oreberriesreplanted.registry;
 import com.mrbysco.oreberriesreplanted.Reference;
 import com.mrbysco.oreberriesreplanted.block.OreBerryBushBlock;
 import com.mrbysco.oreberriesreplanted.block.OreEnum;
+import com.mrbysco.oreberriesreplanted.block.VatBlock;
 import com.mrbysco.oreberriesreplanted.item.EssenceBerryItem;
 import com.mrbysco.oreberriesreplanted.item.OreBerryItem;
 import com.mrbysco.oreberriesreplanted.item.TooltipBlockItem;
 import com.mrbysco.oreberriesreplanted.recipes.TagBlastingRecipe;
 import com.mrbysco.oreberriesreplanted.recipes.TagFurnaceRecipe;
+import com.mrbysco.oreberriesreplanted.recipes.VatRecipe;
+import com.mrbysco.oreberriesreplanted.tile.VatTile;
 import com.mrbysco.oreberriesreplanted.worldgen.OreBerryBushFeature;
 import com.mrbysco.oreberriesreplanted.worldgen.OreBerryBushFeatureConfig;
 import com.mrbysco.oreberriesreplanted.worldgen.placement.ChanceRangePlacement;
@@ -17,10 +20,16 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowerPotBlock;
 import net.minecraft.block.material.Material;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.crafting.IRecipeSerializer;
+import net.minecraft.item.crafting.IRecipeType;
+import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.placement.Placement;
+import net.minecraftforge.common.ToolType;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -31,6 +40,8 @@ import java.util.function.Supplier;
 public class OreBerryRegistry {
 	public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Reference.MOD_ID);
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Reference.MOD_ID);
+	public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, Reference.MOD_ID);
+	public static final DeferredRegister<TileEntityType<?>> TILES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, Reference.MOD_ID);
 	public static final DeferredRegister<IRecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, Reference.MOD_ID);
 	public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, Reference.MOD_ID);
 	public static final DeferredRegister<Placement<?>> DECORATORS = DeferredRegister.create(ForgeRegistries.DECORATORS, Reference.MOD_ID);
@@ -38,8 +49,24 @@ public class OreBerryRegistry {
 	public static final RegistryObject<Feature<OreBerryBushFeatureConfig>> OREBERRY_FEATURE_CONFIG = FEATURES.register("oreberry_bush", () -> new OreBerryBushFeature(OreBerryBushFeatureConfig.CODEC));
 	public static final RegistryObject<ChanceRangePlacement> CAVE_EDGE_RANGE = DECORATORS.register("change_range", () -> new ChanceRangePlacement(ChanceTopSolidRangeConfig.CODEC));
 
+	public static final IRecipeType<VatRecipe> VAT_RECIPE_TYPE = IRecipeType.register(new ResourceLocation(Reference.MOD_ID, "vat_recipe").toString());
+
 	public static final RegistryObject<TagFurnaceRecipe.Serializer> TAG_FURNACE_SERIALIZER = RECIPE_SERIALIZERS.register("furnace", TagFurnaceRecipe.Serializer::new);
 	public static final RegistryObject<TagBlastingRecipe.Serializer> TAG_BLASTING_SERIALIZER = RECIPE_SERIALIZERS.register("blasting", TagBlastingRecipe.Serializer::new);
+	public static final RegistryObject<VatRecipe.Serializer> VAT_SERIALIZER = RECIPE_SERIALIZERS.register("vat", VatRecipe.Serializer::new);
+
+	//Fluids
+	public static LiquidReg LIQUID_IRON_OREBERRY = new LiquidReg("liquid_iron_oreberry", Material.LAVA,0xFFc9c9c9);
+	public static LiquidReg LIQUID_GOLD_OREBERRY = new LiquidReg("liquid_gold_oreberry", Material.LAVA,0xFFfad64a);
+	public static LiquidReg LIQUID_COPPER_OREBERRY = new LiquidReg("liquid_copper_oreberry", Material.LAVA,0xFFf8b18d);
+	public static LiquidReg LIQUID_TIN_OREBERRY = new LiquidReg("liquid_tin_oreberry", Material.LAVA,0xFF74609e);
+	public static LiquidReg LIQUID_ALUMINUM_OREBERRY = new LiquidReg("liquid_aluminum_oreberry", Material.LAVA,0xFFc5dbed);
+	public static LiquidReg LIQUID_LEAD_OREBERRY = new LiquidReg("liquid_lead_oreberry", Material.LAVA,0xFF707e8a);
+	public static LiquidReg LIQUID_NICKEL_OREBERRY = new LiquidReg("liquid_nickel_oreberry", Material.LAVA,0xFFb0b59f);
+	public static LiquidReg LIQUID_URANIUM_OREBERRY = new LiquidReg("liquid_uranium_oreberry", Material.LAVA,0xFF98b350);
+	public static LiquidReg LIQUID_OSMIUM_OREBERRY = new LiquidReg("liquid_osmium_oreberry", Material.LAVA,0xFF83b0bd);
+	public static LiquidReg LIQUID_ZINC_OREBERRY = new LiquidReg("liquid_zinc_oreberry", Material.LAVA,0xFFd1d1a5);
+	public static LiquidReg LIQUID_SILVER_OREBERRY = new LiquidReg("liquid_silver_oreberry", Material.LAVA,0xFF898fc9);
 
 	//Blocks
 	public static final RegistryObject<Block> IRON_OREBERRY_BUSH = BLOCKS.register("iron_oreberry_bush", () -> new OreBerryBushBlock(blockBuilder(), () -> OreBerryRegistry.IRON_OREBERRY.get(), OreEnum.IRON));
@@ -68,6 +95,19 @@ public class OreBerryRegistry {
 	public static final RegistryObject<Block> POTTED_SILVER_OREBERRY_BUSH = BLOCKS.register("potted_silver_oreberry_bush", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, () -> OreBerryRegistry.SILVER_OREBERRY_BUSH.get(), potBuilder()));
 	public static final RegistryObject<Block> POTTED_ESSENCE_BERRY_BUSH = BLOCKS.register("potted_essence_berry_bush", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, () -> OreBerryRegistry.ESSENCE_BERRY_BUSH.get(), potBuilder()));
 
+	public static final RegistryObject<Block> OAK_VAT = BLOCKS.register("oak_vat", () -> new VatBlock(blockBuilder().harvestTool(ToolType.AXE)));
+	public static final RegistryObject<Block> SPRUCE_VAT = BLOCKS.register("spruce_vat", () -> new VatBlock(blockBuilder().harvestTool(ToolType.AXE)));
+	public static final RegistryObject<Block> BIRCH_VAT = BLOCKS.register("birch_vat", () -> new VatBlock(blockBuilder().harvestTool(ToolType.AXE)));
+	public static final RegistryObject<Block> JUNGLE_VAT = BLOCKS.register("jungle_vat", () -> new VatBlock(blockBuilder().harvestTool(ToolType.AXE)));
+	public static final RegistryObject<Block> ACACIA_VAT = BLOCKS.register("acacia_vat", () -> new VatBlock(blockBuilder().harvestTool(ToolType.AXE)));
+	public static final RegistryObject<Block> DARK_OAK_VAT = BLOCKS.register("dark_oak_vat", () -> new VatBlock(blockBuilder().harvestTool(ToolType.AXE)));
+	public static final RegistryObject<Block> CRIMSON_VAT = BLOCKS.register("crimson_vat", () -> new VatBlock(blockBuilder().harvestTool(ToolType.AXE)));
+	public static final RegistryObject<Block> WARPED_VAT = BLOCKS.register("warped_vat", () -> new VatBlock(blockBuilder().harvestTool(ToolType.AXE)));
+
+	//Tiles
+	public static final RegistryObject<TileEntityType<VatTile>> VAT_TILE = TILES.register("vat", () -> TileEntityType.Builder.of(() -> new VatTile(),
+			OAK_VAT.get(), SPRUCE_VAT.get(), BIRCH_VAT.get(), JUNGLE_VAT.get(), ACACIA_VAT.get(), DARK_OAK_VAT.get(), CRIMSON_VAT.get(), WARPED_VAT.get()).build(null));
+
 	//Items
 	public static final RegistryObject<Item> IRON_OREBERRY_BUSH_ITEM = ITEMS.register("iron_oreberry_bush", () -> new TooltipBlockItem(IRON_OREBERRY_BUSH.get(), itemBuilder(), Reference.IRON_TOOLTIP));
 	public static final RegistryObject<Item> GOLD_OREBERRY_BUSH_ITEM = ITEMS.register("gold_oreberry_bush", () -> new TooltipBlockItem(GOLD_OREBERRY_BUSH.get(), itemBuilder(), Reference.GOLD_TOOLTIP));
@@ -94,6 +134,15 @@ public class OreBerryRegistry {
 	public static final RegistryObject<Item> ZINC_OREBERRY = ITEMS.register("zinc_oreberry", () -> new OreBerryItem(itemBuilder(), Reference.ZINC_TOOLTIP));
 	public static final RegistryObject<Item> SILVER_OREBERRY = ITEMS.register("silver_oreberry", () -> new OreBerryItem(itemBuilder(), Reference.SILVER_TOOLTIP));
 	public static final RegistryObject<Item> ESSENCE_BERRY = ITEMS.register("essence_berry", () -> new EssenceBerryItem(itemBuilder(), Reference.ESSENCE_TOOLTIP));
+
+	public static final RegistryObject<Item> OAK_VAT_ITEM = ITEMS.register("oak_vat", () -> new BlockItem(OAK_VAT.get(), itemBuilder()));
+	public static final RegistryObject<Item> SPRUCE_VAT_ITEM = ITEMS.register("spruce_vat", () -> new BlockItem(SPRUCE_VAT.get(), itemBuilder()));
+	public static final RegistryObject<Item> BIRCH_VAT_ITEM = ITEMS.register("birch_vat", () -> new BlockItem(BIRCH_VAT.get(), itemBuilder()));
+	public static final RegistryObject<Item> JUNGLE_VAT_ITEM = ITEMS.register("jungle_vat", () -> new BlockItem(JUNGLE_VAT.get(), itemBuilder()));
+	public static final RegistryObject<Item> ACACIA_VAT_ITEM = ITEMS.register("acacia_vat", () -> new BlockItem(ACACIA_VAT.get(), itemBuilder()));
+	public static final RegistryObject<Item> DARK_OAK_VAT_ITEM = ITEMS.register("dark_oak_vat", () -> new BlockItem(DARK_OAK_VAT.get(), itemBuilder()));
+	public static final RegistryObject<Item> CRIMSON_VAT_ITEM = ITEMS.register("crimson_vat", () -> new BlockItem(CRIMSON_VAT.get(), itemBuilder()));
+	public static final RegistryObject<Item> WARPED_VAT_ITEM = ITEMS.register("warped_vat", () -> new BlockItem(WARPED_VAT.get(), itemBuilder()));
 
 	private static AbstractBlock.Properties blockBuilder() {
 		return AbstractBlock.Properties.of(Material.LEAVES).noOcclusion().isSuffocating(OreBerryBushBlock::isntSolid).isViewBlocking(OreBerryBushBlock::isntSolid);

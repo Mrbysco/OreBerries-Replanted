@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_8",
+  "package": "com.mrbysco.oreberriesreplanted.mixin",
+  "refmap": "oreberriesreplanted.refmap.json",
+  "target": "@env(DEFAULT)",
+  "mixins": [
+	"LivingEntityAccessor"
+  ],
+  "injectors": {
+	"defaultRequire": 1
+  }
+}

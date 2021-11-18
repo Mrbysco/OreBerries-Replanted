@@ -1,0 +1,27 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "value": {
+            "tag": "forge:nuggets/gold",
+            "type": "forge:tag_empty"
+          },
+          "type": "forge:not"
+        }
+      ],
+      "recipe": {
+        "type": "oreberriesreplanted:vat",
+        "ingredient": {
+          "item": "oreberriesreplanted:gold_oreberry"
+        },
+        "fluid": "oreberriesreplanted:liquid_gold_oreberry",
+        "result": {
+          "tag": "forge:nuggets/gold"
+        },
+        "evaporationtime": 100
+      }
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+	"P P",
+	"PSP"  ],
+  "key": {
+	"P": [
+	  {
+		"item": "minecraft:spruce_planks"
+	  }
+	],
+	"S": [
+	  {
+		"item": "minecraft:spruce_slab"
+	  }
+	]
+  },
+  "result": {
+	"item": "oreberriesreplanted:spruce_vat"
+  }
+}

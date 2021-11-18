@@ -1,0 +1,7 @@
+{
+  	"parent": "oreberriesreplanted:block/vat/vat_base",
+	"textures": {
+	  "0": "minecraft:block/crimson_planks",
+	  "particle": "minecraft:block/crimson_planks"
+	}
+}

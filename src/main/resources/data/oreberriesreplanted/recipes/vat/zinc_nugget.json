@@ -1,0 +1,27 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "value": {
+            "tag": "forge:nuggets/zinc",
+            "type": "forge:tag_empty"
+          },
+          "type": "forge:not"
+        }
+      ],
+      "recipe": {
+        "type": "oreberriesreplanted:vat",
+        "ingredient": {
+          "item": "oreberriesreplanted:zinc_oreberry"
+        },
+        "fluid": "oreberriesreplanted:liquid_zinc_oreberry",
+        "result": {
+          "tag": "forge:nuggets/zinc"
+        },
+        "evaporationtime": 100
+      }
+    }
+  ]
+}

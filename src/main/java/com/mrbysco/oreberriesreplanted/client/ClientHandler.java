@@ -1,12 +1,16 @@
 package com.mrbysco.oreberriesreplanted.client;
 
+import com.mrbysco.oreberriesreplanted.client.tesr.VatTESR;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 
 public class ClientHandler {
 	public static void onClientSetup(final FMLClientSetupEvent event) {
+		ClientRegistry.bindTileEntityRenderer(OreBerryRegistry.VAT_TILE.get(), VatTESR::new);
+
 		RenderTypeLookup.setRenderLayer(OreBerryRegistry.IRON_OREBERRY_BUSH.get(), RenderType.cutoutMipped());
 		RenderTypeLookup.setRenderLayer(OreBerryRegistry.GOLD_OREBERRY_BUSH.get(), RenderType.cutoutMipped());
 		RenderTypeLookup.setRenderLayer(OreBerryRegistry.COPPER_OREBERRY_BUSH.get(), RenderType.cutoutMipped());

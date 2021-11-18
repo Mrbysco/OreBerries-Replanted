@@ -1,0 +1,27 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "value": {
+            "tag": "forge:nuggets/uranium",
+            "type": "forge:tag_empty"
+          },
+          "type": "forge:not"
+        }
+      ],
+      "recipe": {
+        "type": "oreberriesreplanted:vat",
+        "ingredient": {
+          "item": "oreberriesreplanted:uranium_oreberry"
+        },
+        "fluid": "oreberriesreplanted:liquid_uranium_oreberry",
+        "result": {
+          "tag": "forge:nuggets/uranium"
+        },
+        "evaporationtime": 100
+      }
+    }
+  ]
+}

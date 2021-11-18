@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+	"P P",
+	"PSP"  ],
+  "key": {
+	"P": [
+	  {
+		"item": "minecraft:crimson_planks"
+	  }
+	],
+	"S": [
+	  {
+		"item": "minecraft:crimson_slab"
+	  }
+	]
+  },
+  "result": {
+	"item": "oreberriesreplanted:crimson_vat"
+  }
+}

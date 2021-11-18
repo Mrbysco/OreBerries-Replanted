@@ -1,0 +1,27 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "value": {
+            "tag": "forge:nuggets/aluminum",
+            "type": "forge:tag_empty"
+          },
+          "type": "forge:not"
+        }
+      ],
+      "recipe": {
+        "type": "oreberriesreplanted:vat",
+        "ingredient": {
+          "item": "oreberriesreplanted:aluminum_oreberry"
+        },
+        "fluid": "oreberriesreplanted:liquid_aluminum_oreberry",
+        "result": {
+          "tag": "forge:nuggets/aluminum"
+        },
+        "evaporationtime": 100
+      }
+    }
+  ]
+}

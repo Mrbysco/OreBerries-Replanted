@@ -1,0 +1,27 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "value": {
+            "tag": "forge:nuggets/nickel",
+            "type": "forge:tag_empty"
+          },
+          "type": "forge:not"
+        }
+      ],
+      "recipe": {
+        "type": "oreberriesreplanted:vat",
+        "ingredient": {
+          "item": "oreberriesreplanted:nickel_oreberry"
+        },
+        "fluid": "oreberriesreplanted:liquid_nickel_oreberry",
+        "result": {
+          "tag": "forge:nuggets/nickel"
+        },
+        "evaporationtime": 100
+      }
+    }
+  ]
+}

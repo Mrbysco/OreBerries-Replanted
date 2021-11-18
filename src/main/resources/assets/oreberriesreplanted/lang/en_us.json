@@ -29,6 +29,15 @@
   "block.oreberriesreplanted.potted_zinc_oreberry_bush": "Potted Zinc Oreberry Bush",
   "block.oreberriesreplanted.potted_essence_berry_bush": "Potted Essence Berry Bush",
 
+  "block.oreberriesreplanted.oak_vat": "Oak Vat",
+  "block.oreberriesreplanted.spruce_vat": "Spruce Vat",
+  "block.oreberriesreplanted.birch_vat": "Birch Vat",
+  "block.oreberriesreplanted.jungle_vat": "Jungle Vat",
+  "block.oreberriesreplanted.acacia_vat": "Acacia Vat",
+  "block.oreberriesreplanted.dark_oak_vat": "Dark Oak Vat",
+  "block.oreberriesreplanted.crimson_vat": "Crimson Vat",
+  "block.oreberriesreplanted.warped_vat": "Warped Vat",
+
   "_comment": "Items",
   "item.oreberriesreplanted.iron_oreberry": "Iron Oreberry",
   "item.oreberriesreplanted.gold_oreberry": "Gold Oreberry",
@@ -43,6 +52,31 @@
   "item.oreberriesreplanted.zinc_oreberry": "Zinc Oreberry",
   "item.oreberriesreplanted.essence_berry": "Concentrated Essence Berry",
 
+  "item.oreberriesreplanted.liquid_iron_oreberry_bucket": "Liquid Iron Oreberry Bucket",
+  "item.oreberriesreplanted.liquid_gold_oreberry_bucket": "Liquid Gold Oreberry Bucket",
+  "item.oreberriesreplanted.liquid_copper_oreberry_bucket": "Liquid Copper Oreberry Bucket",
+  "item.oreberriesreplanted.liquid_tin_oreberry_bucket": "Liquid Tin Oreberry Bucket",
+  "item.oreberriesreplanted.liquid_aluminum_oreberry_bucket": "Liquid Aluminum Oreberry Bucket",
+  "item.oreberriesreplanted.liquid_lead_oreberry_bucket": "Liquid Lead Oreberry Bucket",
+  "item.oreberriesreplanted.liquid_nickel_oreberry_bucket": "Liquid Nickel Oreberry Bucket",
+  "item.oreberriesreplanted.liquid_uranium_oreberry_bucket": "Liquid Uranium Oreberry Bucket",
+  "item.oreberriesreplanted.liquid_osmium_oreberry_bucket": "Liquid Osmium Oreberry Bucket",
+  "item.oreberriesreplanted.liquid_zinc_oreberry_bucket": "Liquid Zinc Oreberry Bucket",
+  "item.oreberriesreplanted.liquid_silver_oreberry_bucket": "Liquid Silver Oreberry Bucket",
+
+  "_comment": "Fluids",
+  "fluid.oreberriesreplanted.liquid_iron_oreberry": "Liquid Iron Oreberry",
+  "fluid.oreberriesreplanted.liquid_gold_oreberry": "Liquid Gold Oreberry",
+  "fluid.oreberriesreplanted.liquid_copper_oreberry": "Liquid Copper Oreberry",
+  "fluid.oreberriesreplanted.liquid_tin_oreberry": "Liquid Tin Oreberry",
+  "fluid.oreberriesreplanted.liquid_aluminum_oreberry": "Liquid Aluminum Oreberry",
+  "fluid.oreberriesreplanted.liquid_lead_oreberry": "Liquid Lead Oreberry",
+  "fluid.oreberriesreplanted.liquid_nickel_oreberry": "Liquid Nickel Oreberry",
+  "fluid.oreberriesreplanted.liquid_uranium_oreberry": "Liquid Uranium Oreberry",
+  "fluid.oreberriesreplanted.liquid_osmium_oreberry": "Liquid Osmium Oreberry",
+  "fluid.oreberriesreplanted.liquid_zinc_oreberry": "Liquid Zinc Oreberry",
+  "fluid.oreberriesreplanted.liquid_silver_oreberry": "Liquid Silver Oreberry",
+
   "_comment": "Tooltips",
   "oreberriesreplanted.iron_oreberry.tooltip": "Sweet Irony",
   "oreberriesreplanted.gold_oreberry.tooltip": "To barter for",
@@ -55,5 +89,10 @@
   "oreberriesreplanted.uranium_oreberry.tooltip": "RADIOACTIVE, RADIOACTIVE!",
   "oreberriesreplanted.osmium_oreberry.tooltip": "I am blue Da ba dee da ba di",
   "oreberriesreplanted.zinc_oreberry.tooltip": "Let that one Zinc in",
-  "oreberriesreplanted.essence_berry.tooltip": "Tastes like Creeper"
+  "oreberriesreplanted.essence_berry.tooltip": "Tastes like Creeper",
+
+  "_comment": "Compat",
+  "oreberriesreplanted.gui.jei.category.vat": "Vat Crushing",
+  "oreberriesreplanted.gui.jei.category.vat.tooltip": "Produces approximately %s to %smb worth of %s",
+  "oreberriesreplanted.gui.jei.category.vat_output.tooltip": "Produces 1 nugget per %smb"
 }

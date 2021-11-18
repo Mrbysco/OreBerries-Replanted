@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+	"P P",
+	"PSP"  ],
+  "key": {
+	"P": [
+	  {
+		"item": "minecraft:dark_oak_planks"
+	  }
+	],
+	"S": [
+	  {
+		"item": "minecraft:dark_oak_slab"
+	  }
+	]
+  },
+  "result": {
+	"item": "oreberriesreplanted:dark_oak_vat"
+  }
+}
