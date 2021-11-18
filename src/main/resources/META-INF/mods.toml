@@ -12,6 +12,7 @@ authors="Mrbysco, ShyNieke"
 description='''
 Bringing back the Ore berries idea from Tinkers' 1.7.10 to recent minecraft
 '''
+credits="Lanse505 for the idea of crushing oreberries into juice that evaporates into nuggets"
 [[dependencies.oreberriesreplanted]]
 modId="minecraft"
 mandatory=true
