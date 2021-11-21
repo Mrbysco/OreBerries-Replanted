@@ -168,7 +168,7 @@ public class VatTile extends TileEntity implements ITickableTileEntity {
 		tank.drain(evaporationAmount, FluidAction.EXECUTE);
 
 		BlockPos blockpos = this.getBlockPos();
-		InventoryHelper.dropItemStack(this.level, (double)blockpos.getX(), (double)blockpos.getY(), (double)blockpos.getZ(), outputStack);
+		InventoryHelper.dropItemStack(this.level, (double)blockpos.getX(), (double)blockpos.getY() + 0.1D, (double)blockpos.getZ(), outputStack);
 		level.playSound((PlayerEntity) null, worldPosition, SoundEvents.LAVA_POP, SoundCategory.BLOCKS, 0.5F, 1.0F);
 	}
 

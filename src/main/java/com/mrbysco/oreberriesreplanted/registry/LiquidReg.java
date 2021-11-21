@@ -1,7 +1,6 @@
 package com.mrbysco.oreberriesreplanted.registry;
 
 import com.mrbysco.oreberriesreplanted.util.FluidHelper;
-import net.minecraft.block.FlowingFluidBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.item.BucketItem;
 import net.minecraft.item.Item;
@@ -13,11 +12,10 @@ import net.minecraftforge.fml.RegistryObject;
 import javax.annotation.Nonnull;
 import java.util.function.Supplier;
 
-public class LiquidReg<B extends FlowingFluidBlock> {
-	private String name;
+public class LiquidReg {
+	private final String name;
 	private RegistryObject<ForgeFlowingFluid> source;
 	private RegistryObject<ForgeFlowingFluid> flowing;
-	private RegistryObject<FlowingFluidBlock> fluidblock;
 	private RegistryObject<Item> bucket;
 
 	@Nonnull

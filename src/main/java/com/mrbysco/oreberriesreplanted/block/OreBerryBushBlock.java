@@ -134,7 +134,7 @@ public class OreBerryBushBlock extends Block implements IPlantable {
 	public boolean canSurvive(BlockState state, IWorldReader worldIn, BlockPos pos) {
 		BlockPos blockpos = pos.below();
 		BlockState blockstate = worldIn.getBlockState(blockpos);
-		boolean flag = oreType.getDarknessOnly() ? worldIn.getRawBrightness(pos, 0) < 13 : true;
+		boolean flag = !oreType.getDarknessOnly() || worldIn.getRawBrightness(pos, 0) < 13;
 		return flag && blockstate.canSustainPlant(worldIn, blockpos, net.minecraft.util.Direction.UP, this);
 	}
 

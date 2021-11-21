@@ -1,19 +1,26 @@
 {
-    "type": "botanypots:soil",
-	"conditions": [
-		{
-		  "type": "forge:mod_loaded",
-		  "modid": "botanypots"
-		}
-	],
-    "input": {
-        "item": "minecraft:lapis_ore"
-    },
-    "display": {
-        "block": "minecraft:lapis_ore"
-    },
-    "categories": [
-        "lapis_ore"
-    ],
-    "growthModifier": 0
+  "type": "botanypots:soil",
+  "conditions": [
+	{
+	  "type": "forge:mod_loaded",
+	  "modid": "botanypots"
+	},
+	{
+	  "value": {
+		"tag": "forge:ores/lapis",
+		"type": "forge:tag_empty"
+	  },
+	  "type": "forge:not"
+	}
+  ],
+  "input": {
+	"tag": "forge:ores/lapis"
+  },
+  "display": {
+	"block": "minecraft:lapis_ore"
+  },
+  "categories": [
+	"lapis_ore"
+  ],
+  "growthModifier": 0
 }
