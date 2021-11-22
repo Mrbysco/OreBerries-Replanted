@@ -10,7 +10,7 @@ displayName="Oreberries Replanted"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/oreberries-replanted"
 authors="Mrbysco, ShyNieke"
 description='''
-Bringing back the Ore berries idea from Tinkers' 1.7.10 to recent minecraft
+Are you tired of your ores generating in rock? Do you want to grow your ore? Well, you no longer have to hope! Now you can grow ores in the form of berries
 '''
 credits="Lanse505 for the idea of crushing oreberries into juice that evaporates into nuggets"
 [[dependencies.oreberriesreplanted]]
