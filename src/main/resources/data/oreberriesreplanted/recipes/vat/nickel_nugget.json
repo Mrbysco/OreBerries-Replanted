@@ -16,7 +16,7 @@
         "ingredient": {
           "item": "oreberriesreplanted:nickel_oreberry"
         },
-        "fluid": "oreberriesreplanted:liquid_nickel_oreberry",
+        "fluid": "oreberriesreplanted:nickel_oreberry_juice",
         "result": {
           "tag": "forge:nuggets/nickel"
         },

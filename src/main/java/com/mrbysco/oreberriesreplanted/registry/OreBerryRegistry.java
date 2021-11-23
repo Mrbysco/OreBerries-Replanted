@@ -56,17 +56,17 @@ public class OreBerryRegistry {
 	public static final RegistryObject<VatRecipe.Serializer> VAT_SERIALIZER = RECIPE_SERIALIZERS.register("vat", VatRecipe.Serializer::new);
 
 	//Fluids
-	public static LiquidReg LIQUID_IRON_OREBERRY = new LiquidReg("liquid_iron_oreberry", Material.LAVA,0xFFc9c9c9);
-	public static LiquidReg LIQUID_GOLD_OREBERRY = new LiquidReg("liquid_gold_oreberry", Material.LAVA,0xFFfad64a);
-	public static LiquidReg LIQUID_COPPER_OREBERRY = new LiquidReg("liquid_copper_oreberry", Material.LAVA,0xFFf8b18d);
-	public static LiquidReg LIQUID_TIN_OREBERRY = new LiquidReg("liquid_tin_oreberry", Material.LAVA,0xFF74609e);
-	public static LiquidReg LIQUID_ALUMINUM_OREBERRY = new LiquidReg("liquid_aluminum_oreberry", Material.LAVA,0xFFc5dbed);
-	public static LiquidReg LIQUID_LEAD_OREBERRY = new LiquidReg("liquid_lead_oreberry", Material.LAVA,0xFF707e8a);
-	public static LiquidReg LIQUID_NICKEL_OREBERRY = new LiquidReg("liquid_nickel_oreberry", Material.LAVA,0xFFb0b59f);
-	public static LiquidReg LIQUID_URANIUM_OREBERRY = new LiquidReg("liquid_uranium_oreberry", Material.LAVA,0xFF98b350);
-	public static LiquidReg LIQUID_OSMIUM_OREBERRY = new LiquidReg("liquid_osmium_oreberry", Material.LAVA,0xFF83b0bd);
-	public static LiquidReg LIQUID_ZINC_OREBERRY = new LiquidReg("liquid_zinc_oreberry", Material.LAVA,0xFFd1d1a5);
-	public static LiquidReg LIQUID_SILVER_OREBERRY = new LiquidReg("liquid_silver_oreberry", Material.LAVA,0xFF898fc9);
+	public static LiquidReg IRON_OREBERRY_JUICE = new LiquidReg("iron_oreberry_juice", Material.LAVA,0xFFc9c9c9);
+	public static LiquidReg GOLD_OREBERRY_JUICE = new LiquidReg("gold_oreberry_juice", Material.LAVA,0xFFfad64a);
+	public static LiquidReg COPPER_OREBERRY_JUICE = new LiquidReg("copper_oreberry_juice", Material.LAVA,0xFFf8b18d);
+	public static LiquidReg TIN_OREBERRY_JUICE = new LiquidReg("tin_oreberry_juice", Material.LAVA,0xFF74609e);
+	public static LiquidReg ALUMINUM_OREBERRY_JUICE = new LiquidReg("aluminum_oreberry_juice", Material.LAVA,0xFFc5dbed);
+	public static LiquidReg LEAD_OREBERRY_JUICE = new LiquidReg("lead_oreberry_juice", Material.LAVA,0xFF707e8a);
+	public static LiquidReg NICKEL_OREBERRY_JUICE = new LiquidReg("nickel_oreberry_juice", Material.LAVA,0xFFb0b59f);
+	public static LiquidReg URANIUM_OREBERRY_JUICE = new LiquidReg("uranium_oreberry_juice", Material.LAVA,0xFF98b350);
+	public static LiquidReg OSMIUM_OREBERRY_JUICE = new LiquidReg("osmium_oreberry_juice", Material.LAVA,0xFF83b0bd);
+	public static LiquidReg ZINC_OREBERRY_JUICE = new LiquidReg("zinc_oreberry_juice", Material.LAVA,0xFFd1d1a5);
+	public static LiquidReg SILVER_OREBERRY_JUICE = new LiquidReg("silver_oreberry_juice", Material.LAVA,0xFF898fc9);
 
 	//Blocks
 	public static final RegistryObject<Block> IRON_OREBERRY_BUSH = BLOCKS.register("iron_oreberry_bush", () -> new OreBerryBushBlock(blockBuilder(), OreBerryRegistry.IRON_OREBERRY, OreEnum.IRON));

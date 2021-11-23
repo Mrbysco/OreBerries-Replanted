@@ -1,5 +1,5 @@
 {
   "parent": "forge:item/bucket",
   "loader": "forge:bucket",
-  "fluid": "forcecraft:liquid_lead_oreberry"
+  "fluid": "forcecraft:nickel_oreberry_juice"
 }

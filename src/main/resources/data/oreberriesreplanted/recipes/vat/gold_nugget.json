@@ -16,7 +16,7 @@
         "ingredient": {
           "item": "oreberriesreplanted:gold_oreberry"
         },
-        "fluid": "oreberriesreplanted:liquid_gold_oreberry",
+        "fluid": "oreberriesreplanted:gold_oreberry_juice",
         "result": {
           "tag": "forge:nuggets/gold"
         },

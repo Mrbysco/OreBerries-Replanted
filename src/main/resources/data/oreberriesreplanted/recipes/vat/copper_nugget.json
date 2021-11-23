@@ -16,7 +16,7 @@
         "ingredient": {
           "item": "oreberriesreplanted:copper_oreberry"
         },
-        "fluid": "oreberriesreplanted:liquid_copper_oreberry",
+        "fluid": "oreberriesreplanted:copper_oreberry_juice",
         "result": {
           "tag": "forge:nuggets/copper"
         },
