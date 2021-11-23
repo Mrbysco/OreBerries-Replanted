@@ -4,7 +4,7 @@
 # Oreberries Replanted #
 
 ## About ##
-Remember ore berries from Tinkers' Construct? Well this mod is inspired by them and has a few more features and details added to it.
+Are you tired of your ores generating in rock? Do you want to grow your ore? Well, you no longer have to hope! Now you can grow ores in the form of berries.
 
 ## Disclaimer ##
 This mod is inspired by the [SlimeKnights](https://github.com/SlimeKnights/) mod berries ([Tcon](https://www.curseforge.com/minecraft/mc-mods/tinkers-construct)/[natura](https://www.curseforge.com/minecraft/mc-mods/natura)).
