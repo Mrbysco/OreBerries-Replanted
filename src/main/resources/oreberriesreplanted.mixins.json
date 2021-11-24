@@ -1,7 +1,7 @@
 {
   "required": true,
-  "minVersion": "0.8",
-  "compatibilityLevel": "JAVA_8",
+  "minVersion": "0.8.4",
+  "compatibilityLevel": "JAVA_16",
   "package": "com.mrbysco.oreberriesreplanted.mixin",
   "refmap": "oreberriesreplanted.refmap.json",
   "target": "@env(DEFAULT)",

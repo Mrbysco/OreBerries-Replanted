@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[36,)"
+loaderVersion="[37,)"
 issueTrackerURL="https://github.com/Mrbysco/Oreberries-Replanted"
 license="MIT"
 
@@ -16,12 +16,12 @@ credits="Lanse505 for the idea of crushing oreberries into juice that evaporates
 [[dependencies.oreberriesreplanted]]
 modId="minecraft"
 mandatory=true
-versionRange="[1.16.5,1.17)"
+versionRange="[1.17.1,1.18)"
 ordering="NONE"
 side="BOTH"
 [[dependencies.oreberriesreplanted]]
 modId="forge"
 mandatory=true
-versionRange="[36.2.5,37)"
+versionRange="[37.0.31,38)"
 ordering="NONE"
 side="BOTH"

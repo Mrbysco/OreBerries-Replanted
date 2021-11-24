@@ -1,8 +1,8 @@
 package com.mrbysco.oreberriesreplanted.util;
 
 import com.mrbysco.oreberriesreplanted.Reference;
-import net.minecraft.item.Rarity;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Rarity;
 import net.minecraftforge.fluids.FluidAttributes;
 
 public class FluidHelper {

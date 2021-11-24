@@ -4,9 +4,9 @@ import com.mrbysco.oreberriesreplanted.config.OreBerriesConfig;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
 import com.mrbysco.oreberriesreplanted.worldgen.OreBerryFeatures;
 import com.mrbysco.oreberriesreplanted.worldgen.placement.ChanceTopSolidRangeConfig;
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.Biome.Category;
-import net.minecraft.world.gen.GenerationStage.Decoration;
+import net.minecraft.world.level.biome.Biome;
+import net.minecraft.world.level.biome.Biome.BiomeCategory;
+import net.minecraft.world.level.levelgen.GenerationStep.Decoration;
 import net.minecraftforge.common.world.BiomeGenerationSettingsBuilder;
 import net.minecraftforge.event.world.BiomeLoadingEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -16,8 +16,8 @@ public class WorldgenHandler {
 	@SubscribeEvent(priority = EventPriority.HIGH)
 	public void biomeLoadingEvent(BiomeLoadingEvent event) {
 		BiomeGenerationSettingsBuilder builder = event.getGeneration();
-		Biome.Category category = event.getCategory();
-		if(category != Category.THEEND && category != Category.NETHER) {
+		Biome.BiomeCategory category = event.getCategory();
+		if(category != BiomeCategory.THEEND && category != BiomeCategory.NETHER) {
 			if(OreBerriesConfig.COMMON.generateIronBush.get()) {
 				builder.addFeature(Decoration.UNDERGROUND_ORES, OreBerryFeatures.IRON_OREBERRY_BUSH_FEATURE
 						.decorated(OreBerryRegistry.CAVE_EDGE_RANGE.get().configured(new ChanceTopSolidRangeConfig(OreBerriesConfig.COMMON.ironBushMinY.get(), 0,

@@ -1,11 +1,11 @@
 package com.mrbysco.oreberriesreplanted.recipes;
 
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.BlastingRecipe;
-import net.minecraft.item.crafting.IRecipeSerializer;
-import net.minecraft.item.crafting.Ingredient;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.BlastingRecipe;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.RecipeSerializer;
 
 
 /**
@@ -17,7 +17,7 @@ public class TagBlastingRecipe extends BlastingRecipe {
   }
 
   @Override
-  public IRecipeSerializer<?> getSerializer() {
+  public RecipeSerializer<?> getSerializer() {
     return OreBerryRegistry.TAG_BLASTING_SERIALIZER.get();
   }
 

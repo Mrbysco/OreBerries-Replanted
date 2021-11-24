@@ -1,0 +1,13 @@
+{
+  "replace": false,
+  "values": [
+    "oreberriesreplanted:oak_vat",
+    "oreberriesreplanted:spruce_vat",
+    "oreberriesreplanted:birch_vat",
+    "oreberriesreplanted:jungle_vat",
+    "oreberriesreplanted:acacia_vat",
+    "oreberriesreplanted:dark_oak_vat",
+    "oreberriesreplanted:crimson_vat",
+    "oreberriesreplanted:warped_vat"
+  ]
+}

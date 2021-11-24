@@ -1,18 +1,19 @@
 package com.mrbysco.oreberriesreplanted.worldgen.placement;
 
 import com.mojang.serialization.Codec;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.gen.placement.SimplePlacement;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.level.levelgen.placement.DecorationContext;
+import net.minecraft.world.level.levelgen.placement.FeatureDecorator;
 
 import java.util.Random;
 import java.util.stream.Stream;
 
-public class ChanceRangePlacement extends SimplePlacement<ChanceTopSolidRangeConfig> {
+public class ChanceRangePlacement extends FeatureDecorator<ChanceTopSolidRangeConfig> {
 	public ChanceRangePlacement(Codec<ChanceTopSolidRangeConfig> codec) {
 		super(codec);
 	}
 
-	public Stream<BlockPos> place(Random random, ChanceTopSolidRangeConfig config, BlockPos pos) {
+	public Stream<BlockPos> getPositions(DecorationContext context, Random random, ChanceTopSolidRangeConfig config, BlockPos pos) {
 		if(random.nextInt(config.rarity) == 0) {
 			int i = pos.getX();
 			int j = pos.getZ();

@@ -1,30 +1,30 @@
 package com.mrbysco.oreberriesreplanted.block;
 
 import com.mrbysco.oreberriesreplanted.config.OreBerriesConfig;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.SoundType;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.state.IntegerProperty;
-import net.minecraft.state.StateContainer;
-import net.minecraft.state.properties.BlockStateProperties;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.IItemProvider;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.ItemLike;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
+import net.minecraft.world.level.block.state.properties.IntegerProperty;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
@@ -59,11 +59,11 @@ public class OreBerryBushBlock extends Block implements IPlantable {
 		return oreType.getMaxY();
 	}
 
-	protected IItemProvider getBerryItem() {
+	protected ItemLike getBerryItem() {
 		return berryItem.get();
 	}
 
-	public static boolean isntSolid(BlockState state, IBlockReader reader, BlockPos pos) {
+	public static boolean isntSolid(BlockState state, BlockGetter reader, BlockPos pos) {
 		return false;
 	}
 
@@ -87,13 +87,13 @@ public class OreBerryBushBlock extends Block implements IPlantable {
 		return state.getValue(this.getAgeProperty()) >= this.getMaxAge();
 	}
 
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
 		return SHAPE_BY_AGE[state.getValue(this.getAgeProperty())];
 	}
 
 	@Override
-	public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
-		if(!worldIn.isClientSide && !isMaxAge(state) && worldIn.getRawBrightness(pos, 0) < 10 && ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt() == OreBerriesConfig.COMMON.growthChance.get())) {
+	public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, Random rand) {
+		if(!worldIn.isClientSide && !isMaxAge(state) && worldIn.getRawBrightness(pos, 0) < 10 && ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt(OreBerriesConfig.COMMON.growthChance.get()) == 0)) {
 			int currentAge = getAge(state);
 			worldIn.setBlock(pos, withAge(currentAge + 1), 3);
 			ForgeHooks.onCropsGrowPost(worldIn, pos, worldIn.getBlockState(pos));
@@ -101,29 +101,29 @@ public class OreBerryBushBlock extends Block implements IPlantable {
 	}
 
 	@Override
-	public void attack(BlockState state, World worldIn, BlockPos pos, PlayerEntity player) {
+	public void attack(BlockState state, Level worldIn, BlockPos pos, Player player) {
 		harvestBerry(state, worldIn, pos);
 	}
 
 	@Override
-	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
 		return harvestBerry(state, worldIn, pos);
 	}
 
-	public ActionResultType harvestBerry(BlockState state, World worldIn, BlockPos pos) {
+	public InteractionResult harvestBerry(BlockState state, Level worldIn, BlockPos pos) {
 		if(isMaxAge(state)) {
 			if(worldIn.isClientSide)
-				return ActionResultType.SUCCESS;
+				return InteractionResult.SUCCESS;
 
 			worldIn.setBlock(pos, withAge(getMaxAge() - 1), 3);
 			popResource(worldIn, pos, new ItemStack(getBerryItem(), worldIn.random.nextInt(3) + 1));
 		}
 
-		return ActionResultType.PASS;
+		return InteractionResult.PASS;
 	}
 
 	@Override
-	public boolean canSustainPlant(BlockState state, IBlockReader world, BlockPos pos, Direction facing, IPlantable plantable) {
+	public boolean canSustainPlant(BlockState state, BlockGetter world, BlockPos pos, Direction facing, IPlantable plantable) {
 		if (state.getBlock() == this)
 			return state.getValue(this.getAgeProperty()) >= 2;
 
@@ -131,33 +131,33 @@ public class OreBerryBushBlock extends Block implements IPlantable {
 	}
 
 	@Override
-	public boolean canSurvive(BlockState state, IWorldReader worldIn, BlockPos pos) {
+	public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos) {
 		BlockPos blockpos = pos.below();
 		BlockState blockstate = worldIn.getBlockState(blockpos);
 		boolean flag = !oreType.getDarknessOnly() || worldIn.getRawBrightness(pos, 0) < 13;
-		return flag && blockstate.canSustainPlant(worldIn, blockpos, net.minecraft.util.Direction.UP, this);
+		return flag && blockstate.canSustainPlant(worldIn, blockpos, net.minecraft.core.Direction.UP, this);
 	}
 
 	@Override
-	public void entityInside(BlockState state, World worldIn, BlockPos pos, Entity entityIn) {
+	public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn) {
 		if(!(entityIn instanceof ItemEntity)) {
 			entityIn.hurt(DamageSource.CACTUS, 1.0F);
 		}
 	}
 
 	@Override
-	public BlockState getPlant(IBlockReader world, BlockPos pos) {
+	public BlockState getPlant(BlockGetter world, BlockPos pos) {
 		BlockState state = world.getBlockState(pos);
 		if (state.getBlock() != this) return defaultBlockState();
 		return state;
 	}
 
 	@Override
-	public PlantType getPlantType(IBlockReader world, BlockPos pos) {
+	public PlantType getPlantType(BlockGetter world, BlockPos pos) {
 		return PlantType.CAVE;
 	}
 
-	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
 		builder.add(AGE);
 	}
 }

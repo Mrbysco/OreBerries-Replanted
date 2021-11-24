@@ -2,11 +2,11 @@ package com.mrbysco.oreberriesreplanted.worldgen;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.block.BlockState;
-import net.minecraft.world.gen.feature.IFeatureConfig;
-import net.minecraft.world.gen.feature.template.RuleTest;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfiguration;
+import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 
-public class OreBerryBushFeatureConfig implements IFeatureConfig {
+public class OreBerryBushFeatureConfig implements FeatureConfiguration {
 	public static final Codec<OreBerryBushFeatureConfig> CODEC = RecordCodecBuilder.create((bushFeatureConfig) -> {
 		return bushFeatureConfig.group(RuleTest.CODEC.fieldOf("target").forGetter((config) -> {
 			return config.target;

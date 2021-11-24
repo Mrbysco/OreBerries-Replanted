@@ -1,28 +1,33 @@
 package com.mrbysco.oreberriesreplanted.block;
 
+import com.mrbysco.oreberriesreplanted.blockentity.VatBlockEntity;
 import com.mrbysco.oreberriesreplanted.mixin.LivingEntityAccessor;
-import com.mrbysco.oreberriesreplanted.tile.VatTile;
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.material.PushReaction;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.shapes.IBooleanFunction;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.util.math.shapes.VoxelShapes;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
+import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.Containers;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.PushReaction;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraft.world.phys.shapes.BooleanOp;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.Shapes;
+import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
@@ -31,43 +36,31 @@ import net.minecraftforge.items.ItemHandlerHelper;
 import javax.annotation.Nullable;
 import java.util.stream.Stream;
 
-public class VatBlock extends Block {
+public class VatBlock extends BaseEntityBlock {
 	private static final VoxelShape SHAPE = Stream.of(
 			Block.box(1, 0, 1, 15, 1, 15),
 			Block.box(1, 1, 0, 15, 8, 1),
 			Block.box(0, 1, 1, 1, 8, 15),
 			Block.box(1, 1, 15, 15, 8, 16),
 			Block.box(15, 1, 1, 16, 8, 15)
-	).reduce((v1, v2) -> VoxelShapes.join(v1, v2, IBooleanFunction.OR)).get();
+	).reduce((v1, v2) -> Shapes.join(v1, v2, BooleanOp.OR)).get();
 
 	public VatBlock(Properties properties) {
 		super(properties);
 	}
 
-	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
+	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
 		return SHAPE;
 	}
 
 	@Override
-	public boolean hasTileEntity(BlockState state) {
-		return true;
-	}
-
-	@Nullable
-	@Override
-	public TileEntity createTileEntity(BlockState state, IBlockReader world) {
-		return new VatTile();
-	}
-
-	@Override
-	public void entityInside(BlockState state, World world, BlockPos pos, Entity entity) {
+	public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
 		float f = (float)entity.getY() - 0.5F;
 		float yPos = (float)(pos.getY() - 0.25f);
 		if (!entity.isShiftKeyDown() && (double)f <= yPos) {
-			TileEntity tile = world.getBlockEntity(pos);
-			if(world.getGameTime() % 10 == 0 && tile instanceof VatTile) {
-				VatTile vatTile = (VatTile)tile;
-				if(entity instanceof LivingEntity && !(entity instanceof PlayerEntity && ((PlayerEntity)entity).isSpectator())) {
+			BlockEntity tile = world.getBlockEntity(pos);
+			if(world.getGameTime() % 10 == 0 && tile instanceof VatBlockEntity vatTile) {
+				if(entity instanceof LivingEntity && !(entity instanceof Player && ((Player)entity).isSpectator())) {
 					if(!vatTile.handler.getStackInSlot(0).isEmpty()) {
 						LivingEntity livingEntity = (LivingEntity)entity;
 						((LivingEntityAccessor)livingEntity).invokeJumpFromGround();
@@ -77,8 +70,7 @@ public class VatBlock extends Block {
 						vatTile.crushBerry();
 					}
 				}
-				if(!world.isClientSide && entity instanceof ItemEntity && tile instanceof VatTile) {
-					ItemEntity itemEntity = (ItemEntity) entity;
+				if(!world.isClientSide && entity instanceof ItemEntity itemEntity && tile instanceof VatBlockEntity) {
 					vatTile.addBerry(itemEntity);
 				}
 			}
@@ -86,16 +78,16 @@ public class VatBlock extends Block {
 	}
 
 	@Override
-	public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult blockRayTraceResult) {
-		TileEntity tile = world.getBlockEntity(pos);
-		if (tile instanceof VatTile) {
+	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult blockRayTraceResult) {
+		BlockEntity tile = world.getBlockEntity(pos);
+		if (tile instanceof VatBlockEntity) {
 			ItemStack stack = player.getItemInHand(hand);
 			LazyOptional<IItemHandler> itemHandler = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, blockRayTraceResult.getDirection());
 			itemHandler.ifPresent((handler) -> {
 				if(player.isShiftKeyDown()) {
 					ItemStack berryStack = handler.getStackInSlot(0);
 					if(!berryStack.isEmpty()) {
-						InventoryHelper.dropItemStack(world, player.getX(), player.getY() + 0.5, player.getZ(), berryStack);
+						Containers.dropItemStack(world, player.getX(), player.getY() + 0.5, player.getZ(), berryStack);
 					}
 				} else {
 					if(handler.getStackInSlot(0).getCount() < handler.getSlotLimit(0)) {
@@ -108,19 +100,19 @@ public class VatBlock extends Block {
 				}
 			});
 
-			return ActionResultType.SUCCESS;
+			return InteractionResult.SUCCESS;
 		}
-		return ActionResultType.PASS;
+		return InteractionResult.PASS;
 	}
 
 	@Override
-	public void onRemove(BlockState state, World worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
+	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
 		if (!state.is(newState.getBlock())) {
-			TileEntity tile = worldIn.getBlockEntity(pos);
-			if (tile instanceof VatTile) {
+			BlockEntity tile = worldIn.getBlockEntity(pos);
+			if (tile instanceof VatBlockEntity) {
 				tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
 					for(int i = 0; i < handler.getSlots(); ++i) {
-						InventoryHelper.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(i));
+						Containers.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(i));
 					}
 				});
 			}
@@ -135,7 +127,26 @@ public class VatBlock extends Block {
 	}
 
 	@Override
-	public boolean canSurvive(BlockState state, IWorldReader reader, BlockPos pos) {
+	public boolean canSurvive(BlockState state, LevelReader reader, BlockPos pos) {
 		return reader.getFluidState(pos).isEmpty();
+	}
+
+	public RenderShape getRenderShape(BlockState state) {
+		return RenderShape.MODEL;
+	}
+
+	@Nullable
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> entityType) {
+		return createVatTicker(level, entityType, OreBerryRegistry.VAT_BLOCK_ENTITY.get());
+	}
+
+	protected static <T extends BlockEntity> BlockEntityTicker<T> createVatTicker(Level level, BlockEntityType<T> entityType, BlockEntityType<? extends VatBlockEntity> blockEntityType) {
+		return level.isClientSide ? null : createTickerHelper(entityType, blockEntityType, VatBlockEntity::serverTick);
+	}
+
+	@Nullable
+	@Override
+	public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+		return new VatBlockEntity(pos, state);
 	}
 }

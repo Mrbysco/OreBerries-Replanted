@@ -30,7 +30,7 @@ public class OreberriesReplanted {
         OreBerryRegistry.BLOCKS.register(eventBus);
         OreBerryRegistry.ITEMS.register(eventBus);
         OreBerryRegistry.FLUIDS.register(eventBus);
-        OreBerryRegistry.TILES.register(eventBus);
+        OreBerryRegistry.BLOCK_ENTITIES.register(eventBus);
         OreBerryRegistry.RECIPE_SERIALIZERS.register(eventBus);
         OreBerryRegistry.FEATURES.register(eventBus);
         OreBerryRegistry.DECORATORS.register(eventBus);
@@ -39,6 +39,7 @@ public class OreberriesReplanted {
 
         DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
             eventBus.addListener(ClientHandler::onClientSetup);
+            eventBus.addListener(ClientHandler::registerEntityRenders);
         });
     }
 

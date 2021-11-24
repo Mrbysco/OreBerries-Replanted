@@ -1,24 +1,24 @@
-package com.mrbysco.oreberriesreplanted.tile;
+package com.mrbysco.oreberriesreplanted.blockentity;
 
 import com.mrbysco.oreberriesreplanted.recipes.VatRecipe;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.Containers;
+import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.fluids.FluidStack;
@@ -33,7 +33,7 @@ import net.minecraftforge.items.ItemStackHandler;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class VatTile extends TileEntity implements ITickableTileEntity {
+public class VatBlockEntity extends BlockEntity {
 	public FluidTank tank = new FluidTank(3200) {
 		@Override
 		public FluidStack drain(FluidStack resource, FluidAction action) {
@@ -98,16 +98,16 @@ public class VatTile extends TileEntity implements ITickableTileEntity {
 	private int evaporateTotalTime;
 	private int crushCooldown = -1;
 
-	public VatTile(TileEntityType<?> tileEntityType) {
-		super(tileEntityType);
+	public VatBlockEntity(BlockEntityType<?> tileEntityType, BlockPos pos, BlockState state) {
+		super(tileEntityType, pos, state);
 	}
 
-	public VatTile() {
-		super(OreBerryRegistry.VAT_TILE.get());
+	public VatBlockEntity(BlockPos pos, BlockState state) {
+		super(OreBerryRegistry.VAT_BLOCK_ENTITY.get(), pos, state);
 	}
 
 	@Override
-	public void load(BlockState state, CompoundNBT tag) {
+	public void load(CompoundTag tag) {
 		this.evaporateProgress = tag.getInt("evaporateProgress");
 		this.evaporateTotalTime = tag.getInt("evaporateTotalTime");
 		this.crushCooldown = tag.getInt("crushCooldown");
@@ -115,11 +115,11 @@ public class VatTile extends TileEntity implements ITickableTileEntity {
 		this.handler.deserializeNBT(tag.getCompound("ItemStackHandler"));
 		this.tank.readFromNBT(tag);
 
-		super.load(state, tag);
+		super.load(tag);
 	}
 
 	@Override
-	public CompoundNBT save(CompoundNBT tag) {
+	public CompoundTag save(CompoundTag tag) {
 		tag = super.save(tag);
 
 		tag.putInt("evaporateProgress", this.evaporateProgress);
@@ -131,33 +131,32 @@ public class VatTile extends TileEntity implements ITickableTileEntity {
 		return tag;
 	}
 
-	@Override
-	public void tick() {
+	public static void serverTick(Level level, BlockPos pos, BlockState state, VatBlockEntity vatBlockEntity) {
 		if(level.isClientSide) {
 			return;
 		}
 
-		if(this.crushCooldown > 0) {
-			--this.crushCooldown;
+		if(vatBlockEntity.crushCooldown > 0) {
+			--vatBlockEntity.crushCooldown;
 		}
-		if (!tank.isEmpty()) {
-			VatRecipe irecipe = getRecipe();
-			boolean valid = canEvaporate(irecipe);
+		if (!vatBlockEntity.tank.isEmpty()) {
+			VatRecipe irecipe = vatBlockEntity.getRecipe();
+			boolean valid = vatBlockEntity.canEvaporate(irecipe);
 			if(valid) {
-				if(this.evaporateTotalTime == 0) {
-					this.evaporateTotalTime = this.getMaxEvaporateTime();
-					this.evaporateProgress = 0;
+				if(vatBlockEntity.evaporateTotalTime == 0) {
+					vatBlockEntity.evaporateTotalTime = vatBlockEntity.getMaxEvaporateTime();
+					vatBlockEntity.evaporateProgress = 0;
 				}
-				this.evaporateProgress++;
+				vatBlockEntity.evaporateProgress++;
 
-				if (this.evaporateProgress < this.evaporateTotalTime) {
+				if (vatBlockEntity.evaporateProgress < vatBlockEntity.evaporateTotalTime) {
 					return;
 				}
-				this.evaporateProgress = 0;
-				this.evaporateTotalTime = this.getMaxEvaporateTime();
-				evaporateLiquid(irecipe);
+				vatBlockEntity.evaporateProgress = 0;
+				vatBlockEntity.evaporateTotalTime = vatBlockEntity.getMaxEvaporateTime();
+				vatBlockEntity.evaporateLiquid(irecipe);
 
-				refreshClient();
+				vatBlockEntity.refreshClient();
 			}
 		}
 	}
@@ -168,8 +167,8 @@ public class VatTile extends TileEntity implements ITickableTileEntity {
 		tank.drain(evaporationAmount, FluidAction.EXECUTE);
 
 		BlockPos blockpos = this.getBlockPos();
-		InventoryHelper.dropItemStack(this.level, (double)blockpos.getX(), (double)blockpos.getY() + 0.1D, (double)blockpos.getZ(), outputStack);
-		level.playSound((PlayerEntity) null, worldPosition, SoundEvents.LAVA_POP, SoundCategory.BLOCKS, 0.5F, 1.0F);
+		Containers.dropItemStack(this.level, (double)blockpos.getX(), (double)blockpos.getY() + 0.1D, (double)blockpos.getZ(), outputStack);
+		level.playSound((Player) null, worldPosition, SoundEvents.LAVA_POP, SoundSource.BLOCKS, 0.5F, 1.0F);
 	}
 
 	protected void refreshClient() {
@@ -207,7 +206,7 @@ public class VatTile extends TileEntity implements ITickableTileEntity {
 		int originalCount = itemstack.getCount();
 		ItemStack resultStack = handler.insertItem(0, itemstack, false);
 		if (resultStack.isEmpty()) {
-			entity.remove();
+			entity.discard();
 		} else {
 			entity.setItem(resultStack);
 		}
@@ -231,7 +230,7 @@ public class VatTile extends TileEntity implements ITickableTileEntity {
 			return null;
 		}
 
-		Inventory inventory = new Inventory(1);
+		SimpleContainer inventory = new SimpleContainer(1);
 		inventory.setItem(0, input);
 		if (curRecipe != null && curRecipe.matches(inventory, level)) return curRecipe;
 		else {
@@ -264,30 +263,30 @@ public class VatTile extends TileEntity implements ITickableTileEntity {
 
 	@Nullable
 	@Override
-	public SUpdateTileEntityPacket getUpdatePacket() {
-		return new SUpdateTileEntityPacket(this.getBlockPos(), 0, getUpdateTag());
+	public ClientboundBlockEntityDataPacket getUpdatePacket() {
+		return new ClientboundBlockEntityDataPacket(this.getBlockPos(), 0, getUpdateTag());
 	}
 
 	@Override
-	public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-		this.load(getBlockState(), pkt.getTag());
+	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
+		this.load(pkt.getTag());
 	}
 
 	@Override
-	public CompoundNBT getUpdateTag() {
-		CompoundNBT nbt = new CompoundNBT();
+	public CompoundTag getUpdateTag() {
+		CompoundTag nbt = new CompoundTag();
 		this.save(nbt);
 		return nbt;
 	}
 
 	@Override
-	public void handleUpdateTag(BlockState state, CompoundNBT tag) {
-		super.handleUpdateTag(state, tag);
+	public void handleUpdateTag(CompoundTag tag) {
+		super.handleUpdateTag(tag);
 	}
 
 	@Override
-	public CompoundNBT getTileData() {
-		CompoundNBT nbt = new CompoundNBT();
+	public CompoundTag getTileData() {
+		CompoundTag nbt = new CompoundTag();
 		this.save(nbt);
 		return nbt;
 	}
@@ -306,7 +305,7 @@ public class VatTile extends TileEntity implements ITickableTileEntity {
 	}
 
 	@Override
-	protected void invalidateCaps() {
+	public void invalidateCaps() {
 		super.invalidateCaps();
 		this.handlerHolder.invalidate();
 		this.tankHolder.invalidate();

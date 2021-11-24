@@ -2,12 +2,12 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "rolls": 1,
+      "rolls": 1.0,
       "bonus_rolls": 0.0,
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "oreberriesreplanted:copper_oreberry_bush"
+          "name": "oreberriesreplanted:acacia_vat"
         }
       ],
       "conditions": [

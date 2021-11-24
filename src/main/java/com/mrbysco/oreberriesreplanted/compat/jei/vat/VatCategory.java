@@ -12,12 +12,11 @@ import mezz.jei.api.gui.ingredient.ITooltipCallback;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import mezz.jei.util.Translator;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextFormatting;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.ChatFormatting;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fluids.FluidStack;
@@ -27,12 +26,12 @@ import java.util.List;
 public class VatCategory implements IRecipeCategory<VatRecipe> {
 	private final IDrawable background;
 	private final IDrawable icon;
-	private final String title;
+	private final Component title;
 
 	public VatCategory(IGuiHelper guiHelper) {
 		this.background = guiHelper.createDrawable(JeiCompat.RECIPE_VAT_JEI, 0, 0, 140, 37);
 		this.icon = guiHelper.createDrawableIngredient(new ItemStack(OreBerryRegistry.OAK_VAT.get()));
-		this.title = Translator.translateToLocal("oreberriesreplanted.gui.jei.category.vat");
+		this.title = new TranslatableComponent("oreberriesreplanted.gui.jei.category.vat");
 	}
 
 	@Override
@@ -46,7 +45,7 @@ public class VatCategory implements IRecipeCategory<VatRecipe> {
 	}
 
 	@Override
-	public String getTitle() {
+	public Component getTitle() {
 		return title;
 	}
 
@@ -82,17 +81,17 @@ public class VatCategory implements IRecipeCategory<VatRecipe> {
 		guiFluidStacks.addTooltipCallback(new ITooltipCallback<FluidStack>() {
 			@OnlyIn(Dist.CLIENT)
 			@Override
-			public void onTooltip(int slotIndex, boolean input, FluidStack ingredient, List<ITextComponent> tooltip) {
-				tooltip.add(new TranslationTextComponent("oreberriesreplanted.gui.jei.category.vat.tooltip",
-						((int)(recipe.getMin() * 100)), ((int)(recipe.getMax() * 100)), ingredient.getDisplayName().getString()).withStyle(TextFormatting.GOLD));
+			public void onTooltip(int slotIndex, boolean input, FluidStack ingredient, List<Component> tooltip) {
+				tooltip.add(new TranslatableComponent("oreberriesreplanted.gui.jei.category.vat.tooltip",
+						((int)(recipe.getMin() * 100)), ((int)(recipe.getMax() * 100)), ingredient.getDisplayName().getString()).withStyle(ChatFormatting.GOLD));
 			}
 		});
 		guiItemStacks.addTooltipCallback(new ITooltipCallback<ItemStack>() {
 			@OnlyIn(Dist.CLIENT)
 			@Override
-			public void onTooltip(int slot, boolean input, ItemStack stack, List<ITextComponent> tooltip) {
+			public void onTooltip(int slot, boolean input, ItemStack stack, List<Component> tooltip) {
 				if(!input) {
-					tooltip.add(new TranslationTextComponent("oreberriesreplanted.gui.jei.category.vat_output.tooltip", recipe.getEvaporationAmount()).withStyle(TextFormatting.GOLD));
+					tooltip.add(new TranslatableComponent("oreberriesreplanted.gui.jei.category.vat_output.tooltip", recipe.getEvaporationAmount()).withStyle(ChatFormatting.GOLD));
 				}
 			}
 		});
