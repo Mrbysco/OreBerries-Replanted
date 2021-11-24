@@ -93,7 +93,7 @@ public class OreBerryBushBlock extends Block implements IPlantable {
 
 	@Override
 	public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random rand) {
-		if(!worldIn.isClientSide && !isMaxAge(state) && worldIn.getRawBrightness(pos, 0) < 10 && ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt() == OreBerriesConfig.COMMON.growthChance.get())) {
+		if(!worldIn.isClientSide && !isMaxAge(state) && worldIn.getRawBrightness(pos, 0) < 10 && ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt(OreBerriesConfig.COMMON.growthChance.get()) == 0)) {
 			int currentAge = getAge(state);
 			worldIn.setBlock(pos, withAge(currentAge + 1), 3);
 			ForgeHooks.onCropsGrowPost(worldIn, pos, worldIn.getBlockState(pos));
