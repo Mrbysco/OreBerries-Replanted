@@ -19,7 +19,7 @@ version = "${version}"
 group = 'com.mrbysco.oreberriesreplanted' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "OreBerries-Replanted-${mc_version}"
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(16) // Mojang ships Java 8 to end users, so your mod should target Java 8.
+java.toolchain.languageVersion = JavaLanguageVersion.of(17) // Mojang ships Java 8 to end users, so your mod should target Java 8.
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
@@ -100,21 +100,21 @@ mixin {
 }
 
 repositories {
-    maven {
-        name 'JEI maven'
-        url = "https://dvs1.progwml6.com/files/maven"
-    }
-    maven {
-        url 'https://maven.blamejared.com'
-    }
+//    maven {
+//        name 'JEI maven'
+//        url = "https://dvs1.progwml6.com/files/maven"
+//    }
+//    maven {
+//        url 'https://maven.blamejared.com'
+//    }
 }
 
 dependencies {
     minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
-    annotationProcessor 'org.spongepowered:mixin:0.8.4:processor'
+    annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
-    compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
-    runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
+//    compileOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
+//    runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
 
 //    compileOnly fg.deobf("net.darkhax.bookshelf:Bookshelf-Forge-${mc_version}:${bookshelf_version}")
 //    runtimeOnly fg.deobf("net.darkhax.bookshelf:Bookshelf-Forge-${mc_version}:${bookshelf_version}")

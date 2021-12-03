@@ -7,16 +7,16 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.fluids.FluidAttributes;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
-import net.minecraftforge.fmllegacy.RegistryObject;
+import net.minecraftforge.registries.RegistryObject;
 
 import javax.annotation.Nonnull;
 import java.util.function.Supplier;
 
 public class LiquidReg {
 	private final String name;
-	private RegistryObject<ForgeFlowingFluid> source;
-	private RegistryObject<ForgeFlowingFluid> flowing;
-	private RegistryObject<Item> bucket;
+	private net.minecraftforge.registries.RegistryObject<ForgeFlowingFluid> source;
+	private net.minecraftforge.registries.RegistryObject<ForgeFlowingFluid> flowing;
+	private net.minecraftforge.registries.RegistryObject<Item> bucket;
 
 	@Nonnull
 	public String getName() {
@@ -24,12 +24,12 @@ public class LiquidReg {
 	}
 
 	@Nonnull
-	public RegistryObject<ForgeFlowingFluid> getSource() {
+	public net.minecraftforge.registries.RegistryObject<ForgeFlowingFluid> getSource() {
 		return source;
 	}
 
 	@Nonnull
-	public RegistryObject<ForgeFlowingFluid> getFlowing() {
+	public net.minecraftforge.registries.RegistryObject<ForgeFlowingFluid> getFlowing() {
 		return flowing;
 	}
 

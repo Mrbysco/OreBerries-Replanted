@@ -59,6 +59,10 @@ public class OreBerryBushBlock extends Block implements IPlantable {
 		return oreType.getMaxY();
 	}
 
+	public int getDensity() {
+		return oreType.getDensity();
+	}
+
 	protected ItemLike getBerryItem() {
 		return berryItem.get();
 	}

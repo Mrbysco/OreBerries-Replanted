@@ -9,7 +9,6 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 
 public class OreBerryTab {
 	public static final CreativeModeTab TAB = new CreativeModeTab(Reference.MOD_ID) {
-		@OnlyIn(Dist.CLIENT)
 		public ItemStack makeIcon() {
 			return new ItemStack(Blocks.OAK_LEAVES);
 		}

@@ -25,16 +25,23 @@ public class OreBerryBushFeature extends Feature<OreBerryBushFeatureConfig> {
 		BlockPos pos = context.origin();
 		ChunkGenerator generator = context.chunkGenerator();
 
+		int density = 1;
+		if(context.config().state.getBlock() instanceof OreBerryBushBlock block) {
+			density = block.getDensity();
+		}
+
 		OreBerryBushFeatureConfig config = context.config();
-		BlockPos adequateLocation = findAdequateLocation(level, pos, generator, config);
-		if(adequateLocation != null) {
-			int type = rand.nextInt(config.chance);
-			if (type == 11)
-				generateMediumNode(level, rand, adequateLocation, config);
-			else if (type >= 5)
-				generateSmallNode(level, rand, adequateLocation, config);
-			else
-				generateTinyNode(level, rand, adequateLocation, config);
+		for(int i = 0; i < density; i++) {
+			BlockPos adequateLocation = findAdequateLocation(level, pos, generator, config);
+			if(adequateLocation != null) {
+				int type = rand.nextInt(config.chance);
+				if (type == 11)
+					generateMediumNode(level, rand, adequateLocation, config);
+				else if (type >= 5)
+					generateSmallNode(level, rand, adequateLocation, config);
+				else
+					generateTinyNode(level, rand, adequateLocation, config);
+			}
 		}
 
 		return true;

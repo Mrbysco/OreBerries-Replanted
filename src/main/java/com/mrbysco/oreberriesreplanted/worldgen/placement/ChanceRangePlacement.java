@@ -1,26 +1,54 @@
 package com.mrbysco.oreberriesreplanted.worldgen.placement;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
+import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
 import net.minecraft.core.BlockPos;
-import net.minecraft.world.level.levelgen.placement.DecorationContext;
-import net.minecraft.world.level.levelgen.placement.FeatureDecorator;
+import net.minecraft.world.level.levelgen.placement.PlacementContext;
+import net.minecraft.world.level.levelgen.placement.PlacementModifier;
+import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
 
 import java.util.Random;
 import java.util.stream.Stream;
 
-public class ChanceRangePlacement extends FeatureDecorator<ChanceTopSolidRangeConfig> {
-	public ChanceRangePlacement(Codec<ChanceTopSolidRangeConfig> codec) {
-		super(codec);
+public class ChanceRangePlacement extends PlacementModifier {
+	public static final Codec<ChanceRangePlacement> CODEC = RecordCodecBuilder.create((builder) -> {
+		return builder.group(Codec.INT.fieldOf("bottom_offset").orElse(0).forGetter((config) -> {
+			return config.bottomOffset;
+		}), Codec.INT.fieldOf("top_offset").orElse(0).forGetter((config) -> {
+			return config.topOffset;
+		}), Codec.INT.fieldOf("maximum").orElse(0).forGetter((config) -> {
+			return config.maximum;
+		}), Codec.INT.fieldOf("rarity").orElse(0).forGetter((config) -> {
+			return config.rarity;
+		})).apply(builder, ChanceRangePlacement::new);
+	});
+	public final int bottomOffset;
+	public final int topOffset;
+	public final int maximum;
+	public final int rarity;
+
+	public ChanceRangePlacement(int bottomOffset, int topOffset, int maximum, int rarity) {
+		this.bottomOffset = bottomOffset;
+		this.topOffset = topOffset;
+		this.maximum = maximum;
+		this.rarity = rarity;
 	}
 
-	public Stream<BlockPos> getPositions(DecorationContext context, Random random, ChanceTopSolidRangeConfig config, BlockPos pos) {
-		if(random.nextInt(config.rarity) == 0) {
+	@Override
+	public Stream<BlockPos> getPositions(PlacementContext context, Random random, BlockPos pos) {
+		if(random.nextInt(rarity) == 0) {
 			int i = pos.getX();
 			int j = pos.getZ();
-			int k = random.nextInt(config.maximum - config.topOffset) + config.bottomOffset;
+			int k = random.nextInt(maximum - topOffset) + bottomOffset;
 			return Stream.of(new BlockPos(i, k, j));
 		} else {
 			return Stream.empty();
 		}
+	}
+
+	@Override
+	public PlacementModifierType<?> type() {
+		return OreBerryRegistry.CAVE_EDGE_RANGE;
 	}
 }
