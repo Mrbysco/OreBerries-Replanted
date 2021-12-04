@@ -120,15 +120,18 @@ public class VatBlockEntity extends BlockEntity {
 
 	@Override
 	public CompoundTag save(CompoundTag tag) {
-		tag = super.save(tag);
+		saveAdditional(tag);
+		return super.save(tag);
+	}
 
+	@Override
+	public void saveAdditional(CompoundTag tag) {
+		super.saveAdditional(tag);
 		tag.putInt("evaporateProgress", this.evaporateProgress);
 		tag.putInt("evaporateTotalTime", this.evaporateTotalTime);
 		tag.putInt("crushCooldown", this.crushCooldown);
 		tag.put("ItemStackHandler", handler.serializeNBT());
 		tank.writeToNBT(tag);
-
-		return tag;
 	}
 
 	public static void serverTick(Level level, BlockPos pos, BlockState state, VatBlockEntity vatBlockEntity) {
@@ -275,7 +278,7 @@ public class VatBlockEntity extends BlockEntity {
 	@Override
 	public CompoundTag getUpdateTag() {
 		CompoundTag nbt = new CompoundTag();
-		this.save(nbt);
+		this.saveAdditional(nbt);
 		return nbt;
 	}
 
@@ -287,7 +290,7 @@ public class VatBlockEntity extends BlockEntity {
 	@Override
 	public CompoundTag getTileData() {
 		CompoundTag nbt = new CompoundTag();
-		this.save(nbt);
+		this.saveAdditional(nbt);
 		return nbt;
 	}
 
