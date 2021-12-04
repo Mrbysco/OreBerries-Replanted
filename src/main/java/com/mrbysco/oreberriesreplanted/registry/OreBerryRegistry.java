@@ -19,6 +19,7 @@ import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.FlowerPotBlock;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.fluid.Fluid;
 import net.minecraft.item.BlockItem;
@@ -145,7 +146,7 @@ public class OreBerryRegistry {
 	public static final RegistryObject<Item> WARPED_VAT_ITEM = ITEMS.register("warped_vat", () -> new BlockItem(WARPED_VAT.get(), itemBuilder()));
 
 	private static AbstractBlock.Properties blockBuilder() {
-		return AbstractBlock.Properties.of(Material.LEAVES).noOcclusion().isSuffocating(OreBerryBushBlock::isntSolid).isViewBlocking(OreBerryBushBlock::isntSolid);
+		return AbstractBlock.Properties.of(Material.LEAVES).sound(SoundType.SWEET_BERRY_BUSH).noOcclusion().isSuffocating(OreBerryBushBlock::isntSolid).isViewBlocking(OreBerryBushBlock::isntSolid);
 	}
 
 	private static AbstractBlock.Properties potBuilder() {
