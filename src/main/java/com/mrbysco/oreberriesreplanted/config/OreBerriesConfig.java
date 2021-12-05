@@ -311,87 +311,87 @@ public class OreBerriesConfig {
 
 			ironBushMinY = builder
 					.comment("Iron Bush Min Y [Default: -64]")
-					.defineInRange("ironBushMinY", -64, 0, 255);
+					.defineInRange("ironBushMinY", -64, Integer.MIN_VALUE, Integer.MAX_VALUE);
 			ironBushMaxY = builder
 					.comment("Iron Bush Max Y [Default: 62]")
-					.defineInRange("ironBushMaxY", 64, 0, 255);
+					.defineInRange("ironBushMaxY", 64, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
 			goldBushMinY = builder
 					.comment("Gold Bush Min Y [Default: -64]")
-					.defineInRange("goldBushMinY", -64, 0, 255);
+					.defineInRange("goldBushMinY", -64, Integer.MIN_VALUE, Integer.MAX_VALUE);
 			goldBushMaxY = builder
 					.comment("Gold Bush Max Y [Default: 32]")
-					.defineInRange("goldBushMaxY", 32, 0, 255);
+					.defineInRange("goldBushMaxY", 32, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
 			copperBushMinY = builder
 					.comment("Copper Bush Min Y [Default: -44]")
-					.defineInRange("copperBushMinY", -44, 0, 255);
+					.defineInRange("copperBushMinY", -44, Integer.MIN_VALUE, Integer.MAX_VALUE);
 			copperBushMaxY = builder
 					.comment("Copper Bush Max Y [Default: 60]")
-					.defineInRange("copperBushMaxY", 60, 0, 255);
+					.defineInRange("copperBushMaxY", 60, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
 			tinBushMinY = builder
 					.comment("Tin Bush Min Y [Default: -44]")
-					.defineInRange("tinBushMinY", -44, 0, 255);
+					.defineInRange("tinBushMinY", -44, Integer.MIN_VALUE, Integer.MAX_VALUE);
 			tinBushMaxY = builder
 					.comment("Tin Bush Max Y [Default: 60]")
-					.defineInRange("tinBushMaxY", 60, 0, 255);
+					.defineInRange("tinBushMaxY", 60, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
 			aluminumBushMinY = builder
 					.comment("Aluminum Bush Min Y [Default: -44]")
-					.defineInRange("aluminumBushMinY", -44, 0, 255);
+					.defineInRange("aluminumBushMinY", -44, Integer.MIN_VALUE, Integer.MAX_VALUE);
 			aluminumBushMaxY = builder
 					.comment("Aluminum Bush Max Y [Default: 60]")
-					.defineInRange("aluminumBushMaxY", 60, 0, 255);
+					.defineInRange("aluminumBushMaxY", 60, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
 			leadBushMinY = builder
 					.comment("Lead Bush Min Y [Default: -64]")
-					.defineInRange("leadBushMinY", -64, 0, 255);
+					.defineInRange("leadBushMinY", -64, Integer.MIN_VALUE, Integer.MAX_VALUE);
 			leadBushMaxY = builder
 					.comment("Lead Bush Max Y [Default: 40]")
-					.defineInRange("leadBushMaxY", 40, 0, 255);
+					.defineInRange("leadBushMaxY", 40, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
 			nickelBushMinY = builder
 					.comment("Nickel Bush Min Y [Default: -64]")
-					.defineInRange("nickelBushMinY", -64, 0, 255);
+					.defineInRange("nickelBushMinY", -64, Integer.MIN_VALUE, Integer.MAX_VALUE);
 			nickelBushMaxY = builder
 					.comment("Nickel Bush Max Y [Default: 120]")
-					.defineInRange("nickelBushMaxY", 120, 0, 255);
+					.defineInRange("nickelBushMaxY", 120, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
 			uraniumBushMinY = builder
 					.comment("Uranium Bush Min Y [Default: -64]")
-					.defineInRange("uraniumBushMinY", -64, 0, 255);
+					.defineInRange("uraniumBushMinY", -64, Integer.MIN_VALUE, Integer.MAX_VALUE);
 			uraniumBushMaxY = builder
 					.comment("Uranium Bush Max Y [Default: 60]")
-					.defineInRange("uraniumBushMaxY", 60, 0, 255);
+					.defineInRange("uraniumBushMaxY", 60, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
 			osmiumBushMinY = builder
 					.comment("Osmium Bush Min Y [Default: -64]")
-					.defineInRange("osmiumBushMinY", -64, 0, 255);
+					.defineInRange("osmiumBushMinY", -64, Integer.MIN_VALUE, Integer.MAX_VALUE);
 			osmiumBushMaxY = builder
 					.comment("Osmium Bush Max Y [Default: 60]")
-					.defineInRange("osmiumBushMaxY", 60, 0, 255);
+					.defineInRange("osmiumBushMaxY", 60, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
 			zincBushMinY = builder
 					.comment("Zinc Bush Min Y [Default: -64]")
-					.defineInRange("zincBushMinY", -64, 0, 255);
+					.defineInRange("zincBushMinY", -64, Integer.MIN_VALUE, Integer.MAX_VALUE);
 			zincBushMaxY = builder
 					.comment("Zinc Bush Max Y [Default: 70]")
-					.defineInRange("zincBushMaxY", 70, 0, 255);
+					.defineInRange("zincBushMaxY", 70, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
 			silverBushMinY = builder
 					.comment("Silver Bush Min Y [Default: -64]")
-					.defineInRange("silverBushMinY", -64, 0, 255);
+					.defineInRange("silverBushMinY", -64, Integer.MIN_VALUE, Integer.MAX_VALUE);
 			silverBushMaxY = builder
 					.comment("Silver Bush Max Y [Default: 40]")
-					.defineInRange("silverBushMaxY", 40, 0, 255);
+					.defineInRange("silverBushMaxY", 40, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
 			essenceBushMinY = builder
 					.comment("Essence Bush Min Y [Default: -64]")
-					.defineInRange("essenceBushMinY", -64, 0, 255);
+					.defineInRange("essenceBushMinY", -64, Integer.MIN_VALUE, Integer.MAX_VALUE);
 			essenceBushMaxY = builder
 					.comment("Essence Bush Max Y [Default: 32]")
-					.defineInRange("essenceBushMaxY", 32, 0, 255);
+					.defineInRange("essenceBushMaxY", 32, Integer.MIN_VALUE, Integer.MAX_VALUE);
 
 			builder.pop();
 		}
