@@ -1,6 +1,0 @@
-{
-  "parent": "oreberriesreplanted:block/base/flower_pot_bush",
-  "textures": {
-    "bush": "oreberriesreplanted:block/essence_berry_ripe"
-  }
-}
