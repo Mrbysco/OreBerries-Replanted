@@ -145,6 +145,8 @@ public class OreBerryRegistry {
 	public static final RegistryObject<Item> CRIMSON_VAT_ITEM = ITEMS.register("crimson_vat", () -> new BlockItem(CRIMSON_VAT.get(), itemBuilder()));
 	public static final RegistryObject<Item> WARPED_VAT_ITEM = ITEMS.register("warped_vat", () -> new BlockItem(WARPED_VAT.get(), itemBuilder()));
 
+	public static final RegistryObject<Item> COPPER_NUGGET = ITEMS.register("copper_nugget", () -> new Item(itemBuilder()));
+
 	private static BlockBehaviour.Properties blockBuilder() {
 		return BlockBehaviour.Properties.of(Material.LEAVES).sound(SoundType.SWEET_BERRY_BUSH).noOcclusion().isSuffocating(OreBerryBushBlock::isntSolid).isViewBlocking(OreBerryBushBlock::isntSolid);
 	}
