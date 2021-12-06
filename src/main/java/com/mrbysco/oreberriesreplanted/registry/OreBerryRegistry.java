@@ -139,6 +139,8 @@ public class OreBerryRegistry {
 	public static final RegistryObject<Item> SILVER_OREBERRY = ITEMS.register("silver_oreberry", () -> new OreBerryItem(itemBuilder(), Reference.SILVER_TOOLTIP));
 	public static final RegistryObject<Item> ESSENCE_BERRY = ITEMS.register("essence_berry", () -> new EssenceBerryItem(itemBuilder(), Reference.ESSENCE_TOOLTIP));
 
+	public static final RegistryObject<Item> COPPER_NUGGET = ITEMS.register("copper_nugget", () -> new Item(itemBuilder()));
+
 	public static final RegistryObject<Item> OAK_VAT_ITEM = ITEMS.register("oak_vat", () -> new BlockItem(OAK_VAT.get(), itemBuilder()));
 	public static final RegistryObject<Item> SPRUCE_VAT_ITEM = ITEMS.register("spruce_vat", () -> new BlockItem(SPRUCE_VAT.get(), itemBuilder()));
 	public static final RegistryObject<Item> BIRCH_VAT_ITEM = ITEMS.register("birch_vat", () -> new BlockItem(BIRCH_VAT.get(), itemBuilder()));
