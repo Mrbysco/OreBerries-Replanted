@@ -110,8 +110,8 @@ public class OreBerriesConfig {
 					.define("generateGoldBush", true);
 
 			generateCopperBush = builder
-					.comment("Generate Copper Bushes [Default: false]")
-					.define("generateCopperBush", false);
+					.comment("Generate Copper Bushes [Default: true]")
+					.define("generateCopperBush", true);
 
 			generateTinBush = builder
 					.comment("Generate Tin Bushes [Default: false]")
