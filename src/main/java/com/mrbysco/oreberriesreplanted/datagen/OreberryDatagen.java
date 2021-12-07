@@ -236,7 +236,8 @@ public class OreberryDatagen {
 		}
 
 		private void addFluid(RegistryObject<ForgeFlowingFluid> fluid, String name) {
-			this.add("fluid." + fluid.getId().toString(), name);
+			ResourceLocation id = fluid.getId();
+			this.add("fluid." + id.getNamespace() + "." + id.getPath(), name);
 		}
 	}
 
