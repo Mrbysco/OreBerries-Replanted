@@ -113,13 +113,10 @@ dependencies {
     minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 
-    compileOnly fg.deobf("mezz.jei:jei-1.18:${jei_version}")
-    runtimeOnly fg.deobf("mezz.jei:jei-1.18:${jei_version}")
+    implementation fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
 
-//    compileOnly fg.deobf("net.darkhax.bookshelf:Bookshelf-Forge-${mc_version}:${bookshelf_version}")
-//    runtimeOnly fg.deobf("net.darkhax.bookshelf:Bookshelf-Forge-${mc_version}:${bookshelf_version}")
-//    compileOnly fg.deobf("net.darkhax.botanybots:BotanyPots-${mc_version}:${botanypots_version}")
-//    runtimeOnly fg.deobf("net.darkhax.botanybots:BotanyPots-${mc_version}:${botanypots_version}")
+//    implementation fg.deobf("net.darkhax.bookshelf:Bookshelf-Forge-${mc_version}:${bookshelf_version}")
+//    implementation fg.deobf("net.darkhax.botanybots:BotanyPots-${mc_version}:${botanypots_version}")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
