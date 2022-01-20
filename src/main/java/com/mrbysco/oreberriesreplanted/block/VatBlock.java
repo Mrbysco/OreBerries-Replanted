@@ -58,20 +58,20 @@ public class VatBlock extends BaseEntityBlock {
 		float f = (float)entity.getY() - 0.5F;
 		float yPos = (float)(pos.getY() - 0.25f);
 		if (!entity.isShiftKeyDown() && (double)f <= yPos) {
-			BlockEntity tile = world.getBlockEntity(pos);
-			if(world.getGameTime() % 10 == 0 && tile instanceof VatBlockEntity vatTile) {
+			BlockEntity blockEntity = world.getBlockEntity(pos);
+			if(world.getGameTime() % 10 == 0 && blockEntity instanceof VatBlockEntity vat) {
 				if(entity instanceof LivingEntity && !(entity instanceof Player && ((Player)entity).isSpectator())) {
-					if(!vatTile.handler.getStackInSlot(0).isEmpty()) {
+					if(!vat.handler.getStackInSlot(0).isEmpty()) {
 						LivingEntity livingEntity = (LivingEntity)entity;
 						((LivingEntityAccessor)livingEntity).invokeJumpFromGround();
 					}
 
 					if(!world.isClientSide && world.random.nextInt(8) == 0) {
-						vatTile.crushBerry();
+						vat.crushBerry();
 					}
 				}
-				if(!world.isClientSide && entity instanceof ItemEntity itemEntity && tile instanceof VatBlockEntity) {
-					vatTile.addBerry(itemEntity);
+				if(!world.isClientSide && entity instanceof ItemEntity itemEntity && blockEntity instanceof VatBlockEntity) {
+					vat.addBerry(itemEntity);
 				}
 			}
 		}
@@ -79,10 +79,10 @@ public class VatBlock extends BaseEntityBlock {
 
 	@Override
 	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult blockRayTraceResult) {
-		BlockEntity tile = world.getBlockEntity(pos);
-		if (tile instanceof VatBlockEntity) {
+		BlockEntity blockEntity = world.getBlockEntity(pos);
+		if (blockEntity instanceof VatBlockEntity) {
 			ItemStack stack = player.getItemInHand(hand);
-			LazyOptional<IItemHandler> itemHandler = tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, blockRayTraceResult.getDirection());
+			LazyOptional<IItemHandler> itemHandler = blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, blockRayTraceResult.getDirection());
 			itemHandler.ifPresent((handler) -> {
 				if(player.isShiftKeyDown()) {
 					ItemStack berryStack = handler.getStackInSlot(0);
@@ -108,9 +108,9 @@ public class VatBlock extends BaseEntityBlock {
 	@Override
 	public void onRemove(BlockState state, Level worldIn, BlockPos pos, BlockState newState, boolean isMoving) {
 		if (!state.is(newState.getBlock())) {
-			BlockEntity tile = worldIn.getBlockEntity(pos);
-			if (tile instanceof VatBlockEntity) {
-				tile.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
+			BlockEntity blockEntity = worldIn.getBlockEntity(pos);
+			if (blockEntity instanceof VatBlockEntity) {
+				blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
 					for(int i = 0; i < handler.getSlots(); ++i) {
 						Containers.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(i));
 					}

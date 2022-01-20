@@ -98,8 +98,8 @@ public class VatBlockEntity extends BlockEntity {
 	private int evaporateTotalTime;
 	private int crushCooldown = -1;
 
-	public VatBlockEntity(BlockEntityType<?> tileEntityType, BlockPos pos, BlockState state) {
-		super(tileEntityType, pos, state);
+	public VatBlockEntity(BlockEntityType<?> blockEntityType, BlockPos pos, BlockState state) {
+		super(blockEntityType, pos, state);
 	}
 
 	public VatBlockEntity(BlockPos pos, BlockState state) {
@@ -116,12 +116,6 @@ public class VatBlockEntity extends BlockEntity {
 		this.tank.readFromNBT(tag);
 
 		super.load(tag);
-	}
-
-	@Override
-	public CompoundTag save(CompoundTag tag) {
-		saveAdditional(tag);
-		return super.save(tag);
 	}
 
 	@Override
