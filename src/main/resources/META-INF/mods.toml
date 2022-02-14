@@ -25,3 +25,9 @@ mandatory=true
 versionRange="[39.0.45,)"
 ordering="NONE"
 side="BOTH"
+[[dependencies.oreberriesreplanted]]
+modId="jei"
+mandatory=false
+versionRange="[9.3.2.92,)"
+ordering="NONE"
+side="BOTH"

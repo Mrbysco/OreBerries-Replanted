@@ -4,12 +4,13 @@ import com.mrbysco.oreberriesreplanted.compat.jei.JeiCompat;
 import com.mrbysco.oreberriesreplanted.recipes.VatRecipe;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
 import mezz.jei.api.constants.VanillaTypes;
-import mezz.jei.api.gui.IRecipeLayout;
+import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
-import mezz.jei.api.gui.ingredient.IGuiFluidStackGroup;
-import mezz.jei.api.gui.ingredient.IGuiItemStackGroup;
+import mezz.jei.api.gui.ingredient.IRecipeSlotTooltipCallback;
+import mezz.jei.api.gui.ingredient.IRecipeSlotView;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.ingredients.IIngredients;
+import mezz.jei.api.recipe.IFocus;
+import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -18,6 +19,8 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
 
+import java.util.List;
+
 public class VatCategory implements IRecipeCategory<VatRecipe> {
 	private final IDrawable background;
 	private final IDrawable icon;
@@ -25,7 +28,7 @@ public class VatCategory implements IRecipeCategory<VatRecipe> {
 
 	public VatCategory(IGuiHelper guiHelper) {
 		this.background = guiHelper.createDrawable(JeiCompat.RECIPE_VAT_JEI, 0, 0, 140, 37);
-		this.icon = guiHelper.createDrawableIngredient(new ItemStack(OreBerryRegistry.OAK_VAT.get()));
+		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM, new ItemStack(OreBerryRegistry.OAK_VAT.get()));
 		this.title = new TranslatableComponent("oreberriesreplanted.gui.jei.category.vat");
 	}
 
@@ -55,30 +58,36 @@ public class VatCategory implements IRecipeCategory<VatRecipe> {
 	}
 
 	@Override
-	public void setIngredients(VatRecipe recipe, IIngredients ingredients) {
-		ingredients.setInputIngredients(recipe.getIngredients());
-		ingredients.setInput(VanillaTypes.FLUID, new FluidStack(recipe.getFluid(), 1000));
-		ingredients.setOutput(VanillaTypes.FLUID, new FluidStack(recipe.getFluid(), 1000));
-		ingredients.setOutput(VanillaTypes.ITEM, recipe.getResultItem());
+	public void setRecipe(IRecipeLayoutBuilder builder, VatRecipe recipe, List<? extends IFocus<?>> focuses) {
+		builder.addSlot(RecipeIngredientRole.INPUT, 10, 10).addIngredients(recipe.getIngredients().get(0));
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 113, 10)
+				.addItemStack(recipe.getResultItem()).addTooltipCallback(new OutputTooltip(recipe));
+		builder.addSlot(RecipeIngredientRole.OUTPUT, 62, 10)
+				.addIngredient(VanillaTypes.FLUID, new FluidStack(recipe.getFluid(), 1000)).addTooltipCallback(new FluidTooltip(recipe));
 	}
 
-	@Override
-	public void setRecipe(IRecipeLayout recipeLayout, VatRecipe recipe, IIngredients ingredients) {
-		IGuiItemStackGroup guiItemStacks = recipeLayout.getItemStacks();
-		IGuiFluidStackGroup guiFluidStacks = recipeLayout.getFluidStacks();
+	public static class OutputTooltip implements IRecipeSlotTooltipCallback {
+		private final VatRecipe recipe;
+		public OutputTooltip(VatRecipe recipe) {
+			this.recipe = recipe;
+		}
 
-		guiItemStacks.init(0, true, 9, 9);
-		guiItemStacks.init(1, false, 112, 9);
-		guiFluidStacks.init(0, false, 62, 10);
+		@Override
+		public void onTooltip(IRecipeSlotView recipeSlotView, List<Component> tooltip) {
+			tooltip.add(new TranslatableComponent("oreberriesreplanted.gui.jei.category.vat_output.tooltip", recipe.getEvaporationAmount()).withStyle(ChatFormatting.GOLD));
+		}
+	}
 
-		guiItemStacks.set(ingredients);
-		guiFluidStacks.set(ingredients);
-		guiFluidStacks.addTooltipCallback((slotIndex, input, ingredient, tooltip) -> tooltip.add(new TranslatableComponent("oreberriesreplanted.gui.jei.category.vat.tooltip",
-				((int)(recipe.getMin() * 100)), ((int)(recipe.getMax() * 100)), ingredient.getDisplayName().getString()).withStyle(ChatFormatting.GOLD)));
-		guiItemStacks.addTooltipCallback((slot, input, stack, tooltip) -> {
-			if(!input) {
-				tooltip.add(new TranslatableComponent("oreberriesreplanted.gui.jei.category.vat_output.tooltip", recipe.getEvaporationAmount()).withStyle(ChatFormatting.GOLD));
-			}
-		});
+	public static class FluidTooltip implements IRecipeSlotTooltipCallback {
+		private final VatRecipe recipe;
+		public FluidTooltip(VatRecipe recipe) {
+			this.recipe = recipe;
+		}
+
+		@Override
+		public void onTooltip(IRecipeSlotView recipeSlotView, List<Component> tooltip) {
+			recipeSlotView.getDisplayedIngredient().flatMap(fluidStack -> fluidStack.getIngredient(VanillaTypes.FLUID)).ifPresent(fluid -> tooltip.add(new TranslatableComponent("oreberriesreplanted.gui.jei.category.vat.tooltip",
+					((int) (recipe.getMin() * 100)), ((int) (recipe.getMax() * 100)), fluid.getDisplayName().getString()).withStyle(ChatFormatting.GOLD)));
+		}
 	}
 }
