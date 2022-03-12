@@ -23,12 +23,13 @@ import net.minecraftforge.fluids.FluidStack;
 import java.util.Random;
 
 public class VatBER implements BlockEntityRenderer<VatBlockEntity> {
-	public VatBER(BlockEntityRendererProvider.Context context) {}
+	public VatBER(BlockEntityRendererProvider.Context context) {
+	}
 
 	@Override
 	public void render(VatBlockEntity vat, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int combinedLightIn, int combinedOverlayIn) {
 		FluidStack fluidStack = vat.tank.getFluidInTank(0);
-		if(!fluidStack.isEmpty()) {
+		if (!fluidStack.isEmpty()) {
 			Fluid fluid = fluidStack.getFluid();
 			FluidAttributes fluidAttributes = fluid.getAttributes();
 			TextureAtlasSprite fluidTexture = getFluidStillSprite(fluidAttributes, fluidStack);
@@ -53,7 +54,7 @@ public class VatBER implements BlockEntityRenderer<VatBlockEntity> {
 			float maxU = fluidTexture.getU(13);
 			float minV = fluidTexture.getV(3);
 			float maxV = fluidTexture.getV(13);
-			float percent = fluidStack.getAmount() >= 200 ? (fluidStack.getAmount() / (float)vat.tank.getCapacity()) : 0.1f;
+			float percent = fluidStack.getAmount() >= 200 ? (fluidStack.getAmount() / (float) vat.tank.getCapacity()) : 0.1f;
 
 			vertexConsumer.vertex(pose, -width / 2, -height / 2 + percent * height, -width / 2).color(r, g, b, a)
 					.uv(minU, minV)
@@ -82,9 +83,9 @@ public class VatBER implements BlockEntityRenderer<VatBlockEntity> {
 		}
 		ItemStack berryStack = vat.handler.getStackInSlot(0);
 		int count = berryStack.getCount();
-		if(!berryStack.isEmpty()) {
+		if (!berryStack.isEmpty()) {
 			int size = count >= 4 ? (count / 4) : 1;
-			for(int i = 0; i < size; i++) {
+			for (int i = 0; i < size; i++) {
 				Random random = new Random(0);
 				poseStack.pushPose();
 				poseStack.translate(0.5, 1.0, 0.5);

@@ -11,19 +11,19 @@ import net.minecraft.world.item.crafting.SmeltingRecipe;
  * Taken from the Grinder repository from Noobanidus <3
  */
 public class TagFurnaceRecipe extends SmeltingRecipe {
-  public TagFurnaceRecipe(ResourceLocation idIn, String groupIn, Ingredient ingredientIn, ItemStack resultIn, float experienceIn, int cookTimeIn) {
-    super(idIn, groupIn, ingredientIn, resultIn, experienceIn, cookTimeIn);
-  }
+	public TagFurnaceRecipe(ResourceLocation idIn, String groupIn, Ingredient ingredientIn, ItemStack resultIn, float experienceIn, int cookTimeIn) {
+		super(idIn, groupIn, ingredientIn, resultIn, experienceIn, cookTimeIn);
+	}
 
-  @Override
-  public RecipeSerializer<?> getSerializer() {
-    return OreBerryRegistry.TAG_FURNACE_SERIALIZER.get();
-  }
+	@Override
+	public RecipeSerializer<?> getSerializer() {
+		return OreBerryRegistry.TAG_FURNACE_SERIALIZER.get();
+	}
 
-  public static class Serializer extends TagCookingRecipeSerializer<TagFurnaceRecipe> {
-    public Serializer() {
-      super(TagFurnaceRecipe::new, 100);
-    }
-  }
+	public static class Serializer extends TagCookingRecipeSerializer<TagFurnaceRecipe> {
+		public Serializer() {
+			super(TagFurnaceRecipe::new, 100);
+		}
+	}
 }
 

@@ -3,6 +3,7 @@ package com.mrbysco.oreberriesreplanted.recipes;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import com.mrbysco.oreberriesreplanted.registry.OreBerryRecipeTypes;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.Registry;
@@ -57,9 +58,9 @@ public class VatRecipe implements Recipe<Container> {
 	}
 
 	public NonNullList<Ingredient> getIngredients() {
-		NonNullList<Ingredient> nonnulllist = NonNullList.create();
-		nonnulllist.add(this.ingredient);
-		return nonnulllist;
+		NonNullList<Ingredient> ingredients = NonNullList.create();
+		ingredients.add(this.ingredient);
+		return ingredients;
 	}
 
 	public Fluid getFluid() {
@@ -87,7 +88,7 @@ public class VatRecipe implements Recipe<Container> {
 	}
 
 	public RecipeType<?> getType() {
-		return OreBerryRegistry.VAT_RECIPE_TYPE;
+		return OreBerryRecipeTypes.VAT_RECIPE_TYPE;
 	}
 
 	public ItemStack getToastSymbol() {
@@ -107,6 +108,10 @@ public class VatRecipe implements Recipe<Container> {
 		return OreBerryRegistry.VAT_SERIALIZER.get();
 	}
 
+	@Override
+	public boolean isSpecial() {
+		return true;
+	}
 
 	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<VatRecipe> {
 

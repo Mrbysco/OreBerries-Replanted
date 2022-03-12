@@ -12,19 +12,19 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
  * Taken from the Grinder repository from Noobanidus <3
  */
 public class TagBlastingRecipe extends BlastingRecipe {
-  public TagBlastingRecipe(ResourceLocation idIn, String groupIn, Ingredient ingredientIn, ItemStack resultIn, float experienceIn, int cookTimeIn) {
-    super(idIn, groupIn, ingredientIn, resultIn, experienceIn, cookTimeIn);
-  }
+	public TagBlastingRecipe(ResourceLocation idIn, String groupIn, Ingredient ingredientIn, ItemStack resultIn, float experienceIn, int cookTimeIn) {
+		super(idIn, groupIn, ingredientIn, resultIn, experienceIn, cookTimeIn);
+	}
 
-  @Override
-  public RecipeSerializer<?> getSerializer() {
-    return OreBerryRegistry.TAG_BLASTING_SERIALIZER.get();
-  }
+	@Override
+	public RecipeSerializer<?> getSerializer() {
+		return OreBerryRegistry.TAG_BLASTING_SERIALIZER.get();
+	}
 
-  public static class Serializer extends TagCookingRecipeSerializer<TagBlastingRecipe> {
-    public Serializer() {
-      super(TagBlastingRecipe::new, 100);
-    }
-  }
+	public static class Serializer extends TagCookingRecipeSerializer<TagBlastingRecipe> {
+		public Serializer() {
+			super(TagBlastingRecipe::new, 100);
+		}
+	}
 }
 

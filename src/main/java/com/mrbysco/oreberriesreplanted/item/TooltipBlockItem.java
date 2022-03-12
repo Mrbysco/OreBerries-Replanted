@@ -14,6 +14,7 @@ import java.util.List;
 
 public class TooltipBlockItem extends BlockItem {
 	private final String tooltip;
+
 	public TooltipBlockItem(Block blockIn, Properties builder, String tooltip) {
 		super(blockIn, builder);
 		this.tooltip = tooltip;

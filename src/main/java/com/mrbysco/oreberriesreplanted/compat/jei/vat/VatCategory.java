@@ -1,5 +1,6 @@
 package com.mrbysco.oreberriesreplanted.compat.jei.vat;
 
+import com.mrbysco.oreberriesreplanted.Reference;
 import com.mrbysco.oreberriesreplanted.compat.jei.JeiCompat;
 import com.mrbysco.oreberriesreplanted.recipes.VatRecipe;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
@@ -9,8 +10,9 @@ import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotTooltipCallback;
 import mezz.jei.api.gui.ingredient.IRecipeSlotView;
 import mezz.jei.api.helpers.IGuiHelper;
-import mezz.jei.api.recipe.IFocus;
+import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
+import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
@@ -22,6 +24,7 @@ import net.minecraftforge.fluids.FluidStack;
 import java.util.List;
 
 public class VatCategory implements IRecipeCategory<VatRecipe> {
+	public static final RecipeType<VatRecipe> TYPE = RecipeType.create(Reference.MOD_ID, "vat_recipe", VatRecipe.class);
 	private final IDrawable background;
 	private final IDrawable icon;
 	private final Component title;
@@ -35,6 +38,11 @@ public class VatCategory implements IRecipeCategory<VatRecipe> {
 	@Override
 	public ResourceLocation getUid() {
 		return JeiCompat.VAT;
+	}
+
+	@Override
+	public RecipeType<VatRecipe> getRecipeType() {
+		return TYPE;
 	}
 
 	@Override
@@ -58,7 +66,7 @@ public class VatCategory implements IRecipeCategory<VatRecipe> {
 	}
 
 	@Override
-	public void setRecipe(IRecipeLayoutBuilder builder, VatRecipe recipe, List<? extends IFocus<?>> focuses) {
+	public void setRecipe(IRecipeLayoutBuilder builder, VatRecipe recipe, IFocusGroup focuses) {
 		builder.addSlot(RecipeIngredientRole.INPUT, 10, 10).addIngredients(recipe.getIngredients().get(0));
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 113, 10)
 				.addItemStack(recipe.getResultItem()).addTooltipCallback(new OutputTooltip(recipe));
@@ -68,6 +76,7 @@ public class VatCategory implements IRecipeCategory<VatRecipe> {
 
 	public static class OutputTooltip implements IRecipeSlotTooltipCallback {
 		private final VatRecipe recipe;
+
 		public OutputTooltip(VatRecipe recipe) {
 			this.recipe = recipe;
 		}
@@ -80,6 +89,7 @@ public class VatCategory implements IRecipeCategory<VatRecipe> {
 
 	public static class FluidTooltip implements IRecipeSlotTooltipCallback {
 		private final VatRecipe recipe;
+
 		public FluidTooltip(VatRecipe recipe) {
 			this.recipe = recipe;
 		}

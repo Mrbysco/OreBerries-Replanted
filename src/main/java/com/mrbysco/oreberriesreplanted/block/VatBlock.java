@@ -55,22 +55,22 @@ public class VatBlock extends BaseEntityBlock {
 
 	@Override
 	public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
-		float f = (float)entity.getY() - 0.5F;
-		float yPos = (float)(pos.getY() - 0.25f);
-		if (!entity.isShiftKeyDown() && (double)f <= yPos) {
+		float f = (float) entity.getY() - 0.5F;
+		float yPos = (float) (pos.getY() - 0.25f);
+		if (!entity.isShiftKeyDown() && (double) f <= yPos) {
 			BlockEntity blockEntity = world.getBlockEntity(pos);
-			if(world.getGameTime() % 10 == 0 && blockEntity instanceof VatBlockEntity vat) {
-				if(entity instanceof LivingEntity && !(entity instanceof Player && ((Player)entity).isSpectator())) {
-					if(!vat.handler.getStackInSlot(0).isEmpty()) {
-						LivingEntity livingEntity = (LivingEntity)entity;
-						((LivingEntityAccessor)livingEntity).invokeJumpFromGround();
+			if (world.getGameTime() % 10 == 0 && blockEntity instanceof VatBlockEntity vat) {
+				if (entity instanceof LivingEntity && !(entity instanceof Player && ((Player) entity).isSpectator())) {
+					if (!vat.handler.getStackInSlot(0).isEmpty()) {
+						LivingEntity livingEntity = (LivingEntity) entity;
+						((LivingEntityAccessor) livingEntity).invokeJumpFromGround();
 					}
 
-					if(!world.isClientSide && world.random.nextInt(8) == 0) {
+					if (!world.isClientSide && world.random.nextInt(8) == 0) {
 						vat.crushBerry();
 					}
 				}
-				if(!world.isClientSide && entity instanceof ItemEntity itemEntity && blockEntity instanceof VatBlockEntity) {
+				if (!world.isClientSide && entity instanceof ItemEntity itemEntity && blockEntity instanceof VatBlockEntity) {
 					vat.addBerry(itemEntity);
 				}
 			}
@@ -84,15 +84,15 @@ public class VatBlock extends BaseEntityBlock {
 			ItemStack stack = player.getItemInHand(hand);
 			LazyOptional<IItemHandler> itemHandler = blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY, blockRayTraceResult.getDirection());
 			itemHandler.ifPresent((handler) -> {
-				if(player.isShiftKeyDown()) {
+				if (player.isShiftKeyDown()) {
 					ItemStack berryStack = handler.getStackInSlot(0);
-					if(!berryStack.isEmpty()) {
+					if (!berryStack.isEmpty()) {
 						Containers.dropItemStack(world, player.getX(), player.getY() + 0.5, player.getZ(), berryStack);
 					}
 				} else {
-					if(handler.getStackInSlot(0).getCount() < handler.getSlotLimit(0)) {
+					if (handler.getStackInSlot(0).getCount() < handler.getSlotLimit(0)) {
 						ItemStack remaining = ItemHandlerHelper.copyStackWithSize(stack, stack.getCount());
-						if(!remaining.isEmpty()) {
+						if (!remaining.isEmpty()) {
 							remaining = ItemHandlerHelper.insertItem(handler, stack, false);
 							player.setItemInHand(hand, remaining);
 						}
@@ -111,7 +111,7 @@ public class VatBlock extends BaseEntityBlock {
 			BlockEntity blockEntity = worldIn.getBlockEntity(pos);
 			if (blockEntity instanceof VatBlockEntity) {
 				blockEntity.getCapability(CapabilityItemHandler.ITEM_HANDLER_CAPABILITY).ifPresent(handler -> {
-					for(int i = 0; i < handler.getSlots(); ++i) {
+					for (int i = 0; i < handler.getSlots(); ++i) {
 						Containers.dropItemStack(worldIn, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(i));
 					}
 				});

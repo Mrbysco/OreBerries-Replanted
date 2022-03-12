@@ -12,7 +12,7 @@ import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
@@ -42,82 +42,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.ACACIA_VAT;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.ACACIA_VAT_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.ALUMINUM_OREBERRY;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.ALUMINUM_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.ALUMINUM_OREBERRY_BUSH_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.ALUMINUM_OREBERRY_JUICE;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.BIRCH_VAT;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.BIRCH_VAT_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.COPPER_NUGGET;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.COPPER_OREBERRY;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.COPPER_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.COPPER_OREBERRY_BUSH_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.COPPER_OREBERRY_JUICE;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.CRIMSON_VAT;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.CRIMSON_VAT_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.DARK_OAK_VAT;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.DARK_OAK_VAT_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.ESSENCE_BERRY;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.ESSENCE_BERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.ESSENCE_BERRY_BUSH_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.GOLD_OREBERRY;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.GOLD_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.GOLD_OREBERRY_BUSH_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.GOLD_OREBERRY_JUICE;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.IRON_OREBERRY;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.IRON_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.IRON_OREBERRY_BUSH_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.IRON_OREBERRY_JUICE;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.JUNGLE_VAT;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.JUNGLE_VAT_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.LEAD_OREBERRY;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.LEAD_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.LEAD_OREBERRY_BUSH_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.LEAD_OREBERRY_JUICE;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.NICKEL_OREBERRY;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.NICKEL_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.NICKEL_OREBERRY_BUSH_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.NICKEL_OREBERRY_JUICE;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.OAK_VAT;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.OAK_VAT_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.OSMIUM_OREBERRY;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.OSMIUM_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.OSMIUM_OREBERRY_BUSH_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.OSMIUM_OREBERRY_JUICE;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.POTTED_ALUMINUM_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.POTTED_COPPER_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.POTTED_ESSENCE_BERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.POTTED_GOLD_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.POTTED_IRON_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.POTTED_LEAD_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.POTTED_NICKEL_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.POTTED_OSMIUM_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.POTTED_SILVER_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.POTTED_TIN_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.POTTED_URANIUM_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.POTTED_ZINC_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.SILVER_OREBERRY;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.SILVER_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.SILVER_OREBERRY_BUSH_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.SILVER_OREBERRY_JUICE;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.SPRUCE_VAT;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.SPRUCE_VAT_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.TIN_OREBERRY;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.TIN_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.TIN_OREBERRY_BUSH_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.TIN_OREBERRY_JUICE;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.URANIUM_OREBERRY;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.URANIUM_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.URANIUM_OREBERRY_BUSH_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.URANIUM_OREBERRY_JUICE;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.WARPED_VAT;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.WARPED_VAT_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.ZINC_OREBERRY;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.ZINC_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.ZINC_OREBERRY_BUSH_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.ZINC_OREBERRY_JUICE;
+import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.*;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class OreberryDatagen {
@@ -414,7 +339,7 @@ public class OreberryDatagen {
 			ModelFile age0 = models().getBuilder(block.getRegistryName().getPath() + "_stage0")
 					.parent(models().getExistingFile(modLoc("block/base/oreberry_stage0")))
 					.texture("all", "block/" + type + "_oreberry");
-			ModelFile age1 =models().getBuilder(block.getRegistryName().getPath() + "_stage1")
+			ModelFile age1 = models().getBuilder(block.getRegistryName().getPath() + "_stage1")
 					.parent(models().getExistingFile(modLoc("block/base/oreberry_stage1")))
 					.texture("all", "block/" + type + "_oreberry");
 			ModelFile age2 = models().getBuilder(block.getRegistryName().getPath() + "_stage2")
@@ -471,10 +396,10 @@ public class OreberryDatagen {
 			super(dataGenerator, blockTagsProvider, Reference.MOD_ID, existingFileHelper);
 		}
 
-		public static final Tag.Named<Item> NUGGETS_COPPER = forgeTag("nuggets/copper");
+		public static final TagKey<Item> NUGGETS_COPPER = forgeTag("nuggets/copper");
 
-		private static Tag.Named<Item> forgeTag(String name) {
-			return ItemTags.bind(new ResourceLocation("forge", name).toString());
+		private static TagKey<Item> forgeTag(String name) {
+			return ItemTags.create(new ResourceLocation("forge", name));
 		}
 
 		@Override

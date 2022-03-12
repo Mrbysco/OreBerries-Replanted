@@ -51,26 +51,22 @@ public class OreBerryRegistry {
 	public static final RegistryObject<Feature<OreBerryBushFeatureConfig>> OREBERRY_FEATURE_CONFIG = FEATURES.register("oreberry_bush", () ->
 			new OreBerryBushFeature(OreBerryBushFeatureConfig.CODEC));
 
-	public static final PlacementModifierType<ChanceRangePlacement> CAVE_EDGE_RANGE = register("change_range", ChanceRangePlacement.CODEC);
-
-	public static final RecipeType<VatRecipe> VAT_RECIPE_TYPE = RecipeType.register(new ResourceLocation(Reference.MOD_ID, "vat_recipe").toString());
-
 	public static final RegistryObject<Serializer> TAG_FURNACE_SERIALIZER = RECIPE_SERIALIZERS.register("furnace", TagFurnaceRecipe.Serializer::new);
 	public static final RegistryObject<TagBlastingRecipe.Serializer> TAG_BLASTING_SERIALIZER = RECIPE_SERIALIZERS.register("blasting", TagBlastingRecipe.Serializer::new);
 	public static final RegistryObject<VatRecipe.Serializer> VAT_SERIALIZER = RECIPE_SERIALIZERS.register("vat", VatRecipe.Serializer::new);
 
 	//Fluids
-	public static LiquidReg IRON_OREBERRY_JUICE = new LiquidReg("iron_oreberry_juice", Material.LAVA,0xFFc9c9c9);
-	public static LiquidReg GOLD_OREBERRY_JUICE = new LiquidReg("gold_oreberry_juice", Material.LAVA,0xFFfad64a);
-	public static LiquidReg COPPER_OREBERRY_JUICE = new LiquidReg("copper_oreberry_juice", Material.LAVA,0xFFf8b18d);
-	public static LiquidReg TIN_OREBERRY_JUICE = new LiquidReg("tin_oreberry_juice", Material.LAVA,0xFF74609e);
-	public static LiquidReg ALUMINUM_OREBERRY_JUICE = new LiquidReg("aluminum_oreberry_juice", Material.LAVA,0xFFc5dbed);
-	public static LiquidReg LEAD_OREBERRY_JUICE = new LiquidReg("lead_oreberry_juice", Material.LAVA,0xFF707e8a);
-	public static LiquidReg NICKEL_OREBERRY_JUICE = new LiquidReg("nickel_oreberry_juice", Material.LAVA,0xFFb0b59f);
-	public static LiquidReg URANIUM_OREBERRY_JUICE = new LiquidReg("uranium_oreberry_juice", Material.LAVA,0xFF98b350);
-	public static LiquidReg OSMIUM_OREBERRY_JUICE = new LiquidReg("osmium_oreberry_juice", Material.LAVA,0xFF83b0bd);
-	public static LiquidReg ZINC_OREBERRY_JUICE = new LiquidReg("zinc_oreberry_juice", Material.LAVA,0xFFd1d1a5);
-	public static LiquidReg SILVER_OREBERRY_JUICE = new LiquidReg("silver_oreberry_juice", Material.LAVA,0xFF898fc9);
+	public static LiquidReg IRON_OREBERRY_JUICE = new LiquidReg("iron_oreberry_juice", Material.LAVA, 0xFFc9c9c9);
+	public static LiquidReg GOLD_OREBERRY_JUICE = new LiquidReg("gold_oreberry_juice", Material.LAVA, 0xFFfad64a);
+	public static LiquidReg COPPER_OREBERRY_JUICE = new LiquidReg("copper_oreberry_juice", Material.LAVA, 0xFFf8b18d);
+	public static LiquidReg TIN_OREBERRY_JUICE = new LiquidReg("tin_oreberry_juice", Material.LAVA, 0xFF74609e);
+	public static LiquidReg ALUMINUM_OREBERRY_JUICE = new LiquidReg("aluminum_oreberry_juice", Material.LAVA, 0xFFc5dbed);
+	public static LiquidReg LEAD_OREBERRY_JUICE = new LiquidReg("lead_oreberry_juice", Material.LAVA, 0xFF707e8a);
+	public static LiquidReg NICKEL_OREBERRY_JUICE = new LiquidReg("nickel_oreberry_juice", Material.LAVA, 0xFFb0b59f);
+	public static LiquidReg URANIUM_OREBERRY_JUICE = new LiquidReg("uranium_oreberry_juice", Material.LAVA, 0xFF98b350);
+	public static LiquidReg OSMIUM_OREBERRY_JUICE = new LiquidReg("osmium_oreberry_juice", Material.LAVA, 0xFF83b0bd);
+	public static LiquidReg ZINC_OREBERRY_JUICE = new LiquidReg("zinc_oreberry_juice", Material.LAVA, 0xFFd1d1a5);
+	public static LiquidReg SILVER_OREBERRY_JUICE = new LiquidReg("silver_oreberry_juice", Material.LAVA, 0xFF898fc9);
 
 	//Blocks
 	public static final RegistryObject<Block> IRON_OREBERRY_BUSH = BLOCKS.register("iron_oreberry_bush", () -> new OreBerryBushBlock(blockBuilder(), OreBerryRegistry.IRON_OREBERRY, OreEnum.IRON));
@@ -179,11 +175,5 @@ public class OreBerryRegistry {
 
 	private static void registerPottablePlant(Supplier<Block> plant, Supplier<Block> pottedPlant) {
 		((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(Objects.requireNonNull(plant.get().getRegistryName()), pottedPlant);
-	}
-
-	private static <P extends PlacementModifier> PlacementModifierType<P> register(String name, Codec<P> codec) {
-		return Registry.register(Registry.PLACEMENT_MODIFIERS, name, () -> {
-			return codec;
-		});
 	}
 }

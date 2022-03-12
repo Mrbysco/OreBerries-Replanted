@@ -97,7 +97,7 @@ public class OreBerryBushBlock extends Block implements IPlantable {
 
 	@Override
 	public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, Random rand) {
-		if(!worldIn.isClientSide && !isMaxAge(state) && worldIn.getRawBrightness(pos, 0) < 10 && ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt(OreBerriesConfig.COMMON.growthChance.get()) == 0)) {
+		if (!worldIn.isClientSide && !isMaxAge(state) && worldIn.getRawBrightness(pos, 0) < 10 && ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt(OreBerriesConfig.COMMON.growthChance.get()) == 0)) {
 			int currentAge = getAge(state);
 			worldIn.setBlock(pos, withAge(currentAge + 1), 3);
 			ForgeHooks.onCropsGrowPost(worldIn, pos, worldIn.getBlockState(pos));
@@ -115,8 +115,8 @@ public class OreBerryBushBlock extends Block implements IPlantable {
 	}
 
 	public InteractionResult harvestBerry(BlockState state, Level worldIn, BlockPos pos) {
-		if(isMaxAge(state)) {
-			if(worldIn.isClientSide)
+		if (isMaxAge(state)) {
+			if (worldIn.isClientSide)
 				return InteractionResult.SUCCESS;
 
 			worldIn.setBlock(pos, withAge(getMaxAge() - 1), 3);
@@ -144,7 +144,7 @@ public class OreBerryBushBlock extends Block implements IPlantable {
 
 	@Override
 	public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn) {
-		if(!(entityIn instanceof ItemEntity)) {
+		if (!(entityIn instanceof ItemEntity)) {
 			entityIn.hurt(DamageSource.CACTUS, 1.0F);
 		}
 	}

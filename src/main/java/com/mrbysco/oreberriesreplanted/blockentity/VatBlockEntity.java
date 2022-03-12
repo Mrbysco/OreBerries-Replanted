@@ -1,6 +1,7 @@
 package com.mrbysco.oreberriesreplanted.blockentity;
 
 import com.mrbysco.oreberriesreplanted.recipes.VatRecipe;
+import com.mrbysco.oreberriesreplanted.registry.OreBerryRecipeTypes;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -59,8 +60,8 @@ public class VatBlockEntity extends BlockEntity {
 
 		@Override
 		public boolean isFluidValid(FluidStack stack) {
-			for(VatRecipe recipe : level.getRecipeManager().getAllRecipesFor(OreBerryRegistry.VAT_RECIPE_TYPE)) {
-				if(stack.getFluid().isSame(recipe.getFluid())) {
+			for (VatRecipe recipe : level.getRecipeManager().getAllRecipesFor(OreBerryRecipeTypes.VAT_RECIPE_TYPE)) {
+				if (stack.getFluid().isSame(recipe.getFluid())) {
 					return true;
 				}
 			}
@@ -77,8 +78,8 @@ public class VatBlockEntity extends BlockEntity {
 
 		@Override
 		public boolean isItemValid(int slot, ItemStack stack) {
-			for(VatRecipe recipe : level.getRecipeManager().getAllRecipesFor(OreBerryRegistry.VAT_RECIPE_TYPE)) {
-				if(recipe.getIngredients().get(0).test(stack)) {
+			for (VatRecipe recipe : level.getRecipeManager().getAllRecipesFor(OreBerryRecipeTypes.VAT_RECIPE_TYPE)) {
+				if (recipe.getIngredients().get(0).test(stack)) {
 					return true;
 				}
 			}
@@ -129,18 +130,18 @@ public class VatBlockEntity extends BlockEntity {
 	}
 
 	public static void serverTick(Level level, BlockPos pos, BlockState state, VatBlockEntity vatBlockEntity) {
-		if(level.isClientSide) {
+		if (level.isClientSide) {
 			return;
 		}
 
-		if(vatBlockEntity.crushCooldown > 0) {
+		if (vatBlockEntity.crushCooldown > 0) {
 			--vatBlockEntity.crushCooldown;
 		}
 		if (!vatBlockEntity.tank.isEmpty()) {
 			VatRecipe irecipe = vatBlockEntity.getRecipe();
 			boolean valid = vatBlockEntity.canEvaporate(irecipe);
-			if(valid) {
-				if(vatBlockEntity.evaporateTotalTime == 0) {
+			if (valid) {
+				if (vatBlockEntity.evaporateTotalTime == 0) {
 					vatBlockEntity.evaporateTotalTime = vatBlockEntity.getMaxEvaporateTime();
 					vatBlockEntity.evaporateProgress = 0;
 				}
@@ -164,7 +165,7 @@ public class VatBlockEntity extends BlockEntity {
 		tank.drain(evaporationAmount, FluidAction.EXECUTE);
 
 		BlockPos blockpos = this.getBlockPos();
-		Containers.dropItemStack(this.level, (double)blockpos.getX(), (double)blockpos.getY() + 0.1D, (double)blockpos.getZ(), outputStack);
+		Containers.dropItemStack(this.level, (double) blockpos.getX(), (double) blockpos.getY() + 0.1D, (double) blockpos.getZ(), outputStack);
 		level.playSound((Player) null, worldPosition, SoundEvents.LAVA_POP, SoundSource.BLOCKS, 0.5F, 1.0F);
 	}
 
@@ -181,7 +182,7 @@ public class VatBlockEntity extends BlockEntity {
 	}
 
 	public void crushBerry() {
-		if(!isOnCooldown()) {
+		if (!isOnCooldown()) {
 			ItemStack berryStack = handler.getStackInSlot(0);
 			VatRecipe rec = getRecipe();
 			if (rec != null && !berryStack.isEmpty()) {
@@ -208,7 +209,7 @@ public class VatBlockEntity extends BlockEntity {
 			entity.setItem(resultStack);
 		}
 
-		if(originalCount != resultStack.getCount()) {
+		if (originalCount != resultStack.getCount()) {
 			refreshClient();
 		}
 	}
@@ -217,9 +218,9 @@ public class VatBlockEntity extends BlockEntity {
 		ItemStack input = handler.getStackInSlot(0);
 		if (input.isEmpty()) {
 			FluidStack fluidStack = tank.getFluidInTank(0);
-			if(!fluidStack.isEmpty()) {
-				for(VatRecipe recipe : level.getRecipeManager().getAllRecipesFor(OreBerryRegistry.VAT_RECIPE_TYPE)) {
-					if(recipe.getFluid().isSame(fluidStack.getFluid())) {
+			if (!fluidStack.isEmpty()) {
+				for (VatRecipe recipe : level.getRecipeManager().getAllRecipesFor(OreBerryRecipeTypes.VAT_RECIPE_TYPE)) {
+					if (recipe.getFluid().isSame(fluidStack.getFluid())) {
 						return curRecipe = recipe;
 					}
 				}
@@ -231,7 +232,7 @@ public class VatBlockEntity extends BlockEntity {
 		inventory.setItem(0, input);
 		if (curRecipe != null && curRecipe.matches(inventory, level)) return curRecipe;
 		else {
-			VatRecipe rec = level.getRecipeManager().getRecipeFor(OreBerryRegistry.VAT_RECIPE_TYPE, inventory, this.level).orElse(null);
+			VatRecipe rec = level.getRecipeManager().getRecipeFor(OreBerryRecipeTypes.VAT_RECIPE_TYPE, inventory, this.level).orElse(null);
 			return curRecipe = rec;
 		}
 	}
@@ -271,9 +272,9 @@ public class VatBlockEntity extends BlockEntity {
 
 	@Override
 	public CompoundTag getUpdateTag() {
-		CompoundTag nbt = new CompoundTag();
-		this.saveAdditional(nbt);
-		return nbt;
+		CompoundTag tag = new CompoundTag();
+		this.saveAdditional(tag);
+		return tag;
 	}
 
 	@Override
@@ -283,9 +284,9 @@ public class VatBlockEntity extends BlockEntity {
 
 	@Override
 	public CompoundTag getTileData() {
-		CompoundTag nbt = new CompoundTag();
-		this.saveAdditional(nbt);
-		return nbt;
+		CompoundTag tag = new CompoundTag();
+		this.saveAdditional(tag);
+		return tag;
 	}
 
 	@Nonnull

@@ -399,6 +399,7 @@ public class OreBerriesConfig {
 
 	public static final ForgeConfigSpec commonSpec;
 	public static final Common COMMON;
+
 	static {
 		final Pair<Common, ForgeConfigSpec> specPair = new ForgeConfigSpec.Builder().configure(Common::new);
 		commonSpec = specPair.getRight();
@@ -412,7 +413,7 @@ public class OreBerriesConfig {
 
 	@SubscribeEvent
 	public static void onFileChange(final ModConfigEvent.Reloading configEvent) {
-		OreberriesReplanted.LOGGER.fatal("Oreberries Replanted's config just got changed on the file system!");
+		OreberriesReplanted.LOGGER.warn("Oreberries Replanted's config just got changed on the file system!");
 	}
 
 }

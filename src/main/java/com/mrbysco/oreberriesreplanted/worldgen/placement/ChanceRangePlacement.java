@@ -2,7 +2,7 @@ package com.mrbysco.oreberriesreplanted.worldgen.placement;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
+import com.mrbysco.oreberriesreplanted.registry.OreBerryPlacementModifiers;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.level.levelgen.placement.PlacementContext;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
@@ -37,7 +37,7 @@ public class ChanceRangePlacement extends PlacementModifier {
 
 	@Override
 	public Stream<BlockPos> getPositions(PlacementContext context, Random random, BlockPos pos) {
-		if(random.nextInt(rarity) == 0) {
+		if (random.nextInt(rarity) == 0) {
 			int i = pos.getX();
 			int j = pos.getZ();
 			int k = random.nextInt(maximum - topOffset) + bottomOffset;
@@ -49,6 +49,6 @@ public class ChanceRangePlacement extends PlacementModifier {
 
 	@Override
 	public PlacementModifierType<?> type() {
-		return OreBerryRegistry.CAVE_EDGE_RANGE;
+		return OreBerryPlacementModifiers.CAVE_EDGE_RANGE;
 	}
 }

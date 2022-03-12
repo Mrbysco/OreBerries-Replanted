@@ -26,14 +26,14 @@ public class OreBerryBushFeature extends Feature<OreBerryBushFeatureConfig> {
 		ChunkGenerator generator = context.chunkGenerator();
 
 		int density = 1;
-		if(context.config().state.getBlock() instanceof OreBerryBushBlock block) {
+		if (context.config().state.getBlock() instanceof OreBerryBushBlock block) {
 			density = block.getDensity();
 		}
 
 		OreBerryBushFeatureConfig config = context.config();
-		for(int i = 0; i < density; i++) {
+		for (int i = 0; i < density; i++) {
 			BlockPos adequateLocation = findAdequateLocation(level, pos, generator, config);
-			if(adequateLocation != null) {
+			if (adequateLocation != null) {
 				int type = rand.nextInt(config.chance);
 				if (type == 11)
 					generateMediumNode(level, rand, adequateLocation, config);
@@ -51,21 +51,21 @@ public class OreBerryBushFeature extends Feature<OreBerryBushFeatureConfig> {
 		int minY = 0;
 		int maxY = generator.getSpawnHeight(world);
 
-		if(config.state.getBlock() instanceof OreBerryBushBlock block) {
+		if (config.state.getBlock() instanceof OreBerryBushBlock block) {
 			minY = block.getMinY();
 			maxY = block.getMaxY();
 		}
 
 		BlockPos pos = new BlockPos(blockPos);
 		do {
-			if(world.isEmptyBlock(pos) && !world.isEmptyBlock(pos.above()))
+			if (world.isEmptyBlock(pos) && !world.isEmptyBlock(pos.above()))
 				return pos.above();
 			pos = pos.above();
-		} while (pos.getY() <maxY);
+		} while (pos.getY() < maxY);
 
 		pos = new BlockPos(blockPos);
 		do {
-			if(world.isEmptyBlock(pos) && !world.isEmptyBlock(pos.below()))
+			if (world.isEmptyBlock(pos) && !world.isEmptyBlock(pos.below()))
 				return pos.below();
 			pos = pos.below();
 		} while (pos.getY() > minY);
