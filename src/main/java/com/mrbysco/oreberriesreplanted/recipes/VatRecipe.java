@@ -3,7 +3,7 @@ package com.mrbysco.oreberriesreplanted.recipes;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
-import com.mrbysco.oreberriesreplanted.registry.OreBerryRecipeTypes;
+import com.mrbysco.oreberriesreplanted.registry.OreBerryRecipes;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.Registry;
@@ -27,13 +27,13 @@ public class VatRecipe implements Recipe<Container> {
 	protected final String group;
 	protected final Ingredient ingredient;
 	protected final Fluid fluid;
-	protected final ItemStack result;
+	protected final Ingredient result;
 	protected final int evaporationTime;
 	protected final int evaporationAmount;
 	protected final float min;
 	protected final float max;
 
-	public VatRecipe(ResourceLocation location, String group, Ingredient ingredient, Fluid fluid, ItemStack resultStack, int time, int amount, float min, float max) {
+	public VatRecipe(ResourceLocation location, String group, Ingredient ingredient, Fluid fluid, Ingredient resultStack, int time, int amount, float min, float max) {
 		this.id = location;
 		this.group = group;
 		this.ingredient = ingredient;
@@ -45,12 +45,16 @@ public class VatRecipe implements Recipe<Container> {
 		this.max = max;
 	}
 
+	public Ingredient getResult() {
+		return result;
+	}
+
 	public boolean matches(Container inventory, Level world) {
 		return this.ingredient.test(inventory.getItem(0));
 	}
 
 	public ItemStack assemble(Container inventory) {
-		return this.result.copy();
+		return getResultItem().copy();
 	}
 
 	public boolean canCraftInDimensions(int x, int y) {
@@ -68,7 +72,7 @@ public class VatRecipe implements Recipe<Container> {
 	}
 
 	public ItemStack getResultItem() {
-		return this.result;
+		return result.getItems()[0];
 	}
 
 	public String getGroup() {
@@ -88,7 +92,7 @@ public class VatRecipe implements Recipe<Container> {
 	}
 
 	public RecipeType<?> getType() {
-		return OreBerryRecipeTypes.VAT_RECIPE_TYPE;
+		return OreBerryRecipes.VAT_RECIPE_TYPE.get();
 	}
 
 	public ItemStack getToastSymbol() {
@@ -105,7 +109,7 @@ public class VatRecipe implements Recipe<Container> {
 
 	@Override
 	public RecipeSerializer<?> getSerializer() {
-		return OreBerryRegistry.VAT_SERIALIZER.get();
+		return OreBerryRecipes.VAT_SERIALIZER.get();
 	}
 
 	@Override
@@ -124,8 +128,8 @@ public class VatRecipe implements Recipe<Container> {
 			String s1 = GsonHelper.getAsString(jsonObject, "fluid");
 			ResourceLocation resourcelocation = new ResourceLocation(s1);
 			Fluid fluid = Registry.FLUID.getOptional(resourcelocation).orElseThrow(() -> new IllegalStateException("Fluid: " + s1 + " does not exist"));
-			int evaporationtime = GsonHelper.getAsInt(jsonObject, "evaporationtime", 100);
-			int evaporationamount = GsonHelper.getAsInt(jsonObject, "evaporationamount", 100);
+			int evaporationTime = GsonHelper.getAsInt(jsonObject, "evaporationtime", 100);
+			int evaporationAmount = GsonHelper.getAsInt(jsonObject, "evaporationamount", 100);
 			float min = GsonHelper.getAsFloat(jsonObject, "min", 1.5f);
 			float max = GsonHelper.getAsFloat(jsonObject, "max", 2.0f);
 
@@ -137,9 +141,8 @@ public class VatRecipe implements Recipe<Container> {
 			if (result.isEmpty()) {
 				throw new JsonSyntaxException("Missing result: ingredient has no matching stacks");
 			}
-			ItemStack itemstack = result.getItems()[0];
 
-			return new VatRecipe(location, group, ingredient, fluid, itemstack, evaporationtime, evaporationamount, min, max);
+			return new VatRecipe(location, group, ingredient, fluid, result, evaporationTime, evaporationAmount, min, max);
 		}
 
 		@Nullable
@@ -149,12 +152,12 @@ public class VatRecipe implements Recipe<Container> {
 			Ingredient ingredient = Ingredient.fromNetwork(buffer);
 			ResourceLocation fluidLocation = buffer.readResourceLocation();
 			Fluid fluid = Registry.FLUID.getOptional(fluidLocation).orElseThrow(() -> new IllegalStateException("Fluid: " + fluidLocation + " does not exist"));
-			ItemStack result = buffer.readItem();
+			Ingredient result = Ingredient.fromNetwork(buffer);
 			int evaporationTime = buffer.readVarInt();
-			int evaporationamount = buffer.readVarInt();
+			int evaporationAmount = buffer.readVarInt();
 			float min = buffer.readFloat();
 			float max = buffer.readFloat();
-			return new VatRecipe(location, group, ingredient, fluid, result, evaporationTime, evaporationamount, min, max);
+			return new VatRecipe(location, group, ingredient, fluid, result, evaporationTime, evaporationAmount, min, max);
 		}
 
 		@Override
@@ -162,7 +165,7 @@ public class VatRecipe implements Recipe<Container> {
 			buffer.writeUtf(recipe.getGroup());
 			recipe.getIngredients().forEach(o -> o.toNetwork(buffer));
 			buffer.writeResourceLocation(recipe.fluid.getRegistryName());
-			buffer.writeItem(recipe.getResultItem());
+			recipe.getResult().toNetwork(buffer);
 			buffer.writeVarInt(recipe.getEvaporationTime());
 			buffer.writeVarInt(recipe.getEvaporationAmount());
 			buffer.writeFloat(recipe.getMin());

@@ -5,7 +5,7 @@ import com.mrbysco.oreberriesreplanted.client.ClientHandler;
 import com.mrbysco.oreberriesreplanted.config.OreBerriesConfig;
 import com.mrbysco.oreberriesreplanted.handler.WorldgenHandler;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryPlacementModifiers;
-import com.mrbysco.oreberriesreplanted.registry.OreBerryRecipeTypes;
+import com.mrbysco.oreberriesreplanted.registry.OreBerryRecipes;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
 import com.mrbysco.oreberriesreplanted.worldgen.OreBerryFeatures;
 import net.minecraftforge.api.distmarker.Dist;
@@ -34,7 +34,8 @@ public class OreberriesReplanted {
 		OreBerryRegistry.ITEMS.register(eventBus);
 		OreBerryRegistry.FLUIDS.register(eventBus);
 		OreBerryRegistry.BLOCK_ENTITIES.register(eventBus);
-		OreBerryRegistry.RECIPE_SERIALIZERS.register(eventBus);
+		OreBerryRecipes.RECIPE_TYPES.register(eventBus);
+		OreBerryRecipes.RECIPE_SERIALIZERS.register(eventBus);
 		OreBerryRegistry.FEATURES.register(eventBus);
 
 		MinecraftForge.EVENT_BUS.register(new WorldgenHandler());
@@ -46,7 +47,6 @@ public class OreberriesReplanted {
 	}
 
 	private void commonSetup(FMLCommonSetupEvent event) {
-		OreBerryRecipeTypes.init();
 		OreBerryPlacementModifiers.init();
 		OreBerryFeatures.init();
 		event.enqueueWork(() -> {

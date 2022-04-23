@@ -1,7 +1,7 @@
 package com.mrbysco.oreberriesreplanted.blockentity;
 
 import com.mrbysco.oreberriesreplanted.recipes.VatRecipe;
-import com.mrbysco.oreberriesreplanted.registry.OreBerryRecipeTypes;
+import com.mrbysco.oreberriesreplanted.registry.OreBerryRecipes;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
@@ -35,7 +35,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
 public class VatBlockEntity extends BlockEntity {
-	public FluidTank tank = new FluidTank(3200) {
+	public final FluidTank tank = new FluidTank(3200) {
 		@Override
 		public FluidStack drain(FluidStack resource, FluidAction action) {
 			if (!isFluidEqual(resource)) {
@@ -60,7 +60,7 @@ public class VatBlockEntity extends BlockEntity {
 
 		@Override
 		public boolean isFluidValid(FluidStack stack) {
-			for (VatRecipe recipe : level.getRecipeManager().getAllRecipesFor(OreBerryRecipeTypes.VAT_RECIPE_TYPE)) {
+			for (VatRecipe recipe : level.getRecipeManager().getAllRecipesFor(OreBerryRecipes.VAT_RECIPE_TYPE.get())) {
 				if (stack.getFluid().isSame(recipe.getFluid())) {
 					return true;
 				}
@@ -70,7 +70,7 @@ public class VatBlockEntity extends BlockEntity {
 	};
 	private final LazyOptional<IFluidHandler> tankHolder = LazyOptional.of(() -> tank);
 
-	public ItemStackHandler handler = new ItemStackHandler(1) {
+	public final ItemStackHandler handler = new ItemStackHandler(1) {
 		@Override
 		protected int getStackLimit(int slot, ItemStack stack) {
 			return 32;
@@ -78,7 +78,7 @@ public class VatBlockEntity extends BlockEntity {
 
 		@Override
 		public boolean isItemValid(int slot, ItemStack stack) {
-			for (VatRecipe recipe : level.getRecipeManager().getAllRecipesFor(OreBerryRecipeTypes.VAT_RECIPE_TYPE)) {
+			for (VatRecipe recipe : level.getRecipeManager().getAllRecipesFor(OreBerryRecipes.VAT_RECIPE_TYPE.get())) {
 				if (recipe.getIngredients().get(0).test(stack)) {
 					return true;
 				}
@@ -219,7 +219,7 @@ public class VatBlockEntity extends BlockEntity {
 		if (input.isEmpty()) {
 			FluidStack fluidStack = tank.getFluidInTank(0);
 			if (!fluidStack.isEmpty()) {
-				for (VatRecipe recipe : level.getRecipeManager().getAllRecipesFor(OreBerryRecipeTypes.VAT_RECIPE_TYPE)) {
+				for (VatRecipe recipe : level.getRecipeManager().getAllRecipesFor(OreBerryRecipes.VAT_RECIPE_TYPE.get())) {
 					if (recipe.getFluid().isSame(fluidStack.getFluid())) {
 						return curRecipe = recipe;
 					}
@@ -232,7 +232,7 @@ public class VatBlockEntity extends BlockEntity {
 		inventory.setItem(0, input);
 		if (curRecipe != null && curRecipe.matches(inventory, level)) return curRecipe;
 		else {
-			VatRecipe rec = level.getRecipeManager().getRecipeFor(OreBerryRecipeTypes.VAT_RECIPE_TYPE, inventory, this.level).orElse(null);
+			VatRecipe rec = level.getRecipeManager().getRecipeFor(OreBerryRecipes.VAT_RECIPE_TYPE.get(), inventory, this.level).orElse(null);
 			return curRecipe = rec;
 		}
 	}

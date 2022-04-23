@@ -3,7 +3,7 @@ package com.mrbysco.oreberriesreplanted.compat.jei;
 import com.mrbysco.oreberriesreplanted.Reference;
 import com.mrbysco.oreberriesreplanted.compat.jei.vat.VatCategory;
 import com.mrbysco.oreberriesreplanted.recipes.VatRecipe;
-import com.mrbysco.oreberriesreplanted.registry.OreBerryRecipeTypes;
+import com.mrbysco.oreberriesreplanted.registry.OreBerryRecipes;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
@@ -58,9 +58,7 @@ public class JeiCompat implements IModPlugin {
 	public void registerCategories(IRecipeCategoryRegistration registration) {
 		IJeiHelpers jeiHelpers = registration.getJeiHelpers();
 		IGuiHelper guiHelper = jeiHelpers.getGuiHelper();
-		registration.addRecipeCategories(
-				vatCategory = new VatCategory(guiHelper)
-		);
+		registration.addRecipeCategories(vatCategory = new VatCategory(guiHelper));
 	}
 
 	@Override
@@ -72,17 +70,10 @@ public class JeiCompat implements IModPlugin {
 
 	public List<VatRecipe> getVatRecipes(IRecipeCategory<VatRecipe> vatCategory) {
 		CategoryRecipeValidator<VatRecipe> validator = new CategoryRecipeValidator<>(vatCategory, 1);
-		return getValidHandledRecipes(Minecraft.getInstance().level.getRecipeManager(), OreBerryRecipeTypes.VAT_RECIPE_TYPE, validator);
+		return getValidHandledRecipes(Minecraft.getInstance().level.getRecipeManager(), OreBerryRecipes.VAT_RECIPE_TYPE.get(), validator);
 	}
 
-	private static <C extends Container, T extends Recipe<C>> List<T> getValidHandledRecipes(
-			RecipeManager recipeManager,
-			RecipeType<T> recipeType,
-			CategoryRecipeValidator<T> validator
-	) {
-		return recipeManager.getAllRecipesFor(recipeType)
-				.stream()
-				.filter(r -> validator.isRecipeValid(r) && validator.isRecipeHandled(r))
-				.toList();
+	private static <C extends Container, T extends Recipe<C>> List<T> getValidHandledRecipes(RecipeManager recipeManager, RecipeType<T> recipeType, CategoryRecipeValidator<T> validator) {
+		return recipeManager.getAllRecipesFor(recipeType).stream().filter(r -> validator.isRecipeValid(r) && validator.isRecipeHandled(r)).toList();
 	}
 }

@@ -35,6 +35,7 @@ public class VatCategory implements IRecipeCategory<VatRecipe> {
 		this.title = new TranslatableComponent("oreberriesreplanted.gui.jei.category.vat");
 	}
 
+	@SuppressWarnings("removal")
 	@Override
 	public ResourceLocation getUid() {
 		return JeiCompat.VAT;
@@ -45,6 +46,7 @@ public class VatCategory implements IRecipeCategory<VatRecipe> {
 		return TYPE;
 	}
 
+	@SuppressWarnings("removal")
 	@Override
 	public Class<? extends VatRecipe> getRecipeClass() {
 		return VatRecipe.class;

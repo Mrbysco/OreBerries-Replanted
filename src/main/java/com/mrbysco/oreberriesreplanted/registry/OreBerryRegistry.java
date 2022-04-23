@@ -1,6 +1,5 @@
 package com.mrbysco.oreberriesreplanted.registry;
 
-import com.mojang.serialization.Codec;
 import com.mrbysco.oreberriesreplanted.Reference;
 import com.mrbysco.oreberriesreplanted.block.OreBerryBushBlock;
 import com.mrbysco.oreberriesreplanted.block.OreEnum;
@@ -9,19 +8,10 @@ import com.mrbysco.oreberriesreplanted.blockentity.VatBlockEntity;
 import com.mrbysco.oreberriesreplanted.item.EssenceBerryItem;
 import com.mrbysco.oreberriesreplanted.item.OreBerryItem;
 import com.mrbysco.oreberriesreplanted.item.TooltipBlockItem;
-import com.mrbysco.oreberriesreplanted.recipes.TagBlastingRecipe;
-import com.mrbysco.oreberriesreplanted.recipes.TagFurnaceRecipe;
-import com.mrbysco.oreberriesreplanted.recipes.TagFurnaceRecipe.Serializer;
-import com.mrbysco.oreberriesreplanted.recipes.VatRecipe;
 import com.mrbysco.oreberriesreplanted.worldgen.OreBerryBushFeature;
 import com.mrbysco.oreberriesreplanted.worldgen.OreBerryBushFeatureConfig;
-import com.mrbysco.oreberriesreplanted.worldgen.placement.ChanceRangePlacement;
-import net.minecraft.core.Registry;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.item.crafting.RecipeSerializer;
-import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.FlowerPotBlock;
@@ -29,8 +19,6 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.levelgen.feature.Feature;
-import net.minecraft.world.level.levelgen.placement.PlacementModifier;
-import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Material;
 import net.minecraftforge.registries.DeferredRegister;
@@ -45,28 +33,24 @@ public class OreBerryRegistry {
 	public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Reference.MOD_ID);
 	public static final DeferredRegister<Fluid> FLUIDS = DeferredRegister.create(ForgeRegistries.FLUIDS, Reference.MOD_ID);
 	public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITIES = DeferredRegister.create(ForgeRegistries.BLOCK_ENTITIES, Reference.MOD_ID);
-	public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, Reference.MOD_ID);
 	public static final DeferredRegister<Feature<?>> FEATURES = DeferredRegister.create(ForgeRegistries.FEATURES, Reference.MOD_ID);
 
 	public static final RegistryObject<Feature<OreBerryBushFeatureConfig>> OREBERRY_FEATURE_CONFIG = FEATURES.register("oreberry_bush", () ->
 			new OreBerryBushFeature(OreBerryBushFeatureConfig.CODEC));
 
-	public static final RegistryObject<Serializer> TAG_FURNACE_SERIALIZER = RECIPE_SERIALIZERS.register("furnace", TagFurnaceRecipe.Serializer::new);
-	public static final RegistryObject<TagBlastingRecipe.Serializer> TAG_BLASTING_SERIALIZER = RECIPE_SERIALIZERS.register("blasting", TagBlastingRecipe.Serializer::new);
-	public static final RegistryObject<VatRecipe.Serializer> VAT_SERIALIZER = RECIPE_SERIALIZERS.register("vat", VatRecipe.Serializer::new);
 
 	//Fluids
-	public static LiquidReg IRON_OREBERRY_JUICE = new LiquidReg("iron_oreberry_juice", Material.LAVA, 0xFFc9c9c9);
-	public static LiquidReg GOLD_OREBERRY_JUICE = new LiquidReg("gold_oreberry_juice", Material.LAVA, 0xFFfad64a);
-	public static LiquidReg COPPER_OREBERRY_JUICE = new LiquidReg("copper_oreberry_juice", Material.LAVA, 0xFFf8b18d);
-	public static LiquidReg TIN_OREBERRY_JUICE = new LiquidReg("tin_oreberry_juice", Material.LAVA, 0xFF74609e);
-	public static LiquidReg ALUMINUM_OREBERRY_JUICE = new LiquidReg("aluminum_oreberry_juice", Material.LAVA, 0xFFc5dbed);
-	public static LiquidReg LEAD_OREBERRY_JUICE = new LiquidReg("lead_oreberry_juice", Material.LAVA, 0xFF707e8a);
-	public static LiquidReg NICKEL_OREBERRY_JUICE = new LiquidReg("nickel_oreberry_juice", Material.LAVA, 0xFFb0b59f);
-	public static LiquidReg URANIUM_OREBERRY_JUICE = new LiquidReg("uranium_oreberry_juice", Material.LAVA, 0xFF98b350);
-	public static LiquidReg OSMIUM_OREBERRY_JUICE = new LiquidReg("osmium_oreberry_juice", Material.LAVA, 0xFF83b0bd);
-	public static LiquidReg ZINC_OREBERRY_JUICE = new LiquidReg("zinc_oreberry_juice", Material.LAVA, 0xFFd1d1a5);
-	public static LiquidReg SILVER_OREBERRY_JUICE = new LiquidReg("silver_oreberry_juice", Material.LAVA, 0xFF898fc9);
+	public static final LiquidReg IRON_OREBERRY_JUICE = new LiquidReg("iron_oreberry_juice", Material.LAVA, 0xFFc9c9c9);
+	public static final LiquidReg GOLD_OREBERRY_JUICE = new LiquidReg("gold_oreberry_juice", Material.LAVA, 0xFFfad64a);
+	public static final LiquidReg COPPER_OREBERRY_JUICE = new LiquidReg("copper_oreberry_juice", Material.LAVA, 0xFFf8b18d);
+	public static final LiquidReg TIN_OREBERRY_JUICE = new LiquidReg("tin_oreberry_juice", Material.LAVA, 0xFF74609e);
+	public static final LiquidReg ALUMINUM_OREBERRY_JUICE = new LiquidReg("aluminum_oreberry_juice", Material.LAVA, 0xFFc5dbed);
+	public static final LiquidReg LEAD_OREBERRY_JUICE = new LiquidReg("lead_oreberry_juice", Material.LAVA, 0xFF707e8a);
+	public static final LiquidReg NICKEL_OREBERRY_JUICE = new LiquidReg("nickel_oreberry_juice", Material.LAVA, 0xFFb0b59f);
+	public static final LiquidReg URANIUM_OREBERRY_JUICE = new LiquidReg("uranium_oreberry_juice", Material.LAVA, 0xFF98b350);
+	public static final LiquidReg OSMIUM_OREBERRY_JUICE = new LiquidReg("osmium_oreberry_juice", Material.LAVA, 0xFF83b0bd);
+	public static final LiquidReg ZINC_OREBERRY_JUICE = new LiquidReg("zinc_oreberry_juice", Material.LAVA, 0xFFd1d1a5);
+	public static final LiquidReg SILVER_OREBERRY_JUICE = new LiquidReg("silver_oreberry_juice", Material.LAVA, 0xFF898fc9);
 
 	//Blocks
 	public static final RegistryObject<Block> IRON_OREBERRY_BUSH = BLOCKS.register("iron_oreberry_bush", () -> new OreBerryBushBlock(blockBuilder(), OreBerryRegistry.IRON_OREBERRY, OreEnum.IRON));
