@@ -45,7 +45,11 @@ public class VatRecipe implements Recipe<Container> {
 		this.max = max;
 	}
 
-	public Ingredient getResult() {
+	public Ingredient getIngredient() {
+		return ingredient;
+	}
+
+	public Ingredient getResultIngredient() {
 		return result;
 	}
 
@@ -163,9 +167,9 @@ public class VatRecipe implements Recipe<Container> {
 		@Override
 		public void toNetwork(FriendlyByteBuf buffer, VatRecipe recipe) {
 			buffer.writeUtf(recipe.getGroup());
-			recipe.getIngredients().forEach(o -> o.toNetwork(buffer));
+			recipe.getIngredient().toNetwork(buffer);
 			buffer.writeResourceLocation(recipe.fluid.getRegistryName());
-			recipe.getResult().toNetwork(buffer);
+			recipe.getResultIngredient().toNetwork(buffer);
 			buffer.writeVarInt(recipe.getEvaporationTime());
 			buffer.writeVarInt(recipe.getEvaporationAmount());
 			buffer.writeFloat(recipe.getMin());

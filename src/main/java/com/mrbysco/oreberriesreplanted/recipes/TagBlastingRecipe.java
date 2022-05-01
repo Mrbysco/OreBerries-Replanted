@@ -73,7 +73,7 @@ public class TagBlastingRecipe extends BlastingRecipe {
 		@Nullable
 		@Override
 		public TagBlastingRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
-			String s = buffer.readUtf(32767);
+			String s = buffer.readUtf();
 			Ingredient ingredient = Ingredient.fromNetwork(buffer);
 			Ingredient result = Ingredient.fromNetwork(buffer);
 			float f = buffer.readFloat();
@@ -84,9 +84,8 @@ public class TagBlastingRecipe extends BlastingRecipe {
 		@Override
 		public void toNetwork(FriendlyByteBuf buffer, TagBlastingRecipe recipe) {
 			buffer.writeUtf(recipe.getGroup());
-			recipe.getIngredients().forEach(o -> o.toNetwork(buffer));
+			recipe.getIngredient().toNetwork(buffer);
 			recipe.getResultIngredient().toNetwork(buffer);
-			buffer.writeItem(recipe.getResultItem());
 			buffer.writeFloat(recipe.getExperience());
 			buffer.writeVarInt(recipe.getCookingTime());
 		}
