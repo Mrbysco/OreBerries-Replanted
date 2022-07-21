@@ -4,11 +4,11 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryPlacementModifiers;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.levelgen.placement.PlacementContext;
 import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
 
-import java.util.Random;
 import java.util.stream.Stream;
 
 public class ChanceRangePlacement extends PlacementModifier {
@@ -36,7 +36,7 @@ public class ChanceRangePlacement extends PlacementModifier {
 	}
 
 	@Override
-	public Stream<BlockPos> getPositions(PlacementContext context, Random random, BlockPos pos) {
+	public Stream<BlockPos> getPositions(PlacementContext context, RandomSource random, BlockPos pos) {
 		if (random.nextInt(rarity) == 0) {
 			int i = pos.getX();
 			int j = pos.getZ();

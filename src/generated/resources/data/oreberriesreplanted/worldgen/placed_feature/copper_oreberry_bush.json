@@ -1,0 +1,18 @@
+{
+  "feature": "oreberriesreplanted:copper_oreberry_bush",
+  "placement": [
+    {
+      "type": "minecraft:change_range",
+      "bottom_offset": -44,
+      "maximum": 60,
+      "rarity": 3,
+      "top_offset": 0
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

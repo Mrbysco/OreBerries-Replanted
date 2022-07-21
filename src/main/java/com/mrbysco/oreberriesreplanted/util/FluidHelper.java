@@ -1,21 +1,24 @@
 package com.mrbysco.oreberriesreplanted.util;
 
-import com.mrbysco.oreberriesreplanted.Reference;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.item.Rarity;
-import net.minecraftforge.fluids.FluidAttributes;
+import net.minecraft.world.level.pathfinder.BlockPathTypes;
+import net.minecraftforge.common.SoundActions;
+import net.minecraftforge.fluids.FluidType;
 
 public class FluidHelper {
-	private final static ResourceLocation STILL_BERRY = new ResourceLocation(Reference.MOD_ID, "block/liquid_berry_still");
-	private final static ResourceLocation FLOWING_BERRY = new ResourceLocation(Reference.MOD_ID, "block/liquid_berry_flow");
 
-	public static FluidAttributes.Builder createAttributes(int color) {
-		return FluidAttributes.builder(STILL_BERRY, FLOWING_BERRY)
-				.color(color)
+	public static FluidType.Properties createTypeProperties() {
+		return FluidType.Properties.create()
+				.canSwim(false)
+				.canDrown(false)
+				.pathType(BlockPathTypes.LAVA)
+				.sound(SoundActions.BUCKET_FILL, SoundEvents.BUCKET_FILL)
+				.sound(SoundActions.BUCKET_EMPTY, SoundEvents.BUCKET_EMPTY)
 				.rarity(Rarity.COMMON)
 				.density(2000)
 				.viscosity(8200)
 				.temperature(1000)
-				.luminosity(0);
+				.lightLevel(0);
 	}
 }

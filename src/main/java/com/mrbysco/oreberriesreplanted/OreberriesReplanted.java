@@ -3,7 +3,6 @@ package com.mrbysco.oreberriesreplanted;
 import com.mojang.logging.LogUtils;
 import com.mrbysco.oreberriesreplanted.client.ClientHandler;
 import com.mrbysco.oreberriesreplanted.config.OreBerriesConfig;
-import com.mrbysco.oreberriesreplanted.handler.WorldgenHandler;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryPlacementModifiers;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRecipes;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
@@ -33,15 +32,14 @@ public class OreberriesReplanted {
 		OreBerryRegistry.BLOCKS.register(eventBus);
 		OreBerryRegistry.ITEMS.register(eventBus);
 		OreBerryRegistry.FLUIDS.register(eventBus);
-		OreBerryRegistry.BLOCK_ENTITIES.register(eventBus);
+		OreBerryRegistry.BLOCK_ENTITY_TYPES.register(eventBus);
 		OreBerryRecipes.RECIPE_TYPES.register(eventBus);
 		OreBerryRecipes.RECIPE_SERIALIZERS.register(eventBus);
 		OreBerryRegistry.FEATURES.register(eventBus);
 
-		MinecraftForge.EVENT_BUS.register(new WorldgenHandler());
+//		MinecraftForge.EVENT_BUS.register(new WorldgenHandler());
 
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
-			eventBus.addListener(ClientHandler::onClientSetup);
 			eventBus.addListener(ClientHandler::registerEntityRenders);
 		});
 	}

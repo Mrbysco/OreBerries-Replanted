@@ -283,7 +283,7 @@ public class VatBlockEntity extends BlockEntity {
 	}
 
 	@Override
-	public CompoundTag getTileData() {
+	public CompoundTag getPersistentData() {
 		CompoundTag tag = new CompoundTag();
 		this.saveAdditional(tag);
 		return tag;

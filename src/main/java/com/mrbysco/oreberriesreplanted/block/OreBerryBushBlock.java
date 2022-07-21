@@ -4,6 +4,7 @@ import com.mrbysco.oreberriesreplanted.config.OreBerriesConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.damagesource.DamageSource;
@@ -29,7 +30,6 @@ import net.minecraftforge.common.ForgeHooks;
 import net.minecraftforge.common.IPlantable;
 import net.minecraftforge.common.PlantType;
 
-import java.util.Random;
 import java.util.function.Supplier;
 
 public class OreBerryBushBlock extends Block implements IPlantable {
@@ -49,14 +49,6 @@ public class OreBerryBushBlock extends Block implements IPlantable {
 
 		this.berryItem = berryItem;
 		this.oreType = oreType;
-	}
-
-	public int getMinY() {
-		return oreType.getMinY();
-	}
-
-	public int getMaxY() {
-		return oreType.getMaxY();
 	}
 
 	public int getDensity() {
@@ -96,7 +88,7 @@ public class OreBerryBushBlock extends Block implements IPlantable {
 	}
 
 	@Override
-	public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, Random rand) {
+	public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource rand) {
 		if (!worldIn.isClientSide && !isMaxAge(state) && worldIn.getRawBrightness(pos, 0) < 10 && ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt(OreBerriesConfig.COMMON.growthChance.get()) == 0)) {
 			int currentAge = getAge(state);
 			worldIn.setBlock(pos, withAge(currentAge + 1), 3);

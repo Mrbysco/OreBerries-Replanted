@@ -2,7 +2,6 @@ package com.mrbysco.oreberriesreplanted.item;
 
 import net.minecraft.ChatFormatting;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
@@ -22,6 +21,6 @@ public class TooltipBlockItem extends BlockItem {
 
 	@Override
 	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
-		tooltip.add(new TranslatableComponent(this.tooltip).withStyle(ChatFormatting.GRAY));
+		tooltip.add(Component.translatable(this.tooltip).withStyle(ChatFormatting.GRAY));
 	}
 }

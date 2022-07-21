@@ -1,0 +1,18 @@
+{
+  "feature": "oreberriesreplanted:lead_oreberry_bush",
+  "placement": [
+    {
+      "type": "minecraft:change_range",
+      "bottom_offset": -64,
+      "maximum": 40,
+      "rarity": 7,
+      "top_offset": 0
+    },
+    {
+      "type": "minecraft:in_square"
+    },
+    {
+      "type": "minecraft:biome"
+    }
+  ]
+}

@@ -3,6 +3,7 @@ package com.mrbysco.oreberriesreplanted.worldgen;
 import com.mojang.serialization.Codec;
 import com.mrbysco.oreberriesreplanted.block.OreBerryBushBlock;
 import net.minecraft.core.BlockPos;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.WorldGenLevel;
 import net.minecraft.world.level.block.Blocks;
@@ -10,8 +11,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.ChunkGenerator;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.levelgen.feature.FeaturePlaceContext;
-
-import java.util.Random;
 
 public class OreBerryBushFeature extends Feature<OreBerryBushFeatureConfig> {
 	public OreBerryBushFeature(Codec<OreBerryBushFeatureConfig> codec) {
@@ -21,7 +20,7 @@ public class OreBerryBushFeature extends Feature<OreBerryBushFeatureConfig> {
 	@Override
 	public boolean place(FeaturePlaceContext<OreBerryBushFeatureConfig> context) {
 		WorldGenLevel level = context.level();
-		Random rand = context.random();
+		RandomSource rand = context.random();
 		BlockPos pos = context.origin();
 		ChunkGenerator generator = context.chunkGenerator();
 
@@ -48,32 +47,30 @@ public class OreBerryBushFeature extends Feature<OreBerryBushFeatureConfig> {
 	}
 
 	protected BlockPos findAdequateLocation(LevelAccessor world, BlockPos blockPos, ChunkGenerator generator, OreBerryBushFeatureConfig config) {
-		int minY = 0;
-		int maxY = generator.getSpawnHeight(world);
-
-		if (config.state.getBlock() instanceof OreBerryBushBlock block) {
-			minY = block.getMinY();
-			maxY = block.getMaxY();
-		}
+		int searchRadius = 16;
+		int currentCheck = 0;
 
 		BlockPos pos = new BlockPos(blockPos);
 		do {
 			if (world.isEmptyBlock(pos) && !world.isEmptyBlock(pos.above()))
 				return pos.above();
 			pos = pos.above();
-		} while (pos.getY() < maxY);
+			currentCheck++;
+		} while (currentCheck < searchRadius);
 
+		currentCheck = 0;
 		pos = new BlockPos(blockPos);
 		do {
 			if (world.isEmptyBlock(pos) && !world.isEmptyBlock(pos.below()))
 				return pos.below();
 			pos = pos.below();
-		} while (pos.getY() > minY);
+			currentCheck++;
+		} while (currentCheck < searchRadius);
 
 		return null;
 	}
 
-	public void generateMediumNode(LevelAccessor world, Random random, BlockPos pos, OreBerryBushFeatureConfig config) {
+	public void generateMediumNode(LevelAccessor world, RandomSource random, BlockPos pos, OreBerryBushFeatureConfig config) {
 		for (int xPos = -1; xPos <= 1; xPos++)
 			for (int yPos = -1; yPos <= 1; yPos++)
 				for (int zPos = -1; zPos <= 1; zPos++)
@@ -83,7 +80,7 @@ public class OreBerryBushFeature extends Feature<OreBerryBushFeatureConfig> {
 		generateSmallNode(world, random, pos, config);
 	}
 
-	public void generateSmallNode(LevelAccessor world, Random random, BlockPos pos, OreBerryBushFeatureConfig config) {
+	public void generateSmallNode(LevelAccessor world, RandomSource random, BlockPos pos, OreBerryBushFeatureConfig config) {
 		generateBerryBlock(world, pos, random, config);
 		if (random.nextBoolean())
 			generateBerryBlock(world, pos.east(), random, config);
@@ -97,7 +94,7 @@ public class OreBerryBushFeature extends Feature<OreBerryBushFeatureConfig> {
 			generateBerryBlock(world, pos.above(), random, config);
 	}
 
-	public void generateTinyNode(LevelAccessor world, Random random, BlockPos pos, OreBerryBushFeatureConfig config) {
+	public void generateTinyNode(LevelAccessor world, RandomSource random, BlockPos pos, OreBerryBushFeatureConfig config) {
 		generateBerryBlock(world, pos, random, config);
 		if (random.nextInt(4) == 0)
 			generateBerryBlock(world, pos.east(), random, config);
@@ -111,7 +108,7 @@ public class OreBerryBushFeature extends Feature<OreBerryBushFeatureConfig> {
 			generateBerryBlock(world, pos.above(), random, config);
 	}
 
-	void generateBerryBlock(LevelAccessor world, BlockPos pos, Random random, OreBerryBushFeatureConfig config) {
+	private void generateBerryBlock(LevelAccessor world, BlockPos pos, RandomSource random, OreBerryBushFeatureConfig config) {
 		BlockState state = world.getBlockState(pos);
 		if ((!world.isEmptyBlock(pos.above()) || !world.isEmptyBlock(pos.below())) && (isCaveAir(world, pos) || config.target.test(state, random))) {
 			world.setBlock(pos, config.state, 2);

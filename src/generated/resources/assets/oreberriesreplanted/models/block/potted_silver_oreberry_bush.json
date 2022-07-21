@@ -1,5 +1,6 @@
 {
   "parent": "oreberriesreplanted:block/base/flower_pot_bush",
+  "render_type": "minecraft:cutout_mipped",
   "textures": {
     "bush": "oreberriesreplanted:block/silver_oreberry_ripe"
   }

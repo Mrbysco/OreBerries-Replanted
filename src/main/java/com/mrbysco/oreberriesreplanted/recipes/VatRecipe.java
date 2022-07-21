@@ -18,7 +18,7 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.registries.ForgeRegistryEntry;
+import net.minecraftforge.registries.ForgeRegistries;
 
 import javax.annotation.Nullable;
 
@@ -121,7 +121,7 @@ public class VatRecipe implements Recipe<Container> {
 		return true;
 	}
 
-	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<VatRecipe> {
+	public static class Serializer implements RecipeSerializer<VatRecipe> {
 
 		@Override
 		public VatRecipe fromJson(ResourceLocation location, JsonObject jsonObject) {
@@ -168,7 +168,7 @@ public class VatRecipe implements Recipe<Container> {
 		public void toNetwork(FriendlyByteBuf buffer, VatRecipe recipe) {
 			buffer.writeUtf(recipe.getGroup());
 			recipe.getIngredient().toNetwork(buffer);
-			buffer.writeResourceLocation(recipe.fluid.getRegistryName());
+			buffer.writeResourceLocation(ForgeRegistries.FLUIDS.getKey(recipe.fluid));
 			recipe.getResultIngredient().toNetwork(buffer);
 			buffer.writeVarInt(recipe.getEvaporationTime());
 			buffer.writeVarInt(recipe.getEvaporationAmount());

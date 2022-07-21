@@ -17,7 +17,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.fluids.FluidAttributes;
+import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.FluidStack;
 
 import java.util.Random;
@@ -31,8 +31,7 @@ public class VatBER implements BlockEntityRenderer<VatBlockEntity> {
 		FluidStack fluidStack = vat.tank.getFluidInTank(0);
 		if (!fluidStack.isEmpty()) {
 			Fluid fluid = fluidStack.getFluid();
-			FluidAttributes fluidAttributes = fluid.getAttributes();
-			TextureAtlasSprite fluidTexture = getFluidStillSprite(fluidAttributes, fluidStack);
+			TextureAtlasSprite fluidTexture = getFluidStillSprite(fluid);
 
 			poseStack.pushPose();
 			poseStack.translate(0.5, 0.25, 0.5);
@@ -41,7 +40,7 @@ public class VatBER implements BlockEntityRenderer<VatBlockEntity> {
 			Matrix3f normal = matrixLast.normal();
 			VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.translucent());
 
-			final int color = fluidStack.getFluid().getAttributes().getColor(fluidStack);
+			final int color = IClientFluidTypeExtensions.of(fluid).getTintColor(fluidStack);
 			float r = ((color >> 16) & 0xFF) / 255f;
 			float g = ((color >> 8) & 0xFF) / 255f;
 			float b = ((color) & 0xFF) / 255f;
@@ -100,10 +99,10 @@ public class VatBER implements BlockEntityRenderer<VatBlockEntity> {
 		}
 	}
 
-	private TextureAtlasSprite getFluidStillSprite(FluidAttributes attributes, FluidStack fluidStack) {
+	private TextureAtlasSprite getFluidStillSprite(Fluid fluid) {
 		return Minecraft.getInstance()
 				.getTextureAtlas(InventoryMenu.BLOCK_ATLAS)
-				.apply(attributes.getStillTexture(fluidStack));
+				.apply(IClientFluidTypeExtensions.of(fluid).getStillTexture());
 	}
 
 }

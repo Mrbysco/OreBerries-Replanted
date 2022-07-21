@@ -12,7 +12,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SmeltingRecipe;
-import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import javax.annotation.Nullable;
 
@@ -48,7 +47,7 @@ public class TagFurnaceRecipe extends SmeltingRecipe {
 		return OreBerryRecipes.TAG_FURNACE_SERIALIZER.get();
 	}
 
-	public static class Serializer extends ForgeRegistryEntry<RecipeSerializer<?>> implements RecipeSerializer<TagFurnaceRecipe> {
+	public static class Serializer implements RecipeSerializer<TagFurnaceRecipe> {
 		@Override
 		public TagFurnaceRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
 			String s = GsonHelper.getAsString(json, "group", "");
