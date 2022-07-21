@@ -48,7 +48,7 @@ public class OreBerriesConfig {
 					.defineInRange("growthChance", 20, 1, Integer.MAX_VALUE);
 
 			builder.pop();
-			
+
 			builder.comment("Placement settings")
 					.push("Placement");
 
