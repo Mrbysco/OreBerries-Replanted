@@ -28,8 +28,8 @@ public class JeiCompat implements IModPlugin {
 	public static final ResourceLocation RECIPE_VAT_JEI = new ResourceLocation(Reference.MOD_ID, "textures/gui/jei/vat.png");
 
 	public static final ResourceLocation PLUGIN_UID = new ResourceLocation(Reference.MOD_ID, "main");
-	public static final ResourceLocation VAT = new ResourceLocation(Reference.MOD_ID, "vat");
-	public static final RecipeType<VatRecipe> VAT_TYPE = RecipeType.create(Reference.MOD_ID, "vat", VatRecipe.class);
+
+	public static final RecipeType<VatRecipe> VAT_TYPE = RecipeType.create(Reference.MOD_ID, "vat_recipe", VatRecipe.class);
 
 	@Nullable
 	private IRecipeCategory<VatRecipe> vatCategory;
@@ -62,7 +62,7 @@ public class JeiCompat implements IModPlugin {
 	public void registerRecipes(IRecipeRegistration registration) {
 		assert vatCategory != null;
 
-		registration.addRecipes(VatCategory.TYPE, getVatRecipes(vatCategory));
+		registration.addRecipes(VAT_TYPE, getVatRecipes(vatCategory));
 	}
 
 	public List<VatRecipe> getVatRecipes(IRecipeCategory<VatRecipe> vatCategory) {

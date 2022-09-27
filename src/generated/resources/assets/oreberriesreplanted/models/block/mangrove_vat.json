@@ -1,0 +1,6 @@
+{
+  "parent": "oreberriesreplanted:block/vat/vat_base",
+  "textures": {
+    "0": "minecraft:block/mangrove_planks"
+  }
+}

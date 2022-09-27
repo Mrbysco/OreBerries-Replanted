@@ -24,8 +24,11 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class LiquidReg {
+	private final static ResourceLocation STILL_BERRY = new ResourceLocation(Reference.MOD_ID, "block/liquid_berry_still");
+	private final static ResourceLocation FLOWING_BERRY = new ResourceLocation(Reference.MOD_ID, "block/liquid_berry_flow");
+
 	private final String name;
-	private RegistryObject<FluidType> fluidType;
+	private final RegistryObject<FluidType> fluidType;
 	private RegistryObject<ForgeFlowingFluid> source;
 	private RegistryObject<ForgeFlowingFluid> flowing;
 	private RegistryObject<Item> bucket;
@@ -61,7 +64,7 @@ public class LiquidReg {
 
 	public LiquidReg(String name, Material material, int color) {
 		this.name = name;
-		fluidType = OreBerryRegistry.FLUID_TYPES.register(name, () -> new FluidType(FluidHelper.createTypeProperties().temperature(material == Material.WATER ? 300 : 1000)) {
+		this.fluidType = OreBerryRegistry.FLUID_TYPES.register(name, () -> new FluidType(FluidHelper.createTypeProperties().temperature(material == Material.WATER ? 300 : 1000)) {
 			@Override
 			public double motionScale(Entity entity) {
 				return entity.level.dimensionType().ultraWarm() ? 0.007D : 0.0023333333333333335D;
@@ -76,8 +79,6 @@ public class LiquidReg {
 			@Override
 			public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer) {
 				consumer.accept(new IClientFluidTypeExtensions() {
-					private final static ResourceLocation STILL_BERRY = new ResourceLocation(Reference.MOD_ID, "block/liquid_berry_still");
-					private final static ResourceLocation FLOWING_BERRY = new ResourceLocation(Reference.MOD_ID, "block/liquid_berry_flow");
 
 					@Override
 					public ResourceLocation getStillTexture() {
@@ -102,7 +103,6 @@ public class LiquidReg {
 				});
 			}
 		});
-
 		source = OreBerryRegistry.FLUIDS.register(name, () -> new ForgeFlowingFluid.Source(
 				createProperties(fluidType, source, flowing, bucket))
 		);

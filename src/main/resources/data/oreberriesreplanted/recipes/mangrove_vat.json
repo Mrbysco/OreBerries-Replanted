@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+	"P P",
+	"PSP"  ],
+  "key": {
+	"P": [
+	  {
+		"item": "minecraft:mangrove_planks"
+	  }
+	],
+	"S": [
+	  {
+		"item": "minecraft:mangrove_slab"
+	  }
+	]
+  },
+  "result": {
+	"item": "oreberriesreplanted:mangrove_vat"
+  }
+}

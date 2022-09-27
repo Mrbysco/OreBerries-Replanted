@@ -1,6 +1,5 @@
 package com.mrbysco.oreberriesreplanted.compat.jei.vat;
 
-import com.mrbysco.oreberriesreplanted.Reference;
 import com.mrbysco.oreberriesreplanted.compat.jei.JeiCompat;
 import com.mrbysco.oreberriesreplanted.recipes.VatRecipe;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
@@ -23,7 +22,6 @@ import net.minecraftforge.fluids.FluidStack;
 import java.util.List;
 
 public class VatCategory implements IRecipeCategory<VatRecipe> {
-	public static final RecipeType<VatRecipe> TYPE = RecipeType.create(Reference.MOD_ID, "vat_recipe", VatRecipe.class);
 	private final IDrawable background;
 	private final IDrawable icon;
 	private final Component title;

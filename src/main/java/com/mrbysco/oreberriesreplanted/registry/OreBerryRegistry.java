@@ -87,12 +87,13 @@ public class OreBerryRegistry {
 	public static final RegistryObject<Block> JUNGLE_VAT = BLOCKS.register("jungle_vat", () -> new VatBlock(blockBuilder()));
 	public static final RegistryObject<Block> ACACIA_VAT = BLOCKS.register("acacia_vat", () -> new VatBlock(blockBuilder()));
 	public static final RegistryObject<Block> DARK_OAK_VAT = BLOCKS.register("dark_oak_vat", () -> new VatBlock(blockBuilder()));
+	public static final RegistryObject<Block> MANGROVE_VAT = BLOCKS.register("mangrove_vat", () -> new VatBlock(blockBuilder()));
 	public static final RegistryObject<Block> CRIMSON_VAT = BLOCKS.register("crimson_vat", () -> new VatBlock(blockBuilder()));
 	public static final RegistryObject<Block> WARPED_VAT = BLOCKS.register("warped_vat", () -> new VatBlock(blockBuilder()));
 
 	//Tiles
 	public static final RegistryObject<BlockEntityType<VatBlockEntity>> VAT_BLOCK_ENTITY = BLOCK_ENTITY_TYPES.register("vat", () -> BlockEntityType.Builder.of(VatBlockEntity::new,
-			OAK_VAT.get(), SPRUCE_VAT.get(), BIRCH_VAT.get(), JUNGLE_VAT.get(), ACACIA_VAT.get(), DARK_OAK_VAT.get(), CRIMSON_VAT.get(), WARPED_VAT.get()).build(null));
+			OAK_VAT.get(), SPRUCE_VAT.get(), BIRCH_VAT.get(), JUNGLE_VAT.get(), ACACIA_VAT.get(), DARK_OAK_VAT.get(), CRIMSON_VAT.get(), MANGROVE_VAT.get(), WARPED_VAT.get()).build(null));
 
 	//Items
 	public static final RegistryObject<Item> IRON_OREBERRY_BUSH_ITEM = ITEMS.register("iron_oreberry_bush", () -> new TooltipBlockItem(IRON_OREBERRY_BUSH.get(), itemBuilder(), Reference.IRON_TOOLTIP));
@@ -129,6 +130,7 @@ public class OreBerryRegistry {
 	public static final RegistryObject<Item> JUNGLE_VAT_ITEM = ITEMS.register("jungle_vat", () -> new BlockItem(JUNGLE_VAT.get(), itemBuilder()));
 	public static final RegistryObject<Item> ACACIA_VAT_ITEM = ITEMS.register("acacia_vat", () -> new BlockItem(ACACIA_VAT.get(), itemBuilder()));
 	public static final RegistryObject<Item> DARK_OAK_VAT_ITEM = ITEMS.register("dark_oak_vat", () -> new BlockItem(DARK_OAK_VAT.get(), itemBuilder()));
+	public static final RegistryObject<Item> MANGROVE_VAT_ITEM = ITEMS.register("mangrove_vat", () -> new BlockItem(MANGROVE_VAT.get(), itemBuilder()));
 	public static final RegistryObject<Item> CRIMSON_VAT_ITEM = ITEMS.register("crimson_vat", () -> new BlockItem(CRIMSON_VAT.get(), itemBuilder()));
 	public static final RegistryObject<Item> WARPED_VAT_ITEM = ITEMS.register("warped_vat", () -> new BlockItem(WARPED_VAT.get(), itemBuilder()));
 
@@ -161,5 +163,9 @@ public class OreBerryRegistry {
 
 	private static void registerPottablePlant(Supplier<Block> plant, Supplier<Block> pottedPlant) {
 		((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(Objects.requireNonNull(ForgeRegistries.BLOCKS.getKey(plant.get())), pottedPlant);
+	}
+
+	public static void load() {
+		//NOP
 	}
 }

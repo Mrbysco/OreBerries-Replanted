@@ -8,7 +8,6 @@ import com.mrbysco.oreberriesreplanted.registry.OreBerryRecipes;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
 import com.mrbysco.oreberriesreplanted.worldgen.OreBerryFeatures;
 import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -32,15 +31,16 @@ public class OreberriesReplanted {
 		OreBerryRegistry.BLOCKS.register(eventBus);
 		OreBerryRegistry.ITEMS.register(eventBus);
 		OreBerryRegistry.FLUIDS.register(eventBus);
+		OreBerryRegistry.FLUID_TYPES.register(eventBus);
 		OreBerryRegistry.BLOCK_ENTITY_TYPES.register(eventBus);
 		OreBerryRecipes.RECIPE_TYPES.register(eventBus);
 		OreBerryRecipes.RECIPE_SERIALIZERS.register(eventBus);
 		OreBerryRegistry.FEATURES.register(eventBus);
-
-//		MinecraftForge.EVENT_BUS.register(new WorldgenHandler());
+		OreBerryRegistry.load();
 
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
 			eventBus.addListener(ClientHandler::registerEntityRenders);
+			eventBus.addListener(ClientHandler::registerItemColors);
 		});
 	}
 

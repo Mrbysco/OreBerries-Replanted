@@ -1,4 +1,4 @@
-// 1.19	2022-07-22T00:22:31.8634037	LootTables
+// 1.19.2	2022-09-27T23:24:11.2195758	LootTables
 63a9ead09d5d4afe2593b62b9e216b8bcf32471b data/oreberriesreplanted/loot_tables/blocks/acacia_vat.json
 5d136d193da2f249e616574b32152681835e98e5 data/oreberriesreplanted/loot_tables/blocks/aluminum_oreberry_bush.json
 c87de86a3e27b2fe96ab856b437089b618338da3 data/oreberriesreplanted/loot_tables/blocks/birch_vat.json
@@ -10,6 +10,7 @@ c87de86a3e27b2fe96ab856b437089b618338da3 data/oreberriesreplanted/loot_tables/bl
 b5f7dce9d1cfc5aa8df1900de272c33d17d4c618 data/oreberriesreplanted/loot_tables/blocks/iron_oreberry_bush.json
 58a09bd62865526d0a75826fd996e8eb21659b0a data/oreberriesreplanted/loot_tables/blocks/jungle_vat.json
 6fb792ce9b3500830566897cedb23260e4dfd8a4 data/oreberriesreplanted/loot_tables/blocks/lead_oreberry_bush.json
+fa68136fd34b2a85d5930f9b20d8ed2162d9d71c data/oreberriesreplanted/loot_tables/blocks/mangrove_vat.json
 c987ca406f4df9eaa40f0c5371bd3c14679a786d data/oreberriesreplanted/loot_tables/blocks/nickel_oreberry_bush.json
 a8a738553e0d5dbc01c317fa535ee1c9a0a0dbac data/oreberriesreplanted/loot_tables/blocks/oak_vat.json
 3b2b3596e0f2ab674ac85393d71243e19a993e26 data/oreberriesreplanted/loot_tables/blocks/osmium_oreberry_bush.json

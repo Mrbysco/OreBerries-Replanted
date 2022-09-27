@@ -62,83 +62,6 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.ACACIA_VAT;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.ACACIA_VAT_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.ALUMINUM_OREBERRY;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.ALUMINUM_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.ALUMINUM_OREBERRY_BUSH_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.ALUMINUM_OREBERRY_JUICE;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.BIRCH_VAT;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.BIRCH_VAT_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.COPPER_NUGGET;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.COPPER_OREBERRY;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.COPPER_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.COPPER_OREBERRY_BUSH_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.COPPER_OREBERRY_JUICE;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.CRIMSON_VAT;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.CRIMSON_VAT_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.DARK_OAK_VAT;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.DARK_OAK_VAT_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.ESSENCE_BERRY;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.ESSENCE_BERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.ESSENCE_BERRY_BUSH_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.GOLD_OREBERRY;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.GOLD_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.GOLD_OREBERRY_BUSH_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.GOLD_OREBERRY_JUICE;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.IRON_OREBERRY;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.IRON_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.IRON_OREBERRY_BUSH_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.IRON_OREBERRY_JUICE;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.JUNGLE_VAT;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.JUNGLE_VAT_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.LEAD_OREBERRY;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.LEAD_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.LEAD_OREBERRY_BUSH_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.LEAD_OREBERRY_JUICE;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.NICKEL_OREBERRY;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.NICKEL_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.NICKEL_OREBERRY_BUSH_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.NICKEL_OREBERRY_JUICE;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.OAK_VAT;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.OAK_VAT_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.OSMIUM_OREBERRY;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.OSMIUM_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.OSMIUM_OREBERRY_BUSH_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.OSMIUM_OREBERRY_JUICE;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.POTTED_ALUMINUM_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.POTTED_COPPER_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.POTTED_ESSENCE_BERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.POTTED_GOLD_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.POTTED_IRON_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.POTTED_LEAD_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.POTTED_NICKEL_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.POTTED_OSMIUM_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.POTTED_SILVER_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.POTTED_TIN_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.POTTED_URANIUM_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.POTTED_ZINC_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.SILVER_OREBERRY;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.SILVER_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.SILVER_OREBERRY_BUSH_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.SILVER_OREBERRY_JUICE;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.SPRUCE_VAT;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.SPRUCE_VAT_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.TIN_OREBERRY;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.TIN_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.TIN_OREBERRY_BUSH_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.TIN_OREBERRY_JUICE;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.URANIUM_OREBERRY;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.URANIUM_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.URANIUM_OREBERRY_BUSH_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.URANIUM_OREBERRY_JUICE;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.WARPED_VAT;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.WARPED_VAT_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.ZINC_OREBERRY;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.ZINC_OREBERRY_BUSH;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.ZINC_OREBERRY_BUSH_ITEM;
-import static com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry.ZINC_OREBERRY_JUICE;
-
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class OreberryDatagen {
 	@SubscribeEvent
@@ -257,40 +180,41 @@ public class OreberryDatagen {
 
 			@Override
 			protected void addTables() {
-				this.dropSelf(IRON_OREBERRY_BUSH.get());
-				this.dropSelf(GOLD_OREBERRY_BUSH.get());
-				this.dropSelf(COPPER_OREBERRY_BUSH.get());
-				this.dropSelf(TIN_OREBERRY_BUSH.get());
-				this.dropSelf(ALUMINUM_OREBERRY_BUSH.get());
-				this.dropSelf(LEAD_OREBERRY_BUSH.get());
-				this.dropSelf(NICKEL_OREBERRY_BUSH.get());
-				this.dropSelf(URANIUM_OREBERRY_BUSH.get());
-				this.dropSelf(OSMIUM_OREBERRY_BUSH.get());
-				this.dropSelf(ZINC_OREBERRY_BUSH.get());
-				this.dropSelf(SILVER_OREBERRY_BUSH.get());
-				this.dropSelf(ESSENCE_BERRY_BUSH.get());
+				this.dropSelf(OreBerryRegistry.IRON_OREBERRY_BUSH.get());
+				this.dropSelf(OreBerryRegistry.GOLD_OREBERRY_BUSH.get());
+				this.dropSelf(OreBerryRegistry.COPPER_OREBERRY_BUSH.get());
+				this.dropSelf(OreBerryRegistry.TIN_OREBERRY_BUSH.get());
+				this.dropSelf(OreBerryRegistry.ALUMINUM_OREBERRY_BUSH.get());
+				this.dropSelf(OreBerryRegistry.LEAD_OREBERRY_BUSH.get());
+				this.dropSelf(OreBerryRegistry.NICKEL_OREBERRY_BUSH.get());
+				this.dropSelf(OreBerryRegistry.URANIUM_OREBERRY_BUSH.get());
+				this.dropSelf(OreBerryRegistry.OSMIUM_OREBERRY_BUSH.get());
+				this.dropSelf(OreBerryRegistry.ZINC_OREBERRY_BUSH.get());
+				this.dropSelf(OreBerryRegistry.SILVER_OREBERRY_BUSH.get());
+				this.dropSelf(OreBerryRegistry.ESSENCE_BERRY_BUSH.get());
 
-				this.dropPottedContents(POTTED_IRON_OREBERRY_BUSH.get());
-				this.dropPottedContents(POTTED_GOLD_OREBERRY_BUSH.get());
-				this.dropPottedContents(POTTED_COPPER_OREBERRY_BUSH.get());
-				this.dropPottedContents(POTTED_TIN_OREBERRY_BUSH.get());
-				this.dropPottedContents(POTTED_ALUMINUM_OREBERRY_BUSH.get());
-				this.dropPottedContents(POTTED_LEAD_OREBERRY_BUSH.get());
-				this.dropPottedContents(POTTED_NICKEL_OREBERRY_BUSH.get());
-				this.dropPottedContents(POTTED_URANIUM_OREBERRY_BUSH.get());
-				this.dropPottedContents(POTTED_OSMIUM_OREBERRY_BUSH.get());
-				this.dropPottedContents(POTTED_ZINC_OREBERRY_BUSH.get());
-				this.dropPottedContents(POTTED_SILVER_OREBERRY_BUSH.get());
-				this.dropPottedContents(POTTED_ESSENCE_BERRY_BUSH.get());
+				this.dropPottedContents(OreBerryRegistry.POTTED_IRON_OREBERRY_BUSH.get());
+				this.dropPottedContents(OreBerryRegistry.POTTED_GOLD_OREBERRY_BUSH.get());
+				this.dropPottedContents(OreBerryRegistry.POTTED_COPPER_OREBERRY_BUSH.get());
+				this.dropPottedContents(OreBerryRegistry.POTTED_TIN_OREBERRY_BUSH.get());
+				this.dropPottedContents(OreBerryRegistry.POTTED_ALUMINUM_OREBERRY_BUSH.get());
+				this.dropPottedContents(OreBerryRegistry.POTTED_LEAD_OREBERRY_BUSH.get());
+				this.dropPottedContents(OreBerryRegistry.POTTED_NICKEL_OREBERRY_BUSH.get());
+				this.dropPottedContents(OreBerryRegistry.POTTED_URANIUM_OREBERRY_BUSH.get());
+				this.dropPottedContents(OreBerryRegistry.POTTED_OSMIUM_OREBERRY_BUSH.get());
+				this.dropPottedContents(OreBerryRegistry.POTTED_ZINC_OREBERRY_BUSH.get());
+				this.dropPottedContents(OreBerryRegistry.POTTED_SILVER_OREBERRY_BUSH.get());
+				this.dropPottedContents(OreBerryRegistry.POTTED_ESSENCE_BERRY_BUSH.get());
 
-				this.dropSelf(OAK_VAT.get());
-				this.dropSelf(SPRUCE_VAT.get());
-				this.dropSelf(BIRCH_VAT.get());
-				this.dropSelf(JUNGLE_VAT.get());
-				this.dropSelf(ACACIA_VAT.get());
-				this.dropSelf(DARK_OAK_VAT.get());
-				this.dropSelf(CRIMSON_VAT.get());
-				this.dropSelf(WARPED_VAT.get());
+				this.dropSelf(OreBerryRegistry.OAK_VAT.get());
+				this.dropSelf(OreBerryRegistry.SPRUCE_VAT.get());
+				this.dropSelf(OreBerryRegistry.BIRCH_VAT.get());
+				this.dropSelf(OreBerryRegistry.JUNGLE_VAT.get());
+				this.dropSelf(OreBerryRegistry.ACACIA_VAT.get());
+				this.dropSelf(OreBerryRegistry.DARK_OAK_VAT.get());
+				this.dropSelf(OreBerryRegistry.MANGROVE_VAT.get());
+				this.dropSelf(OreBerryRegistry.CRIMSON_VAT.get());
+				this.dropSelf(OreBerryRegistry.WARPED_VAT.get());
 			}
 
 			@Override
@@ -316,81 +240,82 @@ public class OreberryDatagen {
 			add("itemGroup.oreberriesreplanted", "Oreberries Replanted");
 
 			//Blocks
-			addBlock(IRON_OREBERRY_BUSH, "Iron Oreberry Bush");
-			addBlock(GOLD_OREBERRY_BUSH, "Gold Oreberry Bush");
-			addBlock(COPPER_OREBERRY_BUSH, "Copper Oreberry Bush");
-			addBlock(TIN_OREBERRY_BUSH, "Tin Oreberry Bush");
-			addBlock(ALUMINUM_OREBERRY_BUSH, "Aluminum Oreberry Bush");
-			addBlock(LEAD_OREBERRY_BUSH, "Lead Oreberry Bush");
-			addBlock(NICKEL_OREBERRY_BUSH, "Nickel Oreberry Bush");
-			addBlock(URANIUM_OREBERRY_BUSH, "Uranium Oreberry Bush");
-			addBlock(OSMIUM_OREBERRY_BUSH, "Osmium Oreberry Bush");
-			addBlock(ZINC_OREBERRY_BUSH, "Zinc Oreberry Bush");
-			addBlock(SILVER_OREBERRY_BUSH, "Silver Oreberry Bush");
-			addBlock(ESSENCE_BERRY_BUSH, "Essence Berry Bush");
+			addBlock(OreBerryRegistry.IRON_OREBERRY_BUSH, "Iron Oreberry Bush");
+			addBlock(OreBerryRegistry.GOLD_OREBERRY_BUSH, "Gold Oreberry Bush");
+			addBlock(OreBerryRegistry.COPPER_OREBERRY_BUSH, "Copper Oreberry Bush");
+			addBlock(OreBerryRegistry.TIN_OREBERRY_BUSH, "Tin Oreberry Bush");
+			addBlock(OreBerryRegistry.ALUMINUM_OREBERRY_BUSH, "Aluminum Oreberry Bush");
+			addBlock(OreBerryRegistry.LEAD_OREBERRY_BUSH, "Lead Oreberry Bush");
+			addBlock(OreBerryRegistry.NICKEL_OREBERRY_BUSH, "Nickel Oreberry Bush");
+			addBlock(OreBerryRegistry.URANIUM_OREBERRY_BUSH, "Uranium Oreberry Bush");
+			addBlock(OreBerryRegistry.OSMIUM_OREBERRY_BUSH, "Osmium Oreberry Bush");
+			addBlock(OreBerryRegistry.ZINC_OREBERRY_BUSH, "Zinc Oreberry Bush");
+			addBlock(OreBerryRegistry.SILVER_OREBERRY_BUSH, "Silver Oreberry Bush");
+			addBlock(OreBerryRegistry.ESSENCE_BERRY_BUSH, "Essence Berry Bush");
 
-			addBlock(POTTED_IRON_OREBERRY_BUSH, "Potted Iron Oreberry Bush");
-			addBlock(POTTED_GOLD_OREBERRY_BUSH, "Potted Gold Oreberry Bush");
-			addBlock(POTTED_COPPER_OREBERRY_BUSH, "Potted Copper Oreberry Bush");
-			addBlock(POTTED_TIN_OREBERRY_BUSH, "Potted Tin Oreberry Bush");
-			addBlock(POTTED_ALUMINUM_OREBERRY_BUSH, "Potted Aluminum Oreberry Bush");
-			addBlock(POTTED_LEAD_OREBERRY_BUSH, "Potted Lead Oreberry Bush");
-			addBlock(POTTED_NICKEL_OREBERRY_BUSH, "Potted Nickel Oreberry Bush");
-			addBlock(POTTED_URANIUM_OREBERRY_BUSH, "Potted Uranium Oreberry Bush");
-			addBlock(POTTED_OSMIUM_OREBERRY_BUSH, "Potted Osmium Oreberry Bush");
-			addBlock(POTTED_ZINC_OREBERRY_BUSH, "Potted Zinc Oreberry Bush");
-			addBlock(POTTED_SILVER_OREBERRY_BUSH, "Potted Silver Oreberry Bush");
-			addBlock(POTTED_ESSENCE_BERRY_BUSH, "Potted Essence Berry Bush");
+			addBlock(OreBerryRegistry.POTTED_IRON_OREBERRY_BUSH, "Potted Iron Oreberry Bush");
+			addBlock(OreBerryRegistry.POTTED_GOLD_OREBERRY_BUSH, "Potted Gold Oreberry Bush");
+			addBlock(OreBerryRegistry.POTTED_COPPER_OREBERRY_BUSH, "Potted Copper Oreberry Bush");
+			addBlock(OreBerryRegistry.POTTED_TIN_OREBERRY_BUSH, "Potted Tin Oreberry Bush");
+			addBlock(OreBerryRegistry.POTTED_ALUMINUM_OREBERRY_BUSH, "Potted Aluminum Oreberry Bush");
+			addBlock(OreBerryRegistry.POTTED_LEAD_OREBERRY_BUSH, "Potted Lead Oreberry Bush");
+			addBlock(OreBerryRegistry.POTTED_NICKEL_OREBERRY_BUSH, "Potted Nickel Oreberry Bush");
+			addBlock(OreBerryRegistry.POTTED_URANIUM_OREBERRY_BUSH, "Potted Uranium Oreberry Bush");
+			addBlock(OreBerryRegistry.POTTED_OSMIUM_OREBERRY_BUSH, "Potted Osmium Oreberry Bush");
+			addBlock(OreBerryRegistry.POTTED_ZINC_OREBERRY_BUSH, "Potted Zinc Oreberry Bush");
+			addBlock(OreBerryRegistry.POTTED_SILVER_OREBERRY_BUSH, "Potted Silver Oreberry Bush");
+			addBlock(OreBerryRegistry.POTTED_ESSENCE_BERRY_BUSH, "Potted Essence Berry Bush");
 
-			addBlock(OAK_VAT, "Oak Vat");
-			addBlock(SPRUCE_VAT, "Spruce Vat");
-			addBlock(BIRCH_VAT, "Birch Vat");
-			addBlock(JUNGLE_VAT, "Jungle Vat");
-			addBlock(ACACIA_VAT, "Acacia Vat");
-			addBlock(DARK_OAK_VAT, "Oak Vat");
-			addBlock(CRIMSON_VAT, "Crimson Vat");
-			addBlock(WARPED_VAT, "Warped Vat");
+			addBlock(OreBerryRegistry.OAK_VAT, "Oak Vat");
+			addBlock(OreBerryRegistry.SPRUCE_VAT, "Spruce Vat");
+			addBlock(OreBerryRegistry.BIRCH_VAT, "Birch Vat");
+			addBlock(OreBerryRegistry.JUNGLE_VAT, "Jungle Vat");
+			addBlock(OreBerryRegistry.ACACIA_VAT, "Acacia Vat");
+			addBlock(OreBerryRegistry.DARK_OAK_VAT, "Oak Vat");
+			addBlock(OreBerryRegistry.MANGROVE_VAT, "Mangrove Vat");
+			addBlock(OreBerryRegistry.CRIMSON_VAT, "Crimson Vat");
+			addBlock(OreBerryRegistry.WARPED_VAT, "Warped Vat");
 
 			//Items
-			addItem(IRON_OREBERRY, "Iron Oreberry");
-			addItem(GOLD_OREBERRY, "Gold Oreberry");
-			addItem(COPPER_OREBERRY, "Copper Oreberry");
-			addItem(TIN_OREBERRY, "Tin Oreberry");
-			addItem(ALUMINUM_OREBERRY, "Aluminum Oreberry");
-			addItem(LEAD_OREBERRY, "Lead Oreberry");
-			addItem(NICKEL_OREBERRY, "Nickel Oreberry");
-			addItem(URANIUM_OREBERRY, "Uranium Oreberry");
-			addItem(OSMIUM_OREBERRY, "Osmium Oreberry");
-			addItem(ZINC_OREBERRY, "Zinc Oreberry");
-			addItem(SILVER_OREBERRY, "Silver Oreberry");
-			addItem(ESSENCE_BERRY, "Concentrated Essence Berry");
+			addItem(OreBerryRegistry.IRON_OREBERRY, "Iron Oreberry");
+			addItem(OreBerryRegistry.GOLD_OREBERRY, "Gold Oreberry");
+			addItem(OreBerryRegistry.COPPER_OREBERRY, "Copper Oreberry");
+			addItem(OreBerryRegistry.TIN_OREBERRY, "Tin Oreberry");
+			addItem(OreBerryRegistry.ALUMINUM_OREBERRY, "Aluminum Oreberry");
+			addItem(OreBerryRegistry.LEAD_OREBERRY, "Lead Oreberry");
+			addItem(OreBerryRegistry.NICKEL_OREBERRY, "Nickel Oreberry");
+			addItem(OreBerryRegistry.URANIUM_OREBERRY, "Uranium Oreberry");
+			addItem(OreBerryRegistry.OSMIUM_OREBERRY, "Osmium Oreberry");
+			addItem(OreBerryRegistry.ZINC_OREBERRY, "Zinc Oreberry");
+			addItem(OreBerryRegistry.SILVER_OREBERRY, "Silver Oreberry");
+			addItem(OreBerryRegistry.ESSENCE_BERRY, "Concentrated Essence Berry");
 
-			addItem(IRON_OREBERRY_JUICE.getBucket(), "Iron Oreberry Juice Bucket");
-			addItem(GOLD_OREBERRY_JUICE.getBucket(), "Gold Oreberry Juice Bucket");
-			addItem(COPPER_OREBERRY_JUICE.getBucket(), "Copper Oreberry Juice Bucket");
-			addItem(TIN_OREBERRY_JUICE.getBucket(), "Tin Oreberry Juice Bucket");
-			addItem(ALUMINUM_OREBERRY_JUICE.getBucket(), "Aluminum Oreberry Juice Bucket");
-			addItem(LEAD_OREBERRY_JUICE.getBucket(), "Lead Oreberry Juice Bucket");
-			addItem(NICKEL_OREBERRY_JUICE.getBucket(), "Nickel Oreberry Juice Bucket");
-			addItem(URANIUM_OREBERRY_JUICE.getBucket(), "Uranium Oreberry Juice Bucket");
-			addItem(OSMIUM_OREBERRY_JUICE.getBucket(), "Osmium Oreberry Juice Bucket");
-			addItem(ZINC_OREBERRY_JUICE.getBucket(), "Zinc Oreberry Juice Bucket");
-			addItem(SILVER_OREBERRY_JUICE.getBucket(), "Silver Oreberry Juice Bucket");
+			addItem(OreBerryRegistry.IRON_OREBERRY_JUICE.getBucket(), "Iron Oreberry Juice Bucket");
+			addItem(OreBerryRegistry.GOLD_OREBERRY_JUICE.getBucket(), "Gold Oreberry Juice Bucket");
+			addItem(OreBerryRegistry.COPPER_OREBERRY_JUICE.getBucket(), "Copper Oreberry Juice Bucket");
+			addItem(OreBerryRegistry.TIN_OREBERRY_JUICE.getBucket(), "Tin Oreberry Juice Bucket");
+			addItem(OreBerryRegistry.ALUMINUM_OREBERRY_JUICE.getBucket(), "Aluminum Oreberry Juice Bucket");
+			addItem(OreBerryRegistry.LEAD_OREBERRY_JUICE.getBucket(), "Lead Oreberry Juice Bucket");
+			addItem(OreBerryRegistry.NICKEL_OREBERRY_JUICE.getBucket(), "Nickel Oreberry Juice Bucket");
+			addItem(OreBerryRegistry.URANIUM_OREBERRY_JUICE.getBucket(), "Uranium Oreberry Juice Bucket");
+			addItem(OreBerryRegistry.OSMIUM_OREBERRY_JUICE.getBucket(), "Osmium Oreberry Juice Bucket");
+			addItem(OreBerryRegistry.ZINC_OREBERRY_JUICE.getBucket(), "Zinc Oreberry Juice Bucket");
+			addItem(OreBerryRegistry.SILVER_OREBERRY_JUICE.getBucket(), "Silver Oreberry Juice Bucket");
 
-			addItem(COPPER_NUGGET, "Copper Nugget");
+			addItem(OreBerryRegistry.COPPER_NUGGET, "Copper Nugget");
 
 			//Fluids
-			addFluid(IRON_OREBERRY_JUICE.getSource(), "Iron Oreberry Juice");
-			addFluid(GOLD_OREBERRY_JUICE.getSource(), "Gold Oreberry Juice");
-			addFluid(COPPER_OREBERRY_JUICE.getSource(), "Copper Oreberry Juice");
-			addFluid(TIN_OREBERRY_JUICE.getSource(), "Tin Oreberry Juice");
-			addFluid(ALUMINUM_OREBERRY_JUICE.getSource(), "Aluminum Oreberry Juice");
-			addFluid(LEAD_OREBERRY_JUICE.getSource(), "Lead Oreberry Juice");
-			addFluid(NICKEL_OREBERRY_JUICE.getSource(), "Nickel Oreberry Juice");
-			addFluid(URANIUM_OREBERRY_JUICE.getSource(), "Uranium Oreberry Juice");
-			addFluid(OSMIUM_OREBERRY_JUICE.getSource(), "Osmium Oreberry Juice");
-			addFluid(ZINC_OREBERRY_JUICE.getSource(), "Zinc Oreberry Juice");
-			addFluid(SILVER_OREBERRY_JUICE.getSource(), "Silver Oreberry Juice");
+			addFluid(OreBerryRegistry.IRON_OREBERRY_JUICE.getSource(), "Iron Oreberry Juice");
+			addFluid(OreBerryRegistry.GOLD_OREBERRY_JUICE.getSource(), "Gold Oreberry Juice");
+			addFluid(OreBerryRegistry.COPPER_OREBERRY_JUICE.getSource(), "Copper Oreberry Juice");
+			addFluid(OreBerryRegistry.TIN_OREBERRY_JUICE.getSource(), "Tin Oreberry Juice");
+			addFluid(OreBerryRegistry.ALUMINUM_OREBERRY_JUICE.getSource(), "Aluminum Oreberry Juice");
+			addFluid(OreBerryRegistry.LEAD_OREBERRY_JUICE.getSource(), "Lead Oreberry Juice");
+			addFluid(OreBerryRegistry.NICKEL_OREBERRY_JUICE.getSource(), "Nickel Oreberry Juice");
+			addFluid(OreBerryRegistry.URANIUM_OREBERRY_JUICE.getSource(), "Uranium Oreberry Juice");
+			addFluid(OreBerryRegistry.OSMIUM_OREBERRY_JUICE.getSource(), "Osmium Oreberry Juice");
+			addFluid(OreBerryRegistry.ZINC_OREBERRY_JUICE.getSource(), "Zinc Oreberry Juice");
+			addFluid(OreBerryRegistry.SILVER_OREBERRY_JUICE.getSource(), "Silver Oreberry Juice");
 
 			//Tooltips
 			add("oreberriesreplanted.iron_oreberry.tooltip", "Sweet Irony");
@@ -425,42 +350,43 @@ public class OreberryDatagen {
 
 		@Override
 		protected void registerModels() {
-			withParent(IRON_OREBERRY_BUSH_ITEM.get(), modLoc("block/iron_oreberry_bush_stage1"));
-			withParent(GOLD_OREBERRY_BUSH_ITEM.get(), modLoc("block/gold_oreberry_bush_stage1"));
-			withParent(COPPER_OREBERRY_BUSH_ITEM.get(), modLoc("block/copper_oreberry_bush_stage1"));
-			withParent(TIN_OREBERRY_BUSH_ITEM.get(), modLoc("block/tin_oreberry_bush_stage1"));
-			withParent(ALUMINUM_OREBERRY_BUSH_ITEM.get(), modLoc("block/aluminum_oreberry_bush_stage1"));
-			withParent(LEAD_OREBERRY_BUSH_ITEM.get(), modLoc("block/lead_oreberry_bush_stage1"));
-			withParent(NICKEL_OREBERRY_BUSH_ITEM.get(), modLoc("block/nickel_oreberry_bush_stage1"));
-			withParent(URANIUM_OREBERRY_BUSH_ITEM.get(), modLoc("block/uranium_oreberry_bush_stage1"));
-			withParent(OSMIUM_OREBERRY_BUSH_ITEM.get(), modLoc("block/osmium_oreberry_bush_stage1"));
-			withParent(ZINC_OREBERRY_BUSH_ITEM.get(), modLoc("block/zinc_oreberry_bush_stage1"));
-			withParent(SILVER_OREBERRY_BUSH_ITEM.get(), modLoc("block/silver_oreberry_bush_stage1"));
-			withParent(ESSENCE_BERRY_BUSH_ITEM.get(), modLoc("block/essence_berry_bush_stage1"));
+			withParent(OreBerryRegistry.IRON_OREBERRY_BUSH_ITEM.get(), modLoc("block/iron_oreberry_bush_stage1"));
+			withParent(OreBerryRegistry.GOLD_OREBERRY_BUSH_ITEM.get(), modLoc("block/gold_oreberry_bush_stage1"));
+			withParent(OreBerryRegistry.COPPER_OREBERRY_BUSH_ITEM.get(), modLoc("block/copper_oreberry_bush_stage1"));
+			withParent(OreBerryRegistry.TIN_OREBERRY_BUSH_ITEM.get(), modLoc("block/tin_oreberry_bush_stage1"));
+			withParent(OreBerryRegistry.ALUMINUM_OREBERRY_BUSH_ITEM.get(), modLoc("block/aluminum_oreberry_bush_stage1"));
+			withParent(OreBerryRegistry.LEAD_OREBERRY_BUSH_ITEM.get(), modLoc("block/lead_oreberry_bush_stage1"));
+			withParent(OreBerryRegistry.NICKEL_OREBERRY_BUSH_ITEM.get(), modLoc("block/nickel_oreberry_bush_stage1"));
+			withParent(OreBerryRegistry.URANIUM_OREBERRY_BUSH_ITEM.get(), modLoc("block/uranium_oreberry_bush_stage1"));
+			withParent(OreBerryRegistry.OSMIUM_OREBERRY_BUSH_ITEM.get(), modLoc("block/osmium_oreberry_bush_stage1"));
+			withParent(OreBerryRegistry.ZINC_OREBERRY_BUSH_ITEM.get(), modLoc("block/zinc_oreberry_bush_stage1"));
+			withParent(OreBerryRegistry.SILVER_OREBERRY_BUSH_ITEM.get(), modLoc("block/silver_oreberry_bush_stage1"));
+			withParent(OreBerryRegistry.ESSENCE_BERRY_BUSH_ITEM.get(), modLoc("block/essence_berry_bush_stage1"));
 
-			withParent(OAK_VAT_ITEM.get(), modLoc("block/" + OAK_VAT.getId().getPath()));
-			withParent(SPRUCE_VAT_ITEM.get(), modLoc("block/" + SPRUCE_VAT.getId().getPath()));
-			withParent(BIRCH_VAT_ITEM.get(), modLoc("block/" + BIRCH_VAT.getId().getPath()));
-			withParent(JUNGLE_VAT_ITEM.get(), modLoc("block/" + JUNGLE_VAT.getId().getPath()));
-			withParent(ACACIA_VAT_ITEM.get(), modLoc("block/" + ACACIA_VAT.getId().getPath()));
-			withParent(DARK_OAK_VAT_ITEM.get(), modLoc("block/" + DARK_OAK_VAT.getId().getPath()));
-			withParent(CRIMSON_VAT_ITEM.get(), modLoc("block/" + CRIMSON_VAT.getId().getPath()));
-			withParent(WARPED_VAT_ITEM.get(), modLoc("block/" + WARPED_VAT.getId().getPath()));
+			withParent(OreBerryRegistry.OAK_VAT_ITEM.get(), modLoc("block/" + OreBerryRegistry.OAK_VAT.getId().getPath()));
+			withParent(OreBerryRegistry.SPRUCE_VAT_ITEM.get(), modLoc("block/" + OreBerryRegistry.SPRUCE_VAT.getId().getPath()));
+			withParent(OreBerryRegistry.BIRCH_VAT_ITEM.get(), modLoc("block/" + OreBerryRegistry.BIRCH_VAT.getId().getPath()));
+			withParent(OreBerryRegistry.JUNGLE_VAT_ITEM.get(), modLoc("block/" + OreBerryRegistry.JUNGLE_VAT.getId().getPath()));
+			withParent(OreBerryRegistry.ACACIA_VAT_ITEM.get(), modLoc("block/" + OreBerryRegistry.ACACIA_VAT.getId().getPath()));
+			withParent(OreBerryRegistry.DARK_OAK_VAT_ITEM.get(), modLoc("block/" + OreBerryRegistry.DARK_OAK_VAT.getId().getPath()));
+			withParent(OreBerryRegistry.MANGROVE_VAT_ITEM.get(), modLoc("block/" + OreBerryRegistry.MANGROVE_VAT.getId().getPath()));
+			withParent(OreBerryRegistry.CRIMSON_VAT_ITEM.get(), modLoc("block/" + OreBerryRegistry.CRIMSON_VAT.getId().getPath()));
+			withParent(OreBerryRegistry.WARPED_VAT_ITEM.get(), modLoc("block/" + OreBerryRegistry.WARPED_VAT.getId().getPath()));
 
-			singleTexture(COPPER_NUGGET.getId().getPath(), mcLoc("item/generated"), "layer0", modLoc("item/copper_nugget"));
+			singleTexture(OreBerryRegistry.COPPER_NUGGET.getId().getPath(), mcLoc("item/generated"), "layer0", modLoc("item/copper_nugget"));
 
-			singleTexture(IRON_OREBERRY.getId().getPath(), mcLoc("item/generated"), "layer0", modLoc("item/iron_oreberry"));
-			singleTexture(GOLD_OREBERRY.getId().getPath(), mcLoc("item/generated"), "layer0", modLoc("item/gold_oreberry"));
-			singleTexture(COPPER_OREBERRY.getId().getPath(), mcLoc("item/generated"), "layer0", modLoc("item/copper_oreberry"));
-			singleTexture(TIN_OREBERRY.getId().getPath(), mcLoc("item/generated"), "layer0", modLoc("item/tin_oreberry"));
-			singleTexture(ALUMINUM_OREBERRY.getId().getPath(), mcLoc("item/generated"), "layer0", modLoc("item/aluminum_oreberry"));
-			singleTexture(LEAD_OREBERRY.getId().getPath(), mcLoc("item/generated"), "layer0", modLoc("item/lead_oreberry"));
-			singleTexture(NICKEL_OREBERRY.getId().getPath(), mcLoc("item/generated"), "layer0", modLoc("item/nickel_oreberry"));
-			singleTexture(URANIUM_OREBERRY.getId().getPath(), mcLoc("item/generated"), "layer0", modLoc("item/uranium_oreberry"));
-			singleTexture(OSMIUM_OREBERRY.getId().getPath(), mcLoc("item/generated"), "layer0", modLoc("item/osmium_oreberry"));
-			singleTexture(ZINC_OREBERRY.getId().getPath(), mcLoc("item/generated"), "layer0", modLoc("item/zinc_oreberry"));
-			singleTexture(SILVER_OREBERRY.getId().getPath(), mcLoc("item/generated"), "layer0", modLoc("item/silver_oreberry"));
-			singleTexture(ESSENCE_BERRY.getId().getPath(), mcLoc("item/generated"), "layer0", modLoc("item/essence_berry"));
+			singleTexture(OreBerryRegistry.IRON_OREBERRY.getId().getPath(), mcLoc("item/generated"), "layer0", modLoc("item/iron_oreberry"));
+			singleTexture(OreBerryRegistry.GOLD_OREBERRY.getId().getPath(), mcLoc("item/generated"), "layer0", modLoc("item/gold_oreberry"));
+			singleTexture(OreBerryRegistry.COPPER_OREBERRY.getId().getPath(), mcLoc("item/generated"), "layer0", modLoc("item/copper_oreberry"));
+			singleTexture(OreBerryRegistry.TIN_OREBERRY.getId().getPath(), mcLoc("item/generated"), "layer0", modLoc("item/tin_oreberry"));
+			singleTexture(OreBerryRegistry.ALUMINUM_OREBERRY.getId().getPath(), mcLoc("item/generated"), "layer0", modLoc("item/aluminum_oreberry"));
+			singleTexture(OreBerryRegistry.LEAD_OREBERRY.getId().getPath(), mcLoc("item/generated"), "layer0", modLoc("item/lead_oreberry"));
+			singleTexture(OreBerryRegistry.NICKEL_OREBERRY.getId().getPath(), mcLoc("item/generated"), "layer0", modLoc("item/nickel_oreberry"));
+			singleTexture(OreBerryRegistry.URANIUM_OREBERRY.getId().getPath(), mcLoc("item/generated"), "layer0", modLoc("item/uranium_oreberry"));
+			singleTexture(OreBerryRegistry.OSMIUM_OREBERRY.getId().getPath(), mcLoc("item/generated"), "layer0", modLoc("item/osmium_oreberry"));
+			singleTexture(OreBerryRegistry.ZINC_OREBERRY.getId().getPath(), mcLoc("item/generated"), "layer0", modLoc("item/zinc_oreberry"));
+			singleTexture(OreBerryRegistry.SILVER_OREBERRY.getId().getPath(), mcLoc("item/generated"), "layer0", modLoc("item/silver_oreberry"));
+			singleTexture(OreBerryRegistry.ESSENCE_BERRY.getId().getPath(), mcLoc("item/generated"), "layer0", modLoc("item/essence_berry"));
 		}
 
 		private void withParent(Item item, ResourceLocation parent) {
@@ -476,40 +402,41 @@ public class OreberryDatagen {
 
 		@Override
 		protected void registerStatesAndModels() {
-			makeBush(IRON_OREBERRY_BUSH.get(), "iron");
-			makeBush(GOLD_OREBERRY_BUSH.get(), "gold");
-			makeBush(COPPER_OREBERRY_BUSH.get(), "copper");
-			makeBush(TIN_OREBERRY_BUSH.get(), "tin");
-			makeBush(ALUMINUM_OREBERRY_BUSH.get(), "aluminum");
-			makeBush(LEAD_OREBERRY_BUSH.get(), "lead");
-			makeBush(NICKEL_OREBERRY_BUSH.get(), "nickel");
-			makeBush(URANIUM_OREBERRY_BUSH.get(), "uranium");
-			makeBush(OSMIUM_OREBERRY_BUSH.get(), "osmium");
-			makeBush(ZINC_OREBERRY_BUSH.get(), "zinc");
-			makeBush(SILVER_OREBERRY_BUSH.get(), "silver");
-			makeBush(ESSENCE_BERRY_BUSH.get(), "essence");
+			makeBush(OreBerryRegistry.IRON_OREBERRY_BUSH.get(), "iron");
+			makeBush(OreBerryRegistry.GOLD_OREBERRY_BUSH.get(), "gold");
+			makeBush(OreBerryRegistry.COPPER_OREBERRY_BUSH.get(), "copper");
+			makeBush(OreBerryRegistry.TIN_OREBERRY_BUSH.get(), "tin");
+			makeBush(OreBerryRegistry.ALUMINUM_OREBERRY_BUSH.get(), "aluminum");
+			makeBush(OreBerryRegistry.LEAD_OREBERRY_BUSH.get(), "lead");
+			makeBush(OreBerryRegistry.NICKEL_OREBERRY_BUSH.get(), "nickel");
+			makeBush(OreBerryRegistry.URANIUM_OREBERRY_BUSH.get(), "uranium");
+			makeBush(OreBerryRegistry.OSMIUM_OREBERRY_BUSH.get(), "osmium");
+			makeBush(OreBerryRegistry.ZINC_OREBERRY_BUSH.get(), "zinc");
+			makeBush(OreBerryRegistry.SILVER_OREBERRY_BUSH.get(), "silver");
+			makeBush(OreBerryRegistry.ESSENCE_BERRY_BUSH.get(), "essence");
 
-			makePottedBush(POTTED_IRON_OREBERRY_BUSH.get(), "iron");
-			makePottedBush(POTTED_GOLD_OREBERRY_BUSH.get(), "gold");
-			makePottedBush(POTTED_COPPER_OREBERRY_BUSH.get(), "copper");
-			makePottedBush(POTTED_TIN_OREBERRY_BUSH.get(), "tin");
-			makePottedBush(POTTED_ALUMINUM_OREBERRY_BUSH.get(), "aluminum");
-			makePottedBush(POTTED_LEAD_OREBERRY_BUSH.get(), "lead");
-			makePottedBush(POTTED_NICKEL_OREBERRY_BUSH.get(), "nickel");
-			makePottedBush(POTTED_URANIUM_OREBERRY_BUSH.get(), "uranium");
-			makePottedBush(POTTED_OSMIUM_OREBERRY_BUSH.get(), "osmium");
-			makePottedBush(POTTED_ZINC_OREBERRY_BUSH.get(), "zinc");
-			makePottedBush(POTTED_SILVER_OREBERRY_BUSH.get(), "silver");
-			makePottedBush(POTTED_ESSENCE_BERRY_BUSH.get(), "essence");
+			makePottedBush(OreBerryRegistry.POTTED_IRON_OREBERRY_BUSH.get(), "iron");
+			makePottedBush(OreBerryRegistry.POTTED_GOLD_OREBERRY_BUSH.get(), "gold");
+			makePottedBush(OreBerryRegistry.POTTED_COPPER_OREBERRY_BUSH.get(), "copper");
+			makePottedBush(OreBerryRegistry.POTTED_TIN_OREBERRY_BUSH.get(), "tin");
+			makePottedBush(OreBerryRegistry.POTTED_ALUMINUM_OREBERRY_BUSH.get(), "aluminum");
+			makePottedBush(OreBerryRegistry.POTTED_LEAD_OREBERRY_BUSH.get(), "lead");
+			makePottedBush(OreBerryRegistry.POTTED_NICKEL_OREBERRY_BUSH.get(), "nickel");
+			makePottedBush(OreBerryRegistry.POTTED_URANIUM_OREBERRY_BUSH.get(), "uranium");
+			makePottedBush(OreBerryRegistry.POTTED_OSMIUM_OREBERRY_BUSH.get(), "osmium");
+			makePottedBush(OreBerryRegistry.POTTED_ZINC_OREBERRY_BUSH.get(), "zinc");
+			makePottedBush(OreBerryRegistry.POTTED_SILVER_OREBERRY_BUSH.get(), "silver");
+			makePottedBush(OreBerryRegistry.POTTED_ESSENCE_BERRY_BUSH.get(), "essence");
 
-			makeVat(OAK_VAT.get(), mcLoc("block/oak_planks"));
-			makeVat(SPRUCE_VAT.get(), mcLoc("block/spruce_planks"));
-			makeVat(BIRCH_VAT.get(), mcLoc("block/birch_planks"));
-			makeVat(JUNGLE_VAT.get(), mcLoc("block/jungle_planks"));
-			makeVat(ACACIA_VAT.get(), mcLoc("block/acacia_planks"));
-			makeVat(DARK_OAK_VAT.get(), mcLoc("block/dark_oak_planks"));
-			makeVat(CRIMSON_VAT.get(), mcLoc("block/crimson_planks"));
-			makeVat(WARPED_VAT.get(), mcLoc("block/warped_planks"));
+			makeVat(OreBerryRegistry.OAK_VAT.get(), mcLoc("block/oak_planks"));
+			makeVat(OreBerryRegistry.SPRUCE_VAT.get(), mcLoc("block/spruce_planks"));
+			makeVat(OreBerryRegistry.BIRCH_VAT.get(), mcLoc("block/birch_planks"));
+			makeVat(OreBerryRegistry.JUNGLE_VAT.get(), mcLoc("block/jungle_planks"));
+			makeVat(OreBerryRegistry.ACACIA_VAT.get(), mcLoc("block/acacia_planks"));
+			makeVat(OreBerryRegistry.DARK_OAK_VAT.get(), mcLoc("block/dark_oak_planks"));
+			makeVat(OreBerryRegistry.MANGROVE_VAT.get(), mcLoc("block/mangrove_planks"));
+			makeVat(OreBerryRegistry.CRIMSON_VAT.get(), mcLoc("block/crimson_planks"));
+			makeVat(OreBerryRegistry.WARPED_VAT.get(), mcLoc("block/warped_planks"));
 		}
 
 		private void makeBush(Block block, String type) {
@@ -562,8 +489,10 @@ public class OreberryDatagen {
 
 		@Override
 		protected void addTags() {
-			this.tag(BlockTags.MINEABLE_WITH_AXE).add(OAK_VAT.get(), SPRUCE_VAT.get(), BIRCH_VAT.get(),
-					JUNGLE_VAT.get(), ACACIA_VAT.get(), DARK_OAK_VAT.get(), CRIMSON_VAT.get(), WARPED_VAT.get());
+			this.tag(BlockTags.MINEABLE_WITH_AXE).add(OreBerryRegistry.OAK_VAT.get(), OreBerryRegistry.SPRUCE_VAT.get(),
+					OreBerryRegistry.BIRCH_VAT.get(), OreBerryRegistry.JUNGLE_VAT.get(), OreBerryRegistry.ACACIA_VAT.get(),
+					OreBerryRegistry.DARK_OAK_VAT.get(), OreBerryRegistry.MANGROVE_VAT.get(), OreBerryRegistry.CRIMSON_VAT.get(),
+					OreBerryRegistry.WARPED_VAT.get());
 		}
 	}
 
@@ -581,7 +510,7 @@ public class OreberryDatagen {
 
 		@Override
 		protected void addTags() {
-			this.tag(NUGGETS_COPPER).add(COPPER_NUGGET.get());
+			this.tag(NUGGETS_COPPER).add(OreBerryRegistry.COPPER_NUGGET.get());
 			this.tag(Items.NUGGETS).addTag(NUGGETS_COPPER);
 		}
 	}
