@@ -83,36 +83,36 @@ public class OreBerryBushBlock extends Block implements IPlantable {
 		return state.getValue(this.getAgeProperty()) >= this.getMaxAge();
 	}
 
-	public VoxelShape getShape(BlockState state, BlockGetter worldIn, BlockPos pos, CollisionContext context) {
+	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
 		return SHAPE_BY_AGE[state.getValue(this.getAgeProperty())];
 	}
 
 	@Override
-	public void tick(BlockState state, ServerLevel worldIn, BlockPos pos, RandomSource rand) {
-		if (!worldIn.isClientSide && !isMaxAge(state) && worldIn.getRawBrightness(pos, 0) < 10 && ForgeHooks.onCropsGrowPre(worldIn, pos, state, rand.nextInt(OreBerriesConfig.COMMON.growthChance.get()) == 0)) {
+	public void tick(BlockState state, ServerLevel serverLevel, BlockPos pos, RandomSource rand) {
+		if (!serverLevel.isClientSide && !isMaxAge(state) && serverLevel.getRawBrightness(pos, 0) < 10 && ForgeHooks.onCropsGrowPre(serverLevel, pos, state, rand.nextInt(OreBerriesConfig.COMMON.growthChance.get()) == 0)) {
 			int currentAge = getAge(state);
-			worldIn.setBlock(pos, withAge(currentAge + 1), 3);
-			ForgeHooks.onCropsGrowPost(worldIn, pos, worldIn.getBlockState(pos));
+			serverLevel.setBlock(pos, withAge(currentAge + 1), 3);
+			ForgeHooks.onCropsGrowPost(serverLevel, pos, serverLevel.getBlockState(pos));
 		}
 	}
 
 	@Override
-	public void attack(BlockState state, Level worldIn, BlockPos pos, Player player) {
-		harvestBerry(state, worldIn, pos);
+	public void attack(BlockState state, Level level, BlockPos pos, Player player) {
+		harvestBerry(state, level, pos);
 	}
 
 	@Override
-	public InteractionResult use(BlockState state, Level worldIn, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
-		return harvestBerry(state, worldIn, pos);
+	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
+		return harvestBerry(state, level, pos);
 	}
 
-	public InteractionResult harvestBerry(BlockState state, Level worldIn, BlockPos pos) {
+	public InteractionResult harvestBerry(BlockState state, Level level, BlockPos pos) {
 		if (isMaxAge(state)) {
-			if (worldIn.isClientSide)
+			if (level.isClientSide)
 				return InteractionResult.SUCCESS;
 
-			worldIn.setBlock(pos, withAge(getMaxAge() - 1), 3);
-			popResource(worldIn, pos, new ItemStack(getBerryItem(), worldIn.random.nextInt(3) + 1));
+			level.setBlock(pos, withAge(getMaxAge() - 1), 3);
+			popResource(level, pos, new ItemStack(getBerryItem(), level.random.nextInt(3) + 1));
 		}
 
 		return InteractionResult.PASS;
@@ -127,15 +127,15 @@ public class OreBerryBushBlock extends Block implements IPlantable {
 	}
 
 	@Override
-	public boolean canSurvive(BlockState state, LevelReader worldIn, BlockPos pos) {
+	public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
 		BlockPos blockpos = pos.below();
-		BlockState blockstate = worldIn.getBlockState(blockpos);
-		boolean flag = !oreType.getDarknessOnly() || worldIn.getRawBrightness(pos, 0) < 13;
-		return flag && blockstate.canSustainPlant(worldIn, blockpos, net.minecraft.core.Direction.UP, this);
+		BlockState blockstate = level.getBlockState(blockpos);
+		boolean flag = !oreType.getDarknessOnly() || level.getRawBrightness(pos, 0) < 13;
+		return flag && blockstate.canSustainPlant(level, blockpos, net.minecraft.core.Direction.UP, this);
 	}
 
 	@Override
-	public void entityInside(BlockState state, Level worldIn, BlockPos pos, Entity entityIn) {
+	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entityIn) {
 		if (!(entityIn instanceof ItemEntity)) {
 			entityIn.hurt(DamageSource.CACTUS, 1.0F);
 		}

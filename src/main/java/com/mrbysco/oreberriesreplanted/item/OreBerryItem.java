@@ -23,7 +23,7 @@ public class OreBerryItem extends Item {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, @Nullable Level worldIn, List<Component> tooltip, TooltipFlag flagIn) {
+	public void appendHoverText(ItemStack stack, @Nullable Level level, List<Component> tooltip, TooltipFlag flagIn) {
 		if (!tooltip.isEmpty()) {
 			tooltip.add(Component.translatable(this.tooltip).withStyle(ChatFormatting.GRAY));
 		}
