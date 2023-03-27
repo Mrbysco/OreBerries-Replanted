@@ -1,0 +1,16 @@
+{
+  "type": "oreberriesreplanted:oreberry_bush",
+  "config": {
+    "chance": 12,
+    "state": {
+      "Name": "oreberriesreplanted:nickel_oreberry_bush",
+      "Properties": {
+        "age": "3"
+      }
+    },
+    "target": {
+      "predicate_type": "minecraft:tag_match",
+      "tag": "minecraft:base_stone_overworld"
+    }
+  }
+}

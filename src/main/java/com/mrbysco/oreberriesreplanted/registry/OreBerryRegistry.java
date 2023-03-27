@@ -143,7 +143,7 @@ public class OreBerryRegistry {
 	}
 
 	private static Item.Properties itemBuilder() {
-		return new Item.Properties().tab(OreBerryTab.TAB);
+		return new Item.Properties();
 	}
 
 	public static void registerBlockData() {

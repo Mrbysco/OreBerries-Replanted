@@ -6,7 +6,7 @@ import com.google.gson.JsonSyntaxException;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRecipes;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
 import net.minecraft.core.NonNullList;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -131,7 +131,7 @@ public class VatRecipe implements Recipe<Container> {
 			Ingredient ingredient = Ingredient.fromJson(jsonelement);
 			String s1 = GsonHelper.getAsString(jsonObject, "fluid");
 			ResourceLocation resourcelocation = new ResourceLocation(s1);
-			Fluid fluid = Registry.FLUID.getOptional(resourcelocation).orElseThrow(() -> new IllegalStateException("Fluid: " + s1 + " does not exist"));
+			Fluid fluid = BuiltInRegistries.FLUID.getOptional(resourcelocation).orElseThrow(() -> new IllegalStateException("Fluid: " + s1 + " does not exist"));
 			int evaporationTime = GsonHelper.getAsInt(jsonObject, "evaporationtime", 100);
 			int evaporationAmount = GsonHelper.getAsInt(jsonObject, "evaporationamount", 100);
 			float min = GsonHelper.getAsFloat(jsonObject, "min", 1.5f);
@@ -155,7 +155,7 @@ public class VatRecipe implements Recipe<Container> {
 			String group = buffer.readUtf(32767);
 			Ingredient ingredient = Ingredient.fromNetwork(buffer);
 			ResourceLocation fluidLocation = buffer.readResourceLocation();
-			Fluid fluid = Registry.FLUID.getOptional(fluidLocation).orElseThrow(() -> new IllegalStateException("Fluid: " + fluidLocation + " does not exist"));
+			Fluid fluid = BuiltInRegistries.FLUID.getOptional(fluidLocation).orElseThrow(() -> new IllegalStateException("Fluid: " + fluidLocation + " does not exist"));
 			Ingredient result = Ingredient.fromNetwork(buffer);
 			int evaporationTime = buffer.readVarInt();
 			int evaporationAmount = buffer.readVarInt();

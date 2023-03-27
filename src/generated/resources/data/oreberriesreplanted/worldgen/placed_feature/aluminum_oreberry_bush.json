@@ -2,7 +2,7 @@
   "feature": "oreberriesreplanted:aluminum_oreberry_bush",
   "placement": [
     {
-      "type": "minecraft:change_range",
+      "type": "oreberriesreplanted:change_range",
       "bottom_offset": -44,
       "maximum": 60,
       "rarity": 2,

@@ -9,6 +9,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.CookingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SmeltingRecipe;
@@ -21,8 +22,8 @@ import javax.annotation.Nullable;
 public class TagFurnaceRecipe extends SmeltingRecipe {
 	protected final Ingredient resultIngredient;
 
-	public TagFurnaceRecipe(ResourceLocation idIn, String groupIn, Ingredient ingredientIn, Ingredient resultIn, float experienceIn, int cookTimeIn) {
-		super(idIn, groupIn, ingredientIn, ItemStack.EMPTY, experienceIn, cookTimeIn);
+	public TagFurnaceRecipe(ResourceLocation idIn, CookingBookCategory category, String groupIn, Ingredient ingredientIn, Ingredient resultIn, float experienceIn, int cookTimeIn) {
+		super(idIn, groupIn, category, ingredientIn, ItemStack.EMPTY, experienceIn, cookTimeIn);
 		this.resultIngredient = resultIn;
 	}
 
@@ -51,6 +52,7 @@ public class TagFurnaceRecipe extends SmeltingRecipe {
 		@Override
 		public TagFurnaceRecipe fromJson(ResourceLocation recipeId, JsonObject json) {
 			String s = GsonHelper.getAsString(json, "group", "");
+			CookingBookCategory cookingbookcategory = CookingBookCategory.CODEC.byName(GsonHelper.getAsString(json, "category", (String) null), CookingBookCategory.MISC);
 			JsonElement jsonelement = (GsonHelper.isArrayNode(json, "ingredient") ? GsonHelper.getAsJsonArray(json, "ingredient") : GsonHelper.getAsJsonObject(json, "ingredient"));
 			Ingredient ingredient = Ingredient.fromJson(jsonelement);
 
@@ -65,23 +67,25 @@ public class TagFurnaceRecipe extends SmeltingRecipe {
 
 			float f = GsonHelper.getAsFloat(json, "experience", 0.0F);
 			int i = GsonHelper.getAsInt(json, "cookingtime", 100);
-			return new TagFurnaceRecipe(recipeId, s, ingredient, result, f, i);
+			return new TagFurnaceRecipe(recipeId, cookingbookcategory, s, ingredient, result, f, i);
 		}
 
 		@Nullable
 		@Override
 		public TagFurnaceRecipe fromNetwork(ResourceLocation recipeId, FriendlyByteBuf buffer) {
 			String s = buffer.readUtf();
+			CookingBookCategory cookingbookcategory = buffer.readEnum(CookingBookCategory.class);
 			Ingredient ingredient = Ingredient.fromNetwork(buffer);
 			Ingredient result = Ingredient.fromNetwork(buffer);
 			float f = buffer.readFloat();
 			int i = buffer.readVarInt();
-			return new TagFurnaceRecipe(recipeId, s, ingredient, result, f, i);
+			return new TagFurnaceRecipe(recipeId, cookingbookcategory, s, ingredient, result, f, i);
 		}
 
 		@Override
 		public void toNetwork(FriendlyByteBuf buffer, TagFurnaceRecipe recipe) {
 			buffer.writeUtf(recipe.getGroup());
+			buffer.writeEnum(recipe.category());
 			recipe.getIngredient().toNetwork(buffer);
 			recipe.getResultIngredient().toNetwork(buffer);
 			buffer.writeFloat(recipe.getExperience());

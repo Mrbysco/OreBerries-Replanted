@@ -5,7 +5,6 @@ import com.mrbysco.oreberriesreplanted.recipes.TagBlastingRecipe;
 import com.mrbysco.oreberriesreplanted.recipes.TagFurnaceRecipe;
 import com.mrbysco.oreberriesreplanted.recipes.TagFurnaceRecipe.Serializer;
 import com.mrbysco.oreberriesreplanted.recipes.VatRecipe;
-import net.minecraft.core.Registry;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraftforge.registries.DeferredRegister;
@@ -14,7 +13,7 @@ import net.minecraftforge.registries.RegistryObject;
 
 public class OreBerryRecipes {
 	public static final DeferredRegister<RecipeSerializer<?>> RECIPE_SERIALIZERS = DeferredRegister.create(ForgeRegistries.RECIPE_SERIALIZERS, Reference.MOD_ID);
-	public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = DeferredRegister.create(Registry.RECIPE_TYPE_REGISTRY, Reference.MOD_ID);
+	public static final DeferredRegister<RecipeType<?>> RECIPE_TYPES = DeferredRegister.create(ForgeRegistries.RECIPE_TYPES, Reference.MOD_ID);
 
 	public static final RegistryObject<RecipeType<VatRecipe>> VAT_RECIPE_TYPE = RECIPE_TYPES.register("vat_recipe", () -> new RecipeType<>() {
 	});

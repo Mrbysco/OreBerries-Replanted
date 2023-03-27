@@ -6,7 +6,7 @@ import com.mrbysco.oreberriesreplanted.config.OreBerriesConfig;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryPlacementModifiers;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRecipes;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
-import com.mrbysco.oreberriesreplanted.worldgen.OreBerryFeatures;
+import com.mrbysco.oreberriesreplanted.registry.OreBerryTab;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.DistExecutor;
@@ -36,7 +36,10 @@ public class OreberriesReplanted {
 		OreBerryRecipes.RECIPE_TYPES.register(eventBus);
 		OreBerryRecipes.RECIPE_SERIALIZERS.register(eventBus);
 		OreBerryRegistry.FEATURES.register(eventBus);
+		OreBerryPlacementModifiers.PLACEMENT_MODIFIERS.register(eventBus);
 		OreBerryRegistry.load();
+
+		eventBus.register(new OreBerryTab());
 
 		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
 			eventBus.addListener(ClientHandler::registerEntityRenders);
@@ -45,8 +48,6 @@ public class OreberriesReplanted {
 	}
 
 	private void commonSetup(FMLCommonSetupEvent event) {
-		OreBerryPlacementModifiers.init();
-		OreBerryFeatures.init();
 		event.enqueueWork(() -> {
 			OreBerryRegistry.registerBlockData();
 		});

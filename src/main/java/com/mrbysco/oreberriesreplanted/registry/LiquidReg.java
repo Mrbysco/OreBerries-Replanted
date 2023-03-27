@@ -1,6 +1,5 @@
 package com.mrbysco.oreberriesreplanted.registry;
 
-import com.mojang.math.Vector3f;
 import com.mrbysco.oreberriesreplanted.Reference;
 import com.mrbysco.oreberriesreplanted.util.FluidHelper;
 import net.minecraft.client.Camera;
@@ -18,6 +17,7 @@ import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
 import net.minecraftforge.registries.RegistryObject;
 import org.jetbrains.annotations.NotNull;
+import org.joml.Vector3f;
 
 import javax.annotation.Nonnull;
 import java.util.function.Consumer;
@@ -109,6 +109,6 @@ public class LiquidReg {
 		flowing = OreBerryRegistry.FLUIDS.register(name + "_flowing", () -> new ForgeFlowingFluid.Flowing(
 				createProperties(fluidType, source, flowing, bucket))
 		);
-		bucket = OreBerryRegistry.ITEMS.register(name + "_bucket", () -> new BucketItem(source, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1).tab(OreBerryTab.TAB)));
+		bucket = OreBerryRegistry.ITEMS.register(name + "_bucket", () -> new BucketItem(source, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
 	}
 }

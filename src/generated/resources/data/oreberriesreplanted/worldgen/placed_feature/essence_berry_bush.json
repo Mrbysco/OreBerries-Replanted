@@ -2,7 +2,7 @@
   "feature": "oreberriesreplanted:essence_berry_bush",
   "placement": [
     {
-      "type": "minecraft:change_range",
+      "type": "oreberriesreplanted:change_range",
       "bottom_offset": -64,
       "maximum": 32,
       "rarity": 6,

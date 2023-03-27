@@ -1,52 +1,41 @@
 package com.mrbysco.oreberriesreplanted.datagen;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Maps;
-import com.google.gson.JsonElement;
-import com.mojang.datafixers.util.Pair;
-import com.mojang.serialization.JsonOps;
 import com.mrbysco.oreberriesreplanted.Reference;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
 import com.mrbysco.oreberriesreplanted.worldgen.OreBerryFeatures;
-import net.minecraft.core.Holder;
-import net.minecraft.core.HolderSet;
-import net.minecraft.core.Registry;
+import com.mrbysco.oreberriesreplanted.worldgen.OreBerryPlacements;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.RegistrySetBuilder;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.loot.BlockLoot;
+import net.minecraft.data.PackOutput;
+import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
-import net.minecraft.data.tags.BlockTagsProvider;
+import net.minecraft.data.registries.VanillaRegistries;
 import net.minecraft.data.tags.ItemTagsProvider;
-import net.minecraft.resources.RegistryOps;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.BiomeTags;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
-import net.minecraft.world.level.biome.Biome;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.levelgen.GenerationStep.Decoration;
-import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
-import net.minecraft.world.level.levelgen.placement.PlacedFeature;
-import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.level.storage.loot.ValidationContext;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSet;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
 import net.minecraftforge.common.Tags.Items;
+import net.minecraftforge.common.data.BlockTagsProvider;
+import net.minecraftforge.common.data.DatapackBuiltinEntriesProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
-import net.minecraftforge.common.data.JsonCodecProvider;
 import net.minecraftforge.common.data.LanguageProvider;
-import net.minecraftforge.common.world.BiomeModifier;
-import net.minecraftforge.common.world.ForgeBiomeModifiers.AddFeaturesBiomeModifier;
 import net.minecraftforge.data.event.GatherDataEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fluids.ForgeFlowingFluid;
@@ -58,128 +47,62 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
+import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class OreberryDatagen {
 	@SubscribeEvent
 	public static void gatherData(GatherDataEvent event) {
-		final RegistryOps<JsonElement> ops = RegistryOps.create(JsonOps.INSTANCE, RegistryAccess.builtinCopy());
 		DataGenerator generator = event.getGenerator();
+		PackOutput packOutput = generator.getPackOutput();
+		CompletableFuture<HolderLookup.Provider> lookupProvider = event.getLookupProvider();
 		ExistingFileHelper helper = event.getExistingFileHelper();
 
 		if (event.includeServer()) {
-			generator.addProvider(event.includeServer(), new OreBerryLoot(generator));
+			generator.addProvider(event.includeServer(), new OreBerryLoot(packOutput));
 
-			BlockTagsProvider blockTagsProvider = new OreberryBlockTags(generator, helper);
+			BlockTagsProvider blockTagsProvider = new OreberryBlockTags(packOutput, lookupProvider, helper);
 			generator.addProvider(event.includeServer(), blockTagsProvider);
-			generator.addProvider(event.includeServer(), new OreberryItemTags(generator, blockTagsProvider, helper));
+			generator.addProvider(event.includeServer(), new OreberryItemTags(packOutput, lookupProvider, blockTagsProvider, helper));
 //			generator.addProvider(new OreBerryRecipes(generator));
 
-
-			generator.addProvider(event.includeServer(), JsonCodecProvider.forDatapackRegistry(
-					generator, helper, Reference.MOD_ID, ops, Registry.PLACED_FEATURE_REGISTRY, getConfiguredFeatures(ops)));
-
-			generator.addProvider(event.includeServer(), JsonCodecProvider.forDatapackRegistry(
-					generator, helper, Reference.MOD_ID, ops, ForgeRegistries.Keys.BIOME_MODIFIERS, getBiomeModifiers(ops)));
+			generator.addProvider(event.includeServer(), new DatapackBuiltinEntriesProvider(
+					packOutput, CompletableFuture.supplyAsync(OreberryDatagen::getProvider), Set.of(Reference.MOD_ID)));
 		}
 		if (event.includeClient()) {
-			generator.addProvider(event.includeServer(), new OreBerryLanguage(generator));
-			generator.addProvider(event.includeServer(), new OreBerryBlockStates(generator, helper));
-			generator.addProvider(event.includeServer(), new OreBerryItemModels(generator, helper));
+			generator.addProvider(event.includeServer(), new OreBerryLanguage(packOutput));
+			generator.addProvider(event.includeServer(), new OreBerryBlockStates(packOutput, helper));
+			generator.addProvider(event.includeServer(), new OreBerryItemModels(packOutput, helper));
 		}
 	}
 
-	public static Map<ResourceLocation, PlacedFeature> getConfiguredFeatures(RegistryOps<JsonElement> ops) {
-		Map<ResourceLocation, PlacedFeature> map = Maps.newHashMap();
-
-		map.putAll(generateConfiguredFeature(ops, OreBerryFeatures.IRON_OREBERRY_BUSH_FEATURE.unwrapKey().get().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get(),
-				OreBerryFeatures.getPlacedFeature(-64, 64, 5)));
-
-		map.putAll(generateConfiguredFeature(ops, OreBerryFeatures.GOLD_OREBERRY_BUSH_FEATURE.unwrapKey().get().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get(),
-				OreBerryFeatures.getPlacedFeature(-64, 32, 8)));
-
-		map.putAll(generateConfiguredFeature(ops, OreBerryFeatures.COPPER_OREBERRY_BUSH_FEATURE.unwrapKey().get().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get(),
-				OreBerryFeatures.getPlacedFeature(-44, 60, 3)));
-
-		map.putAll(generateConfiguredFeature(ops, OreBerryFeatures.TIN_OREBERRY_BUSH_FEATURE.unwrapKey().get().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get(),
-				OreBerryFeatures.getPlacedFeature(-44, 60, 3)));
-
-		map.putAll(generateConfiguredFeature(ops, OreBerryFeatures.ALUMINUM_OREBERRY_BUSH_FEATURE.unwrapKey().get().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get(),
-				OreBerryFeatures.getPlacedFeature(-44, 60, 2)));
-
-		map.putAll(generateConfiguredFeature(ops, OreBerryFeatures.LEAD_OREBERRY_BUSH_FEATURE.unwrapKey().get().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get(),
-				OreBerryFeatures.getPlacedFeature(-64, 40, 7)));
-
-		map.putAll(generateConfiguredFeature(ops, OreBerryFeatures.NICKEL_OREBERRY_BUSH_FEATURE.unwrapKey().get().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get(),
-				OreBerryFeatures.getPlacedFeature(-64, 120, 5)));
-
-		map.putAll(generateConfiguredFeature(ops, OreBerryFeatures.URANIUM_OREBERRY_BUSH_FEATURE.unwrapKey().get().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get(),
-				OreBerryFeatures.getPlacedFeature(-64, 60, 5)));
-
-		map.putAll(generateConfiguredFeature(ops, OreBerryFeatures.OSMIUM_OREBERRY_BUSH_FEATURE.unwrapKey().get().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get(),
-				OreBerryFeatures.getPlacedFeature(-64, 60, 6)));
-
-		map.putAll(generateConfiguredFeature(ops, OreBerryFeatures.ZINC_OREBERRY_BUSH_FEATURE.unwrapKey().get().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get(),
-				OreBerryFeatures.getPlacedFeature(-64, 70, 6)));
-
-		map.putAll(generateConfiguredFeature(ops, OreBerryFeatures.SILVER_OREBERRY_BUSH_FEATURE.unwrapKey().get().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get(),
-				OreBerryFeatures.getPlacedFeature(-64, 40, 7)));
-
-		map.putAll(generateConfiguredFeature(ops, OreBerryFeatures.ESSENCE_BERRY_BUSH_FEATURE.unwrapKey().get().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get(),
-				OreBerryFeatures.getPlacedFeature(-64, 32, 6)));
-
-		return map;
-	}
-
-	private static Map<ResourceLocation, PlacedFeature> generateConfiguredFeature(RegistryOps<JsonElement> ops, ResourceKey<ConfiguredFeature<?, ?>> featureKey, List<PlacementModifier> modifiers) {
-		final Holder<ConfiguredFeature<?, ?>> featureKeyHolder = ops.registry(Registry.CONFIGURED_FEATURE_REGISTRY).get().getOrCreateHolderOrThrow(featureKey);
-		final PlacedFeature feature = new PlacedFeature(featureKeyHolder, modifiers);
-		return Map.of(featureKey.location(), feature);
-	}
-
-	public static Map<ResourceLocation, BiomeModifier> getBiomeModifiers(RegistryOps<JsonElement> ops) {
-		Map<ResourceLocation, BiomeModifier> map = Maps.newHashMap();
-
-		map.putAll(generateBiomeModifier(ops, OreBerryFeatures.IRON_OREBERRY_BUSH_FEATURE.unwrapKey().get().location(), Decoration.UNDERGROUND_ORES));
-		map.putAll(generateBiomeModifier(ops, OreBerryFeatures.GOLD_OREBERRY_BUSH_FEATURE.unwrapKey().get().location(), Decoration.UNDERGROUND_ORES));
-		map.putAll(generateBiomeModifier(ops, OreBerryFeatures.COPPER_OREBERRY_BUSH_FEATURE.unwrapKey().get().location(), Decoration.UNDERGROUND_ORES));
-		map.putAll(generateBiomeModifier(ops, OreBerryFeatures.TIN_OREBERRY_BUSH_FEATURE.unwrapKey().get().location(), Decoration.UNDERGROUND_ORES));
-		map.putAll(generateBiomeModifier(ops, OreBerryFeatures.ALUMINUM_OREBERRY_BUSH_FEATURE.unwrapKey().get().location(), Decoration.UNDERGROUND_ORES));
-		map.putAll(generateBiomeModifier(ops, OreBerryFeatures.LEAD_OREBERRY_BUSH_FEATURE.unwrapKey().get().location(), Decoration.UNDERGROUND_ORES));
-		map.putAll(generateBiomeModifier(ops, OreBerryFeatures.NICKEL_OREBERRY_BUSH_FEATURE.unwrapKey().get().location(), Decoration.UNDERGROUND_ORES));
-		map.putAll(generateBiomeModifier(ops, OreBerryFeatures.URANIUM_OREBERRY_BUSH_FEATURE.unwrapKey().get().location(), Decoration.UNDERGROUND_ORES));
-		map.putAll(generateBiomeModifier(ops, OreBerryFeatures.OSMIUM_OREBERRY_BUSH_FEATURE.unwrapKey().get().location(), Decoration.UNDERGROUND_ORES));
-		map.putAll(generateBiomeModifier(ops, OreBerryFeatures.ZINC_OREBERRY_BUSH_FEATURE.unwrapKey().get().location(), Decoration.UNDERGROUND_ORES));
-		map.putAll(generateBiomeModifier(ops, OreBerryFeatures.SILVER_OREBERRY_BUSH_FEATURE.unwrapKey().get().location(), Decoration.UNDERGROUND_ORES));
-		map.putAll(generateBiomeModifier(ops, OreBerryFeatures.ESSENCE_BERRY_BUSH_FEATURE.unwrapKey().get().location(), Decoration.UNDERGROUND_ORES));
-
-		return map;
-	}
-
-	private static Map<ResourceLocation, BiomeModifier> generateBiomeModifier(RegistryOps<JsonElement> ops, ResourceLocation location, Decoration decorationType) {
-		HolderSet.Named<Biome> IS_OVERWORLD = new HolderSet.Named<>(ops.registry(Registry.BIOME_REGISTRY).orElseThrow(), BiomeTags.IS_OVERWORLD);
-		final BiomeModifier addFeature = new AddFeaturesBiomeModifier(IS_OVERWORLD, HolderSet.direct(ops.registry(Registry.PLACED_FEATURE_REGISTRY).get()
-				.getOrCreateHolderOrThrow(ResourceKey.create(Registry.PLACED_FEATURE_REGISTRY, location))), decorationType);
-		return Map.of(location, addFeature);
+	private static HolderLookup.Provider getProvider() {
+		final RegistrySetBuilder registryBuilder = new RegistrySetBuilder();
+		registryBuilder.add(Registries.CONFIGURED_FEATURE, OreBerryFeatures::bootstrap);
+		registryBuilder.add(Registries.PLACED_FEATURE, OreBerryPlacements::bootstrap);
+		registryBuilder.add(ForgeRegistries.Keys.BIOME_MODIFIERS, OreBerryBiomeModifiers::bootstrap);
+		// We need the BIOME registry to be present so we can use a biome tag, doesn't matter that it's empty
+		registryBuilder.add(Registries.BIOME, $ -> {
+		});
+		RegistryAccess.Frozen regAccess = RegistryAccess.fromRegistryOfRegistries(BuiltInRegistries.REGISTRY);
+		return registryBuilder.buildPatch(regAccess, VanillaRegistries.createLookup());
 	}
 
 	private static class OreBerryLoot extends LootTableProvider {
-		public OreBerryLoot(DataGenerator gen) {
-			super(gen);
+		public OreBerryLoot(PackOutput packOutput) {
+			super(packOutput, Set.of(), List.of(
+					new SubProviderEntry(OreBerryBlocks::new, LootContextParamSets.BLOCK)));
 		}
 
-		@Override
-		protected List<Pair<Supplier<Consumer<BiConsumer<ResourceLocation, LootTable.Builder>>>, LootContextParamSet>> getTables() {
-			return ImmutableList.of(Pair.of(OreBerryBlocks::new, LootContextParamSets.BLOCK));
-		}
+		private static class OreBerryBlocks extends BlockLootSubProvider {
 
-		private static class OreBerryBlocks extends BlockLoot {
+			protected OreBerryBlocks() {
+				super(Set.of(), FeatureFlags.REGISTRY.allFlags());
+			}
 
 			@Override
-			protected void addTables() {
+			protected void generate() {
 				this.dropSelf(OreBerryRegistry.IRON_OREBERRY_BUSH.get());
 				this.dropSelf(OreBerryRegistry.GOLD_OREBERRY_BUSH.get());
 				this.dropSelf(OreBerryRegistry.COPPER_OREBERRY_BUSH.get());
@@ -230,14 +153,14 @@ public class OreberryDatagen {
 	}
 
 	private static class OreBerryLanguage extends LanguageProvider {
-		public OreBerryLanguage(DataGenerator gen) {
-			super(gen, Reference.MOD_ID, "en_us");
+		public OreBerryLanguage(PackOutput packOutput) {
+			super(packOutput, Reference.MOD_ID, "en_us");
 		}
 
 		@Override
 		protected void addTranslations() {
 			//Tab
-			add("itemGroup.oreberriesreplanted", "Oreberries Replanted");
+			add("itemGroup.oreberriesreplanted.tab", "Oreberries Replanted");
 
 			//Blocks
 			addBlock(OreBerryRegistry.IRON_OREBERRY_BUSH, "Iron Oreberry Bush");
@@ -344,8 +267,8 @@ public class OreberryDatagen {
 	}
 
 	private static class OreBerryItemModels extends ItemModelProvider {
-		public OreBerryItemModels(DataGenerator gen, ExistingFileHelper helper) {
-			super(gen, Reference.MOD_ID, helper);
+		public OreBerryItemModels(PackOutput packOutput, ExistingFileHelper helper) {
+			super(packOutput, Reference.MOD_ID, helper);
 		}
 
 		@Override
@@ -396,8 +319,8 @@ public class OreberryDatagen {
 
 	private static class OreBerryBlockStates extends BlockStateProvider {
 
-		public OreBerryBlockStates(DataGenerator gen, ExistingFileHelper helper) {
-			super(gen, Reference.MOD_ID, helper);
+		public OreBerryBlockStates(PackOutput packOutput, ExistingFileHelper helper) {
+			super(packOutput, Reference.MOD_ID, helper);
 		}
 
 		@Override
@@ -483,12 +406,13 @@ public class OreberryDatagen {
 
 
 	public static class OreberryBlockTags extends BlockTagsProvider {
-		public OreberryBlockTags(DataGenerator generator, @Nullable ExistingFileHelper existingFileHelper) {
-			super(generator, Reference.MOD_ID, existingFileHelper);
+		public OreberryBlockTags(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookupProvider,
+								 @Nullable ExistingFileHelper existingFileHelper) {
+			super(packOutput, lookupProvider, Reference.MOD_ID, existingFileHelper);
 		}
 
 		@Override
-		protected void addTags() {
+		protected void addTags(HolderLookup.Provider provider) {
 			this.tag(BlockTags.MINEABLE_WITH_AXE).add(OreBerryRegistry.OAK_VAT.get(), OreBerryRegistry.SPRUCE_VAT.get(),
 					OreBerryRegistry.BIRCH_VAT.get(), OreBerryRegistry.JUNGLE_VAT.get(), OreBerryRegistry.ACACIA_VAT.get(),
 					OreBerryRegistry.DARK_OAK_VAT.get(), OreBerryRegistry.MANGROVE_VAT.get(), OreBerryRegistry.CRIMSON_VAT.get(),
@@ -498,8 +422,8 @@ public class OreberryDatagen {
 
 	public static class OreberryItemTags extends ItemTagsProvider {
 
-		public OreberryItemTags(DataGenerator dataGenerator, BlockTagsProvider blockTagsProvider, @Nullable ExistingFileHelper existingFileHelper) {
-			super(dataGenerator, blockTagsProvider, Reference.MOD_ID, existingFileHelper);
+		public OreberryItemTags(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookupProvider, BlockTagsProvider blockTagsProvider, @Nullable ExistingFileHelper existingFileHelper) {
+			super(packOutput, lookupProvider, blockTagsProvider, Reference.MOD_ID, existingFileHelper);
 		}
 
 		public static final TagKey<Item> NUGGETS_COPPER = forgeTag("nuggets/copper");
@@ -509,7 +433,7 @@ public class OreberryDatagen {
 		}
 
 		@Override
-		protected void addTags() {
+		protected void addTags(HolderLookup.Provider provider) {
 			this.tag(NUGGETS_COPPER).add(OreBerryRegistry.COPPER_NUGGET.get());
 			this.tag(Items.NUGGETS).addTag(NUGGETS_COPPER);
 		}

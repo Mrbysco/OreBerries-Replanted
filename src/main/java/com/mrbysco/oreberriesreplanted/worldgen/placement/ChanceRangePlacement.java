@@ -49,6 +49,6 @@ public class ChanceRangePlacement extends PlacementModifier {
 
 	@Override
 	public PlacementModifierType<?> type() {
-		return OreBerryPlacementModifiers.CAVE_EDGE_RANGE;
+		return OreBerryPlacementModifiers.CAVE_EDGE_RANGE.get();
 	}
 }

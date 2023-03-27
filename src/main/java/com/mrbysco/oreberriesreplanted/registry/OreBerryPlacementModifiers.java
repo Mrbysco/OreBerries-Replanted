@@ -1,21 +1,15 @@
 package com.mrbysco.oreberriesreplanted.registry;
 
-import com.mojang.serialization.Codec;
+import com.mrbysco.oreberriesreplanted.Reference;
 import com.mrbysco.oreberriesreplanted.worldgen.placement.ChanceRangePlacement;
-import net.minecraft.core.Registry;
-import net.minecraft.world.level.levelgen.placement.PlacementModifier;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.RegistryObject;
 
 public class OreBerryPlacementModifiers {
-	public static final PlacementModifierType<ChanceRangePlacement> CAVE_EDGE_RANGE = register("change_range", ChanceRangePlacement.CODEC);
+	public static final DeferredRegister<PlacementModifierType<?>> PLACEMENT_MODIFIERS = DeferredRegister.create(Registries.PLACEMENT_MODIFIER_TYPE, Reference.MOD_ID);
 
-	private static <P extends PlacementModifier> PlacementModifierType<P> register(String name, Codec<P> codec) {
-		return Registry.register(Registry.PLACEMENT_MODIFIERS, name, () -> {
-			return codec;
-		});
-	}
-
-	public static void init() {
-		//Just here to load the class
-	}
+	public static final RegistryObject<PlacementModifierType<ChanceRangePlacement>> CAVE_EDGE_RANGE =
+			PLACEMENT_MODIFIERS.register("change_range", () -> () -> ChanceRangePlacement.CODEC);
 }

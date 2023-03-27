@@ -67,7 +67,7 @@
   "item.oreberriesreplanted.uranium_oreberry_juice_bucket": "Uranium Oreberry Juice Bucket",
   "item.oreberriesreplanted.zinc_oreberry": "Zinc Oreberry",
   "item.oreberriesreplanted.zinc_oreberry_juice_bucket": "Zinc Oreberry Juice Bucket",
-  "itemGroup.oreberriesreplanted": "Oreberries Replanted",
+  "itemGroup.oreberriesreplanted.tab": "Oreberries Replanted",
   "oreberriesreplanted.aluminum_oreberry.tooltip": "White Chocolate",
   "oreberriesreplanted.copper_oreberry.tooltip": "Tastes like metal",
   "oreberriesreplanted.essence_berry.tooltip": "Tastes like Creeper",

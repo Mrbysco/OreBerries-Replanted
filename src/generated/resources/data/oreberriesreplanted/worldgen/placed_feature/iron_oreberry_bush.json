@@ -2,7 +2,7 @@
   "feature": "oreberriesreplanted:iron_oreberry_bush",
   "placement": [
     {
-      "type": "minecraft:change_range",
+      "type": "oreberriesreplanted:change_range",
       "bottom_offset": -64,
       "maximum": 64,
       "rarity": 5,
