@@ -92,12 +92,11 @@ mixin {
 
 repositories {
     maven {
-        name 'JEI maven'
         url = "https://dvs1.progwml6.com/files/maven"
     }
-//    maven {
-//        url 'https://maven.blamejared.com'
-//    }
+    maven {
+        url = "https://maven.blamejared.com"
+    }
 }
 
 dependencies {
@@ -148,7 +147,7 @@ publishing {
     repositories {
         if (System.getenv().SAP_SECRET) {
             maven {
-                url "https://maven.saps.dev/minecraft"
+                url "https://maven.saps.dev/releases"
                 credentials {
                     username = "mrbysco"
                     password = "${System.getenv().SAP_SECRET}"
