@@ -18,7 +18,7 @@ public class OreBerryTab {
 	public void registerCreativeTabs(final CreativeModeTabEvent.Register event) {
 		TAB = event.registerCreativeModeTab(new ResourceLocation(Reference.MOD_ID, "tab"), builder ->
 				builder.icon(() -> new ItemStack(Blocks.OAK_LEAVES))
-						.title(Component.translatable("itemGroup.statues.items"))
+						.title(Component.translatable("itemGroup.oreberriesreplanted.tab"))
 						.displayItems((features, output, hasPermissions) -> {
 							List<ItemStack> stacks = OreBerryRegistry.ITEMS.getEntries().stream()
 									.map(reg -> new ItemStack(reg.get())).toList();
