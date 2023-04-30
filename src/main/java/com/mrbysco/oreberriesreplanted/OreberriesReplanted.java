@@ -47,9 +47,9 @@ public class OreberriesReplanted {
 	}
 
 	private void commonSetup(FMLCommonSetupEvent event) {
-		OreBerryPlacementModifiers.init();
-		OreBerryFeatures.init();
 		event.enqueueWork(() -> {
+			OreBerryPlacementModifiers.init();
+			OreBerryFeatures.init();
 			OreBerryRegistry.registerBlockData();
 		});
 	}
