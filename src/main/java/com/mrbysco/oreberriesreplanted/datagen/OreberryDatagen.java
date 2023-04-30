@@ -95,40 +95,40 @@ public class OreberryDatagen {
 	public static Map<ResourceLocation, PlacedFeature> getConfiguredFeatures(RegistryOps<JsonElement> ops) {
 		Map<ResourceLocation, PlacedFeature> map = Maps.newHashMap();
 
-		map.putAll(generateConfiguredFeature(ops, OreBerryFeatures.IRON_OREBERRY_BUSH_FEATURE.unwrapKey().get().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get(),
+		map.putAll(generateConfiguredFeature(ops, OreBerryFeatures.IRON_OREBERRY_BUSH_FEATURE.unwrapKey().orElseThrow().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get(),
 				OreBerryFeatures.getPlacedFeature(-64, 64, 5)));
 
-		map.putAll(generateConfiguredFeature(ops, OreBerryFeatures.GOLD_OREBERRY_BUSH_FEATURE.unwrapKey().get().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get(),
+		map.putAll(generateConfiguredFeature(ops, OreBerryFeatures.GOLD_OREBERRY_BUSH_FEATURE.unwrapKey().orElseThrow().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get(),
 				OreBerryFeatures.getPlacedFeature(-64, 32, 8)));
 
-		map.putAll(generateConfiguredFeature(ops, OreBerryFeatures.COPPER_OREBERRY_BUSH_FEATURE.unwrapKey().get().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get(),
+		map.putAll(generateConfiguredFeature(ops, OreBerryFeatures.COPPER_OREBERRY_BUSH_FEATURE.unwrapKey().orElseThrow().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get(),
 				OreBerryFeatures.getPlacedFeature(-44, 60, 3)));
 
-		map.putAll(generateConfiguredFeature(ops, OreBerryFeatures.TIN_OREBERRY_BUSH_FEATURE.unwrapKey().get().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get(),
+		map.putAll(generateConfiguredFeature(ops, OreBerryFeatures.TIN_OREBERRY_BUSH_FEATURE.unwrapKey().orElseThrow().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get(),
 				OreBerryFeatures.getPlacedFeature(-44, 60, 3)));
 
-		map.putAll(generateConfiguredFeature(ops, OreBerryFeatures.ALUMINUM_OREBERRY_BUSH_FEATURE.unwrapKey().get().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get(),
+		map.putAll(generateConfiguredFeature(ops, OreBerryFeatures.ALUMINUM_OREBERRY_BUSH_FEATURE.unwrapKey().orElseThrow().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get(),
 				OreBerryFeatures.getPlacedFeature(-44, 60, 2)));
 
-		map.putAll(generateConfiguredFeature(ops, OreBerryFeatures.LEAD_OREBERRY_BUSH_FEATURE.unwrapKey().get().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get(),
+		map.putAll(generateConfiguredFeature(ops, OreBerryFeatures.LEAD_OREBERRY_BUSH_FEATURE.unwrapKey().orElseThrow().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get(),
 				OreBerryFeatures.getPlacedFeature(-64, 40, 7)));
 
-		map.putAll(generateConfiguredFeature(ops, OreBerryFeatures.NICKEL_OREBERRY_BUSH_FEATURE.unwrapKey().get().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get(),
+		map.putAll(generateConfiguredFeature(ops, OreBerryFeatures.NICKEL_OREBERRY_BUSH_FEATURE.unwrapKey().orElseThrow().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get(),
 				OreBerryFeatures.getPlacedFeature(-64, 120, 5)));
 
-		map.putAll(generateConfiguredFeature(ops, OreBerryFeatures.URANIUM_OREBERRY_BUSH_FEATURE.unwrapKey().get().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get(),
+		map.putAll(generateConfiguredFeature(ops, OreBerryFeatures.URANIUM_OREBERRY_BUSH_FEATURE.unwrapKey().orElseThrow().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get(),
 				OreBerryFeatures.getPlacedFeature(-64, 60, 5)));
 
-		map.putAll(generateConfiguredFeature(ops, OreBerryFeatures.OSMIUM_OREBERRY_BUSH_FEATURE.unwrapKey().get().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get(),
+		map.putAll(generateConfiguredFeature(ops, OreBerryFeatures.OSMIUM_OREBERRY_BUSH_FEATURE.unwrapKey().orElseThrow().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get(),
 				OreBerryFeatures.getPlacedFeature(-64, 60, 6)));
 
-		map.putAll(generateConfiguredFeature(ops, OreBerryFeatures.ZINC_OREBERRY_BUSH_FEATURE.unwrapKey().get().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get(),
+		map.putAll(generateConfiguredFeature(ops, OreBerryFeatures.ZINC_OREBERRY_BUSH_FEATURE.unwrapKey().orElseThrow().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get(),
 				OreBerryFeatures.getPlacedFeature(-64, 70, 6)));
 
-		map.putAll(generateConfiguredFeature(ops, OreBerryFeatures.SILVER_OREBERRY_BUSH_FEATURE.unwrapKey().get().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get(),
+		map.putAll(generateConfiguredFeature(ops, OreBerryFeatures.SILVER_OREBERRY_BUSH_FEATURE.unwrapKey().orElseThrow().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get(),
 				OreBerryFeatures.getPlacedFeature(-64, 40, 7)));
 
-		map.putAll(generateConfiguredFeature(ops, OreBerryFeatures.ESSENCE_BERRY_BUSH_FEATURE.unwrapKey().get().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get(),
+		map.putAll(generateConfiguredFeature(ops, OreBerryFeatures.ESSENCE_BERRY_BUSH_FEATURE.unwrapKey().orElseThrow().cast(Registry.CONFIGURED_FEATURE_REGISTRY).get(),
 				OreBerryFeatures.getPlacedFeature(-64, 32, 6)));
 
 		return map;
