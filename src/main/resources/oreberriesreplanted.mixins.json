@@ -6,9 +6,9 @@
   "refmap": "oreberriesreplanted.refmap.json",
   "target": "@env(DEFAULT)",
   "mixins": [
-	"LivingEntityAccessor"
+    "LivingEntityAccessor"
   ],
   "injectors": {
-	"defaultRequire": 1
+    "defaultRequire": 1
   }
 }
