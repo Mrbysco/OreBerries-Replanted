@@ -46,7 +46,7 @@ public class VatRecipeValidator {
 		} else if (inputCount > 1) {
 			OreberriesReplanted.LOGGER.error("Recipe has too many inputs. {}", recipe.getId());
 			return false;
-		} else if (inputCount == 0 && 1 > 0) {
+		} else if (inputCount == 0) {
 			OreberriesReplanted.LOGGER.error("Recipe has no inputs. {}", recipe.getId());
 			return false;
 		}
