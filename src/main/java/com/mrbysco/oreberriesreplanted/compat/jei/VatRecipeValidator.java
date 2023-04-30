@@ -30,7 +30,7 @@ public class VatRecipeValidator {
 		if (recipe.isSpecial()) {
 			return true;
 		}
-		ItemStack recipeOutput = recipe.getResultItem();
+		ItemStack recipeOutput = recipe.getResultItem(null);
 		if (recipeOutput == null || recipeOutput.isEmpty()) {
 			OreberriesReplanted.LOGGER.error("Recipe has no output. {}", recipe.getId());
 			return false;

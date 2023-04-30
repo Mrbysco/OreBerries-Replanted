@@ -160,7 +160,7 @@ public class VatBlockEntity extends BlockEntity {
 
 	protected void evaporateLiquid(VatRecipe recipe) {
 		int evaporationAmount = recipe.getEvaporationAmount();
-		ItemStack outputStack = curRecipe.assemble(null);
+		ItemStack outputStack = curRecipe.assemble(null, level.registryAccess());
 		tank.drain(evaporationAmount, FluidAction.EXECUTE);
 
 		BlockPos blockpos = this.getBlockPos();

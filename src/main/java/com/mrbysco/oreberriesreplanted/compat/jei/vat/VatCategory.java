@@ -15,6 +15,9 @@ import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.ChatFormatting;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.fluids.FluidStack;
@@ -54,9 +57,16 @@ public class VatCategory implements IRecipeCategory<VatRecipe> {
 
 	@Override
 	public void setRecipe(IRecipeLayoutBuilder builder, VatRecipe recipe, IFocusGroup focuses) {
+		Minecraft minecraft = Minecraft.getInstance();
+		ClientLevel level = minecraft.level;
+		if (level == null) {
+			throw new NullPointerException("level must not be null.");
+		}
+		RegistryAccess registryAccess = level.registryAccess();
+
 		builder.addSlot(RecipeIngredientRole.INPUT, 10, 10).addIngredients(recipe.getIngredients().get(0));
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 113, 10)
-				.addItemStack(recipe.getResultItem()).addTooltipCallback(new OutputTooltip(recipe));
+				.addItemStack(recipe.getResultItem(registryAccess)).addTooltipCallback(new OutputTooltip(recipe));
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 62, 10)
 				.addIngredient(ForgeTypes.FLUID_STACK, new FluidStack(recipe.getFluid(), 1000)).addTooltipCallback(new FluidTooltip(recipe));
 	}

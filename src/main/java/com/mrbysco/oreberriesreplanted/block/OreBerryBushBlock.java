@@ -7,7 +7,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -140,7 +139,7 @@ public class OreBerryBushBlock extends Block implements IPlantable {
 	@Override
 	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entityIn) {
 		if (!(entityIn instanceof ItemEntity)) {
-			entityIn.hurt(DamageSource.CACTUS, 1.0F);
+			entityIn.hurt(level.damageSources().cactus(), 1.0F);
 		}
 	}
 

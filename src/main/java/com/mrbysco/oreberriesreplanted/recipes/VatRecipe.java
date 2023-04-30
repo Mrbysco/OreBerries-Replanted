@@ -6,6 +6,7 @@ import com.google.gson.JsonSyntaxException;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRecipes;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
@@ -57,8 +58,8 @@ public class VatRecipe implements Recipe<Container> {
 		return this.ingredient.test(inventory.getItem(0));
 	}
 
-	public ItemStack assemble(Container inventory) {
-		return getResultItem().copy();
+	public ItemStack assemble(Container inventory, RegistryAccess registryAccess) {
+		return getResultItem(registryAccess).copy();
 	}
 
 	public boolean canCraftInDimensions(int x, int y) {
@@ -75,7 +76,7 @@ public class VatRecipe implements Recipe<Container> {
 		return fluid;
 	}
 
-	public ItemStack getResultItem() {
+	public ItemStack getResultItem(RegistryAccess registryAccess) {
 		return result.getItems()[0];
 	}
 

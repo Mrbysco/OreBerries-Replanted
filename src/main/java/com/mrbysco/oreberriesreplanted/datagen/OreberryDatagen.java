@@ -423,7 +423,7 @@ public class OreberryDatagen {
 	public static class OreberryItemTags extends ItemTagsProvider {
 
 		public OreberryItemTags(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookupProvider, BlockTagsProvider blockTagsProvider, @Nullable ExistingFileHelper existingFileHelper) {
-			super(packOutput, lookupProvider, blockTagsProvider, Reference.MOD_ID, existingFileHelper);
+			super(packOutput, lookupProvider, blockTagsProvider.contentsGetter(), Reference.MOD_ID, existingFileHelper);
 		}
 
 		public static final TagKey<Item> NUGGETS_COPPER = forgeTag("nuggets/copper");

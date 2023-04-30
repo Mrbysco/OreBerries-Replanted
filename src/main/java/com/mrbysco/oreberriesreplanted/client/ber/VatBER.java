@@ -5,14 +5,15 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.mrbysco.oreberriesreplanted.blockentity.VatBlockEntity;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.block.model.ItemTransforms.TransformType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
@@ -28,6 +29,7 @@ public class VatBER implements BlockEntityRenderer<VatBlockEntity> {
 
 	@Override
 	public void render(VatBlockEntity vat, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int combinedLightIn, int combinedOverlayIn) {
+		final ClientLevel level = Minecraft.getInstance().level;
 		FluidStack fluidStack = vat.tank.getFluidInTank(0);
 		if (!fluidStack.isEmpty()) {
 			Fluid fluid = fluidStack.getFluid();
@@ -93,7 +95,7 @@ public class VatBER implements BlockEntityRenderer<VatBlockEntity> {
 				poseStack.mulPose(Axis.XP.rotationDegrees((float) 90));
 				poseStack.translate(i * 0.0125, i * 0.0125, 0);
 				poseStack.mulPose(Axis.ZP.rotationDegrees(i * random.nextInt(360)));
-				Minecraft.getInstance().getItemRenderer().renderStatic(berryStack, TransformType.GROUND, combinedLightIn, combinedOverlayIn, poseStack, bufferSource, 0);
+				Minecraft.getInstance().getItemRenderer().renderStatic(berryStack, ItemDisplayContext.GROUND, combinedLightIn, combinedOverlayIn, poseStack, bufferSource, level, 0);
 				poseStack.popPose();
 			}
 		}
