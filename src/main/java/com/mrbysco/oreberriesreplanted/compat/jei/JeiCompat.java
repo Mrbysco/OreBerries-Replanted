@@ -44,14 +44,14 @@ public class JeiCompat implements IModPlugin {
 
 	@Override
 	public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-		registration.addRecipeCatalyst(VanillaTypes.ITEM, new ItemStack(OreBerryRegistry.OAK_VAT.get()), VatCategory.TYPE);
-		registration.addRecipeCatalyst(VanillaTypes.ITEM, new ItemStack(OreBerryRegistry.SPRUCE_VAT.get()), VatCategory.TYPE);
-		registration.addRecipeCatalyst(VanillaTypes.ITEM, new ItemStack(OreBerryRegistry.BIRCH_VAT.get()), VatCategory.TYPE);
-		registration.addRecipeCatalyst(VanillaTypes.ITEM, new ItemStack(OreBerryRegistry.JUNGLE_VAT.get()), VatCategory.TYPE);
-		registration.addRecipeCatalyst(VanillaTypes.ITEM, new ItemStack(OreBerryRegistry.ACACIA_VAT.get()), VatCategory.TYPE);
-		registration.addRecipeCatalyst(VanillaTypes.ITEM, new ItemStack(OreBerryRegistry.DARK_OAK_VAT.get()), VatCategory.TYPE);
-		registration.addRecipeCatalyst(VanillaTypes.ITEM, new ItemStack(OreBerryRegistry.CRIMSON_VAT.get()), VatCategory.TYPE);
-		registration.addRecipeCatalyst(VanillaTypes.ITEM, new ItemStack(OreBerryRegistry.WARPED_VAT.get()), VatCategory.TYPE);
+		registration.addRecipeCatalyst(VanillaTypes.ITEM_STACK, new ItemStack(OreBerryRegistry.OAK_VAT.get()), VatCategory.TYPE);
+		registration.addRecipeCatalyst(VanillaTypes.ITEM_STACK, new ItemStack(OreBerryRegistry.SPRUCE_VAT.get()), VatCategory.TYPE);
+		registration.addRecipeCatalyst(VanillaTypes.ITEM_STACK, new ItemStack(OreBerryRegistry.BIRCH_VAT.get()), VatCategory.TYPE);
+		registration.addRecipeCatalyst(VanillaTypes.ITEM_STACK, new ItemStack(OreBerryRegistry.JUNGLE_VAT.get()), VatCategory.TYPE);
+		registration.addRecipeCatalyst(VanillaTypes.ITEM_STACK, new ItemStack(OreBerryRegistry.ACACIA_VAT.get()), VatCategory.TYPE);
+		registration.addRecipeCatalyst(VanillaTypes.ITEM_STACK, new ItemStack(OreBerryRegistry.DARK_OAK_VAT.get()), VatCategory.TYPE);
+		registration.addRecipeCatalyst(VanillaTypes.ITEM_STACK, new ItemStack(OreBerryRegistry.CRIMSON_VAT.get()), VatCategory.TYPE);
+		registration.addRecipeCatalyst(VanillaTypes.ITEM_STACK, new ItemStack(OreBerryRegistry.WARPED_VAT.get()), VatCategory.TYPE);
 	}
 
 	@Override

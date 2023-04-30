@@ -5,6 +5,7 @@ import com.mrbysco.oreberriesreplanted.compat.jei.JeiCompat;
 import com.mrbysco.oreberriesreplanted.recipes.VatRecipe;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
 import mezz.jei.api.constants.VanillaTypes;
+import mezz.jei.api.forge.ForgeTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotTooltipCallback;
@@ -31,7 +32,7 @@ public class VatCategory implements IRecipeCategory<VatRecipe> {
 
 	public VatCategory(IGuiHelper guiHelper) {
 		this.background = guiHelper.createDrawable(JeiCompat.RECIPE_VAT_JEI, 0, 0, 140, 37);
-		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM, new ItemStack(OreBerryRegistry.OAK_VAT.get()));
+		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(OreBerryRegistry.OAK_VAT.get()));
 		this.title = new TranslatableComponent("oreberriesreplanted.gui.jei.category.vat");
 	}
 
@@ -73,7 +74,7 @@ public class VatCategory implements IRecipeCategory<VatRecipe> {
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 113, 10)
 				.addItemStack(recipe.getResultItem()).addTooltipCallback(new OutputTooltip(recipe));
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 62, 10)
-				.addIngredient(VanillaTypes.FLUID, new FluidStack(recipe.getFluid(), 1000)).addTooltipCallback(new FluidTooltip(recipe));
+				.addIngredient(ForgeTypes.FLUID_STACK, new FluidStack(recipe.getFluid(), 1000)).addTooltipCallback(new FluidTooltip(recipe));
 	}
 
 	public static class OutputTooltip implements IRecipeSlotTooltipCallback {
@@ -98,7 +99,7 @@ public class VatCategory implements IRecipeCategory<VatRecipe> {
 
 		@Override
 		public void onTooltip(IRecipeSlotView recipeSlotView, List<Component> tooltip) {
-			recipeSlotView.getDisplayedIngredient().flatMap(fluidStack -> fluidStack.getIngredient(VanillaTypes.FLUID)).ifPresent(fluid -> tooltip.add(new TranslatableComponent("oreberriesreplanted.gui.jei.category.vat.tooltip",
+			recipeSlotView.getDisplayedIngredient().flatMap(fluidStack -> fluidStack.getIngredient(ForgeTypes.FLUID_STACK)).ifPresent(fluid -> tooltip.add(new TranslatableComponent("oreberriesreplanted.gui.jei.category.vat.tooltip",
 					((int) (recipe.getMin() * 100)), ((int) (recipe.getMax() * 100)), fluid.getDisplayName().getString()).withStyle(ChatFormatting.GOLD)));
 		}
 	}
