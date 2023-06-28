@@ -26,7 +26,7 @@
       "age": 3
     }
   },
-  "results": [
+  "drops": [
     {
       "chance": 0.75,
       "output": {
