@@ -26,7 +26,7 @@ java.toolchain.languageVersion = JavaLanguageVersion.of(17) // Mojang ships Java
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
-    mappings  channel: "${mcp_channel}", version: "${mcp_mappings}"
+    mappings channel: "${mcp_channel}", version: "${mcp_mappings}"
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
@@ -104,12 +104,12 @@ mixin {
 
 repositories {
     maven {
+        url 'https://maven.blamejared.com'
+    }
+    maven {
         name 'JEI maven'
         url = "https://dvs1.progwml6.com/files/maven"
     }
-//    maven {
-//        url 'https://maven.blamejared.com'
-//    }
 }
 
 dependencies {
@@ -118,22 +118,24 @@ dependencies {
 
     implementation fg.deobf("mezz.jei:jei-${mc_version}:${jei_version}")
 
-//    implementation fg.deobf("net.darkhax.bookshelf:Bookshelf-Forge-${mc_version}:${bookshelf_version}")
-//    implementation fg.deobf("net.darkhax.botanybots:BotanyPots-${mc_version}:${botanypots_version}")
+    runtimeOnly fg.deobf("net.darkhax.bookshelf:Bookshelf-Common-${mc_version}:${bookshelf_version}")
+    runtimeOnly fg.deobf("net.darkhax.bookshelf:Bookshelf-Forge-${mc_version}:${bookshelf_version}")
+    runtimeOnly fg.deobf("net.darkhax.botanypots:BotanyPots-Common-${mc_version}:${botanypots_version}")
+    runtimeOnly fg.deobf("net.darkhax.botanypots:BotanyPots-Forge-${mc_version}:${botanypots_version}")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
 jar {
     manifest {
         attributes([
-            "Specification-Title"     : "oreberriesreplanted",
-            "Specification-Vendor"    : "Mrbysco",
-            "Specification-Version"   : "1", // We are version 1 of ourselves
-            "Implementation-Title"    : project.name,
-            "Implementation-Version"  : project.jar.archiveVersion,
-            "Implementation-Vendor"   : "Mrbysco",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-            "MixinConfigs"            : "oreberriesreplanted.mixins.json"
+                "Specification-Title"     : "oreberriesreplanted",
+                "Specification-Vendor"    : "Mrbysco",
+                "Specification-Version"   : "1", // We are version 1 of ourselves
+                "Implementation-Title"    : project.name,
+                "Implementation-Version"  : project.jar.archiveVersion,
+                "Implementation-Vendor"   : "Mrbysco",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
+                "MixinConfigs"            : "oreberriesreplanted.mixins.json"
         ])
     }
 }
@@ -156,7 +158,7 @@ publishing {
     repositories {
         if (System.getenv().SAP_SECRET) {
             maven {
-                url "https://maven.saps.dev/minecraft"
+                url "https://maven.saps.dev/releases"
                 credentials {
                     username = "mrbysco"
                     password = "${System.getenv().SAP_SECRET}"
