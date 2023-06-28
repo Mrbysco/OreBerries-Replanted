@@ -107,10 +107,10 @@ dependencies {
     compileOnly fg.deobf("mezz.jei:jei-${mc_version}-forge-api:${jei_version}")
 
     runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}")
-//    runtimeOnly fg.deobf("net.darkhax.bookshelf:Bookshelf-Common-${mc_version}:${bookshelf_version}")
-//    runtimeOnly fg.deobf("net.darkhax.bookshelf:Bookshelf-Forge-${mc_version}:${bookshelf_version}")
-//    runtimeOnly fg.deobf("net.darkhax.botanypots:BotanyPots-Common-${mc_version}:${botanypots_version}")
-//    runtimeOnly fg.deobf("net.darkhax.botanypots:BotanyPots-Forge-${mc_version}:${botanypots_version}")
+    runtimeOnly fg.deobf("net.darkhax.bookshelf:Bookshelf-Common-${mc_version}:${bookshelf_version}")
+    runtimeOnly fg.deobf("net.darkhax.bookshelf:Bookshelf-Forge-${mc_version}:${bookshelf_version}")
+    runtimeOnly fg.deobf("net.darkhax.botanypots:BotanyPots-Common-${mc_version}:${botanypots_version}")
+    runtimeOnly fg.deobf("net.darkhax.botanypots:BotanyPots-Forge-${mc_version}:${botanypots_version}")
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
@@ -147,7 +147,7 @@ publishing {
     repositories {
         if (System.getenv().SAP_SECRET) {
             maven {
-                url "https://maven.saps.dev/minecraft"
+                url "https://maven.saps.dev/releases"
                 credentials {
                     username = "mrbysco"
                     password = "${System.getenv().SAP_SECRET}"
