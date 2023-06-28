@@ -20,7 +20,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 import net.minecraft.world.level.levelgen.feature.Feature;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.material.MapColor;
+import net.minecraft.world.level.material.PushReaction;
 import net.minecraftforge.fluids.FluidType;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -42,31 +43,31 @@ public class OreBerryRegistry {
 
 
 	//Fluids
-	public static final LiquidReg IRON_OREBERRY_JUICE = new LiquidReg("iron_oreberry_juice", Material.LAVA, 0xFFc9c9c9);
-	public static final LiquidReg GOLD_OREBERRY_JUICE = new LiquidReg("gold_oreberry_juice", Material.LAVA, 0xFFfad64a);
-	public static final LiquidReg COPPER_OREBERRY_JUICE = new LiquidReg("copper_oreberry_juice", Material.LAVA, 0xFFf8b18d);
-	public static final LiquidReg TIN_OREBERRY_JUICE = new LiquidReg("tin_oreberry_juice", Material.LAVA, 0xFF74609e);
-	public static final LiquidReg ALUMINUM_OREBERRY_JUICE = new LiquidReg("aluminum_oreberry_juice", Material.LAVA, 0xFFc5dbed);
-	public static final LiquidReg LEAD_OREBERRY_JUICE = new LiquidReg("lead_oreberry_juice", Material.LAVA, 0xFF707e8a);
-	public static final LiquidReg NICKEL_OREBERRY_JUICE = new LiquidReg("nickel_oreberry_juice", Material.LAVA, 0xFFb0b59f);
-	public static final LiquidReg URANIUM_OREBERRY_JUICE = new LiquidReg("uranium_oreberry_juice", Material.LAVA, 0xFF98b350);
-	public static final LiquidReg OSMIUM_OREBERRY_JUICE = new LiquidReg("osmium_oreberry_juice", Material.LAVA, 0xFF83b0bd);
-	public static final LiquidReg ZINC_OREBERRY_JUICE = new LiquidReg("zinc_oreberry_juice", Material.LAVA, 0xFFd1d1a5);
-	public static final LiquidReg SILVER_OREBERRY_JUICE = new LiquidReg("silver_oreberry_juice", Material.LAVA, 0xFF898fc9);
+	public static final LiquidReg IRON_OREBERRY_JUICE = new LiquidReg.Builder("iron_oreberry_juice", true, 0xFFc9c9c9).build();
+	public static final LiquidReg GOLD_OREBERRY_JUICE = new LiquidReg.Builder("gold_oreberry_juice", true, 0xFFfad64a).build();
+	public static final LiquidReg COPPER_OREBERRY_JUICE = new LiquidReg.Builder("copper_oreberry_juice", true, 0xFFf8b18d).build();
+	public static final LiquidReg TIN_OREBERRY_JUICE = new LiquidReg.Builder("tin_oreberry_juice", true, 0xFF74609e).build();
+	public static final LiquidReg ALUMINUM_OREBERRY_JUICE = new LiquidReg.Builder("aluminum_oreberry_juice", true, 0xFFc5dbed).build();
+	public static final LiquidReg LEAD_OREBERRY_JUICE = new LiquidReg.Builder("lead_oreberry_juice", true, 0xFF707e8a).build();
+	public static final LiquidReg NICKEL_OREBERRY_JUICE = new LiquidReg.Builder("nickel_oreberry_juice", true, 0xFFb0b59f).build();
+	public static final LiquidReg URANIUM_OREBERRY_JUICE = new LiquidReg.Builder("uranium_oreberry_juice", true, 0xFF98b350).build();
+	public static final LiquidReg OSMIUM_OREBERRY_JUICE = new LiquidReg.Builder("osmium_oreberry_juice", true, 0xFF83b0bd).build();
+	public static final LiquidReg ZINC_OREBERRY_JUICE = new LiquidReg.Builder("zinc_oreberry_juice", true, 0xFFd1d1a5).build();
+	public static final LiquidReg SILVER_OREBERRY_JUICE = new LiquidReg.Builder("silver_oreberry_juice", true, 0xFF898fc9).build();
 
 	//Blocks
-	public static final RegistryObject<Block> IRON_OREBERRY_BUSH = BLOCKS.register("iron_oreberry_bush", () -> new OreBerryBushBlock(blockBuilder(), OreBerryRegistry.IRON_OREBERRY, OreEnum.IRON));
-	public static final RegistryObject<Block> GOLD_OREBERRY_BUSH = BLOCKS.register("gold_oreberry_bush", () -> new OreBerryBushBlock(blockBuilder(), OreBerryRegistry.GOLD_OREBERRY, OreEnum.GOLD));
-	public static final RegistryObject<Block> COPPER_OREBERRY_BUSH = BLOCKS.register("copper_oreberry_bush", () -> new OreBerryBushBlock(blockBuilder(), OreBerryRegistry.COPPER_OREBERRY, OreEnum.COPPER));
-	public static final RegistryObject<Block> TIN_OREBERRY_BUSH = BLOCKS.register("tin_oreberry_bush", () -> new OreBerryBushBlock(blockBuilder(), OreBerryRegistry.TIN_OREBERRY, OreEnum.TIN));
-	public static final RegistryObject<Block> ALUMINUM_OREBERRY_BUSH = BLOCKS.register("aluminum_oreberry_bush", () -> new OreBerryBushBlock(blockBuilder(), OreBerryRegistry.ALUMINUM_OREBERRY, OreEnum.ALUMINUM));
-	public static final RegistryObject<Block> LEAD_OREBERRY_BUSH = BLOCKS.register("lead_oreberry_bush", () -> new OreBerryBushBlock(blockBuilder(), OreBerryRegistry.LEAD_OREBERRY, OreEnum.LEAD));
-	public static final RegistryObject<Block> NICKEL_OREBERRY_BUSH = BLOCKS.register("nickel_oreberry_bush", () -> new OreBerryBushBlock(blockBuilder(), OreBerryRegistry.NICKEL_OREBERRY, OreEnum.NICKEL));
-	public static final RegistryObject<Block> URANIUM_OREBERRY_BUSH = BLOCKS.register("uranium_oreberry_bush", () -> new OreBerryBushBlock(blockBuilder(), OreBerryRegistry.URANIUM_OREBERRY, OreEnum.URANIUM));
-	public static final RegistryObject<Block> OSMIUM_OREBERRY_BUSH = BLOCKS.register("osmium_oreberry_bush", () -> new OreBerryBushBlock(blockBuilder(), OreBerryRegistry.OSMIUM_OREBERRY, OreEnum.OSMIUM));
-	public static final RegistryObject<Block> ZINC_OREBERRY_BUSH = BLOCKS.register("zinc_oreberry_bush", () -> new OreBerryBushBlock(blockBuilder(), OreBerryRegistry.ZINC_OREBERRY, OreEnum.ZINC));
-	public static final RegistryObject<Block> SILVER_OREBERRY_BUSH = BLOCKS.register("silver_oreberry_bush", () -> new OreBerryBushBlock(blockBuilder(), OreBerryRegistry.SILVER_OREBERRY, OreEnum.SILVER));
-	public static final RegistryObject<Block> ESSENCE_BERRY_BUSH = BLOCKS.register("essence_berry_bush", () -> new OreBerryBushBlock(blockBuilder(), OreBerryRegistry.ESSENCE_BERRY, OreEnum.ESSENCE));
+	public static final RegistryObject<Block> IRON_OREBERRY_BUSH = BLOCKS.register("iron_oreberry_bush", () -> new OreBerryBushBlock(blockBuilder(Blocks.OAK_LEAVES.defaultMapColor()), OreBerryRegistry.IRON_OREBERRY, OreEnum.IRON));
+	public static final RegistryObject<Block> GOLD_OREBERRY_BUSH = BLOCKS.register("gold_oreberry_bush", () -> new OreBerryBushBlock(blockBuilder(Blocks.OAK_LEAVES.defaultMapColor()), OreBerryRegistry.GOLD_OREBERRY, OreEnum.GOLD));
+	public static final RegistryObject<Block> COPPER_OREBERRY_BUSH = BLOCKS.register("copper_oreberry_bush", () -> new OreBerryBushBlock(blockBuilder(Blocks.OAK_LEAVES.defaultMapColor()), OreBerryRegistry.COPPER_OREBERRY, OreEnum.COPPER));
+	public static final RegistryObject<Block> TIN_OREBERRY_BUSH = BLOCKS.register("tin_oreberry_bush", () -> new OreBerryBushBlock(blockBuilder(Blocks.OAK_LEAVES.defaultMapColor()), OreBerryRegistry.TIN_OREBERRY, OreEnum.TIN));
+	public static final RegistryObject<Block> ALUMINUM_OREBERRY_BUSH = BLOCKS.register("aluminum_oreberry_bush", () -> new OreBerryBushBlock(blockBuilder(Blocks.OAK_LEAVES.defaultMapColor()), OreBerryRegistry.ALUMINUM_OREBERRY, OreEnum.ALUMINUM));
+	public static final RegistryObject<Block> LEAD_OREBERRY_BUSH = BLOCKS.register("lead_oreberry_bush", () -> new OreBerryBushBlock(blockBuilder(Blocks.OAK_LEAVES.defaultMapColor()), OreBerryRegistry.LEAD_OREBERRY, OreEnum.LEAD));
+	public static final RegistryObject<Block> NICKEL_OREBERRY_BUSH = BLOCKS.register("nickel_oreberry_bush", () -> new OreBerryBushBlock(blockBuilder(Blocks.OAK_LEAVES.defaultMapColor()), OreBerryRegistry.NICKEL_OREBERRY, OreEnum.NICKEL));
+	public static final RegistryObject<Block> URANIUM_OREBERRY_BUSH = BLOCKS.register("uranium_oreberry_bush", () -> new OreBerryBushBlock(blockBuilder(Blocks.OAK_LEAVES.defaultMapColor()), OreBerryRegistry.URANIUM_OREBERRY, OreEnum.URANIUM));
+	public static final RegistryObject<Block> OSMIUM_OREBERRY_BUSH = BLOCKS.register("osmium_oreberry_bush", () -> new OreBerryBushBlock(blockBuilder(Blocks.OAK_LEAVES.defaultMapColor()), OreBerryRegistry.OSMIUM_OREBERRY, OreEnum.OSMIUM));
+	public static final RegistryObject<Block> ZINC_OREBERRY_BUSH = BLOCKS.register("zinc_oreberry_bush", () -> new OreBerryBushBlock(blockBuilder(Blocks.OAK_LEAVES.defaultMapColor()), OreBerryRegistry.ZINC_OREBERRY, OreEnum.ZINC));
+	public static final RegistryObject<Block> SILVER_OREBERRY_BUSH = BLOCKS.register("silver_oreberry_bush", () -> new OreBerryBushBlock(blockBuilder(Blocks.OAK_LEAVES.defaultMapColor()), OreBerryRegistry.SILVER_OREBERRY, OreEnum.SILVER));
+	public static final RegistryObject<Block> ESSENCE_BERRY_BUSH = BLOCKS.register("essence_berry_bush", () -> new OreBerryBushBlock(blockBuilder(Blocks.OAK_LEAVES.defaultMapColor()), OreBerryRegistry.ESSENCE_BERRY, OreEnum.ESSENCE));
 
 	public static final RegistryObject<Block> POTTED_IRON_OREBERRY_BUSH = BLOCKS.register("potted_iron_oreberry_bush", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, OreBerryRegistry.IRON_OREBERRY_BUSH, potBuilder()));
 	public static final RegistryObject<Block> POTTED_GOLD_OREBERRY_BUSH = BLOCKS.register("potted_gold_oreberry_bush", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, OreBerryRegistry.GOLD_OREBERRY_BUSH, potBuilder()));
@@ -81,15 +82,16 @@ public class OreBerryRegistry {
 	public static final RegistryObject<Block> POTTED_SILVER_OREBERRY_BUSH = BLOCKS.register("potted_silver_oreberry_bush", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, OreBerryRegistry.SILVER_OREBERRY_BUSH, potBuilder()));
 	public static final RegistryObject<Block> POTTED_ESSENCE_BERRY_BUSH = BLOCKS.register("potted_essence_berry_bush", () -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, OreBerryRegistry.ESSENCE_BERRY_BUSH, potBuilder()));
 
-	public static final RegistryObject<Block> OAK_VAT = BLOCKS.register("oak_vat", () -> new VatBlock(blockBuilder()));
-	public static final RegistryObject<Block> SPRUCE_VAT = BLOCKS.register("spruce_vat", () -> new VatBlock(blockBuilder()));
-	public static final RegistryObject<Block> BIRCH_VAT = BLOCKS.register("birch_vat", () -> new VatBlock(blockBuilder()));
-	public static final RegistryObject<Block> JUNGLE_VAT = BLOCKS.register("jungle_vat", () -> new VatBlock(blockBuilder()));
-	public static final RegistryObject<Block> ACACIA_VAT = BLOCKS.register("acacia_vat", () -> new VatBlock(blockBuilder()));
-	public static final RegistryObject<Block> DARK_OAK_VAT = BLOCKS.register("dark_oak_vat", () -> new VatBlock(blockBuilder()));
-	public static final RegistryObject<Block> MANGROVE_VAT = BLOCKS.register("mangrove_vat", () -> new VatBlock(blockBuilder()));
-	public static final RegistryObject<Block> CRIMSON_VAT = BLOCKS.register("crimson_vat", () -> new VatBlock(blockBuilder()));
-	public static final RegistryObject<Block> WARPED_VAT = BLOCKS.register("warped_vat", () -> new VatBlock(blockBuilder()));
+	public static final RegistryObject<Block> OAK_VAT = BLOCKS.register("oak_vat", () -> new VatBlock(blockBuilder(Blocks.OAK_PLANKS.defaultMapColor())));
+	public static final RegistryObject<Block> SPRUCE_VAT = BLOCKS.register("spruce_vat", () -> new VatBlock(blockBuilder(Blocks.SPRUCE_PLANKS.defaultMapColor())));
+	public static final RegistryObject<Block> BIRCH_VAT = BLOCKS.register("birch_vat", () -> new VatBlock(blockBuilder(Blocks.BIRCH_PLANKS.defaultMapColor())));
+	public static final RegistryObject<Block> JUNGLE_VAT = BLOCKS.register("jungle_vat", () -> new VatBlock(blockBuilder(Blocks.JUNGLE_PLANKS.defaultMapColor())));
+	public static final RegistryObject<Block> ACACIA_VAT = BLOCKS.register("acacia_vat", () -> new VatBlock(blockBuilder(Blocks.ACACIA_PLANKS.defaultMapColor())));
+	public static final RegistryObject<Block> DARK_OAK_VAT = BLOCKS.register("dark_oak_vat", () -> new VatBlock(blockBuilder(Blocks.DARK_OAK_PLANKS.defaultMapColor())));
+	public static final RegistryObject<Block> MANGROVE_VAT = BLOCKS.register("mangrove_vat", () -> new VatBlock(blockBuilder(Blocks.MANGROVE_PLANKS.defaultMapColor())));
+	public static final RegistryObject<Block> CHERRY_VAT = BLOCKS.register("cherry_vat", () -> new VatBlock(blockBuilder(Blocks.CHERRY_PLANKS.defaultMapColor())));
+	public static final RegistryObject<Block> CRIMSON_VAT = BLOCKS.register("crimson_vat", () -> new VatBlock(blockBuilder(Blocks.CRIMSON_PLANKS.defaultMapColor())));
+	public static final RegistryObject<Block> WARPED_VAT = BLOCKS.register("warped_vat", () -> new VatBlock(blockBuilder(Blocks.WARPED_PLANKS.defaultMapColor())));
 
 	//Tiles
 	public static final RegistryObject<BlockEntityType<VatBlockEntity>> VAT_BLOCK_ENTITY = BLOCK_ENTITY_TYPES.register("vat", () -> BlockEntityType.Builder.of(VatBlockEntity::new,
@@ -131,15 +133,16 @@ public class OreBerryRegistry {
 	public static final RegistryObject<Item> ACACIA_VAT_ITEM = ITEMS.register("acacia_vat", () -> new BlockItem(ACACIA_VAT.get(), itemBuilder()));
 	public static final RegistryObject<Item> DARK_OAK_VAT_ITEM = ITEMS.register("dark_oak_vat", () -> new BlockItem(DARK_OAK_VAT.get(), itemBuilder()));
 	public static final RegistryObject<Item> MANGROVE_VAT_ITEM = ITEMS.register("mangrove_vat", () -> new BlockItem(MANGROVE_VAT.get(), itemBuilder()));
+	public static final RegistryObject<Item> CHERRY_VAT_ITEM = ITEMS.register("cherry_vat", () -> new BlockItem(CHERRY_VAT.get(), itemBuilder()));
 	public static final RegistryObject<Item> CRIMSON_VAT_ITEM = ITEMS.register("crimson_vat", () -> new BlockItem(CRIMSON_VAT.get(), itemBuilder()));
 	public static final RegistryObject<Item> WARPED_VAT_ITEM = ITEMS.register("warped_vat", () -> new BlockItem(WARPED_VAT.get(), itemBuilder()));
 
-	private static BlockBehaviour.Properties blockBuilder() {
-		return BlockBehaviour.Properties.of(Material.LEAVES).sound(SoundType.SWEET_BERRY_BUSH).noOcclusion().isSuffocating(OreBerryBushBlock::isntSolid).isViewBlocking(OreBerryBushBlock::isntSolid);
+	private static BlockBehaviour.Properties blockBuilder(MapColor mapColor) {
+		return BlockBehaviour.Properties.of().mapColor(mapColor).sound(SoundType.SWEET_BERRY_BUSH).noOcclusion().isSuffocating(OreBerryBushBlock::isntSolid).isViewBlocking(OreBerryBushBlock::isntSolid);
 	}
 
 	private static BlockBehaviour.Properties potBuilder() {
-		return BlockBehaviour.Properties.of(Material.DECORATION).instabreak().noOcclusion();
+		return BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY);
 	}
 
 	private static Item.Properties itemBuilder() {

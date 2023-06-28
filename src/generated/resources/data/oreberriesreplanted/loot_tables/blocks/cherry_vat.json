@@ -11,11 +11,11 @@
       "entries": [
         {
           "type": "minecraft:item",
-          "name": "oreberriesreplanted:crimson_vat"
+          "name": "oreberriesreplanted:cherry_vat"
         }
       ],
       "rolls": 1.0
     }
   ],
-  "random_sequence": "oreberriesreplanted:blocks/crimson_vat"
+  "random_sequence": "oreberriesreplanted:blocks/cherry_vat"
 }

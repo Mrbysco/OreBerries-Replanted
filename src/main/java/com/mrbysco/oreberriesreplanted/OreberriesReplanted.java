@@ -33,6 +33,7 @@ public class OreberriesReplanted {
 		OreBerryRegistry.FLUIDS.register(eventBus);
 		OreBerryRegistry.FLUID_TYPES.register(eventBus);
 		OreBerryRegistry.BLOCK_ENTITY_TYPES.register(eventBus);
+		OreBerryTab.CREATIVE_MODE_TABS.register(eventBus);
 		OreBerryRecipes.RECIPE_TYPES.register(eventBus);
 		OreBerryRecipes.RECIPE_SERIALIZERS.register(eventBus);
 		OreBerryRegistry.FEATURES.register(eventBus);

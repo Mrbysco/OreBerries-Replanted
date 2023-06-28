@@ -10,7 +10,6 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.minecraftforge.fluids.FluidType;
@@ -62,12 +61,12 @@ public class LiquidReg {
 		return new ForgeFlowingFluid.Properties(type, still, flowing).bucket(bucket);
 	}
 
-	public LiquidReg(String name, Material material, int color) {
+	public LiquidReg(String name, int color, boolean hot) {
 		this.name = name;
-		this.fluidType = OreBerryRegistry.FLUID_TYPES.register(name, () -> new FluidType(FluidHelper.createTypeProperties().temperature(material == Material.WATER ? 300 : 1000)) {
+		this.fluidType = OreBerryRegistry.FLUID_TYPES.register(name, () -> new FluidType(FluidHelper.createTypeProperties().temperature(hot ? 300 : 1000)) {
 			@Override
 			public double motionScale(Entity entity) {
-				return entity.level.dimensionType().ultraWarm() ? 0.007D : 0.0023333333333333335D;
+				return entity.level().dimensionType().ultraWarm() ? 0.007D : 0.0023333333333333335D;
 			}
 
 			@Override
@@ -110,5 +109,21 @@ public class LiquidReg {
 				createProperties(fluidType, source, flowing, bucket))
 		);
 		bucket = OreBerryRegistry.ITEMS.register(name + "_bucket", () -> new BucketItem(source, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
+	}
+
+	public static class Builder {
+		private final String name;
+		private final int color;
+		private boolean hot;
+
+		public Builder(String name, boolean hot, int color) {
+			this.name = name;
+			this.hot = hot;
+			this.color = color;
+		}
+
+		public LiquidReg build() {
+			return new LiquidReg(name, color, hot);
+		}
 	}
 }

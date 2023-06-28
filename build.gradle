@@ -1,20 +1,27 @@
 plugins {
+    id 'idea'
     id 'maven-publish'
-    id 'net.minecraftforge.gradle' version '5.+'
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
     id 'org.spongepowered.mixin'
     id 'com.matthewprenger.cursegradle' version '1.4.0'
     id 'com.modrinth.minotaur' version "2.+"
 }
 
 version = "${version}"
-group = 'com.mrbysco.oreberriesreplanted' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = "OreBerries-Replanted-${mc_version}"
+group = "${mod_group}"
+base {
+    archivesName = "${mod_archive_name}-${mc_version}"
+}
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(17) // Mojang ships Java 8 to end users, so your mod should target Java 8.
+// Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
 println('Java: ' + System.getProperty('java.version') + ' JVM: ' + System.getProperty('java.vm.version') + '(' + System.getProperty('java.vendor') + ') Arch: ' + System.getProperty('os.arch'))
 minecraft {
-    mappings channel: "${mcp_channel}", version: "${mcp_mappings}"
+    mappings channel: "${mapping_channel}", version: "${mapping_version}"
+
+    copyIdeResources = true
+
     // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
     accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
@@ -23,18 +30,22 @@ minecraft {
     runs {
         client {
             workingDirectory project.file('run')
-            arg '--mixin.config=oreberriesreplanted.mixins.json'
+            arg "--mixin.config=${mod_id}.mixins.json"
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
 
             // Recommended logging data for a userdev environment
             // property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.markers', 'REGISTRIES'
 
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
 
+            // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
+            property 'forge.enabledGameTestNamespaces', "${mod_id}"
+
             mods {
-                oreberries {
+                "${mod_id}" {
                     source sourceSets.main
                 }
             }
@@ -42,18 +53,22 @@ minecraft {
 
         server {
             workingDirectory project.file('run')
-            arg '--mixin.config=oreberriesreplanted.mixins.json'
+            arg "--mixin.config=${mod_id}.mixins.json"
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
 
             // Recommended logging data for a userdev environment
             // property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.markers', 'REGISTRIES'
 
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
 
+            // Comma-separated list of namespaces to load gametests from. Empty = all namespaces.
+            property 'forge.enabledGameTestNamespaces', "${mod_id}"
+
             mods {
-                oreberries {
+                "${mod_id}" {
                     source sourceSets.main
                 }
             }
@@ -61,21 +76,22 @@ minecraft {
 
         data {
             workingDirectory project.file('run')
-            arg '--mixin.config=oreberriesreplanted.mixins.json'
+            arg "--mixin.config=${mod_id}.mixins.json"
             property 'mixin.env.remapRefMap', 'true'
             property 'mixin.env.refMapRemappingFile', "${projectDir}/build/createSrgToMcp/output.srg"
 
             // Recommended logging data for a userdev environment
             // property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
+            property 'forge.logging.markers', 'REGISTRIES'
 
             // Recommended logging level for the console
             property 'forge.logging.console.level', 'debug'
 
             // Specify the modid for data generation, where to output the resulting resource, and where to look for existing resources.
-            args '--mod', 'oreberriesreplanted', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+            args '--mod', "${mod_id}", '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
             mods {
-                oreberries {
+                "${mod_id}" {
                     source sourceSets.main
                 }
             }
@@ -87,13 +103,10 @@ minecraft {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 mixin {
-    add sourceSets.main, 'oreberriesreplanted.refmap.json'
+    add sourceSets.main, "${mod_id}.refmap.json"
 }
 
 repositories {
-    maven {
-        url = "https://dvs1.progwml6.com/files/maven"
-    }
     maven {
         url = "https://maven.blamejared.com"
     }
@@ -107,24 +120,25 @@ dependencies {
     compileOnly fg.deobf("mezz.jei:jei-${mc_version}-forge-api:${jei_version}")
 
     runtimeOnly fg.deobf("mezz.jei:jei-${mc_version}-forge:${jei_version}")
-//    runtimeOnly fg.deobf("net.darkhax.bookshelf:Bookshelf-Common-${mc_version}:${bookshelf_version}")
-//    runtimeOnly fg.deobf("net.darkhax.bookshelf:Bookshelf-Forge-${mc_version}:${bookshelf_version}")
-//    runtimeOnly fg.deobf("net.darkhax.botanypots:BotanyPots-Common-${mc_version}:${botanypots_version}")
-//    runtimeOnly fg.deobf("net.darkhax.botanypots:BotanyPots-Forge-${mc_version}:${botanypots_version}")
+
+    runtimeOnly fg.deobf("net.darkhax.bookshelf:Bookshelf-Common-1.20:${bookshelf_version}")
+    runtimeOnly fg.deobf("net.darkhax.bookshelf:Bookshelf-Forge-1.20:${bookshelf_version}")
+    runtimeOnly fg.deobf("net.darkhax.botanypots:BotanyPots-Common-1.20:${botanypots_version}")
+    runtimeOnly fg.deobf("net.darkhax.botanypots:BotanyPots-Forge-1.20:${botanypots_version}")
 }
 
-// Example for how to get properties into the manifest for reading by the runtime..
+// Example for how to get properties into the manifest for reading at runtime.
 jar {
     manifest {
         attributes([
-                "Specification-Title"     : "oreberriesreplanted",
+                "Specification-Title"     : "${mod_id}",
                 "Specification-Vendor"    : "Mrbysco",
                 "Specification-Version"   : "1", // We are version 1 of ourselves
                 "Implementation-Title"    : project.name,
                 "Implementation-Version"  : project.jar.archiveVersion,
                 "Implementation-Vendor"   : "Mrbysco",
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                "MixinConfigs"            : "oreberriesreplanted.mixins.json"
+                "MixinConfigs"            : "${mod_id}.mixins.json"
         ])
     }
 }
@@ -163,7 +177,6 @@ tasks.withType(JavaCompile).configureEach {
 
 apply from: 'gradle/curseforge.gradle'
 apply from: 'gradle/modrinth.gradle'
-
 
 ////////////////
 // IntelliJ Project Import

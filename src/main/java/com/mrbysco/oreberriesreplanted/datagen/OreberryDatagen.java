@@ -24,7 +24,6 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.LootTables;
 import net.minecraft.world.level.storage.loot.ValidationContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
@@ -136,6 +135,7 @@ public class OreberryDatagen {
 				this.dropSelf(OreBerryRegistry.ACACIA_VAT.get());
 				this.dropSelf(OreBerryRegistry.DARK_OAK_VAT.get());
 				this.dropSelf(OreBerryRegistry.MANGROVE_VAT.get());
+				this.dropSelf(OreBerryRegistry.CHERRY_VAT.get());
 				this.dropSelf(OreBerryRegistry.CRIMSON_VAT.get());
 				this.dropSelf(OreBerryRegistry.WARPED_VAT.get());
 			}
@@ -148,7 +148,7 @@ public class OreberryDatagen {
 
 		@Override
 		protected void validate(Map<ResourceLocation, LootTable> map, @Nonnull ValidationContext validationContext) {
-			map.forEach((name, table) -> LootTables.validate(validationContext, name, table));
+			map.forEach((name, table) -> table.validate(validationContext));
 		}
 	}
 
@@ -196,6 +196,7 @@ public class OreberryDatagen {
 			addBlock(OreBerryRegistry.ACACIA_VAT, "Acacia Vat");
 			addBlock(OreBerryRegistry.DARK_OAK_VAT, "Oak Vat");
 			addBlock(OreBerryRegistry.MANGROVE_VAT, "Mangrove Vat");
+			addBlock(OreBerryRegistry.CHERRY_VAT, "Cherry Vat");
 			addBlock(OreBerryRegistry.CRIMSON_VAT, "Crimson Vat");
 			addBlock(OreBerryRegistry.WARPED_VAT, "Warped Vat");
 
@@ -293,6 +294,7 @@ public class OreberryDatagen {
 			withParent(OreBerryRegistry.ACACIA_VAT_ITEM.get(), modLoc("block/" + OreBerryRegistry.ACACIA_VAT.getId().getPath()));
 			withParent(OreBerryRegistry.DARK_OAK_VAT_ITEM.get(), modLoc("block/" + OreBerryRegistry.DARK_OAK_VAT.getId().getPath()));
 			withParent(OreBerryRegistry.MANGROVE_VAT_ITEM.get(), modLoc("block/" + OreBerryRegistry.MANGROVE_VAT.getId().getPath()));
+			withParent(OreBerryRegistry.CHERRY_VAT_ITEM.get(), modLoc("block/" + OreBerryRegistry.CHERRY_VAT.getId().getPath()));
 			withParent(OreBerryRegistry.CRIMSON_VAT_ITEM.get(), modLoc("block/" + OreBerryRegistry.CRIMSON_VAT.getId().getPath()));
 			withParent(OreBerryRegistry.WARPED_VAT_ITEM.get(), modLoc("block/" + OreBerryRegistry.WARPED_VAT.getId().getPath()));
 
@@ -358,6 +360,7 @@ public class OreberryDatagen {
 			makeVat(OreBerryRegistry.ACACIA_VAT.get(), mcLoc("block/acacia_planks"));
 			makeVat(OreBerryRegistry.DARK_OAK_VAT.get(), mcLoc("block/dark_oak_planks"));
 			makeVat(OreBerryRegistry.MANGROVE_VAT.get(), mcLoc("block/mangrove_planks"));
+			makeVat(OreBerryRegistry.CHERRY_VAT.get(), mcLoc("block/cherry_planks"));
 			makeVat(OreBerryRegistry.CRIMSON_VAT.get(), mcLoc("block/crimson_planks"));
 			makeVat(OreBerryRegistry.WARPED_VAT.get(), mcLoc("block/warped_planks"));
 		}
@@ -415,8 +418,8 @@ public class OreberryDatagen {
 		protected void addTags(HolderLookup.Provider provider) {
 			this.tag(BlockTags.MINEABLE_WITH_AXE).add(OreBerryRegistry.OAK_VAT.get(), OreBerryRegistry.SPRUCE_VAT.get(),
 					OreBerryRegistry.BIRCH_VAT.get(), OreBerryRegistry.JUNGLE_VAT.get(), OreBerryRegistry.ACACIA_VAT.get(),
-					OreBerryRegistry.DARK_OAK_VAT.get(), OreBerryRegistry.MANGROVE_VAT.get(), OreBerryRegistry.CRIMSON_VAT.get(),
-					OreBerryRegistry.WARPED_VAT.get());
+					OreBerryRegistry.DARK_OAK_VAT.get(), OreBerryRegistry.MANGROVE_VAT.get(), OreBerryRegistry.CHERRY_VAT.get(),
+					OreBerryRegistry.CRIMSON_VAT.get(), OreBerryRegistry.WARPED_VAT.get());
 		}
 	}
 
