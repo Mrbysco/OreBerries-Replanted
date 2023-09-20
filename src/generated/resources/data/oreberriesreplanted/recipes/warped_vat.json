@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "P": {
+      "item": "minecraft:warped_planks"
+    },
+    "S": {
+      "item": "minecraft:warped_slab"
+    }
+  },
+  "pattern": [
+    "P P",
+    "PSP"
+  ],
+  "result": {
+    "item": "oreberriesreplanted:warped_vat"
+  },
+  "show_notification": true
+}

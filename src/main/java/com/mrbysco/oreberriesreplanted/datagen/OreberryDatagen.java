@@ -1,6 +1,7 @@
 package com.mrbysco.oreberriesreplanted.datagen;
 
 import com.mrbysco.oreberriesreplanted.Reference;
+import com.mrbysco.oreberriesreplanted.datagen.builder.TagSmeltingRecipeBuilder;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
 import com.mrbysco.oreberriesreplanted.worldgen.OreBerryFeatures;
 import com.mrbysco.oreberriesreplanted.worldgen.OreBerryPlacements;
@@ -13,6 +14,10 @@ import net.minecraft.data.DataGenerator;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.loot.BlockLootSubProvider;
 import net.minecraft.data.loot.LootTableProvider;
+import net.minecraft.data.recipes.FinishedRecipe;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.registries.VanillaRegistries;
 import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.resources.ResourceLocation;
@@ -21,6 +26,9 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.storage.loot.LootTable;
@@ -30,7 +38,10 @@ import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
 import net.minecraftforge.client.model.generators.ModelFile;
-import net.minecraftforge.common.Tags.Items;
+import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.crafting.ConditionalRecipe;
+import net.minecraftforge.common.crafting.conditions.NotCondition;
+import net.minecraftforge.common.crafting.conditions.TagEmptyCondition;
 import net.minecraftforge.common.data.BlockTagsProvider;
 import net.minecraftforge.common.data.DatapackBuiltinEntriesProvider;
 import net.minecraftforge.common.data.ExistingFileHelper;
@@ -48,6 +59,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
+import java.util.function.Consumer;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class OreberryDatagen {
@@ -64,7 +76,7 @@ public class OreberryDatagen {
 			BlockTagsProvider blockTagsProvider = new OreberryBlockTags(packOutput, lookupProvider, helper);
 			generator.addProvider(event.includeServer(), blockTagsProvider);
 			generator.addProvider(event.includeServer(), new OreberryItemTags(packOutput, lookupProvider, blockTagsProvider, helper));
-//			generator.addProvider(new OreBerryRecipes(generator));
+			generator.addProvider(event.includeServer(), new OreberryRecipeProvider(packOutput));
 
 			generator.addProvider(event.includeServer(), new DatapackBuiltinEntriesProvider(
 					packOutput, CompletableFuture.supplyAsync(OreberryDatagen::getProvider), Set.of(Reference.MOD_ID)));
@@ -438,7 +450,83 @@ public class OreberryDatagen {
 		@Override
 		protected void addTags(HolderLookup.Provider provider) {
 			this.tag(NUGGETS_COPPER).add(OreBerryRegistry.COPPER_NUGGET.get());
-			this.tag(Items.NUGGETS).addTag(NUGGETS_COPPER);
+			this.tag(Tags.Items.NUGGETS).addTag(NUGGETS_COPPER);
+		}
+	}
+
+	public static class OreberryRecipeProvider extends RecipeProvider {
+
+		public OreberryRecipeProvider(PackOutput packOutput) {
+			super(packOutput);
+		}
+
+		@Override
+		protected void buildRecipes(Consumer<FinishedRecipe> recipeConsumer) {
+			generateRecipes(recipeConsumer, "iron", OreBerryRegistry.IRON_OREBERRY.get());
+			generateRecipes(recipeConsumer, "gold", OreBerryRegistry.GOLD_OREBERRY.get());
+			generateRecipes(recipeConsumer, "copper", OreBerryRegistry.COPPER_OREBERRY.get());
+			generateRecipes(recipeConsumer, "tin", OreBerryRegistry.TIN_OREBERRY.get());
+			generateRecipes(recipeConsumer, "aluminum", OreBerryRegistry.ALUMINUM_OREBERRY.get());
+			generateRecipes(recipeConsumer, "lead", OreBerryRegistry.LEAD_OREBERRY.get());
+			generateRecipes(recipeConsumer, "nickel", OreBerryRegistry.NICKEL_OREBERRY.get());
+			generateRecipes(recipeConsumer, "uranium", OreBerryRegistry.URANIUM_OREBERRY.get());
+			generateRecipes(recipeConsumer, "osmium", OreBerryRegistry.OSMIUM_OREBERRY.get());
+			generateRecipes(recipeConsumer, "zinc", OreBerryRegistry.ZINC_OREBERRY.get());
+			generateRecipes(recipeConsumer, "silver", OreBerryRegistry.SILVER_OREBERRY.get());
+
+			generateVatRecipe(recipeConsumer, Items.OAK_PLANKS, Items.OAK_SLAB, OreBerryRegistry.OAK_VAT.get());
+			generateVatRecipe(recipeConsumer, Items.SPRUCE_PLANKS, Items.SPRUCE_SLAB, OreBerryRegistry.SPRUCE_VAT.get());
+			generateVatRecipe(recipeConsumer, Items.BIRCH_PLANKS, Items.BIRCH_SLAB, OreBerryRegistry.BIRCH_VAT.get());
+			generateVatRecipe(recipeConsumer, Items.JUNGLE_PLANKS, Items.JUNGLE_SLAB, OreBerryRegistry.JUNGLE_VAT.get());
+			generateVatRecipe(recipeConsumer, Items.ACACIA_PLANKS, Items.ACACIA_SLAB, OreBerryRegistry.ACACIA_VAT.get());
+			generateVatRecipe(recipeConsumer, Items.DARK_OAK_PLANKS, Items.DARK_OAK_SLAB, OreBerryRegistry.DARK_OAK_VAT.get());
+			generateVatRecipe(recipeConsumer, Items.MANGROVE_PLANKS, Items.MANGROVE_SLAB, OreBerryRegistry.MANGROVE_VAT.get());
+			generateVatRecipe(recipeConsumer, Items.CHERRY_PLANKS, Items.CHERRY_SLAB, OreBerryRegistry.CHERRY_VAT.get());
+			generateVatRecipe(recipeConsumer, Items.CRIMSON_PLANKS, Items.CRIMSON_SLAB, OreBerryRegistry.CRIMSON_VAT.get());
+			generateVatRecipe(recipeConsumer, Items.WARPED_PLANKS, Items.WARPED_SLAB, OreBerryRegistry.WARPED_VAT.get());
+		}
+
+		private void generateRecipes(Consumer<FinishedRecipe> recipeConsumer, String type, ItemLike berry) {
+			TagKey<Item> nuggetTag = forgeTag("nuggets/" + type);
+			Ingredient nuggetIngredient = Ingredient.of(nuggetTag);
+			new ConditionalRecipe.Builder()
+					.addCondition(
+							new NotCondition(new TagEmptyCondition(nuggetTag.location()))
+					)
+					.addRecipe(
+							TagSmeltingRecipeBuilder.blasting(Ingredient.of(berry), RecipeCategory.MISC, nuggetIngredient, 0.2F, 100)
+									.unlockedBy("has_berry", has(berry))
+									::save
+					)
+					.build(recipeConsumer,
+							new ResourceLocation(Reference.MOD_ID, type + "_from_blasting"));
+
+			new ConditionalRecipe.Builder()
+					.addCondition(
+							new NotCondition(new TagEmptyCondition(nuggetTag.location()))
+					)
+					.addRecipe(
+							TagSmeltingRecipeBuilder.smelting(Ingredient.of(berry), RecipeCategory.MISC, nuggetIngredient, 0.2F, 200)
+									.unlockedBy("has_berry", has(berry))
+									::save
+					)
+					.build(recipeConsumer,
+							new ResourceLocation(Reference.MOD_ID, type + "_from_smelting"));
+		}
+
+		private void generateVatRecipe(Consumer<FinishedRecipe> recipeConsumer, ItemLike planks, ItemLike slab, ItemLike result) {
+			ShapedRecipeBuilder.shaped(RecipeCategory.MISC, result)
+					.pattern("P P")
+					.pattern("PSP")
+					.define('P', planks)
+					.define('S', slab)
+					.unlockedBy("has_planks", has(planks))
+					.unlockedBy("has_slab", has(slab))
+					.save(recipeConsumer);
+		}
+
+		private static TagKey<Item> forgeTag(String name) {
+			return ItemTags.create(new ResourceLocation("forge", name));
 		}
 	}
 }

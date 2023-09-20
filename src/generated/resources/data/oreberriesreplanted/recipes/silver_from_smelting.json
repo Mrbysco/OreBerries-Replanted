@@ -1,0 +1,28 @@
+{
+  "type": "forge:conditional",
+  "recipes": [
+    {
+      "conditions": [
+        {
+          "type": "forge:not",
+          "value": {
+            "type": "forge:tag_empty",
+            "tag": "forge:nuggets/silver"
+          }
+        }
+      ],
+      "recipe": {
+        "type": "oreberriesreplanted:furnace",
+        "category": "misc",
+        "cookingtime": 200,
+        "experience": 0.2,
+        "ingredient": {
+          "item": "oreberriesreplanted:silver_oreberry"
+        },
+        "result": {
+          "tag": "forge:nuggets/silver"
+        }
+      }
+    }
+  ]
+}
