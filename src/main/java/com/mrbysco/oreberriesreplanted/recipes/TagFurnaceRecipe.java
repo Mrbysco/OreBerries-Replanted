@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRecipes;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -12,6 +13,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CookingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SmeltingRecipe;
 
 import javax.annotation.Nullable;
@@ -35,11 +37,12 @@ public class TagFurnaceRecipe extends SmeltingRecipe {
 		return resultIngredient;
 	}
 
-	public ItemStack assemble(Container container) {
-		return this.getResultItem().copy();
+	public ItemStack assemble(Container container, RegistryAccess registryAccess) {
+		return this.getResultItem(registryAccess).copy();
 	}
 
-	public ItemStack getResultItem() {
+	@Override
+	public ItemStack getResultItem(RegistryAccess registryAccess) {
 		return resultIngredient.getItems()[0];
 	}
 

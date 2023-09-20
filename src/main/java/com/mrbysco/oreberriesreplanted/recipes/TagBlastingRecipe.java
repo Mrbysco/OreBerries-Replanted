@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRecipes;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
@@ -36,11 +37,12 @@ public class TagBlastingRecipe extends BlastingRecipe {
 		return resultIngredient;
 	}
 
-	public ItemStack assemble(Container container) {
-		return this.getResultItem().copy();
+	public ItemStack assemble(Container container, RegistryAccess registryAccess) {
+		return this.getResultItem(registryAccess).copy();
 	}
 
-	public ItemStack getResultItem() {
+	@Override
+	public ItemStack getResultItem(RegistryAccess registryAccess) {
 		return resultIngredient.getItems()[0];
 	}
 
