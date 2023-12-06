@@ -7,22 +7,20 @@ import com.mrbysco.oreberriesreplanted.registry.OreBerryPlacementModifiers;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRecipes;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryTab;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.DistExecutor;
-import net.minecraftforge.fml.ModLoadingContext;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.common.Mod;
+import net.neoforged.fml.config.ModConfig;
+import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
+import net.neoforged.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.neoforged.fml.loading.FMLEnvironment;
 import org.slf4j.Logger;
 
 @Mod(Reference.MOD_ID)
 public class OreberriesReplanted {
 	public static final Logger LOGGER = LogUtils.getLogger();
 
-	public OreberriesReplanted() {
-		IEventBus eventBus = FMLJavaModLoadingContext.get().getModEventBus();
+	public OreberriesReplanted(IEventBus eventBus) {
 		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, OreBerriesConfig.commonSpec);
 		eventBus.register(OreBerriesConfig.class);
 
@@ -40,12 +38,10 @@ public class OreberriesReplanted {
 		OreBerryPlacementModifiers.PLACEMENT_MODIFIERS.register(eventBus);
 		OreBerryRegistry.load();
 
-		eventBus.register(new OreBerryTab());
-
-		DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> {
+		if (FMLEnvironment.dist.isClient()) {
 			eventBus.addListener(ClientHandler::registerEntityRenders);
 			eventBus.addListener(ClientHandler::registerItemColors);
-		});
+		}
 	}
 
 	private void commonSetup(FMLCommonSetupEvent event) {

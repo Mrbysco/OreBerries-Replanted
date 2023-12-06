@@ -1,0 +1,44 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "forge:nuggets/iron"
+      }
+    }
+  ],
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_berry": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "oreberriesreplanted:iron_oreberry"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "oreberriesreplanted:iron_from_blasting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_berry"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "oreberriesreplanted:iron_from_blasting"
+    ]
+  },
+  "sends_telemetry_event": false
+}

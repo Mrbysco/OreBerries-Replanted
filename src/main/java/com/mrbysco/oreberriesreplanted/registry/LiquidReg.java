@@ -10,11 +10,13 @@ import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.BucketItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.Vec3;
-import net.minecraftforge.client.extensions.common.IClientFluidTypeExtensions;
-import net.minecraftforge.fluids.FluidType;
-import net.minecraftforge.fluids.ForgeFlowingFluid;
-import net.minecraftforge.registries.RegistryObject;
+import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.neoforged.neoforge.fluids.BaseFlowingFluid;
+import net.neoforged.neoforge.fluids.FluidType;
+import net.neoforged.neoforge.registries.DeferredHolder;
+import net.neoforged.neoforge.registries.DeferredItem;
 import org.jetbrains.annotations.NotNull;
 import org.joml.Vector3f;
 
@@ -27,10 +29,10 @@ public class LiquidReg {
 	private final static ResourceLocation FLOWING_BERRY = new ResourceLocation(Reference.MOD_ID, "block/liquid_berry_flow");
 
 	private final String name;
-	private final RegistryObject<FluidType> fluidType;
-	private RegistryObject<ForgeFlowingFluid> source;
-	private RegistryObject<ForgeFlowingFluid> flowing;
-	private RegistryObject<Item> bucket;
+	private final DeferredHolder<FluidType, FluidType> fluidType;
+	private DeferredHolder<Fluid, BaseFlowingFluid> source;
+	private DeferredHolder<Fluid, BaseFlowingFluid> flowing;
+	private DeferredItem<BucketItem> bucket;
 
 	@Nonnull
 	public String getName() {
@@ -38,27 +40,27 @@ public class LiquidReg {
 	}
 
 	@Nonnull
-	public RegistryObject<FluidType> getFluidType() {
+	public DeferredHolder<FluidType, FluidType> getFluidType() {
 		return fluidType;
 	}
 
 	@Nonnull
-	public RegistryObject<ForgeFlowingFluid> getSource() {
+	public DeferredHolder<Fluid, BaseFlowingFluid> getSource() {
 		return source;
 	}
 
 	@Nonnull
-	public RegistryObject<ForgeFlowingFluid> getFlowing() {
+	public DeferredHolder<Fluid, BaseFlowingFluid> getFlowing() {
 		return flowing;
 	}
 
-	public RegistryObject<Item> getBucket() {
+	public DeferredItem<BucketItem> getBucket() {
 		return bucket;
 	}
 
-	public static ForgeFlowingFluid.Properties createProperties(Supplier<FluidType> type, Supplier<ForgeFlowingFluid> still,
-																Supplier<ForgeFlowingFluid> flowing, Supplier<Item> bucket) {
-		return new ForgeFlowingFluid.Properties(type, still, flowing).bucket(bucket);
+	public static BaseFlowingFluid.Properties createProperties(Supplier<FluidType> type, Supplier<BaseFlowingFluid> still,
+															   Supplier<BaseFlowingFluid> flowing, Supplier<BucketItem> bucket) {
+		return new BaseFlowingFluid.Properties(type, still, flowing).bucket(bucket);
 	}
 
 	public LiquidReg(String name, int color, boolean hot) {
@@ -102,10 +104,10 @@ public class LiquidReg {
 				});
 			}
 		});
-		source = OreBerryRegistry.FLUIDS.register(name, () -> new ForgeFlowingFluid.Source(
+		source = OreBerryRegistry.FLUIDS.register(name, () -> new BaseFlowingFluid.Source(
 				createProperties(fluidType, source, flowing, bucket))
 		);
-		flowing = OreBerryRegistry.FLUIDS.register(name + "_flowing", () -> new ForgeFlowingFluid.Flowing(
+		flowing = OreBerryRegistry.FLUIDS.register(name + "_flowing", () -> new BaseFlowingFluid.Flowing(
 				createProperties(fluidType, source, flowing, bucket))
 		);
 		bucket = OreBerryRegistry.ITEMS.register(name + "_bucket", () -> new BucketItem(source, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));

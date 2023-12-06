@@ -1,28 +1,21 @@
 {
-  "type": "forge:conditional",
-  "recipes": [
+  "neoforge:conditions": [
     {
-      "conditions": [
-        {
-          "type": "forge:not",
-          "value": {
-            "type": "forge:tag_empty",
-            "tag": "forge:nuggets/iron"
-          }
-        }
-      ],
-      "recipe": {
-        "type": "oreberriesreplanted:blasting",
-        "category": "misc",
-        "cookingtime": 100,
-        "experience": 0.2,
-        "ingredient": {
-          "item": "oreberriesreplanted:iron_oreberry"
-        },
-        "result": {
-          "tag": "forge:nuggets/iron"
-        }
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "forge:nuggets/iron"
       }
     }
-  ]
+  ],
+  "type": "oreberriesreplanted:blasting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.2,
+  "ingredient": {
+    "item": "oreberriesreplanted:iron_oreberry"
+  },
+  "result": {
+    "tag": "forge:nuggets/iron"
+  }
 }

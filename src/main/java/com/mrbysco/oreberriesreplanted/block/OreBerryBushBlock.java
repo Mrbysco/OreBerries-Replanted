@@ -1,6 +1,7 @@
 package com.mrbysco.oreberriesreplanted.block;
 
 import com.mrbysco.oreberriesreplanted.config.OreBerriesConfig;
+import com.mrbysco.oreberriesreplanted.item.OreBerryItem;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -10,7 +11,6 @@ import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.ItemLike;
@@ -25,9 +25,9 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.common.IPlantable;
-import net.minecraftforge.common.PlantType;
+import net.neoforged.neoforge.common.CommonHooks;
+import net.neoforged.neoforge.common.IPlantable;
+import net.neoforged.neoforge.common.PlantType;
 
 import java.util.function.Supplier;
 
@@ -38,10 +38,10 @@ public class OreBerryBushBlock extends Block implements IPlantable {
 			Block.box(2.0D, 0.0D, 2.0D, 14.0D, 12.0D, 14.0D),
 			Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D),
 			Block.box(0.0D, 0.0D, 0.0D, 16.0D, 16.0D, 16.0D)};
-	private final Supplier<Item> berryItem;
+	private final Supplier<OreBerryItem> berryItem;
 	private final OreEnum oreType;
 
-	public OreBerryBushBlock(Properties properties, Supplier<Item> berryItem, OreEnum oreType) {
+	public OreBerryBushBlock(Properties properties, Supplier<OreBerryItem> berryItem, OreEnum oreType) {
 		super(properties.randomTicks().strength(0.3F).sound(SoundType.METAL).noOcclusion()
 				.isSuffocating(OreBerryBushBlock::isntSolid).isViewBlocking(OreBerryBushBlock::isntSolid));
 		this.registerDefaultState(this.stateDefinition.any().setValue(this.getAgeProperty(), Integer.valueOf(0)));
@@ -88,12 +88,12 @@ public class OreBerryBushBlock extends Block implements IPlantable {
 
 	@Override
 	public void tick(BlockState state, ServerLevel serverLevel, BlockPos pos, RandomSource rand) {
-		if (!serverLevel.isClientSide && !isMaxAge(state) && ForgeHooks.onCropsGrowPre(serverLevel, pos, state, rand.nextInt(OreBerriesConfig.COMMON.growthChance.get()) == 0)) {
+		if (!serverLevel.isClientSide && !isMaxAge(state) && CommonHooks.onCropsGrowPre(serverLevel, pos, state, rand.nextInt(OreBerriesConfig.COMMON.growthChance.get()) == 0)) {
 			boolean flag = !oreType.getDarknessOnly() || serverLevel.getRawBrightness(pos, 0) < 10;
 			if (flag) {
 				int currentAge = getAge(state);
 				serverLevel.setBlock(pos, withAge(currentAge + 1), 3);
-				ForgeHooks.onCropsGrowPost(serverLevel, pos, serverLevel.getBlockState(pos));
+				CommonHooks.onCropsGrowPost(serverLevel, pos, serverLevel.getBlockState(pos));
 			}
 		}
 	}

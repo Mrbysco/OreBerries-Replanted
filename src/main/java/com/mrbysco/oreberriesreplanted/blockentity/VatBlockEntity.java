@@ -15,20 +15,21 @@ import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.common.capabilities.Capability;
-import net.minecraftforge.common.capabilities.ForgeCapabilities;
-import net.minecraftforge.common.util.LazyOptional;
-import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.capability.IFluidHandler;
-import net.minecraftforge.fluids.capability.IFluidHandler.FluidAction;
-import net.minecraftforge.fluids.capability.templates.FluidTank;
-import net.minecraftforge.items.IItemHandler;
-import net.minecraftforge.items.ItemStackHandler;
+import net.neoforged.neoforge.common.capabilities.Capabilities;
+import net.neoforged.neoforge.common.capabilities.Capability;
+import net.neoforged.neoforge.common.util.LazyOptional;
+import net.neoforged.neoforge.fluids.FluidStack;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler;
+import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
+import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
+import net.neoforged.neoforge.items.IItemHandler;
+import net.neoforged.neoforge.items.ItemStackHandler;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -59,8 +60,8 @@ public class VatBlockEntity extends BlockEntity {
 
 		@Override
 		public boolean isFluidValid(FluidStack stack) {
-			for (VatRecipe recipe : level.getRecipeManager().getAllRecipesFor(OreBerryRecipes.VAT_RECIPE_TYPE.get())) {
-				if (stack.getFluid().isSame(recipe.getFluid())) {
+			for (RecipeHolder<VatRecipe> recipe : level.getRecipeManager().getAllRecipesFor(OreBerryRecipes.VAT_RECIPE_TYPE.get())) {
+				if (stack.getFluid().isSame(recipe.value().getFluid())) {
 					return true;
 				}
 			}
@@ -77,8 +78,8 @@ public class VatBlockEntity extends BlockEntity {
 
 		@Override
 		public boolean isItemValid(int slot, ItemStack stack) {
-			for (VatRecipe recipe : level.getRecipeManager().getAllRecipesFor(OreBerryRecipes.VAT_RECIPE_TYPE.get())) {
-				if (recipe.getIngredients().get(0).test(stack)) {
+			for (RecipeHolder<VatRecipe> recipe : level.getRecipeManager().getAllRecipesFor(OreBerryRecipes.VAT_RECIPE_TYPE.get())) {
+				if (recipe.value().getIngredients().get(0).test(stack)) {
 					return true;
 				}
 			}
@@ -92,7 +93,7 @@ public class VatBlockEntity extends BlockEntity {
 	};
 	private final LazyOptional<IItemHandler> handlerHolder = LazyOptional.of(() -> handler);
 
-	protected VatRecipe curRecipe;
+	protected RecipeHolder<VatRecipe> curRecipe;
 
 	private int evaporateProgress;
 	private int evaporateTotalTime;
@@ -137,8 +138,8 @@ public class VatBlockEntity extends BlockEntity {
 			--vatBlockEntity.crushCooldown;
 		}
 		if (!vatBlockEntity.tank.isEmpty()) {
-			VatRecipe irecipe = vatBlockEntity.getRecipe();
-			boolean valid = vatBlockEntity.canEvaporate(irecipe);
+			RecipeHolder<VatRecipe> vatRecipe = vatBlockEntity.getRecipe();
+			boolean valid = vatBlockEntity.canEvaporate(vatRecipe);
 			if (valid) {
 				if (vatBlockEntity.evaporateTotalTime == 0) {
 					vatBlockEntity.evaporateTotalTime = vatBlockEntity.getMaxEvaporateTime();
@@ -151,21 +152,23 @@ public class VatBlockEntity extends BlockEntity {
 				}
 				vatBlockEntity.evaporateProgress = 0;
 				vatBlockEntity.evaporateTotalTime = vatBlockEntity.getMaxEvaporateTime();
-				vatBlockEntity.evaporateLiquid(irecipe);
+				vatBlockEntity.evaporateLiquid(vatRecipe);
 
 				vatBlockEntity.refreshClient();
 			}
 		}
 	}
 
-	protected void evaporateLiquid(VatRecipe recipe) {
-		int evaporationAmount = recipe.getEvaporationAmount();
-		ItemStack outputStack = curRecipe.assemble(null, level.registryAccess());
-		tank.drain(evaporationAmount, FluidAction.EXECUTE);
+	protected void evaporateLiquid(RecipeHolder<VatRecipe> recipe) {
+		if (recipe != null) {
+			int evaporationAmount = recipe.value().getEvaporationAmount();
+			ItemStack outputStack = curRecipe.value().assemble(null, level.registryAccess());
+			tank.drain(evaporationAmount, FluidAction.EXECUTE);
 
-		BlockPos blockpos = this.getBlockPos();
-		Containers.dropItemStack(this.level, (double) blockpos.getX(), (double) blockpos.getY() + 0.1D, (double) blockpos.getZ(), outputStack);
-		level.playSound((Player) null, worldPosition, SoundEvents.LAVA_POP, SoundSource.BLOCKS, 0.5F, 1.0F);
+			BlockPos blockpos = this.getBlockPos();
+			Containers.dropItemStack(this.level, (double) blockpos.getX(), (double) blockpos.getY() + 0.1D, (double) blockpos.getZ(), outputStack);
+			level.playSound((Player) null, worldPosition, SoundEvents.LAVA_POP, SoundSource.BLOCKS, 0.5F, 1.0F);
+		}
 	}
 
 	protected void refreshClient() {
@@ -173,9 +176,9 @@ public class VatBlockEntity extends BlockEntity {
 		this.getLevel().sendBlockUpdated(this.getBlockPos(), this.getBlockState(), this.getBlockState(), 3);
 	}
 
-	protected boolean canEvaporate(@Nullable VatRecipe recipe) {
+	protected boolean canEvaporate(@Nullable RecipeHolder<VatRecipe> recipe) {
 		if (!tank.isEmpty() && recipe != null) {
-			return tank.getFluidAmount() > recipe.getEvaporationAmount();
+			return tank.getFluidAmount() > recipe.value().getEvaporationAmount();
 		}
 		return false;
 	}
@@ -183,11 +186,12 @@ public class VatBlockEntity extends BlockEntity {
 	public void crushBerry() {
 		if (!isOnCooldown()) {
 			ItemStack berryStack = handler.getStackInSlot(0);
-			VatRecipe rec = getRecipe();
-			if (rec != null && !berryStack.isEmpty()) {
-				int liquidAmount = level.random.nextInt((int) (rec.getMax() * 100) - (int) (rec.getMin() * 100)) + (int) (rec.getMin() * 100);
+			RecipeHolder<VatRecipe> holder = getRecipe();
+			if (holder != null && !berryStack.isEmpty()) {
+				VatRecipe recipe = holder.value();
+				int liquidAmount = level.random.nextInt((int) (recipe.getMax() * 100) - (int) (recipe.getMin() * 100)) + (int) (recipe.getMin() * 100);
 				liquidAmount = (int) Math.round(liquidAmount / 10.0) * 10;
-				FluidStack stack = new FluidStack(rec.getFluid(), liquidAmount);
+				FluidStack stack = new FluidStack(recipe.getFluid(), liquidAmount);
 				int accepted = tank.fill(stack, FluidAction.SIMULATE);
 				if (accepted > 0) {
 					tank.fill(stack, FluidAction.EXECUTE);
@@ -213,13 +217,13 @@ public class VatBlockEntity extends BlockEntity {
 		}
 	}
 
-	protected VatRecipe getRecipe() {
+	protected RecipeHolder<VatRecipe> getRecipe() {
 		ItemStack input = handler.getStackInSlot(0);
 		if (input.isEmpty()) {
 			FluidStack fluidStack = tank.getFluidInTank(0);
 			if (!fluidStack.isEmpty()) {
-				for (VatRecipe recipe : level.getRecipeManager().getAllRecipesFor(OreBerryRecipes.VAT_RECIPE_TYPE.get())) {
-					if (recipe.getFluid().isSame(fluidStack.getFluid())) {
+				for (RecipeHolder<VatRecipe> recipe : level.getRecipeManager().getAllRecipesFor(OreBerryRecipes.VAT_RECIPE_TYPE.get())) {
+					if (recipe.value().getFluid().isSame(fluidStack.getFluid())) {
 						return curRecipe = recipe;
 					}
 				}
@@ -229,17 +233,17 @@ public class VatBlockEntity extends BlockEntity {
 
 		SimpleContainer inventory = new SimpleContainer(1);
 		inventory.setItem(0, input);
-		if (curRecipe != null && curRecipe.matches(inventory, level)) return curRecipe;
+		if (curRecipe != null && curRecipe.value().matches(inventory, level)) return curRecipe;
 		else {
-			VatRecipe rec = level.getRecipeManager().getRecipeFor(OreBerryRecipes.VAT_RECIPE_TYPE.get(), inventory, this.level).orElse(null);
+			RecipeHolder<VatRecipe> rec = level.getRecipeManager().getRecipeFor(OreBerryRecipes.VAT_RECIPE_TYPE.get(), inventory, this.level).orElse(null);
 			return curRecipe = rec;
 		}
 	}
 
 	protected int getMaxEvaporateTime() {
-		VatRecipe recipe = getRecipe();
+		RecipeHolder<VatRecipe> recipe = getRecipe();
 		if (recipe == null) return 100;
-		return recipe.getEvaporationTime();
+		return recipe.value().getEvaporationTime();
 	}
 
 	protected boolean isFluidEqual(FluidStack fluid) {
@@ -291,10 +295,10 @@ public class VatBlockEntity extends BlockEntity {
 	@Nonnull
 	@Override
 	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-		if (side != Direction.DOWN && cap == ForgeCapabilities.ITEM_HANDLER) {
+		if (side != Direction.DOWN && cap == Capabilities.ITEM_HANDLER) {
 			return handlerHolder.cast();
 		}
-		if (cap == ForgeCapabilities.FLUID_HANDLER) {
+		if (cap == Capabilities.FLUID_HANDLER) {
 			return tankHolder.cast();
 		}
 

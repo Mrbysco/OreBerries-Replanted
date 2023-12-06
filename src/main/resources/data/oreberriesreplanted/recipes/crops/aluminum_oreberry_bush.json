@@ -1,18 +1,18 @@
 {
-  "type": "botanypots:crop",
-  "conditions": [
+  "neoforge:conditions": [
     {
-      "type": "forge:mod_loaded",
+      "type": "neoforge:mod_loaded",
       "modid": "botanypots"
     },
     {
       "value": {
         "tag": "forge:ores/aluminum",
-        "type": "forge:tag_empty"
+        "type": "neoforge:tag_empty"
       },
-      "type": "forge:not"
+      "type": "neoforge:not"
     }
   ],
+  "type": "botanypots:crop",
   "seed": {
     "item": "oreberriesreplanted:aluminum_oreberry_bush"
   },

@@ -1,6 +1,0 @@
-{
-  "type": "forge:add_features",
-  "biomes": "#minecraft:is_overworld",
-  "features": "oreberriesreplanted:osmium_oreberry_bush",
-  "step": "underground_ores"
-}

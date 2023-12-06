@@ -1,8 +1,8 @@
 package com.mrbysco.oreberriesreplanted.recipes;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
+import com.mojang.serialization.Codec;
+import com.mojang.serialization.DataResult;
+import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRecipes;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
 import net.minecraft.core.NonNullList;
@@ -10,7 +10,7 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.util.GsonHelper;
+import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -19,12 +19,11 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraftforge.registries.ForgeRegistries;
+import org.apache.commons.lang3.NotImplementedException;
 
 import javax.annotation.Nullable;
 
 public class VatRecipe implements Recipe<Container> {
-	protected final ResourceLocation id;
 	protected final String group;
 	protected final Ingredient ingredient;
 	protected final Fluid fluid;
@@ -34,8 +33,7 @@ public class VatRecipe implements Recipe<Container> {
 	protected final float min;
 	protected final float max;
 
-	public VatRecipe(ResourceLocation location, String group, Ingredient ingredient, Fluid fluid, Ingredient resultStack, int time, int amount, float min, float max) {
-		this.id = location;
+	public VatRecipe(String group, Ingredient ingredient, Fluid fluid, Ingredient resultStack, int time, int amount, float min, float max) {
 		this.group = group;
 		this.ingredient = ingredient;
 		this.fluid = fluid;
@@ -92,10 +90,6 @@ public class VatRecipe implements Recipe<Container> {
 		return evaporationAmount;
 	}
 
-	public ResourceLocation getId() {
-		return this.id;
-	}
-
 	public RecipeType<?> getType() {
 		return OreBerryRecipes.VAT_RECIPE_TYPE.get();
 	}
@@ -123,36 +117,30 @@ public class VatRecipe implements Recipe<Container> {
 	}
 
 	public static class Serializer implements RecipeSerializer<VatRecipe> {
+		private static final Codec<VatRecipe> CODEC = RawVatRecipe.CODEC.flatXmap(rawLootRecipe -> {
+			return DataResult.success(new VatRecipe(
+					rawLootRecipe.group,
+					rawLootRecipe.ingredient,
+					BuiltInRegistries.FLUID.get(rawLootRecipe.fluid),
+					rawLootRecipe.result,
+					rawLootRecipe.evaporationTime,
+					rawLootRecipe.evaporationAmount,
+					rawLootRecipe.min,
+					rawLootRecipe.max
+			));
+		}, recipe -> {
+			throw new NotImplementedException("Serializing TagFurnaceRecipe is not implemented yet.");
+		});
 
 		@Override
-		public VatRecipe fromJson(ResourceLocation location, JsonObject jsonObject) {
-			String group = GsonHelper.getAsString(jsonObject, "group", "");
-			JsonElement jsonelement = (GsonHelper.isArrayNode(jsonObject, "ingredient") ?
-					GsonHelper.getAsJsonArray(jsonObject, "ingredient") : GsonHelper.getAsJsonObject(jsonObject, "ingredient"));
-			Ingredient ingredient = Ingredient.fromJson(jsonelement);
-			String s1 = GsonHelper.getAsString(jsonObject, "fluid");
-			ResourceLocation resourcelocation = new ResourceLocation(s1);
-			Fluid fluid = BuiltInRegistries.FLUID.getOptional(resourcelocation).orElseThrow(() -> new IllegalStateException("Fluid: " + s1 + " does not exist"));
-			int evaporationTime = GsonHelper.getAsInt(jsonObject, "evaporationtime", 100);
-			int evaporationAmount = GsonHelper.getAsInt(jsonObject, "evaporationamount", 100);
-			float min = GsonHelper.getAsFloat(jsonObject, "min", 1.5f);
-			float max = GsonHelper.getAsFloat(jsonObject, "max", 2.0f);
-
-			//Forge: Check if primitive string to keep vanilla or an object which can contain a count field.
-			if (!jsonObject.has("result"))
-				throw new JsonSyntaxException("Missing result, expected to find a string or object");
-			jsonelement = (GsonHelper.isArrayNode(jsonObject, "result") ? GsonHelper.getAsJsonArray(jsonObject, "result") : GsonHelper.getAsJsonObject(jsonObject, "result"));
-			Ingredient result = Ingredient.fromJson(jsonelement);
-			if (result.isEmpty()) {
-				throw new JsonSyntaxException("Missing result: ingredient has no matching stacks");
-			}
-
-			return new VatRecipe(location, group, ingredient, fluid, result, evaporationTime, evaporationAmount, min, max);
+		public Codec<VatRecipe> codec() {
+			return CODEC;
 		}
+
 
 		@Nullable
 		@Override
-		public VatRecipe fromNetwork(ResourceLocation location, FriendlyByteBuf buffer) {
+		public VatRecipe fromNetwork(FriendlyByteBuf buffer) {
 			String group = buffer.readUtf(32767);
 			Ingredient ingredient = Ingredient.fromNetwork(buffer);
 			ResourceLocation fluidLocation = buffer.readResourceLocation();
@@ -162,19 +150,38 @@ public class VatRecipe implements Recipe<Container> {
 			int evaporationAmount = buffer.readVarInt();
 			float min = buffer.readFloat();
 			float max = buffer.readFloat();
-			return new VatRecipe(location, group, ingredient, fluid, result, evaporationTime, evaporationAmount, min, max);
+			return new VatRecipe(group, ingredient, fluid, result, evaporationTime, evaporationAmount, min, max);
 		}
 
 		@Override
 		public void toNetwork(FriendlyByteBuf buffer, VatRecipe recipe) {
 			buffer.writeUtf(recipe.getGroup());
 			recipe.getIngredient().toNetwork(buffer);
-			buffer.writeResourceLocation(ForgeRegistries.FLUIDS.getKey(recipe.fluid));
+			buffer.writeResourceLocation(BuiltInRegistries.FLUID.getKey(recipe.fluid));
 			recipe.getResultIngredient().toNetwork(buffer);
 			buffer.writeVarInt(recipe.getEvaporationTime());
 			buffer.writeVarInt(recipe.getEvaporationAmount());
 			buffer.writeFloat(recipe.getMin());
 			buffer.writeFloat(recipe.getMax());
+		}
+
+		static record RawVatRecipe(
+				String group, Ingredient ingredient, ResourceLocation fluid, int evaporationTime, int evaporationAmount, float min, float max,
+				Ingredient result
+		) {
+			public static final Codec<RawVatRecipe> CODEC = RecordCodecBuilder.create(
+					instance -> instance.group(
+									ExtraCodecs.strictOptionalField(Codec.STRING, "group", "").forGetter(recipe -> recipe.group),
+									Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter(recipe -> recipe.ingredient),
+									ResourceLocation.CODEC.fieldOf("fluid").forGetter((recipe) -> recipe.fluid),
+									Codec.INT.fieldOf("evaporationTime").orElse(100).forGetter(recipe -> recipe.evaporationTime),
+									Codec.INT.fieldOf("evaporationAmount").orElse(100).forGetter(recipe -> recipe.evaporationAmount),
+									Codec.FLOAT.fieldOf("min").orElse(1.5f).forGetter(recipe -> recipe.min),
+									Codec.FLOAT.fieldOf("max").orElse(2.0f).forGetter(recipe -> recipe.max),
+									Ingredient.CODEC_NONEMPTY.fieldOf("result").forGetter(recipe -> recipe.result)
+							)
+							.apply(instance, RawVatRecipe::new)
+			);
 		}
 	}
 

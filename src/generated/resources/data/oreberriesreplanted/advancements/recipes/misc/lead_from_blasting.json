@@ -1,0 +1,44 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "forge:nuggets/lead"
+      }
+    }
+  ],
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_berry": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "oreberriesreplanted:lead_oreberry"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "oreberriesreplanted:lead_from_blasting"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_berry"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "oreberriesreplanted:lead_from_blasting"
+    ]
+  },
+  "sends_telemetry_event": false
+}

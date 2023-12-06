@@ -34,9 +34,9 @@
   },
   "requirements": [
     [
+      "has_the_recipe",
       "has_planks",
-      "has_slab",
-      "has_the_recipe"
+      "has_slab"
     ]
   ],
   "rewards": {

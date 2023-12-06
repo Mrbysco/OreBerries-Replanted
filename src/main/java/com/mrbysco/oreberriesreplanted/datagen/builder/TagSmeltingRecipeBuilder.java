@@ -3,13 +3,15 @@ package com.mrbysco.oreberriesreplanted.datagen.builder;
 import com.google.gson.JsonObject;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRecipes;
 import net.minecraft.advancements.Advancement;
+import net.minecraft.advancements.AdvancementHolder;
+import net.minecraft.advancements.AdvancementRequirements;
 import net.minecraft.advancements.AdvancementRewards;
-import net.minecraft.advancements.CriterionTriggerInstance;
-import net.minecraft.advancements.RequirementsStrategy;
+import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
 import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.AbstractCookingRecipe;
@@ -18,7 +20,8 @@ import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.function.Consumer;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class TagSmeltingRecipeBuilder implements RecipeBuilder {
 	private final RecipeCategory category;
@@ -27,7 +30,7 @@ public class TagSmeltingRecipeBuilder implements RecipeBuilder {
 	private final Ingredient ingredient;
 	private final float experience;
 	private final int cookingTime;
-	private final Advancement.Builder advancement = Advancement.Builder.recipeAdvancement();
+	private final Map<String, Criterion<?>> criteria = new LinkedHashMap<>();
 	@Nullable
 	private String group;
 	private final RecipeSerializer<? extends AbstractCookingRecipe> serializer;
@@ -50,8 +53,8 @@ public class TagSmeltingRecipeBuilder implements RecipeBuilder {
 		return new TagSmeltingRecipeBuilder(category, CookingBookCategory.MISC, result, ingredient, xp, cookingTime, OreBerryRecipes.TAG_FURNACE_SERIALIZER.get());
 	}
 
-	public TagSmeltingRecipeBuilder unlockedBy(String criteriaName, CriterionTriggerInstance criteria) {
-		this.advancement.addCriterion(criteriaName, criteria);
+	public TagSmeltingRecipeBuilder unlockedBy(String criteria, Criterion<?> criterion) {
+		this.criteria.put(criteria, criterion);
 		return this;
 	}
 
@@ -64,14 +67,18 @@ public class TagSmeltingRecipeBuilder implements RecipeBuilder {
 		return this.result.getItems()[0].getItem();
 	}
 
-	public void save(Consumer<FinishedRecipe> recipeConsumer, ResourceLocation id) {
+	public void save(RecipeOutput recipeOutput, ResourceLocation id) {
 		this.ensureValid(id);
-		this.advancement.parent(ROOT_RECIPE_ADVANCEMENT).addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(id)).rewards(AdvancementRewards.Builder.recipe(id)).requirements(RequirementsStrategy.OR);
-		recipeConsumer.accept(new TagSmeltingRecipeBuilder.Result(id, this.group == null ? "" : this.group, this.bookCategory, this.ingredient, this.result, this.experience, this.cookingTime, this.advancement, id.withPrefix("recipes/" + this.category.getFolderName() + "/"), this.serializer));
+		Advancement.Builder advancement$builder = recipeOutput.advancement()
+				.addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(id))
+				.rewards(AdvancementRewards.Builder.recipe(id))
+				.requirements(AdvancementRequirements.Strategy.OR);
+		this.criteria.forEach(advancement$builder::addCriterion);
+		recipeOutput.accept(new TagSmeltingRecipeBuilder.Result(id, this.group == null ? "" : this.group, this.bookCategory, this.ingredient, this.result, this.experience, this.cookingTime, advancement$builder.build(id.withPrefix("recipes/" + this.category.getFolderName() + "/")), this.serializer));
 	}
 
 	private void ensureValid(ResourceLocation id) {
-		if (this.advancement.getCriteria().isEmpty()) {
+		if (this.criteria.isEmpty()) {
 			throw new IllegalStateException("No way of obtaining recipe " + id);
 		}
 	}
@@ -84,11 +91,10 @@ public class TagSmeltingRecipeBuilder implements RecipeBuilder {
 		private final Ingredient result;
 		private final float experience;
 		private final int cookingTime;
-		private final Advancement.Builder advancement;
-		private final ResourceLocation advancementId;
+		private final AdvancementHolder advancementHolder;
 		private final RecipeSerializer<? extends AbstractCookingRecipe> serializer;
 
-		public Result(ResourceLocation id, String group, CookingBookCategory category, Ingredient ingredient, Ingredient result, float xp, int cookingTime, Advancement.Builder advancement, ResourceLocation advancementID, RecipeSerializer<? extends AbstractCookingRecipe> serializer) {
+		public Result(ResourceLocation id, String group, CookingBookCategory category, Ingredient ingredient, Ingredient result, float xp, int cookingTime, AdvancementHolder advancementHolder, RecipeSerializer<? extends AbstractCookingRecipe> serializer) {
 			this.id = id;
 			this.group = group;
 			this.category = category;
@@ -96,8 +102,7 @@ public class TagSmeltingRecipeBuilder implements RecipeBuilder {
 			this.result = result;
 			this.experience = xp;
 			this.cookingTime = cookingTime;
-			this.advancement = advancement;
-			this.advancementId = advancementID;
+			this.advancementHolder = advancementHolder;
 			this.serializer = serializer;
 		}
 
@@ -107,28 +112,24 @@ public class TagSmeltingRecipeBuilder implements RecipeBuilder {
 			}
 
 			jsonObject.addProperty("category", this.category.getSerializedName());
-			jsonObject.add("ingredient", this.ingredient.toJson());
-			jsonObject.add("result", this.result.toJson());
+			jsonObject.add("ingredient", this.ingredient.toJson(false));
+			jsonObject.add("result", this.result.toJson(false));
 			jsonObject.addProperty("experience", this.experience);
 			jsonObject.addProperty("cookingtime", this.cookingTime);
 		}
 
-		public RecipeSerializer<?> getType() {
+		public RecipeSerializer<?> type() {
 			return this.serializer;
 		}
 
-		public ResourceLocation getId() {
+		public ResourceLocation id() {
 			return this.id;
 		}
 
 		@Nullable
-		public JsonObject serializeAdvancement() {
-			return this.advancement.serializeToJson();
-		}
-
-		@Nullable
-		public ResourceLocation getAdvancementId() {
-			return this.advancementId;
+		@Override
+		public AdvancementHolder advancement() {
+			return this.advancementHolder;
 		}
 	}
 }
