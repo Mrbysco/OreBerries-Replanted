@@ -71,6 +71,11 @@ dependencies {
 //    compileOnly "mezz.jei:jei-${mc_version}-forge-api:${jei_version}"
 //
 //    runtimeOnly "mezz.jei:jei-${mc_version}-forge:${jei_version}"
+
+    runtimeOnly "net.darkhax.bookshelf:Bookshelf-Common-1.20.2:${bookshelf_version}"
+    runtimeOnly "net.darkhax.bookshelf:Bookshelf-NeoForge-1.20.2:${bookshelf_version}"
+    runtimeOnly "net.darkhax.botanypots:BotanyPots-Common-1.20.2:${botanypots_version}"
+    runtimeOnly "net.darkhax.botanypots:BotanyPots-NeoForge-1.20.2:${botanypots_version}"
 }
 
 jar {
