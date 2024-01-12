@@ -6,9 +6,11 @@ import com.mrbysco.oreberriesreplanted.registry.OreBerryRecipes;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.RegistryAccess;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.ExtraCodecs;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
@@ -24,17 +26,17 @@ import javax.annotation.Nullable;
 public class VatRecipe implements Recipe<Container> {
 	protected final String group;
 	protected final Ingredient ingredient;
-	protected final ResourceKey<Fluid> fluidKey;
+	protected final Fluid fluid;
 	protected final Ingredient result;
 	protected final int evaporationTime;
 	protected final int evaporationAmount;
 	protected final float min;
 	protected final float max;
 
-	public VatRecipe(String group, Ingredient ingredient, ResourceKey<Fluid> fluid, Ingredient resultStack, int time, int amount, float min, float max) {
+	public VatRecipe(String group, Ingredient ingredient, Fluid fluid, Ingredient resultStack, int time, int amount, float min, float max) {
 		this.group = group;
 		this.ingredient = ingredient;
-		this.fluidKey = fluid;
+		this.fluid = fluid;
 		this.result = resultStack;
 		this.evaporationTime = time;
 		this.evaporationAmount = amount;
@@ -68,8 +70,8 @@ public class VatRecipe implements Recipe<Container> {
 		return ingredients;
 	}
 
-	public ResourceKey<Fluid> getFluidKey() {
-		return fluidKey;
+	public Fluid getFluid() {
+		return fluid;
 	}
 
 	public ItemStack getResultItem(RegistryAccess registryAccess) {
@@ -119,7 +121,7 @@ public class VatRecipe implements Recipe<Container> {
 				instance -> instance.group(
 								ExtraCodecs.strictOptionalField(Codec.STRING, "group", "").forGetter(recipe -> recipe.group),
 								Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter(recipe -> recipe.ingredient),
-								ResourceKey.codec(Registries.FLUID).fieldOf("fluid").forGetter(recipe -> recipe.fluidKey),
+								BuiltInRegistries.FLUID.byNameCodec().fieldOf("fluid").forGetter(recipe -> recipe.fluid),
 								Ingredient.CODEC_NONEMPTY.fieldOf("result").forGetter(recipe -> recipe.result),
 								Codec.INT.optionalFieldOf("evaporationTime", 100).forGetter(recipe -> recipe.evaporationTime),
 								Codec.INT.optionalFieldOf("evaporationAmount", 100).forGetter(recipe -> recipe.evaporationAmount),
@@ -140,20 +142,21 @@ public class VatRecipe implements Recipe<Container> {
 		public VatRecipe fromNetwork(FriendlyByteBuf buffer) {
 			String group = buffer.readUtf(32767);
 			Ingredient ingredient = Ingredient.fromNetwork(buffer);
-			ResourceKey<Fluid> fluidKey = buffer.readResourceKey(Registries.FLUID);
+			ResourceLocation fluidLocation = buffer.readResourceLocation();
+			Fluid fluid = BuiltInRegistries.FLUID.getOptional(fluidLocation).orElseThrow(() -> new IllegalStateException("Fluid: " + fluidLocation + " does not exist"));
 			Ingredient result = Ingredient.fromNetwork(buffer);
 			int evaporationTime = buffer.readVarInt();
 			int evaporationAmount = buffer.readVarInt();
 			float min = buffer.readFloat();
 			float max = buffer.readFloat();
-			return new VatRecipe(group, ingredient, fluidKey, result, evaporationTime, evaporationAmount, min, max);
+			return new VatRecipe(group, ingredient, fluid, result, evaporationTime, evaporationAmount, min, max);
 		}
 
 		@Override
 		public void toNetwork(FriendlyByteBuf buffer, VatRecipe recipe) {
 			buffer.writeUtf(recipe.getGroup());
 			recipe.getIngredient().toNetwork(buffer);
-			buffer.writeResourceKey(recipe.fluidKey);
+			buffer.writeResourceLocation(BuiltInRegistries.FLUID.getKey(recipe.fluid));
 			recipe.getResultIngredient().toNetwork(buffer);
 			buffer.writeVarInt(recipe.getEvaporationTime());
 			buffer.writeVarInt(recipe.getEvaporationAmount());

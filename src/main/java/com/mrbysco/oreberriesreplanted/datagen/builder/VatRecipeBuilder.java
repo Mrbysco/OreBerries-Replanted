@@ -6,13 +6,13 @@ import net.minecraft.advancements.AdvancementRequirements;
 import net.minecraft.advancements.AdvancementRewards;
 import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
-import net.minecraft.core.registries.Registries;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.level.material.Fluid;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedHashMap;
@@ -81,8 +81,13 @@ public class VatRecipeBuilder implements RecipeBuilder {
 				.rewards(AdvancementRewards.Builder.recipe(id))
 				.requirements(AdvancementRequirements.Strategy.OR);
 		this.criteria.forEach(advancement$builder::addCriterion);
-		VatRecipe vatRecipe = new VatRecipe(this.group == null ? "" : this.group, this.ingredient, ResourceKey.create(Registries.FLUID, this.fluid), this.result, this.evaporationAmount, this.evaporationTime, this.min, this.max);
-		recipeOutput.accept(id, vatRecipe, advancement$builder.build(id.withPrefix("recipes/oreberries/")));
+		Fluid fluid = BuiltInRegistries.FLUID.getOptional(this.fluid).orElse(null);
+		if (fluid == null) {
+			throw new IllegalStateException("Fluid: " + this.fluid + " does not exist");
+		} else {
+			VatRecipe vatRecipe = new VatRecipe(this.group == null ? "" : this.group, this.ingredient, fluid, this.result, this.evaporationAmount, this.evaporationTime, this.min, this.max);
+			recipeOutput.accept(id, vatRecipe, advancement$builder.build(id.withPrefix("recipes/oreberries/")));
+		}
 	}
 
 	private void ensureValid(ResourceLocation id) {

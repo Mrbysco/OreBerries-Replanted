@@ -5,7 +5,6 @@ import com.mrbysco.oreberriesreplanted.registry.OreBerryRecipes;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -55,7 +54,7 @@ public class VatBlockEntity extends BlockEntity {
 		@Override
 		public boolean isFluidValid(FluidStack stack) {
 			for (RecipeHolder<VatRecipe> recipe : level.getRecipeManager().getAllRecipesFor(OreBerryRecipes.VAT_RECIPE_TYPE.get())) {
-				if (BuiltInRegistries.FLUID.getKey(stack.getFluid()).equals(recipe.value().getFluidKey().location())) {
+				if (stack.getFluid().isSame(recipe.value().getFluid())) {
 					return true;
 				}
 			}
@@ -183,10 +182,7 @@ public class VatBlockEntity extends BlockEntity {
 				VatRecipe recipe = holder.value();
 				int liquidAmount = level.random.nextInt((int) (recipe.getMax() * 100) - (int) (recipe.getMin() * 100)) + (int) (recipe.getMin() * 100);
 				liquidAmount = (int) Math.round(liquidAmount / 10.0) * 10;
-				Fluid fluid = BuiltInRegistries.FLUID.get(recipe.getFluidKey());
-				if (fluid == null)
-					return;
-				FluidStack stack = new FluidStack(fluid, liquidAmount);
+				FluidStack stack = new FluidStack(recipe.getFluid(), liquidAmount);
 				int accepted = tank.fill(stack, FluidAction.SIMULATE);
 				if (accepted > 0) {
 					tank.fill(stack, FluidAction.EXECUTE);
@@ -218,7 +214,7 @@ public class VatBlockEntity extends BlockEntity {
 			FluidStack fluidStack = tank.getFluidInTank(0);
 			if (!fluidStack.isEmpty()) {
 				for (RecipeHolder<VatRecipe> recipe : level.getRecipeManager().getAllRecipesFor(OreBerryRecipes.VAT_RECIPE_TYPE.get())) {
-					if (BuiltInRegistries.FLUID.getKey(fluidStack.getFluid()).equals(recipe.value().getFluidKey().location())) {
+					if (fluidStack.getFluid().isSame(recipe.value().getFluid())) {
 						return curRecipe = recipe;
 					}
 				}
