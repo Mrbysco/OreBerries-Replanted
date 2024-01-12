@@ -9,7 +9,7 @@
     }
   ],
   "type": "oreberriesreplanted:vat",
-  "fluid": "oreberriesreplanted:lead_juice",
+  "fluid": "oreberriesreplanted:lead_oreberry_juice",
   "ingredient": {
     "tag": "forge:nuggets/lead"
   },

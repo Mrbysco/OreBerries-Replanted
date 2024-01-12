@@ -9,7 +9,7 @@
     }
   ],
   "type": "oreberriesreplanted:vat",
-  "fluid": "oreberriesreplanted:zinc_juice",
+  "fluid": "oreberriesreplanted:zinc_oreberry_juice",
   "ingredient": {
     "tag": "forge:nuggets/zinc"
   },
