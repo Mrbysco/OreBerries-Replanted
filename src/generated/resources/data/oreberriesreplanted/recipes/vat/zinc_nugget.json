@@ -10,7 +10,7 @@
   ],
   "type": "oreberriesreplanted:vat",
   "evaporationTime": 100,
-  "fluid": "oreberriesreplanted:zinc_juice",
+  "fluid": "oreberriesreplanted:zinc_oreberry_juice",
   "ingredient": {
     "tag": "forge:nuggets/zinc"
   },

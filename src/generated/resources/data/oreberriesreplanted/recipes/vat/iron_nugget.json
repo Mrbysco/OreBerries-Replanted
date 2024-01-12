@@ -10,7 +10,7 @@
   ],
   "type": "oreberriesreplanted:vat",
   "evaporationTime": 100,
-  "fluid": "oreberriesreplanted:iron_juice",
+  "fluid": "oreberriesreplanted:iron_oreberry_juice",
   "ingredient": {
     "tag": "forge:nuggets/iron"
   },

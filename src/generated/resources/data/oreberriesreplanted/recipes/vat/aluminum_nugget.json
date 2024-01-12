@@ -10,7 +10,7 @@
   ],
   "type": "oreberriesreplanted:vat",
   "evaporationTime": 100,
-  "fluid": "oreberriesreplanted:aluminum_juice",
+  "fluid": "oreberriesreplanted:aluminum_oreberry_juice",
   "ingredient": {
     "tag": "forge:nuggets/aluminum"
   },
