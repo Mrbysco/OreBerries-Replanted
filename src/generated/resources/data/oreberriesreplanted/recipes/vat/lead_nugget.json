@@ -9,7 +9,6 @@
     }
   ],
   "type": "oreberriesreplanted:vat",
-  "evaporationTime": 100,
   "fluid": "oreberriesreplanted:lead_juice",
   "ingredient": {
     "tag": "forge:nuggets/lead"

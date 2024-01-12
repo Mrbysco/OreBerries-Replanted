@@ -39,6 +39,5 @@
     "recipes": [
       "oreberriesreplanted:silver_from_smelting"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

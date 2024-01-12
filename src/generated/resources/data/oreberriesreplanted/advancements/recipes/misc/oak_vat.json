@@ -43,6 +43,5 @@
     "recipes": [
       "oreberriesreplanted:oak_vat"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

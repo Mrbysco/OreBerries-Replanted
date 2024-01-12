@@ -39,6 +39,5 @@
     "recipes": [
       "oreberriesreplanted:lead_from_blasting"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

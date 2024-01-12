@@ -43,6 +43,5 @@
     "recipes": [
       "oreberriesreplanted:mangrove_vat"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

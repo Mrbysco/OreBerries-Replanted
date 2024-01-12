@@ -9,7 +9,6 @@
     }
   ],
   "type": "oreberriesreplanted:vat",
-  "evaporationTime": 100,
   "fluid": "oreberriesreplanted:gold_juice",
   "ingredient": {
     "tag": "forge:nuggets/gold"

@@ -43,6 +43,5 @@
     "recipes": [
       "oreberriesreplanted:spruce_vat"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

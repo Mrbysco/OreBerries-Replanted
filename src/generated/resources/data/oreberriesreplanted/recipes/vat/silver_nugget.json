@@ -9,7 +9,6 @@
     }
   ],
   "type": "oreberriesreplanted:vat",
-  "evaporationTime": 100,
   "fluid": "oreberriesreplanted:silver_juice",
   "ingredient": {
     "tag": "forge:nuggets/silver"

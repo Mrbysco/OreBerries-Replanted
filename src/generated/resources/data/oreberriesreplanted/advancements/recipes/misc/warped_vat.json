@@ -43,6 +43,5 @@
     "recipes": [
       "oreberriesreplanted:warped_vat"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

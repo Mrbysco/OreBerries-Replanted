@@ -43,6 +43,5 @@
     "recipes": [
       "oreberriesreplanted:acacia_vat"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

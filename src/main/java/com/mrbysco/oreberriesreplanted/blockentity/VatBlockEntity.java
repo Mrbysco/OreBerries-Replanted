@@ -5,6 +5,7 @@ import com.mrbysco.oreberriesreplanted.registry.OreBerryRecipes;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -21,18 +22,11 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
-import net.neoforged.neoforge.common.capabilities.Capabilities;
-import net.neoforged.neoforge.common.capabilities.Capability;
-import net.neoforged.neoforge.common.util.LazyOptional;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
-import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemStackHandler;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+import org.jetbrains.annotations.Nullable;
 
 public class VatBlockEntity extends BlockEntity {
 	public final FluidTank tank = new FluidTank(3200) {
@@ -61,14 +55,13 @@ public class VatBlockEntity extends BlockEntity {
 		@Override
 		public boolean isFluidValid(FluidStack stack) {
 			for (RecipeHolder<VatRecipe> recipe : level.getRecipeManager().getAllRecipesFor(OreBerryRecipes.VAT_RECIPE_TYPE.get())) {
-				if (stack.getFluid().isSame(recipe.value().getFluid())) {
+				if (BuiltInRegistries.FLUID.getKey(stack.getFluid()).equals(recipe.value().getFluidKey().location())) {
 					return true;
 				}
 			}
 			return false;
 		}
 	};
-	private final LazyOptional<IFluidHandler> tankHolder = LazyOptional.of(() -> tank);
 
 	public final ItemStackHandler handler = new ItemStackHandler(1) {
 		@Override
@@ -91,7 +84,6 @@ public class VatBlockEntity extends BlockEntity {
 			refreshClient();
 		}
 	};
-	private final LazyOptional<IItemHandler> handlerHolder = LazyOptional.of(() -> handler);
 
 	protected RecipeHolder<VatRecipe> curRecipe;
 
@@ -191,7 +183,10 @@ public class VatBlockEntity extends BlockEntity {
 				VatRecipe recipe = holder.value();
 				int liquidAmount = level.random.nextInt((int) (recipe.getMax() * 100) - (int) (recipe.getMin() * 100)) + (int) (recipe.getMin() * 100);
 				liquidAmount = (int) Math.round(liquidAmount / 10.0) * 10;
-				FluidStack stack = new FluidStack(recipe.getFluid(), liquidAmount);
+				Fluid fluid = BuiltInRegistries.FLUID.get(recipe.getFluidKey());
+				if (fluid == null)
+					return;
+				FluidStack stack = new FluidStack(fluid, liquidAmount);
 				int accepted = tank.fill(stack, FluidAction.SIMULATE);
 				if (accepted > 0) {
 					tank.fill(stack, FluidAction.EXECUTE);
@@ -223,7 +218,7 @@ public class VatBlockEntity extends BlockEntity {
 			FluidStack fluidStack = tank.getFluidInTank(0);
 			if (!fluidStack.isEmpty()) {
 				for (RecipeHolder<VatRecipe> recipe : level.getRecipeManager().getAllRecipesFor(OreBerryRecipes.VAT_RECIPE_TYPE.get())) {
-					if (recipe.value().getFluid().isSame(fluidStack.getFluid())) {
+					if (BuiltInRegistries.FLUID.getKey(fluidStack.getFluid()).equals(recipe.value().getFluidKey().location())) {
 						return curRecipe = recipe;
 					}
 				}
@@ -292,23 +287,11 @@ public class VatBlockEntity extends BlockEntity {
 		return tag;
 	}
 
-	@Nonnull
-	@Override
-	public <T> LazyOptional<T> getCapability(@Nonnull Capability<T> cap, @Nullable Direction side) {
-		if (side != Direction.DOWN && cap == Capabilities.ITEM_HANDLER) {
-			return handlerHolder.cast();
-		}
-		if (cap == Capabilities.FLUID_HANDLER) {
-			return tankHolder.cast();
-		}
-
-		return super.getCapability(cap, side);
+	public ItemStackHandler getHandler(@Nullable Direction direction) {
+		return direction != Direction.DOWN ? handler : null;
 	}
 
-	@Override
-	public void invalidateCaps() {
-		super.invalidateCaps();
-		this.handlerHolder.invalidate();
-		this.tankHolder.invalidate();
+	public FluidTank getTank(@Nullable Direction direction) {
+		return tank;
 	}
 }

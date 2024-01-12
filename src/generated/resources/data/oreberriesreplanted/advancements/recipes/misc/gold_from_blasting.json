@@ -39,6 +39,5 @@
     "recipes": [
       "oreberriesreplanted:gold_from_blasting"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

@@ -39,6 +39,5 @@
     "recipes": [
       "oreberriesreplanted:vat/lead_nugget"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

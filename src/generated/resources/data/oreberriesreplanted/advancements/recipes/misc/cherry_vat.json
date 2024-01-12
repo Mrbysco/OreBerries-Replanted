@@ -43,6 +43,5 @@
     "recipes": [
       "oreberriesreplanted:cherry_vat"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

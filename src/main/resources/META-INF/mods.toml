@@ -1,6 +1,6 @@
 modLoader="javafml"
-loaderVersion="[1,)"
-issueTrackerURL="https://github.com/Mrbysco/Oreberries-Replanted"
+loaderVersion="[2,)"
+issueTrackerURL="https://github.com/Mrbysco/Oreberries-Replanted/issues"
 license="MIT"
 
 [[mods]]
@@ -15,14 +15,14 @@ Are you tired of your ores generating in rock? Do you want to grow your ore? Wel
 credits="Lanse505 for the idea of crushing oreberries into juice that evaporates into nuggets"
 [[dependencies.oreberriesreplanted]]
 modId="minecraft"
-mandatory=true
-versionRange="[1.20.2,1.21)"
+type="REQUIRED"
+versionRange="[1.20.4,1.21)"
 ordering="NONE"
 side="BOTH"
 [[dependencies.oreberriesreplanted]]
 modId="neoforge"
-mandatory=true
-versionRange="[20.2.86,)"
+type="REQUIRED"
+versionRange="[20.4.70-beta,)"
 ordering="NONE"
 side="BOTH"
 [[mixins]]

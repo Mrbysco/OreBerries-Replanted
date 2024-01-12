@@ -1,7 +1,6 @@
 package com.mrbysco.oreberriesreplanted.recipes;
 
 import com.mojang.serialization.Codec;
-import com.mojang.serialization.DataResult;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRecipes;
 import net.minecraft.core.RegistryAccess;
@@ -13,7 +12,6 @@ import net.minecraft.world.item.crafting.CookingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.SmeltingRecipe;
-import org.apache.commons.lang3.NotImplementedException;
 
 import javax.annotation.Nullable;
 
@@ -51,18 +49,17 @@ public class TagFurnaceRecipe extends SmeltingRecipe {
 	}
 
 	public static class Serializer implements RecipeSerializer<TagFurnaceRecipe> {
-		private static final Codec<TagFurnaceRecipe> CODEC = RawBlastingRecipe.CODEC.flatXmap(rawLootRecipe -> {
-			return DataResult.success(new TagFurnaceRecipe(
-					rawLootRecipe.category,
-					rawLootRecipe.group,
-					rawLootRecipe.ingredient,
-					rawLootRecipe.result,
-					rawLootRecipe.experience,
-					rawLootRecipe.cookingtime
-			));
-		}, recipe -> {
-			throw new NotImplementedException("Serializing TagFurnaceRecipe is not implemented yet.");
-		});
+		public static final Codec<TagFurnaceRecipe> CODEC = RecordCodecBuilder.create(
+				instance -> instance.group(
+								CookingBookCategory.CODEC.fieldOf("category").orElse(CookingBookCategory.MISC).forGetter(recipe -> recipe.category),
+								ExtraCodecs.strictOptionalField(Codec.STRING, "group", "").forGetter(recipe -> recipe.group),
+								Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter(recipe -> recipe.ingredient),
+								Ingredient.CODEC_NONEMPTY.fieldOf("result").forGetter(recipe -> recipe.resultIngredient),
+								Codec.FLOAT.fieldOf("experience").orElse(0.0F).forGetter(recipe -> recipe.experience),
+								Codec.INT.fieldOf("cookingtime").orElse(200).forGetter(recipe -> recipe.cookingTime)
+						)
+						.apply(instance, TagFurnaceRecipe::new)
+		);
 
 		@Override
 		public Codec<TagFurnaceRecipe> codec() {
@@ -89,23 +86,6 @@ public class TagFurnaceRecipe extends SmeltingRecipe {
 			recipe.getResultIngredient().toNetwork(buffer);
 			buffer.writeFloat(recipe.getExperience());
 			buffer.writeVarInt(recipe.getCookingTime());
-		}
-
-		static record RawBlastingRecipe(
-				String group, CookingBookCategory category, Ingredient ingredient, Ingredient result, float experience,
-				int cookingtime
-		) {
-			public static final Codec<RawBlastingRecipe> CODEC = RecordCodecBuilder.create(
-					instance -> instance.group(
-									ExtraCodecs.strictOptionalField(Codec.STRING, "group", "").forGetter(recipe -> recipe.group),
-									CookingBookCategory.CODEC.fieldOf("category").orElse(CookingBookCategory.MISC).forGetter(recipe -> recipe.category),
-									Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter(recipe -> recipe.ingredient),
-									Ingredient.CODEC_NONEMPTY.fieldOf("result").forGetter(recipe -> recipe.result),
-									Codec.FLOAT.fieldOf("experience").orElse(0.0F).forGetter(recipe -> recipe.experience),
-									Codec.INT.fieldOf("cookingtime").orElse(200).forGetter(recipe -> recipe.cookingtime)
-							)
-							.apply(instance, RawBlastingRecipe::new)
-			);
 		}
 	}
 }

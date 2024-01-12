@@ -39,6 +39,5 @@
     "recipes": [
       "oreberriesreplanted:vat/aluminum_nugget"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

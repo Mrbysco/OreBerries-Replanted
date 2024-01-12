@@ -39,6 +39,5 @@
     "recipes": [
       "oreberriesreplanted:copper_from_blasting"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }

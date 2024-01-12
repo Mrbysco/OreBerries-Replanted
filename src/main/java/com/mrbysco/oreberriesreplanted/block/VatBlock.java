@@ -1,5 +1,6 @@
 package com.mrbysco.oreberriesreplanted.block;
 
+import com.mojang.serialization.MapCodec;
 import com.mrbysco.oreberriesreplanted.blockentity.VatBlockEntity;
 import com.mrbysco.oreberriesreplanted.mixin.LivingEntityAccessor;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
@@ -28,8 +29,7 @@ import net.minecraft.world.phys.shapes.BooleanOp;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
-import net.neoforged.neoforge.common.capabilities.Capabilities;
-import net.neoforged.neoforge.common.util.LazyOptional;
+import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.items.IItemHandler;
 import net.neoforged.neoforge.items.ItemHandlerHelper;
 
@@ -37,6 +37,7 @@ import javax.annotation.Nullable;
 import java.util.stream.Stream;
 
 public class VatBlock extends BaseEntityBlock {
+	public static final MapCodec<VatBlock> CODEC = simpleCodec(VatBlock::new);
 	private static final VoxelShape SHAPE = Stream.of(
 			Block.box(1, 0, 1, 15, 1, 15),
 			Block.box(1, 1, 0, 15, 8, 1),
@@ -49,28 +50,33 @@ public class VatBlock extends BaseEntityBlock {
 		super(properties);
 	}
 
+	@Override
+	protected MapCodec<? extends BaseEntityBlock> codec() {
+		return CODEC;
+	}
+
 	public VoxelShape getShape(BlockState state, BlockGetter level, BlockPos pos, CollisionContext context) {
 		return SHAPE;
 	}
 
 	@Override
-	public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
+	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
 		float f = (float) entity.getY() - 0.5F;
 		float yPos = (float) (pos.getY() - 0.25f);
 		if (!entity.isShiftKeyDown() && (double) f <= yPos) {
-			BlockEntity blockEntity = world.getBlockEntity(pos);
-			if (world.getGameTime() % 10 == 0 && blockEntity instanceof VatBlockEntity vat) {
+			BlockEntity blockEntity = level.getBlockEntity(pos);
+			if (level.getGameTime() % 10 == 0 && blockEntity instanceof VatBlockEntity vat) {
 				if (entity instanceof LivingEntity && !(entity instanceof Player && ((Player) entity).isSpectator())) {
 					if (!vat.handler.getStackInSlot(0).isEmpty()) {
 						LivingEntity livingEntity = (LivingEntity) entity;
 						((LivingEntityAccessor) livingEntity).invokeJumpFromGround();
 					}
 
-					if (!world.isClientSide && world.random.nextInt(8) == 0) {
+					if (!level.isClientSide && level.random.nextInt(8) == 0) {
 						vat.crushBerry();
 					}
 				}
-				if (!world.isClientSide && entity instanceof ItemEntity itemEntity && blockEntity instanceof VatBlockEntity) {
+				if (!level.isClientSide && entity instanceof ItemEntity itemEntity && blockEntity instanceof VatBlockEntity) {
 					vat.addBerry(itemEntity);
 				}
 			}
@@ -78,27 +84,28 @@ public class VatBlock extends BaseEntityBlock {
 	}
 
 	@Override
-	public InteractionResult use(BlockState state, Level world, BlockPos pos, Player player, InteractionHand hand, BlockHitResult blockRayTraceResult) {
-		BlockEntity blockEntity = world.getBlockEntity(pos);
+	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult blockRayTraceResult) {
+		BlockEntity blockEntity = level.getBlockEntity(pos);
 		if (blockEntity instanceof VatBlockEntity) {
 			ItemStack stack = player.getItemInHand(hand);
-			LazyOptional<IItemHandler> itemHandler = blockEntity.getCapability(Capabilities.ITEM_HANDLER, blockRayTraceResult.getDirection());
-			itemHandler.ifPresent((handler) -> {
+			IItemHandler itemHandler = level.getCapability(Capabilities.ItemHandler.BLOCK, pos, blockRayTraceResult.getDirection());
+			if (itemHandler != null) {
 				if (player.isShiftKeyDown()) {
-					ItemStack berryStack = handler.getStackInSlot(0);
+					ItemStack berryStack = itemHandler.getStackInSlot(0);
 					if (!berryStack.isEmpty()) {
-						Containers.dropItemStack(world, player.getX(), player.getY() + 0.5, player.getZ(), berryStack);
+						Containers.dropItemStack(level, player.getX(), player.getY() + 0.5, player.getZ(), berryStack);
 					}
 				} else {
-					if (handler.getStackInSlot(0).getCount() < handler.getSlotLimit(0)) {
+					if (itemHandler.getStackInSlot(0).getCount() < itemHandler.getSlotLimit(0)) {
 						ItemStack remaining = ItemHandlerHelper.copyStackWithSize(stack, stack.getCount());
 						if (!remaining.isEmpty()) {
-							remaining = ItemHandlerHelper.insertItem(handler, stack, false);
+							remaining = ItemHandlerHelper.insertItem(itemHandler, stack, false);
 							player.setItemInHand(hand, remaining);
 						}
 					}
 				}
-			});
+			}
+			;
 
 			return InteractionResult.SUCCESS;
 		}
@@ -110,11 +117,12 @@ public class VatBlock extends BaseEntityBlock {
 		if (!state.is(newState.getBlock())) {
 			BlockEntity blockEntity = level.getBlockEntity(pos);
 			if (blockEntity instanceof VatBlockEntity) {
-				blockEntity.getCapability(Capabilities.ITEM_HANDLER).ifPresent(handler -> {
-					for (int i = 0; i < handler.getSlots(); ++i) {
-						Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(i));
+				IItemHandler itemHandler = level.getCapability(Capabilities.ItemHandler.BLOCK, pos, null);
+				if (itemHandler != null) {
+					for (int i = 0; i < itemHandler.getSlots(); ++i) {
+						Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), itemHandler.getStackInSlot(i));
 					}
-				});
+				}
 			}
 
 			super.onRemove(state, level, pos, newState, isMoving);

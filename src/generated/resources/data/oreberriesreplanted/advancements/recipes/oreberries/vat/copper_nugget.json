@@ -39,6 +39,5 @@
     "recipes": [
       "oreberriesreplanted:vat/copper_nugget"
     ]
-  },
-  "sends_telemetry_event": false
+  }
 }
