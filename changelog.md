@@ -1,1 +1,1 @@
-* Initial update to 1.20.2 (NeoForge)
+* Fix vat recipes having the wrong fluid location
