@@ -510,7 +510,7 @@ public class OreberryDatagen {
 					.save(tagOutput,
 							new ResourceLocation(Reference.MOD_ID, type + "_from_smelting"));
 
-			VatRecipeBuilder.vat(Ingredient.of(berry), new ResourceLocation(Reference.MOD_ID, type + "_oreberry_juice"), Ingredient.of(nuggetTag))
+			VatRecipeBuilder.vat(Ingredient.of(nuggetTag), new ResourceLocation(Reference.MOD_ID, type + "_oreberry_juice"), Ingredient.of(berry))
 					.unlockedBy("has_berry", has(berry))
 					.save(tagOutput,
 							new ResourceLocation(Reference.MOD_ID, "vat/" + type + "_nugget"));
