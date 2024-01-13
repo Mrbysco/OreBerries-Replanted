@@ -12,9 +12,9 @@
   "evaporationTime": 100,
   "fluid": "oreberriesreplanted:copper_oreberry_juice",
   "ingredient": {
-    "tag": "forge:nuggets/copper"
+    "item": "oreberriesreplanted:copper_oreberry"
   },
   "result": {
-    "item": "oreberriesreplanted:copper_oreberry"
+    "tag": "forge:nuggets/copper"
   }
 }

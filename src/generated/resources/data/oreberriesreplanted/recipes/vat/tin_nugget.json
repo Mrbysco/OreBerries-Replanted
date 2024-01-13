@@ -12,9 +12,9 @@
   "evaporationTime": 100,
   "fluid": "oreberriesreplanted:tin_oreberry_juice",
   "ingredient": {
-    "tag": "forge:nuggets/tin"
+    "item": "oreberriesreplanted:tin_oreberry"
   },
   "result": {
-    "item": "oreberriesreplanted:tin_oreberry"
+    "tag": "forge:nuggets/tin"
   }
 }

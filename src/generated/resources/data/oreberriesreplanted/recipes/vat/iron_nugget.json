@@ -12,9 +12,9 @@
   "evaporationTime": 100,
   "fluid": "oreberriesreplanted:iron_oreberry_juice",
   "ingredient": {
-    "tag": "forge:nuggets/iron"
+    "item": "oreberriesreplanted:iron_oreberry"
   },
   "result": {
-    "item": "oreberriesreplanted:iron_oreberry"
+    "tag": "forge:nuggets/iron"
   }
 }

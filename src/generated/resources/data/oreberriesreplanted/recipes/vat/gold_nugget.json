@@ -12,9 +12,9 @@
   "evaporationTime": 100,
   "fluid": "oreberriesreplanted:gold_oreberry_juice",
   "ingredient": {
-    "tag": "forge:nuggets/gold"
+    "item": "oreberriesreplanted:gold_oreberry"
   },
   "result": {
-    "item": "oreberriesreplanted:gold_oreberry"
+    "tag": "forge:nuggets/gold"
   }
 }

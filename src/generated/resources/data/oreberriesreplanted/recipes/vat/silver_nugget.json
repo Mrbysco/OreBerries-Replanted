@@ -12,9 +12,9 @@
   "evaporationTime": 100,
   "fluid": "oreberriesreplanted:silver_oreberry_juice",
   "ingredient": {
-    "tag": "forge:nuggets/silver"
+    "item": "oreberriesreplanted:silver_oreberry"
   },
   "result": {
-    "item": "oreberriesreplanted:silver_oreberry"
+    "tag": "forge:nuggets/silver"
   }
 }

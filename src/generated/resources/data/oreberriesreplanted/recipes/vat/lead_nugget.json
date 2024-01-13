@@ -12,9 +12,9 @@
   "evaporationTime": 100,
   "fluid": "oreberriesreplanted:lead_oreberry_juice",
   "ingredient": {
-    "tag": "forge:nuggets/lead"
+    "item": "oreberriesreplanted:lead_oreberry"
   },
   "result": {
-    "item": "oreberriesreplanted:lead_oreberry"
+    "tag": "forge:nuggets/lead"
   }
 }
