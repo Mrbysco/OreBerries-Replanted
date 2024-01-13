@@ -40,17 +40,20 @@ public class VatCategory implements DisplayCategory<VatDisplay> {
 		widgets.add(Widgets.createRecipeBase(bounds));
 		widgets.add(Widgets.createArrow(new Point(centerPoint.x - 40, centerPoint.y - 7)));
 
-		widgets.add(Widgets.createSlot(new Point(bounds.getMinX() + 8, centerPoint.y - 7)).entries(display.getInputEntries().get(0)).markOutput());
-		if(!display.getOutputEntries().isEmpty()) {
-			if (display.getOutputEntries().size() == 3) {
-				widgets.add(Widgets.createSlot(new Point(centerPoint.x - 8, centerPoint.y - 7)).entries(display.getOutputEntries().get(0)).markInput());
+		widgets.add(Widgets.createSlot(new Point(bounds.getMinX() + 8, centerPoint.y - 7)).entries(display.getInputEntries().get(0)).markInput());
+		if (!display.getOutputEntries().isEmpty()) {
+			if (display.getOutputEntries().size() == 2) {
+				widgets.add(Widgets.withTooltip(
+						Widgets.createSlot(new Point(centerPoint.x - 8, centerPoint.y - 7)).entries(display.getOutputEntries().get(0)).markOutput(),
+						Component.translatable("oreberriesreplanted.gui.jei.category.vat.tooltip", ((int) (display.min * 100)), ((int) (display.max * 100)), display.displayName).withStyle(ChatFormatting.GOLD))
+				);
 				widgets.add(Widgets.createArrow(new Point(centerPoint.x + 16, centerPoint.y - 7)));
-				widgets.add(Widgets.createSlot(new Point(centerPoint.x + 46, centerPoint.y - 7)).entries(display.getOutputEntries().get(1)).markOutput());
+				widgets.add(Widgets.withTooltip(
+						Widgets.createSlot(new Point(centerPoint.x + 46, centerPoint.y - 7)).entries(display.getOutputEntries().get(1)).markOutput(),
+						Component.translatable("oreberriesreplanted.gui.jei.category.vat_output.tooltip", display.evaporationAmount).withStyle(ChatFormatting.GOLD))
+				);
 			}
 		}
-
-		widgets.add(Widgets.createTooltip(bounds, Component.translatable("oreberriesreplanted.gui.jei.category.vat.tooltip",
-				((int) (display.min * 100)), ((int) (display.max * 100)), display.displayName).withStyle(ChatFormatting.GOLD)));
 
 		return widgets;
 	}
