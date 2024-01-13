@@ -1,1 +1,2 @@
-* Initial update to 1.20.4
+* Fix vat recipes being backwards
+* Fix REI display of vat recipes
