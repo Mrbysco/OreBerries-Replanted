@@ -11,9 +11,9 @@
   "type": "oreberriesreplanted:vat",
   "fluid": "oreberriesreplanted:uranium_oreberry_juice",
   "ingredient": {
-    "tag": "forge:nuggets/uranium"
+    "item": "oreberriesreplanted:uranium_oreberry"
   },
   "result": {
-    "item": "oreberriesreplanted:uranium_oreberry"
+    "tag": "forge:nuggets/uranium"
   }
 }

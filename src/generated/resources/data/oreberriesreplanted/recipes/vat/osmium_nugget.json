@@ -11,9 +11,9 @@
   "type": "oreberriesreplanted:vat",
   "fluid": "oreberriesreplanted:osmium_oreberry_juice",
   "ingredient": {
-    "tag": "forge:nuggets/osmium"
+    "item": "oreberriesreplanted:osmium_oreberry"
   },
   "result": {
-    "item": "oreberriesreplanted:osmium_oreberry"
+    "tag": "forge:nuggets/osmium"
   }
 }
