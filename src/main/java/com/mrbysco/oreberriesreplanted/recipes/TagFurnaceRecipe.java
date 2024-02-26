@@ -10,6 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.GsonHelper;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.CookingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
@@ -24,7 +25,7 @@ public class TagFurnaceRecipe extends SmeltingRecipe {
 	protected final Ingredient resultIngredient;
 
 	public TagFurnaceRecipe(ResourceLocation idIn, CookingBookCategory category, String groupIn, Ingredient ingredientIn, Ingredient resultIn, float experienceIn, int cookTimeIn) {
-		super(idIn, groupIn, category, ingredientIn, ItemStack.EMPTY, experienceIn, cookTimeIn);
+		super(idIn, groupIn, category, ingredientIn, new ItemStack(Items.IRON_NUGGET), experienceIn, cookTimeIn);
 		this.resultIngredient = resultIn;
 	}
 
