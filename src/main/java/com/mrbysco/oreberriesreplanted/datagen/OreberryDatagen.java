@@ -81,7 +81,7 @@ public class OreberryDatagen {
 			BlockTagsProvider blockTagsProvider = new OreberryBlockTags(packOutput, lookupProvider, helper);
 			generator.addProvider(event.includeServer(), blockTagsProvider);
 			generator.addProvider(event.includeServer(), new OreberryItemTags(packOutput, lookupProvider, blockTagsProvider, helper));
-			generator.addProvider(event.includeServer(), new OreberryRecipeProvider(packOutput, lookupProvider));
+			generator.addProvider(event.includeServer(), new OreberryRecipeProvider(packOutput));
 
 			generator.addProvider(event.includeServer(), new DatapackBuiltinEntriesProvider(
 					packOutput, CompletableFuture.supplyAsync(OreberryDatagen::getProvider), Set.of(Reference.MOD_ID)));
@@ -464,8 +464,8 @@ public class OreberryDatagen {
 
 	public static class OreberryRecipeProvider extends RecipeProvider {
 
-		public OreberryRecipeProvider(PackOutput packOutput, CompletableFuture<net.minecraft.core.HolderLookup.Provider> lookupProvider) {
-			super(packOutput, lookupProvider);
+		public OreberryRecipeProvider(PackOutput packOutput) {
+			super(packOutput);
 		}
 
 		@Override
