@@ -6,13 +6,12 @@ import net.minecraft.advancements.AdvancementRequirements;
 import net.minecraft.advancements.AdvancementRewards;
 import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.material.Fluid;
+import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedHashMap;
@@ -20,7 +19,7 @@ import java.util.Map;
 
 public class VatRecipeBuilder implements RecipeBuilder {
 	private final Ingredient result;
-	protected final ResourceLocation fluid;
+	protected final FluidIngredient fluid;
 	private final Ingredient ingredient;
 	protected int evaporationTime = 100;
 	protected int evaporationAmount = 100;
@@ -30,13 +29,13 @@ public class VatRecipeBuilder implements RecipeBuilder {
 	@Nullable
 	private String group;
 
-	private VatRecipeBuilder(Ingredient result, ResourceLocation fluid, Ingredient ingredient) {
+	private VatRecipeBuilder(Ingredient result, FluidIngredient fluid, Ingredient ingredient) {
 		this.result = result;
 		this.fluid = fluid;
 		this.ingredient = ingredient;
 	}
 
-	public static VatRecipeBuilder vat(Ingredient ingredient, ResourceLocation fluid, Ingredient result) {
+	public static VatRecipeBuilder vat(Ingredient ingredient, FluidIngredient fluid, Ingredient result) {
 		return new VatRecipeBuilder(ingredient, fluid, result);
 	}
 
@@ -81,7 +80,6 @@ public class VatRecipeBuilder implements RecipeBuilder {
 				.rewards(AdvancementRewards.Builder.recipe(id))
 				.requirements(AdvancementRequirements.Strategy.OR);
 		this.criteria.forEach(advancement$builder::addCriterion);
-		Fluid fluid = BuiltInRegistries.FLUID.getOptional(this.fluid).orElse(null);
 		if (fluid == null) {
 			throw new IllegalStateException("Fluid: " + this.fluid + " does not exist");
 		} else {

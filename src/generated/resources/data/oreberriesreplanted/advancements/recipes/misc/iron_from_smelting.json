@@ -14,9 +14,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "oreberriesreplanted:iron_oreberry"
-            ]
+            "items": "oreberriesreplanted:iron_oreberry"
           }
         ]
       },

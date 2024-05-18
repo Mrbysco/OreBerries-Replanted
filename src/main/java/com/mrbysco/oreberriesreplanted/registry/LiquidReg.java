@@ -110,7 +110,7 @@ public class LiquidReg {
 		flowing = OreBerryRegistry.FLUIDS.register(name + "_flowing", () -> new BaseFlowingFluid.Flowing(
 				createProperties(fluidType, source, flowing, bucket))
 		);
-		bucket = OreBerryRegistry.ITEMS.register(name + "_bucket", () -> new BucketItem(source, new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
+		bucket = OreBerryRegistry.ITEMS.register(name + "_bucket", () -> new BucketItem(source.get(), new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
 	}
 
 	public static class Builder {

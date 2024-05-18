@@ -33,7 +33,7 @@ public class VatDisplay implements Display {
 		this.displayName = recipe.getFluid().getFluidType().getDescription().getString();
 
 		this.outputEntries = new ArrayList<>();
-		FluidStack fluidStack = FluidStack.create(recipe.getFluid(), 1000);
+		FluidStack fluidStack = FluidStack.create(recipe.getFluidStack().getFluid(), 1000);
 		this.outputEntries.add(EntryIngredients.of(VanillaEntryTypes.FLUID, List.of(fluidStack)));
 		this.outputEntries.add(EntryIngredients.ofIngredient(recipe.getResultIngredient()));
 	}

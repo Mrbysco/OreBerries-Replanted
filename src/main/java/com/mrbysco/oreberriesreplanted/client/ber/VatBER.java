@@ -39,7 +39,6 @@ public class VatBER implements BlockEntityRenderer<VatBlockEntity> {
 			poseStack.translate(0.5, 0.25, 0.5);
 			PoseStack.Pose matrixLast = poseStack.last();
 			Matrix4f pose = matrixLast.pose();
-			Matrix3f normal = matrixLast.normal();
 			VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.translucent());
 
 			final int color = IClientFluidTypeExtensions.of(fluid).getTintColor(fluidStack);
@@ -51,30 +50,30 @@ public class VatBER implements BlockEntityRenderer<VatBlockEntity> {
 			float width = 14 / 16f;
 			float height = 7 / 16f;
 
-			float minU = fluidTexture.getU(3);
-			float maxU = fluidTexture.getU(13);
-			float minV = fluidTexture.getV(3);
-			float maxV = fluidTexture.getV(13);
+			float minU = fluidTexture.getU(0);
+			float maxU = fluidTexture.getU(1);
+			float minV = fluidTexture.getV(0);
+			float maxV = fluidTexture.getV(1);
 			float percent = fluidStack.getAmount() >= 200 ? (fluidStack.getAmount() / (float) vat.tank.getCapacity()) : 0.1f;
 
 			vertexConsumer.vertex(pose, -width / 2, -height / 2 + percent * height, -width / 2).color(r, g, b, a)
 					.uv(minU, minV)
-					.overlayCoords(OverlayTexture.NO_OVERLAY).uv2(combinedLightIn).normal(normal, 0, 1, 0)
+					.overlayCoords(OverlayTexture.NO_OVERLAY).uv2(combinedLightIn).normal(matrixLast, 0, 1, 0)
 					.endVertex();
 
 			vertexConsumer.vertex(pose, -width / 2, -height / 2 + percent * height, width / 2).color(r, g, b, a)
 					.uv(minU, maxV)
-					.overlayCoords(OverlayTexture.NO_OVERLAY).uv2(combinedLightIn).normal(normal, 0, 1, 0)
+					.overlayCoords(OverlayTexture.NO_OVERLAY).uv2(combinedLightIn).normal(matrixLast, 0, 1, 0)
 					.endVertex();
 
 			vertexConsumer.vertex(pose, width / 2, -height / 2 + percent * height, width / 2).color(r, g, b, a)
 					.uv(maxU, maxV)
-					.overlayCoords(OverlayTexture.NO_OVERLAY).uv2(combinedLightIn).normal(normal, 0, 1, 0)
+					.overlayCoords(OverlayTexture.NO_OVERLAY).uv2(combinedLightIn).normal(matrixLast, 0, 1, 0)
 					.endVertex();
 
 			vertexConsumer.vertex(pose, width / 2, -height / 2 + percent * height, -width / 2).color(r, g, b, a)
 					.uv(maxU, minV)
-					.overlayCoords(OverlayTexture.NO_OVERLAY).uv2(combinedLightIn).normal(normal, 0, 1, 0)
+					.overlayCoords(OverlayTexture.NO_OVERLAY).uv2(combinedLightIn).normal(matrixLast, 0, 1, 0)
 					.endVertex();
 
 			if (bufferSource instanceof MultiBufferSource.BufferSource) {

@@ -9,7 +9,9 @@
     }
   ],
   "type": "oreberriesreplanted:vat",
-  "fluid": "oreberriesreplanted:lead_oreberry_juice",
+  "fluid": {
+    "fluid": "oreberriesreplanted:lead_oreberry_juice"
+  },
   "ingredient": {
     "item": "oreberriesreplanted:lead_oreberry"
   },

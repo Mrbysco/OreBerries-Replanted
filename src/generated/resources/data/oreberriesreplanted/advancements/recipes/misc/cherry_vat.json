@@ -5,9 +5,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:cherry_planks"
-            ]
+            "items": "minecraft:cherry_planks"
           }
         ]
       },
@@ -17,9 +15,7 @@
       "conditions": {
         "items": [
           {
-            "items": [
-              "minecraft:cherry_slab"
-            ]
+            "items": "minecraft:cherry_slab"
           }
         ]
       },

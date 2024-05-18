@@ -7,7 +7,7 @@ import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -104,20 +104,21 @@ public class OreBerryBushBlock extends Block implements IPlantable {
 	}
 
 	@Override
-	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand handIn, BlockHitResult hit) {
+	protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
+	                                          Player player, InteractionHand hand, BlockHitResult result) {
 		return harvestBerry(state, level, pos);
 	}
 
-	public InteractionResult harvestBerry(BlockState state, Level level, BlockPos pos) {
+	public ItemInteractionResult harvestBerry(BlockState state, Level level, BlockPos pos) {
 		if (isMaxAge(state)) {
 			if (level.isClientSide)
-				return InteractionResult.SUCCESS;
+				return ItemInteractionResult.SUCCESS;
 
 			level.setBlock(pos, withAge(getMaxAge() - 1), 3);
 			popResource(level, pos, new ItemStack(getBerryItem(), level.random.nextInt(3) + 1));
 		}
 
-		return InteractionResult.PASS;
+		return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 	}
 
 	@Override

@@ -9,7 +9,9 @@
     }
   ],
   "type": "oreberriesreplanted:vat",
-  "fluid": "oreberriesreplanted:uranium_oreberry_juice",
+  "fluid": {
+    "fluid": "oreberriesreplanted:uranium_oreberry_juice"
+  },
   "ingredient": {
     "item": "oreberriesreplanted:uranium_oreberry"
   },

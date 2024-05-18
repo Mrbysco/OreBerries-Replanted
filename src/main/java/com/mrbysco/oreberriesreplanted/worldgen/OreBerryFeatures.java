@@ -3,7 +3,7 @@ package com.mrbysco.oreberriesreplanted.worldgen;
 import com.mrbysco.oreberriesreplanted.Reference;
 import com.mrbysco.oreberriesreplanted.block.OreBerryBushBlock;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -26,7 +26,7 @@ public class OreBerryFeatures {
 	public static final ResourceKey<ConfiguredFeature<?, ?>> SILVER_OREBERRY_BUSH_FEATURE = FeatureUtils.createKey(new ResourceLocation(Reference.MOD_ID, "silver_oreberry_bush").toString());
 	public static final ResourceKey<ConfiguredFeature<?, ?>> ESSENCE_BERRY_BUSH_FEATURE = FeatureUtils.createKey(new ResourceLocation(Reference.MOD_ID, "essence_berry_bush").toString());
 
-	public static void bootstrap(BootstapContext<ConfiguredFeature<?, ?>> context) {
+	public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {
 		RuleTest ruletest = new TagMatchTest(BlockTags.BASE_STONE_OVERWORLD);
 
 		FeatureUtils.register(context, IRON_OREBERRY_BUSH_FEATURE,

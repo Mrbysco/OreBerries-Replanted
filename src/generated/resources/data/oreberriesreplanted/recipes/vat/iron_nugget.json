@@ -9,7 +9,9 @@
     }
   ],
   "type": "oreberriesreplanted:vat",
-  "fluid": "oreberriesreplanted:iron_oreberry_juice",
+  "fluid": {
+    "fluid": "oreberriesreplanted:iron_oreberry_juice"
+  },
   "ingredient": {
     "item": "oreberriesreplanted:iron_oreberry"
   },

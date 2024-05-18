@@ -5,7 +5,7 @@ import com.mrbysco.oreberriesreplanted.worldgen.OreBerryPlacements;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BiomeTags;
@@ -30,7 +30,7 @@ public class OreBerryBiomeModifiers {
 	public static final ResourceKey<BiomeModifier> SILVER_OREBERRY_BUSH_FEATURE = createKey("silver_oreberry_bush");
 	public static final ResourceKey<BiomeModifier> ESSENCE_BERRY_BUSH_FEATURE = createKey("essence_berry_bush");
 
-	public static void bootstrap(BootstapContext<BiomeModifier> context) {
+	public static void bootstrap(BootstrapContext<BiomeModifier> context) {
 		HolderGetter<Biome> biomeGetter = context.lookup(Registries.BIOME);
 		HolderGetter<PlacedFeature> placedGetter = context.lookup(Registries.PLACED_FEATURE);
 		HolderSet.Named<Biome> overworldTag = biomeGetter.getOrThrow(BiomeTags.IS_OVERWORLD);

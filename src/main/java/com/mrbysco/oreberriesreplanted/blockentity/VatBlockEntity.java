@@ -5,6 +5,7 @@ import com.mrbysco.oreberriesreplanted.registry.OreBerryRecipes;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
@@ -36,7 +37,7 @@ public class VatBlockEntity extends BlockEntity {
 			}
 			if (action.simulate()) {
 				int amount = tank.getFluidAmount() - resource.getAmount() < 0 ? tank.getFluidAmount() : resource.getAmount();
-				return new FluidStack(tank.getFluid(), amount);
+				return new FluidStack(tank.getFluid().getFluidHolder(), amount);
 			}
 			return super.drain(resource.getAmount(), action);
 		}
@@ -99,25 +100,25 @@ public class VatBlockEntity extends BlockEntity {
 	}
 
 	@Override
-	public void load(CompoundTag tag) {
+	protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+		super.loadAdditional(tag, provider);
+
 		this.evaporateProgress = tag.getInt("evaporateProgress");
 		this.evaporateTotalTime = tag.getInt("evaporateTotalTime");
 		this.crushCooldown = tag.getInt("crushCooldown");
 
-		this.handler.deserializeNBT(tag.getCompound("ItemStackHandler"));
-		this.tank.readFromNBT(tag);
-
-		super.load(tag);
+		this.handler.deserializeNBT(provider, tag.getCompound("ItemStackHandler"));
+		this.tank.readFromNBT(provider, tag);
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag tag) {
-		super.saveAdditional(tag);
+	public void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
+		super.saveAdditional(tag, provider);
 		tag.putInt("evaporateProgress", this.evaporateProgress);
 		tag.putInt("evaporateTotalTime", this.evaporateTotalTime);
 		tag.putInt("crushCooldown", this.crushCooldown);
-		tag.put("ItemStackHandler", handler.serializeNBT());
-		tank.writeToNBT(tag);
+		tag.put("ItemStackHandler", handler.serializeNBT(provider));
+		tank.writeToNBT(provider, tag);
 	}
 
 	public static void serverTick(Level level, BlockPos pos, BlockState state, VatBlockEntity vatBlockEntity) {
@@ -226,7 +227,8 @@ public class VatBlockEntity extends BlockEntity {
 		inventory.setItem(0, input);
 		if (curRecipe != null && curRecipe.value().matches(inventory, level)) return curRecipe;
 		else {
-			RecipeHolder<VatRecipe> rec = level.getRecipeManager().getRecipeFor(OreBerryRecipes.VAT_RECIPE_TYPE.get(), inventory, this.level).orElse(null);
+			RecipeHolder<VatRecipe> rec = level.getRecipeManager().getRecipeFor(OreBerryRecipes.VAT_RECIPE_TYPE.get(),
+					inventory, this.level).orElse(null);
 			return curRecipe = rec;
 		}
 	}
@@ -260,26 +262,26 @@ public class VatBlockEntity extends BlockEntity {
 	}
 
 	@Override
-	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
-		this.load(pkt.getTag());
+	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider lookupProvider) {
+		this.loadAdditional(pkt.getTag(), lookupProvider);
 	}
 
 	@Override
-	public CompoundTag getUpdateTag() {
+	public CompoundTag getUpdateTag(HolderLookup.Provider lookupProvider) {
 		CompoundTag tag = new CompoundTag();
-		this.saveAdditional(tag);
+		this.saveAdditional(tag, lookupProvider);
 		return tag;
 	}
 
 	@Override
-	public void handleUpdateTag(CompoundTag tag) {
-		super.handleUpdateTag(tag);
+	public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider lookupProvider) {
+		super.handleUpdateTag(tag, lookupProvider);
 	}
 
 	@Override
 	public CompoundTag getPersistentData() {
 		CompoundTag tag = new CompoundTag();
-		this.saveAdditional(tag);
+		this.saveAdditional(tag, this.getLevel().registryAccess());
 		return tag;
 	}
 

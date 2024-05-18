@@ -15,8 +15,8 @@ base {
     archivesName = "${mod_archive_name}-${mc_version}"
 }
 
-// Mojang ships Java 17 to end users in 1.18+, so your mod should target Java 17.
-java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+// Mojang ships Java 21 to end users in 1.20.5+, so your mod should target Java 21.
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
 
 //minecraft.accessTransformers.file rootProject.file('src/main/resources/META-INF/accesstransformer.cfg')
 //minecraft.accessTransformers.entry public net.minecraft.client.Minecraft textureManager # textureManager
@@ -73,21 +73,21 @@ repositories {
 dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
 
-    compileOnly "mezz.jei:jei-${mc_version}-common-api:${jei_version}"
-    compileOnly "mezz.jei:jei-${mc_version}-neoforge-api:${jei_version}"
+//    compileOnly "mezz.jei:jei-${mc_version}-common-api:${jei_version}"
+//    compileOnly "mezz.jei:jei-${mc_version}-neoforge-api:${jei_version}"
 //    runtimeOnly "mezz.jei:jei-${mc_version}-neoforge:${jei_version}"
 
     compileOnly "me.shedaniel:RoughlyEnoughItems-api-neoforge:${rei_version}"
     compileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-neoforge:${rei_version}"
-    runtimeOnly "me.shedaniel:RoughlyEnoughItems-neoforge:${rei_version}"
+    compileOnly "me.shedaniel:RoughlyEnoughItems-neoforge:${rei_version}"
 
-    implementation "me.shedaniel.cloth:cloth-config-neoforge:${cloth_config_version}"
-    implementation "dev.architectury:architectury-neoforge:${architectury_version}"
+    compileOnly "me.shedaniel.cloth:cloth-config-neoforge:${cloth_config_version}"
+    compileOnly "dev.architectury:architectury-neoforge:${architectury_version}"
 
-    runtimeOnly "net.darkhax.bookshelf:Bookshelf-Common-1.20.4:${bookshelf_version}"
-    runtimeOnly "net.darkhax.bookshelf:Bookshelf-NeoForge-1.20.4:${bookshelf_version}"
-    runtimeOnly "net.darkhax.botanypots:BotanyPots-Common-1.20.4:${botanypots_version}"
-    runtimeOnly "net.darkhax.botanypots:BotanyPots-NeoForge-1.20.4:${botanypots_version}"
+//    runtimeOnly "net.darkhax.bookshelf:Bookshelf-Common-1.20.4:${bookshelf_version}"
+//    runtimeOnly "net.darkhax.bookshelf:Bookshelf-NeoForge-1.20.4:${bookshelf_version}"
+//    runtimeOnly "net.darkhax.botanypots:BotanyPots-Common-1.20.4:${botanypots_version}"
+//    runtimeOnly "net.darkhax.botanypots:BotanyPots-NeoForge-1.20.4:${botanypots_version}"
 }
 
 jar {
@@ -134,7 +134,7 @@ if (System.getenv().CURSEFORGE_KEY) {
         mainFile.releaseType = 'beta'
         mainFile.addGameVersion "NeoForge"
         mainFile.addGameVersion "${mc_version}"
-        mainFile.addGameVersion "Java 17"
+        mainFile.addGameVersion "Java 21"
 
         mainFile.changelog = file("$project.rootDir/changelog.md")
         mainFile.changelogType = 'markdown'

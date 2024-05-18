@@ -12,6 +12,7 @@ import net.minecraft.core.Cloner;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.RegistrySetBuilder;
+import net.minecraft.core.WritableRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
@@ -28,6 +29,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
+import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -41,6 +43,7 @@ import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.ValidationContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
@@ -55,18 +58,17 @@ import net.neoforged.neoforge.common.data.ExistingFileHelper;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.fluids.BaseFlowingFluid;
+import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
 import net.neoforged.neoforge.registries.DeferredBlock;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.NeoForgeRegistries;
 
-import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
 public class OreberryDatagen {
 	@SubscribeEvent
 	public static void gatherData(GatherDataEvent event) {
@@ -76,12 +78,12 @@ public class OreberryDatagen {
 		ExistingFileHelper helper = event.getExistingFileHelper();
 
 		if (event.includeServer()) {
-			generator.addProvider(event.includeServer(), new OreBerryLoot(packOutput));
+			generator.addProvider(event.includeServer(), new OreBerryLoot(packOutput, lookupProvider));
 
 			BlockTagsProvider blockTagsProvider = new OreberryBlockTags(packOutput, lookupProvider, helper);
 			generator.addProvider(event.includeServer(), blockTagsProvider);
 			generator.addProvider(event.includeServer(), new OreberryItemTags(packOutput, lookupProvider, blockTagsProvider, helper));
-			generator.addProvider(event.includeServer(), new OreberryRecipeProvider(packOutput));
+			generator.addProvider(event.includeServer(), new OreberryRecipeProvider(packOutput, lookupProvider));
 
 			generator.addProvider(event.includeServer(), new DatapackBuiltinEntriesProvider(
 					packOutput, CompletableFuture.supplyAsync(OreberryDatagen::getProvider), Set.of(Reference.MOD_ID)));
@@ -108,9 +110,9 @@ public class OreberryDatagen {
 	}
 
 	private static class OreBerryLoot extends LootTableProvider {
-		public OreBerryLoot(PackOutput packOutput) {
+		public OreBerryLoot(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookupProvider) {
 			super(packOutput, Set.of(), List.of(
-					new SubProviderEntry(OreBerryBlocks::new, LootContextParamSets.BLOCK)));
+					new SubProviderEntry(OreBerryBlocks::new, LootContextParamSets.BLOCK)), lookupProvider);
 		}
 
 		private static class OreBerryBlocks extends BlockLootSubProvider {
@@ -166,8 +168,8 @@ public class OreberryDatagen {
 		}
 
 		@Override
-		protected void validate(Map<ResourceLocation, LootTable> map, @Nonnull ValidationContext validationContext) {
-			map.forEach((name, table) -> table.validate(validationContext));
+		protected void validate(WritableRegistry<LootTable> writableregistry, ValidationContext validationcontext, ProblemReporter.Collector problemreporter$collector) {
+			super.validate(writableregistry, validationcontext, problemreporter$collector);
 		}
 	}
 
@@ -430,7 +432,7 @@ public class OreberryDatagen {
 
 	public static class OreberryBlockTags extends BlockTagsProvider {
 		public OreberryBlockTags(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookupProvider,
-								 @Nullable ExistingFileHelper existingFileHelper) {
+		                         @Nullable ExistingFileHelper existingFileHelper) {
 			super(packOutput, lookupProvider, Reference.MOD_ID, existingFileHelper);
 		}
 
@@ -464,8 +466,8 @@ public class OreberryDatagen {
 
 	public static class OreberryRecipeProvider extends RecipeProvider {
 
-		public OreberryRecipeProvider(PackOutput packOutput) {
-			super(packOutput);
+		public OreberryRecipeProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+			super(packOutput, lookupProvider);
 		}
 
 		@Override
@@ -510,7 +512,8 @@ public class OreberryDatagen {
 					.save(tagOutput,
 							new ResourceLocation(Reference.MOD_ID, type + "_from_smelting"));
 
-			VatRecipeBuilder.vat(Ingredient.of(nuggetTag), new ResourceLocation(Reference.MOD_ID, type + "_oreberry_juice"), Ingredient.of(berry))
+			ResourceLocation fluidLocation = new ResourceLocation(Reference.MOD_ID, type + "_oreberry_juice");
+			VatRecipeBuilder.vat(Ingredient.of(nuggetTag), FluidIngredient.of(BuiltInRegistries.FLUID.get(fluidLocation)), Ingredient.of(berry))
 					.unlockedBy("has_berry", has(berry))
 					.save(tagOutput,
 							new ResourceLocation(Reference.MOD_ID, "vat/" + type + "_nugget"));

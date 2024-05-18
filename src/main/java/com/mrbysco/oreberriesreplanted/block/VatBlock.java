@@ -7,7 +7,7 @@ import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
+import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -84,11 +84,11 @@ public class VatBlock extends BaseEntityBlock {
 	}
 
 	@Override
-	public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult blockRayTraceResult) {
+	protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
+	                                          Player player, InteractionHand hand, BlockHitResult result) {
 		BlockEntity blockEntity = level.getBlockEntity(pos);
 		if (blockEntity instanceof VatBlockEntity) {
-			ItemStack stack = player.getItemInHand(hand);
-			IItemHandler itemHandler = level.getCapability(Capabilities.ItemHandler.BLOCK, pos, blockRayTraceResult.getDirection());
+			IItemHandler itemHandler = level.getCapability(Capabilities.ItemHandler.BLOCK, pos, result.getDirection());
 			if (itemHandler != null) {
 				if (player.isShiftKeyDown()) {
 					ItemStack berryStack = itemHandler.getStackInSlot(0);
@@ -97,7 +97,7 @@ public class VatBlock extends BaseEntityBlock {
 					}
 				} else {
 					if (itemHandler.getStackInSlot(0).getCount() < itemHandler.getSlotLimit(0)) {
-						ItemStack remaining = ItemHandlerHelper.copyStackWithSize(stack, stack.getCount());
+						ItemStack remaining = stack.copyWithCount(stack.getCount());
 						if (!remaining.isEmpty()) {
 							remaining = ItemHandlerHelper.insertItem(itemHandler, stack, false);
 							player.setItemInHand(hand, remaining);
@@ -105,11 +105,10 @@ public class VatBlock extends BaseEntityBlock {
 					}
 				}
 			}
-			;
 
-			return InteractionResult.SUCCESS;
+			return ItemInteractionResult.SUCCESS;
 		}
-		return InteractionResult.PASS;
+		return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
 	}
 
 	@Override

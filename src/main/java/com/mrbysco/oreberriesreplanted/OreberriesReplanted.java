@@ -8,12 +8,12 @@ import com.mrbysco.oreberriesreplanted.registry.OreBerryPlacementModifiers;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRecipes;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryTab;
+import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
-import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.config.ModConfig;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.neoforged.fml.loading.FMLEnvironment;
 import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import org.slf4j.Logger;
@@ -22,8 +22,8 @@ import org.slf4j.Logger;
 public class OreberriesReplanted {
 	public static final Logger LOGGER = LogUtils.getLogger();
 
-	public OreberriesReplanted(IEventBus eventBus) {
-		ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, OreBerriesConfig.commonSpec);
+	public OreberriesReplanted(IEventBus eventBus, Dist dist, ModContainer container) {
+		container.registerConfig(ModConfig.Type.COMMON, OreBerriesConfig.commonSpec);
 		eventBus.register(OreBerriesConfig.class);
 
 		eventBus.addListener(this::commonSetup);
@@ -41,7 +41,7 @@ public class OreberriesReplanted {
 		OreBerryPlacementModifiers.PLACEMENT_MODIFIERS.register(eventBus);
 		OreBerryRegistry.load();
 
-		if (FMLEnvironment.dist.isClient()) {
+		if (dist.isClient()) {
 			eventBus.addListener(ClientHandler::registerEntityRenders);
 			eventBus.addListener(ClientHandler::registerItemColors);
 		}

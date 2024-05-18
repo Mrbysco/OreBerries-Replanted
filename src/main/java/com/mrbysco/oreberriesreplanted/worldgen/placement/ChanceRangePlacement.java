@@ -1,6 +1,7 @@
 package com.mrbysco.oreberriesreplanted.worldgen.placement;
 
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryPlacementModifiers;
 import net.minecraft.core.BlockPos;
@@ -12,7 +13,7 @@ import net.minecraft.world.level.levelgen.placement.PlacementModifierType;
 import java.util.stream.Stream;
 
 public class ChanceRangePlacement extends PlacementModifier {
-	public static final Codec<ChanceRangePlacement> CODEC = RecordCodecBuilder.create((builder) -> {
+	public static final MapCodec<ChanceRangePlacement> CODEC = RecordCodecBuilder.mapCodec((builder) -> {
 		return builder.group(Codec.INT.fieldOf("bottom_offset").orElse(0).forGetter((config) -> {
 			return config.bottomOffset;
 		}), Codec.INT.fieldOf("top_offset").orElse(0).forGetter((config) -> {

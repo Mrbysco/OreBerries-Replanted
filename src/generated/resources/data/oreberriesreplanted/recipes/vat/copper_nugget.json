@@ -9,7 +9,9 @@
     }
   ],
   "type": "oreberriesreplanted:vat",
-  "fluid": "oreberriesreplanted:copper_oreberry_juice",
+  "fluid": {
+    "fluid": "oreberriesreplanted:copper_oreberry_juice"
+  },
   "ingredient": {
     "item": "oreberriesreplanted:copper_oreberry"
   },

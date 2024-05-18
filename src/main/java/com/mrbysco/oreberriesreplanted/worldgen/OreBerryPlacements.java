@@ -4,7 +4,7 @@ import com.mrbysco.oreberriesreplanted.Reference;
 import com.mrbysco.oreberriesreplanted.worldgen.placement.ChanceRangePlacement;
 import net.minecraft.core.HolderGetter;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.worldgen.BootstapContext;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -31,7 +31,7 @@ public class OreBerryPlacements {
 	public static final ResourceKey<PlacedFeature> ESSENCE_BERRY_BUSH_FEATURE = PlacementUtils.createKey(new ResourceLocation(Reference.MOD_ID, "essence_berry_bush").toString());
 
 
-	public static void bootstrap(BootstapContext<PlacedFeature> context) {
+	public static void bootstrap(BootstrapContext<PlacedFeature> context) {
 		HolderGetter<ConfiguredFeature<?, ?>> holdergetter = context.lookup(Registries.CONFIGURED_FEATURE);
 
 		PlacementUtils.register(context, IRON_OREBERRY_BUSH_FEATURE, holdergetter.getOrThrow(OreBerryFeatures.IRON_OREBERRY_BUSH_FEATURE), getBushPlacements(-64, 64, 5));
