@@ -1,0 +1,21 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:nuggets/aluminum"
+      }
+    }
+  ],
+  "type": "oreberriesreplanted:vat",
+  "fluid": {
+    "fluid": "oreberriesreplanted:aluminum_oreberry_juice"
+  },
+  "ingredient": {
+    "item": "oreberriesreplanted:aluminum_oreberry"
+  },
+  "result": {
+    "tag": "c:nuggets/aluminum"
+  }
+}

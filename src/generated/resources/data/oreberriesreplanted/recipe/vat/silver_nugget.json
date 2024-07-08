@@ -1,0 +1,21 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:nuggets/silver"
+      }
+    }
+  ],
+  "type": "oreberriesreplanted:vat",
+  "fluid": {
+    "fluid": "oreberriesreplanted:silver_oreberry_juice"
+  },
+  "ingredient": {
+    "item": "oreberriesreplanted:silver_oreberry"
+  },
+  "result": {
+    "tag": "c:nuggets/silver"
+  }
+}

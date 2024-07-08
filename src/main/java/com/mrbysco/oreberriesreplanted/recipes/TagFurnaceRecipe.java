@@ -5,14 +5,13 @@ import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRecipes;
 import net.minecraft.core.HolderLookup;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.CookingBookCategory;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.RecipeSerializer;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.item.crafting.SmeltingRecipe;
 
 /**
@@ -35,7 +34,7 @@ public class TagFurnaceRecipe extends SmeltingRecipe {
 	}
 
 	@Override
-	public ItemStack assemble(Container container, HolderLookup.Provider registryAccess) {
+	public ItemStack assemble(SingleRecipeInput input, HolderLookup.Provider registryAccess) {
 		return this.getResultItem(registryAccess).copy();
 	}
 

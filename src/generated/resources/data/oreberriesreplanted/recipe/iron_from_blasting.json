@@ -1,0 +1,21 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:nuggets/iron"
+      }
+    }
+  ],
+  "type": "oreberriesreplanted:blasting",
+  "category": "misc",
+  "cookingtime": 100,
+  "experience": 0.2,
+  "ingredient": {
+    "item": "oreberriesreplanted:iron_oreberry"
+  },
+  "result": {
+    "tag": "c:nuggets/iron"
+  }
+}

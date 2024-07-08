@@ -1,0 +1,21 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:nuggets/lead"
+      }
+    }
+  ],
+  "type": "oreberriesreplanted:vat",
+  "fluid": {
+    "fluid": "oreberriesreplanted:lead_oreberry_juice"
+  },
+  "ingredient": {
+    "item": "oreberriesreplanted:lead_oreberry"
+  },
+  "result": {
+    "tag": "c:nuggets/lead"
+  }
+}

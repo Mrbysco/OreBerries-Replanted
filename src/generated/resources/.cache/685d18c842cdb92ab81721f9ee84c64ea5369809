@@ -1,3 +1,3 @@
-// 1.20.6	2024-05-18T22:09:58.9639893	Tags for minecraft:item mod id oreberriesreplanted
-1582db8194dc603f2270dfbc309a4b7c38febe41 data/c/tags/items/nuggets.json
-325cc74e60f196013abd76b0286d25efc87742fd data/forge/tags/items/nuggets/copper.json
+// 1.21	2024-07-08T15:04:16.7334018	Tags for minecraft:item mod id oreberriesreplanted
+4c58d7939a85b3a6cb2a666e1dc3d7fc6a9ac373 data/c/tags/item/nuggets.json
+325cc74e60f196013abd76b0286d25efc87742fd data/c/tags/item/nuggets/copper.json

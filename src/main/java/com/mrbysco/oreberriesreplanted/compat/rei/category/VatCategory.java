@@ -40,7 +40,7 @@ public class VatCategory implements DisplayCategory<VatDisplay> {
 		widgets.add(Widgets.createRecipeBase(bounds));
 		widgets.add(Widgets.createArrow(new Point(centerPoint.x - 40, centerPoint.y - 7)));
 
-		widgets.add(Widgets.createSlot(new Point(bounds.getMinX() + 8, centerPoint.y - 7)).entries(display.getInputEntries().get(0)).markInput());
+		widgets.add(Widgets.createSlot(new Point(bounds.getMinX() + 8, centerPoint.y - 7)).entries(display.getInputEntries().getFirst()).markInput());
 		if (!display.getOutputEntries().isEmpty()) {
 			if (display.getOutputEntries().size() == 2) {
 				widgets.add(Widgets.withTooltip(

@@ -3,28 +3,32 @@ package com.mrbysco.oreberriesreplanted.worldgen;
 import com.mrbysco.oreberriesreplanted.Reference;
 import com.mrbysco.oreberriesreplanted.block.OreBerryBushBlock;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.features.FeatureUtils;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 import net.minecraft.world.level.levelgen.structure.templatesystem.TagMatchTest;
 
 public class OreBerryFeatures {
-	public static final ResourceKey<ConfiguredFeature<?, ?>> IRON_OREBERRY_BUSH_FEATURE = FeatureUtils.createKey(new ResourceLocation(Reference.MOD_ID, "iron_oreberry_bush").toString());
-	public static final ResourceKey<ConfiguredFeature<?, ?>> GOLD_OREBERRY_BUSH_FEATURE = FeatureUtils.createKey(new ResourceLocation(Reference.MOD_ID, "gold_oreberry_bush").toString());
-	public static final ResourceKey<ConfiguredFeature<?, ?>> COPPER_OREBERRY_BUSH_FEATURE = FeatureUtils.createKey(new ResourceLocation(Reference.MOD_ID, "copper_oreberry_bush").toString());
-	public static final ResourceKey<ConfiguredFeature<?, ?>> TIN_OREBERRY_BUSH_FEATURE = FeatureUtils.createKey(new ResourceLocation(Reference.MOD_ID, "tin_oreberry_bush").toString());
-	public static final ResourceKey<ConfiguredFeature<?, ?>> ALUMINUM_OREBERRY_BUSH_FEATURE = FeatureUtils.createKey(new ResourceLocation(Reference.MOD_ID, "aluminum_oreberry_bush").toString());
-	public static final ResourceKey<ConfiguredFeature<?, ?>> LEAD_OREBERRY_BUSH_FEATURE = FeatureUtils.createKey(new ResourceLocation(Reference.MOD_ID, "lead_oreberry_bush").toString());
-	public static final ResourceKey<ConfiguredFeature<?, ?>> NICKEL_OREBERRY_BUSH_FEATURE = FeatureUtils.createKey(new ResourceLocation(Reference.MOD_ID, "nickel_oreberry_bush").toString());
-	public static final ResourceKey<ConfiguredFeature<?, ?>> URANIUM_OREBERRY_BUSH_FEATURE = FeatureUtils.createKey(new ResourceLocation(Reference.MOD_ID, "uranium_oreberry_bush").toString());
-	public static final ResourceKey<ConfiguredFeature<?, ?>> OSMIUM_OREBERRY_BUSH_FEATURE = FeatureUtils.createKey(new ResourceLocation(Reference.MOD_ID, "osmium_oreberry_bush").toString());
-	public static final ResourceKey<ConfiguredFeature<?, ?>> ZINC_OREBERRY_BUSH_FEATURE = FeatureUtils.createKey(new ResourceLocation(Reference.MOD_ID, "zinc_oreberry_bush").toString());
-	public static final ResourceKey<ConfiguredFeature<?, ?>> SILVER_OREBERRY_BUSH_FEATURE = FeatureUtils.createKey(new ResourceLocation(Reference.MOD_ID, "silver_oreberry_bush").toString());
-	public static final ResourceKey<ConfiguredFeature<?, ?>> ESSENCE_BERRY_BUSH_FEATURE = FeatureUtils.createKey(new ResourceLocation(Reference.MOD_ID, "essence_berry_bush").toString());
+	public static final ResourceKey<ConfiguredFeature<?, ?>> IRON_OREBERRY_BUSH_FEATURE = createKey("iron_oreberry_bush");
+	public static final ResourceKey<ConfiguredFeature<?, ?>> GOLD_OREBERRY_BUSH_FEATURE = createKey("gold_oreberry_bush");
+	public static final ResourceKey<ConfiguredFeature<?, ?>> COPPER_OREBERRY_BUSH_FEATURE = createKey("copper_oreberry_bush");
+	public static final ResourceKey<ConfiguredFeature<?, ?>> TIN_OREBERRY_BUSH_FEATURE = createKey("tin_oreberry_bush");
+	public static final ResourceKey<ConfiguredFeature<?, ?>> ALUMINUM_OREBERRY_BUSH_FEATURE = createKey("aluminum_oreberry_bush");
+	public static final ResourceKey<ConfiguredFeature<?, ?>> LEAD_OREBERRY_BUSH_FEATURE = createKey("lead_oreberry_bush");
+	public static final ResourceKey<ConfiguredFeature<?, ?>> NICKEL_OREBERRY_BUSH_FEATURE = createKey("nickel_oreberry_bush");
+	public static final ResourceKey<ConfiguredFeature<?, ?>> URANIUM_OREBERRY_BUSH_FEATURE = createKey("uranium_oreberry_bush");
+	public static final ResourceKey<ConfiguredFeature<?, ?>> OSMIUM_OREBERRY_BUSH_FEATURE = createKey("osmium_oreberry_bush");
+	public static final ResourceKey<ConfiguredFeature<?, ?>> ZINC_OREBERRY_BUSH_FEATURE = createKey("zinc_oreberry_bush");
+	public static final ResourceKey<ConfiguredFeature<?, ?>> SILVER_OREBERRY_BUSH_FEATURE = createKey("silver_oreberry_bush");
+	public static final ResourceKey<ConfiguredFeature<?, ?>> ESSENCE_BERRY_BUSH_FEATURE = createKey("essence_berry_bush");
+
+	public static ResourceKey<ConfiguredFeature<?, ?>> createKey(String path) {
+		return ResourceKey.create(Registries.CONFIGURED_FEATURE, Reference.modLoc(path));
+	}
 
 	public static void bootstrap(BootstrapContext<ConfiguredFeature<?, ?>> context) {
 		RuleTest ruletest = new TagMatchTest(BlockTags.BASE_STONE_OVERWORLD);

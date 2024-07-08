@@ -25,8 +25,8 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class LiquidReg {
-	private final static ResourceLocation STILL_BERRY = new ResourceLocation(Reference.MOD_ID, "block/liquid_berry_still");
-	private final static ResourceLocation FLOWING_BERRY = new ResourceLocation(Reference.MOD_ID, "block/liquid_berry_flow");
+	private final static ResourceLocation STILL_BERRY = Reference.modLoc("block/liquid_berry_still");
+	private final static ResourceLocation FLOWING_BERRY = Reference.modLoc("block/liquid_berry_flow");
 
 	private final String name;
 	private final DeferredHolder<FluidType, FluidType> fluidType;

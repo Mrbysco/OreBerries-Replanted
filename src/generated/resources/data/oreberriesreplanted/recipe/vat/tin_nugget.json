@@ -1,0 +1,21 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:nuggets/tin"
+      }
+    }
+  ],
+  "type": "oreberriesreplanted:vat",
+  "fluid": {
+    "fluid": "oreberriesreplanted:tin_oreberry_juice"
+  },
+  "ingredient": {
+    "item": "oreberriesreplanted:tin_oreberry"
+  },
+  "result": {
+    "tag": "c:nuggets/tin"
+  }
+}

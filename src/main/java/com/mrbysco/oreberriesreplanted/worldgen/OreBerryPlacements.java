@@ -7,7 +7,6 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.data.worldgen.placement.PlacementUtils;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.levelgen.feature.ConfiguredFeature;
 import net.minecraft.world.level.levelgen.placement.BiomeFilter;
 import net.minecraft.world.level.levelgen.placement.InSquarePlacement;
@@ -17,19 +16,22 @@ import net.minecraft.world.level.levelgen.placement.PlacementModifier;
 import java.util.List;
 
 public class OreBerryPlacements {
-	public static final ResourceKey<PlacedFeature> IRON_OREBERRY_BUSH_FEATURE = PlacementUtils.createKey(new ResourceLocation(Reference.MOD_ID, "iron_oreberry_bush").toString());
-	public static final ResourceKey<PlacedFeature> GOLD_OREBERRY_BUSH_FEATURE = PlacementUtils.createKey(new ResourceLocation(Reference.MOD_ID, "gold_oreberry_bush").toString());
-	public static final ResourceKey<PlacedFeature> COPPER_OREBERRY_BUSH_FEATURE = PlacementUtils.createKey(new ResourceLocation(Reference.MOD_ID, "copper_oreberry_bush").toString());
-	public static final ResourceKey<PlacedFeature> TIN_OREBERRY_BUSH_FEATURE = PlacementUtils.createKey(new ResourceLocation(Reference.MOD_ID, "tin_oreberry_bush").toString());
-	public static final ResourceKey<PlacedFeature> ALUMINUM_OREBERRY_BUSH_FEATURE = PlacementUtils.createKey(new ResourceLocation(Reference.MOD_ID, "aluminum_oreberry_bush").toString());
-	public static final ResourceKey<PlacedFeature> LEAD_OREBERRY_BUSH_FEATURE = PlacementUtils.createKey(new ResourceLocation(Reference.MOD_ID, "lead_oreberry_bush").toString());
-	public static final ResourceKey<PlacedFeature> NICKEL_OREBERRY_BUSH_FEATURE = PlacementUtils.createKey(new ResourceLocation(Reference.MOD_ID, "nickel_oreberry_bush").toString());
-	public static final ResourceKey<PlacedFeature> URANIUM_OREBERRY_BUSH_FEATURE = PlacementUtils.createKey(new ResourceLocation(Reference.MOD_ID, "uranium_oreberry_bush").toString());
-	public static final ResourceKey<PlacedFeature> OSMIUM_OREBERRY_BUSH_FEATURE = PlacementUtils.createKey(new ResourceLocation(Reference.MOD_ID, "osmium_oreberry_bush").toString());
-	public static final ResourceKey<PlacedFeature> ZINC_OREBERRY_BUSH_FEATURE = PlacementUtils.createKey(new ResourceLocation(Reference.MOD_ID, "zinc_oreberry_bush").toString());
-	public static final ResourceKey<PlacedFeature> SILVER_OREBERRY_BUSH_FEATURE = PlacementUtils.createKey(new ResourceLocation(Reference.MOD_ID, "silver_oreberry_bush").toString());
-	public static final ResourceKey<PlacedFeature> ESSENCE_BERRY_BUSH_FEATURE = PlacementUtils.createKey(new ResourceLocation(Reference.MOD_ID, "essence_berry_bush").toString());
-
+	public static final ResourceKey<PlacedFeature> IRON_OREBERRY_BUSH_FEATURE = createKey("iron_oreberry_bush");
+	public static final ResourceKey<PlacedFeature> GOLD_OREBERRY_BUSH_FEATURE = createKey("gold_oreberry_bush");
+	public static final ResourceKey<PlacedFeature> COPPER_OREBERRY_BUSH_FEATURE = createKey("copper_oreberry_bush");
+	public static final ResourceKey<PlacedFeature> TIN_OREBERRY_BUSH_FEATURE = createKey("tin_oreberry_bush");
+	public static final ResourceKey<PlacedFeature> ALUMINUM_OREBERRY_BUSH_FEATURE = createKey("aluminum_oreberry_bush");
+	public static final ResourceKey<PlacedFeature> LEAD_OREBERRY_BUSH_FEATURE = createKey("lead_oreberry_bush");
+	public static final ResourceKey<PlacedFeature> NICKEL_OREBERRY_BUSH_FEATURE = createKey("nickel_oreberry_bush");
+	public static final ResourceKey<PlacedFeature> URANIUM_OREBERRY_BUSH_FEATURE = createKey("uranium_oreberry_bush");
+	public static final ResourceKey<PlacedFeature> OSMIUM_OREBERRY_BUSH_FEATURE = createKey("osmium_oreberry_bush");
+	public static final ResourceKey<PlacedFeature> ZINC_OREBERRY_BUSH_FEATURE = createKey("zinc_oreberry_bush");
+	public static final ResourceKey<PlacedFeature> SILVER_OREBERRY_BUSH_FEATURE = createKey("silver_oreberry_bush");
+	public static final ResourceKey<PlacedFeature> ESSENCE_BERRY_BUSH_FEATURE = createKey("essence_berry_bush");
+	
+	public static ResourceKey<PlacedFeature> createKey(String path) {
+		return ResourceKey.create(Registries.PLACED_FEATURE, Reference.modLoc(path));
+	}
 
 	public static void bootstrap(BootstrapContext<PlacedFeature> context) {
 		HolderGetter<ConfiguredFeature<?, ?>> holdergetter = context.lookup(Registries.CONFIGURED_FEATURE);

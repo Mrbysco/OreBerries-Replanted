@@ -1,0 +1,21 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:nuggets/nickel"
+      }
+    }
+  ],
+  "type": "oreberriesreplanted:vat",
+  "fluid": {
+    "fluid": "oreberriesreplanted:nickel_oreberry_juice"
+  },
+  "ingredient": {
+    "item": "oreberriesreplanted:nickel_oreberry"
+  },
+  "result": {
+    "tag": "c:nuggets/nickel"
+  }
+}

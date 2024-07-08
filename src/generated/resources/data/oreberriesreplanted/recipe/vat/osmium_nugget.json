@@ -1,0 +1,21 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:nuggets/osmium"
+      }
+    }
+  ],
+  "type": "oreberriesreplanted:vat",
+  "fluid": {
+    "fluid": "oreberriesreplanted:osmium_oreberry_juice"
+  },
+  "ingredient": {
+    "item": "oreberriesreplanted:osmium_oreberry"
+  },
+  "result": {
+    "tag": "c:nuggets/osmium"
+  }
+}

@@ -12,11 +12,11 @@ import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Containers;
-import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.SingleRecipeInput;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
@@ -72,7 +72,7 @@ public class VatBlockEntity extends BlockEntity {
 		@Override
 		public boolean isItemValid(int slot, ItemStack stack) {
 			for (RecipeHolder<VatRecipe> recipe : level.getRecipeManager().getAllRecipesFor(OreBerryRecipes.VAT_RECIPE_TYPE.get())) {
-				if (recipe.value().getIngredients().get(0).test(stack)) {
+				if (recipe.value().getIngredients().getFirst().test(stack)) {
 					return true;
 				}
 			}
@@ -223,8 +223,7 @@ public class VatBlockEntity extends BlockEntity {
 			return null;
 		}
 
-		SimpleContainer inventory = new SimpleContainer(1);
-		inventory.setItem(0, input);
+		SingleRecipeInput inventory = new SingleRecipeInput(input);
 		if (curRecipe != null && curRecipe.value().matches(inventory, level)) return curRecipe;
 		else {
 			RecipeHolder<VatRecipe> rec = level.getRecipeManager().getRecipeFor(OreBerryRecipes.VAT_RECIPE_TYPE.get(),

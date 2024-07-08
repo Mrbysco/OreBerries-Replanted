@@ -3,14 +3,13 @@ plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id 'net.neoforged.gradle.userdev' version '7.0.133'
-    id 'net.darkhax.curseforgegradle' version '1.1.18'
+    id 'net.neoforged.gradle.userdev' version '7.0.153'
+    id 'net.darkhax.curseforgegradle' version '1.1.24'
     id 'com.modrinth.minotaur' version "2.+"
 }
 
 version = "${version}"
 group = "${mod_group}"
-
 base {
     archivesName = "${mod_archive_name}-${mc_version}"
 }
@@ -73,9 +72,9 @@ repositories {
 dependencies {
     implementation "net.neoforged:neoforge:${neo_version}"
 
-//    compileOnly "mezz.jei:jei-${mc_version}-common-api:${jei_version}"
-//    compileOnly "mezz.jei:jei-${mc_version}-neoforge-api:${jei_version}"
-//    runtimeOnly "mezz.jei:jei-${mc_version}-neoforge:${jei_version}"
+    compileOnly "mezz.jei:jei-${mc_version}-common-api:${jei_version}"
+    compileOnly "mezz.jei:jei-${mc_version}-neoforge-api:${jei_version}"
+    runtimeOnly "mezz.jei:jei-${mc_version}-neoforge:${jei_version}"
 
     compileOnly "me.shedaniel:RoughlyEnoughItems-api-neoforge:${rei_version}"
     compileOnly "me.shedaniel:RoughlyEnoughItems-default-plugin-neoforge:${rei_version}"
@@ -140,7 +139,7 @@ if (System.getenv().CURSEFORGE_KEY) {
         mainFile.changelog = file("$project.rootDir/changelog.md")
         mainFile.changelogType = 'markdown'
 
-        mainFile.addOptional(/*"botany-pots", */"roughly-enough-items"/*, "jei"*/)
+        mainFile.addOptional(/*"botany-pots", */"roughly-enough-items", "jei")
     }
 }
 
@@ -159,11 +158,15 @@ if (System.getenv().MODRINTH_KEY) {
         dependencies {
 //            optional.project "botany-pots"
             optional.project "rei"
-//            optional.project "jei"
+            optional.project "jei"
         }
     }
 }
 
-tasks.withType(JavaCompile).configureEach {
-    options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
+// IDEA no longer automatically downloads sources/javadoc jars for dependencies, so we need to explicitly enable the behavior.
+idea {
+    module {
+        downloadSources = true
+        downloadJavadoc = true
+    }
 }

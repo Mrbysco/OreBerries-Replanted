@@ -1,0 +1,21 @@
+{
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:not",
+      "value": {
+        "type": "neoforge:tag_empty",
+        "tag": "c:nuggets/uranium"
+      }
+    }
+  ],
+  "type": "oreberriesreplanted:vat",
+  "fluid": {
+    "fluid": "oreberriesreplanted:uranium_oreberry_juice"
+  },
+  "ingredient": {
+    "item": "oreberriesreplanted:uranium_oreberry"
+  },
+  "result": {
+    "tag": "c:nuggets/uranium"
+  }
+}

@@ -18,7 +18,6 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.fluids.FluidStack;
-import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 
 import java.util.Random;
@@ -56,25 +55,29 @@ public class VatBER implements BlockEntityRenderer<VatBlockEntity> {
 			float maxV = fluidTexture.getV(1);
 			float percent = fluidStack.getAmount() >= 200 ? (fluidStack.getAmount() / (float) vat.tank.getCapacity()) : 0.1f;
 
-			vertexConsumer.vertex(pose, -width / 2, -height / 2 + percent * height, -width / 2).color(r, g, b, a)
-					.uv(minU, minV)
-					.overlayCoords(OverlayTexture.NO_OVERLAY).uv2(combinedLightIn).normal(matrixLast, 0, 1, 0)
-					.endVertex();
+			vertexConsumer.addVertex(pose, -width / 2, -height / 2 + percent * height, -width / 2).setColor(r, g, b, a)
+					.setUv(minU, minV)
+					.setOverlay(OverlayTexture.NO_OVERLAY)
+					.setLight(combinedLightIn)
+					.setNormal(matrixLast, 0, 1, 0);
 
-			vertexConsumer.vertex(pose, -width / 2, -height / 2 + percent * height, width / 2).color(r, g, b, a)
-					.uv(minU, maxV)
-					.overlayCoords(OverlayTexture.NO_OVERLAY).uv2(combinedLightIn).normal(matrixLast, 0, 1, 0)
-					.endVertex();
+			vertexConsumer.addVertex(pose, -width / 2, -height / 2 + percent * height, width / 2).setColor(r, g, b, a)
+					.setUv(minU, maxV)
+					.setOverlay(OverlayTexture.NO_OVERLAY)
+					.setLight(combinedLightIn)
+					.setNormal(matrixLast, 0, 1, 0);
 
-			vertexConsumer.vertex(pose, width / 2, -height / 2 + percent * height, width / 2).color(r, g, b, a)
-					.uv(maxU, maxV)
-					.overlayCoords(OverlayTexture.NO_OVERLAY).uv2(combinedLightIn).normal(matrixLast, 0, 1, 0)
-					.endVertex();
+			vertexConsumer.addVertex(pose, width / 2, -height / 2 + percent * height, width / 2).setColor(r, g, b, a)
+					.setUv(maxU, maxV)
+					.setOverlay(OverlayTexture.NO_OVERLAY)
+					.setLight(combinedLightIn)
+					.setNormal(matrixLast, 0, 1, 0);
 
-			vertexConsumer.vertex(pose, width / 2, -height / 2 + percent * height, -width / 2).color(r, g, b, a)
-					.uv(maxU, minV)
-					.overlayCoords(OverlayTexture.NO_OVERLAY).uv2(combinedLightIn).normal(matrixLast, 0, 1, 0)
-					.endVertex();
+			vertexConsumer.addVertex(pose, width / 2, -height / 2 + percent * height, -width / 2).setColor(r, g, b, a)
+					.setUv(maxU, minV)
+					.setOverlay(OverlayTexture.NO_OVERLAY)
+					.setLight(combinedLightIn)
+					.setNormal(matrixLast, 0, 1, 0);
 
 			if (bufferSource instanceof MultiBufferSource.BufferSource) {
 				((MultiBufferSource.BufferSource) bufferSource).endBatch();

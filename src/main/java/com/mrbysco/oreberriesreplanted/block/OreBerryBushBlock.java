@@ -26,12 +26,11 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.common.CommonHooks;
-import net.neoforged.neoforge.common.IPlantable;
-import net.neoforged.neoforge.common.PlantType;
+import net.neoforged.neoforge.common.util.TriState;
 
 import java.util.function.Supplier;
 
-public class OreBerryBushBlock extends Block implements IPlantable {
+public class OreBerryBushBlock extends Block {
 	public static final IntegerProperty AGE = BlockStateProperties.AGE_3;
 	private static final VoxelShape[] SHAPE_BY_AGE = new VoxelShape[]{
 			Block.box(4.0D, 0.0D, 4.0D, 12.0D, 8.0D, 12.0D),
@@ -44,7 +43,7 @@ public class OreBerryBushBlock extends Block implements IPlantable {
 	public OreBerryBushBlock(Properties properties, Supplier<OreBerryItem> berryItem, OreEnum oreType) {
 		super(properties.randomTicks().strength(0.3F).sound(SoundType.METAL).noOcclusion()
 				.isSuffocating(OreBerryBushBlock::isntSolid).isViewBlocking(OreBerryBushBlock::isntSolid));
-		this.registerDefaultState(this.stateDefinition.any().setValue(this.getAgeProperty(), Integer.valueOf(0)));
+		this.registerDefaultState(this.stateDefinition.any().setValue(this.getAgeProperty(), 0));
 
 		this.berryItem = berryItem;
 		this.oreType = oreType;
@@ -52,6 +51,10 @@ public class OreBerryBushBlock extends Block implements IPlantable {
 
 	public int getDensity() {
 		return oreType.getDensity();
+	}
+
+	public boolean darknessOnly() {
+		return oreType.getDarknessOnly();
 	}
 
 	protected ItemLike getBerryItem() {
@@ -75,7 +78,7 @@ public class OreBerryBushBlock extends Block implements IPlantable {
 	}
 
 	public BlockState withAge(int age) {
-		return this.defaultBlockState().setValue(this.getAgeProperty(), Integer.valueOf(age));
+		return this.defaultBlockState().setValue(this.getAgeProperty(), age);
 	}
 
 	public boolean isMaxAge(BlockState state) {
@@ -88,12 +91,12 @@ public class OreBerryBushBlock extends Block implements IPlantable {
 
 	@Override
 	public void tick(BlockState state, ServerLevel serverLevel, BlockPos pos, RandomSource rand) {
-		if (!serverLevel.isClientSide && !isMaxAge(state) && CommonHooks.onCropsGrowPre(serverLevel, pos, state, rand.nextInt(OreBerriesConfig.COMMON.growthChance.get()) == 0)) {
+		if (!serverLevel.isClientSide && !isMaxAge(state) && CommonHooks.canCropGrow(serverLevel, pos, state, rand.nextInt(OreBerriesConfig.COMMON.growthChance.get()) == 0)) {
 			boolean flag = !oreType.getDarknessOnly() || serverLevel.getRawBrightness(pos, 0) < 10;
 			if (flag) {
 				int currentAge = getAge(state);
 				serverLevel.setBlock(pos, withAge(currentAge + 1), 3);
-				CommonHooks.onCropsGrowPost(serverLevel, pos, serverLevel.getBlockState(pos));
+				CommonHooks.fireCropGrowPost(serverLevel, pos, serverLevel.getBlockState(pos));
 			}
 		}
 	}
@@ -122,19 +125,20 @@ public class OreBerryBushBlock extends Block implements IPlantable {
 	}
 
 	@Override
-	public boolean canSustainPlant(BlockState state, BlockGetter world, BlockPos pos, Direction facing, IPlantable plantable) {
-		if (state.getBlock() == this)
-			return state.getValue(this.getAgeProperty()) >= 2;
-
-		return super.canSustainPlant(state, world, pos, facing, plantable);
+	public TriState canSustainPlant(BlockState state, BlockGetter level, BlockPos soilPosition, Direction facing, BlockState plant) {
+		if (state.getBlock() == this && state.getValue(this.getAgeProperty()) >= 2)
+			return TriState.TRUE;
+		return TriState.DEFAULT;
 	}
 
 	@Override
 	public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
-		BlockPos blockpos = pos.below();
-		BlockState blockstate = level.getBlockState(blockpos);
+		BlockPos belowPos = pos.below();
+		BlockState belowState = level.getBlockState(belowPos);
+		net.neoforged.neoforge.common.util.TriState soilDecision = belowState
+				.canSustainPlant(level, belowPos, net.minecraft.core.Direction.UP, state);
 		boolean flag = !oreType.getDarknessOnly() || level.getRawBrightness(pos, 0) < 13;
-		return flag && blockstate.canSustainPlant(level, blockpos, net.minecraft.core.Direction.UP, this);
+		return !soilDecision.isFalse() && flag;
 	}
 
 	@Override
@@ -144,17 +148,17 @@ public class OreBerryBushBlock extends Block implements IPlantable {
 		}
 	}
 
-	@Override
-	public BlockState getPlant(BlockGetter world, BlockPos pos) {
-		BlockState state = world.getBlockState(pos);
-		if (state.getBlock() != this) return defaultBlockState();
-		return state;
-	}
-
-	@Override
-	public PlantType getPlantType(BlockGetter world, BlockPos pos) {
-		return PlantType.CAVE;
-	}
+//	@Override
+//	public BlockState getPlant(BlockGetter world, BlockPos pos) {
+//		BlockState state = world.getBlockState(pos);
+//		if (state.getBlock() != this) return defaultBlockState();
+//		return state;
+//	}
+//
+//	@Override
+//	public PlantType getPlantType(BlockGetter world, BlockPos pos) {
+//		return PlantType.CAVE;
+//	}
 
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
 		builder.add(AGE);

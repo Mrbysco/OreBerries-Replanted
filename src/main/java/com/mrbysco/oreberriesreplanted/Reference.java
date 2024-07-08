@@ -1,5 +1,7 @@
 package com.mrbysco.oreberriesreplanted;
 
+import net.minecraft.resources.ResourceLocation;
+
 public class Reference {
 	public static final String MOD_ID = "oreberriesreplanted";
 
@@ -15,4 +17,8 @@ public class Reference {
 	public static final String ZINC_TOOLTIP = MOD_ID + ".zinc_oreberry.tooltip";
 	public static final String SILVER_TOOLTIP = MOD_ID + ".silver_oreberry.tooltip";
 	public static final String ESSENCE_TOOLTIP = MOD_ID + ".essence_berry.tooltip";
+	
+	public static ResourceLocation modLoc(String path) {
+		return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+	}
 }

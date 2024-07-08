@@ -44,7 +44,6 @@ import net.minecraft.world.level.storage.loot.ValidationContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
-import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.client.model.generators.BlockStateProvider;
 import net.neoforged.neoforge.client.model.generators.ConfiguredModel;
 import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
@@ -117,8 +116,8 @@ public class OreberryDatagen {
 
 		private static class OreBerryBlocks extends BlockLootSubProvider {
 
-			protected OreBerryBlocks() {
-				super(Set.of(), FeatureFlags.REGISTRY.allFlags());
+			protected OreBerryBlocks(HolderLookup.Provider provider) {
+				super(Set.of(), FeatureFlags.REGISTRY.allFlags(), provider);
 			}
 
 			@Override
@@ -451,10 +450,10 @@ public class OreberryDatagen {
 			super(packOutput, lookupProvider, blockTagsProvider.contentsGetter(), Reference.MOD_ID, existingFileHelper);
 		}
 
-		public static final TagKey<Item> NUGGETS_COPPER = forgeTag("nuggets/copper");
+		public static final TagKey<Item> NUGGETS_COPPER = commonTag("nuggets/copper");
 
-		private static TagKey<Item> forgeTag(String name) {
-			return ItemTags.create(new ResourceLocation("forge", name));
+		private static TagKey<Item> commonTag(String name) {
+			return ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", name));
 		}
 
 		@Override
@@ -497,7 +496,7 @@ public class OreberryDatagen {
 		}
 
 		private void generateRecipes(RecipeOutput recipeOutput, String type, ItemLike berry) {
-			TagKey<Item> nuggetTag = forgeTag("nuggets/" + type);
+			TagKey<Item> nuggetTag = commonTag("nuggets/" + type);
 			Ingredient nuggetIngredient = Ingredient.of(nuggetTag);
 
 			RecipeOutput tagOutput = recipeOutput.withConditions(new NotCondition(new TagEmptyCondition(nuggetTag.location())));
@@ -505,18 +504,18 @@ public class OreberryDatagen {
 			TagSmeltingRecipeBuilder.blasting(Ingredient.of(berry), RecipeCategory.MISC, nuggetIngredient, 0.2F, 100)
 					.unlockedBy("has_berry", has(berry))
 					.save(tagOutput,
-							new ResourceLocation(Reference.MOD_ID, type + "_from_blasting"));
+							Reference.modLoc(type + "_from_blasting"));
 
 			TagSmeltingRecipeBuilder.smelting(Ingredient.of(berry), RecipeCategory.MISC, nuggetIngredient, 0.2F, 200)
 					.unlockedBy("has_berry", has(berry))
 					.save(tagOutput,
-							new ResourceLocation(Reference.MOD_ID, type + "_from_smelting"));
+							Reference.modLoc(type + "_from_smelting"));
 
-			ResourceLocation fluidLocation = new ResourceLocation(Reference.MOD_ID, type + "_oreberry_juice");
+			ResourceLocation fluidLocation = Reference.modLoc(type + "_oreberry_juice");
 			VatRecipeBuilder.vat(Ingredient.of(nuggetTag), FluidIngredient.of(BuiltInRegistries.FLUID.get(fluidLocation)), Ingredient.of(berry))
 					.unlockedBy("has_berry", has(berry))
 					.save(tagOutput,
-							new ResourceLocation(Reference.MOD_ID, "vat/" + type + "_nugget"));
+							Reference.modLoc("vat/" + type + "_nugget"));
 		}
 
 		private void generateVatRecipe(RecipeOutput recipeConsumer, ItemLike planks, ItemLike slab, ItemLike result) {
@@ -530,8 +529,8 @@ public class OreberryDatagen {
 					.save(recipeConsumer);
 		}
 
-		private static TagKey<Item> forgeTag(String name) {
-			return ItemTags.create(new ResourceLocation("forge", name));
+		private static TagKey<Item> commonTag(String name) {
+			return ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", name));
 		}
 	}
 }
