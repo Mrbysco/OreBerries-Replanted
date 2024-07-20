@@ -1,1 +1,2 @@
-* Initial update to 1.20.6
+* Fix Ore Berry Bushes not ticking properly
+* Update NeoForge requirement to 20.6.115 and above
