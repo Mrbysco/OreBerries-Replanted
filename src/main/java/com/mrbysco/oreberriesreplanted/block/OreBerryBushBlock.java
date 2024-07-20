@@ -155,18 +155,6 @@ public class OreBerryBushBlock extends Block {
 		}
 	}
 
-//	@Override
-//	public BlockState getPlant(BlockGetter world, BlockPos pos) {
-//		BlockState state = world.getBlockState(pos);
-//		if (state.getBlock() != this) return defaultBlockState();
-//		return state;
-//	}
-//
-//	@Override
-//	public PlantType getPlantType(BlockGetter world, BlockPos pos) {
-//		return PlantType.CAVE;
-//	}
-
 	protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
 		builder.add(AGE);
 	}
