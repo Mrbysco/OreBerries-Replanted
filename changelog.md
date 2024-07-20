@@ -1,1 +1,1 @@
-* Re-enable JEI support
+* Fix Ore Berry bushes not ticking properly
