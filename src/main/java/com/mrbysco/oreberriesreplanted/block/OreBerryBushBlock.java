@@ -94,13 +94,13 @@ public class OreBerryBushBlock extends Block implements IPlantable {
 	@Override
 	public void tick(BlockState state, ServerLevel serverLevel, BlockPos pos, RandomSource rand) {
 		if (!serverLevel.isClientSide && !isMaxAge(state) &&
-				CommonHooks.onCropsGrowPre(serverLevel, pos, state,
+				CommonHooks.canCropGrow(serverLevel, pos, state,
 						rand.nextInt(OreBerriesConfig.COMMON.growthChance.get()) == 0)) {
 			boolean flag = !oreType.getDarknessOnly() || serverLevel.getRawBrightness(pos, 0) < 10;
 			if (flag) {
 				int currentAge = getAge(state);
 				serverLevel.setBlock(pos, withAge(currentAge + 1), 3);
-				CommonHooks.onCropsGrowPost(serverLevel, pos, serverLevel.getBlockState(pos));
+				CommonHooks.fireCropGrowPost(serverLevel, pos, serverLevel.getBlockState(pos));
 			}
 		}
 	}
