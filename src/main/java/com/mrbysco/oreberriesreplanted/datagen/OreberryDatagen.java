@@ -84,8 +84,7 @@ public class OreberryDatagen {
 			generator.addProvider(event.includeServer(), new OreberryItemTags(packOutput, lookupProvider, blockTagsProvider, helper));
 			generator.addProvider(event.includeServer(), new OreberryRecipeProvider(packOutput, lookupProvider));
 
-			generator.addProvider(event.includeServer(), new DatapackBuiltinEntriesProvider(
-					packOutput, CompletableFuture.supplyAsync(OreberryDatagen::getProvider), Set.of(Reference.MOD_ID)));
+			generator.addProvider(event.includeServer(), new DatapackBuiltinEntriesProvider(packOutput, CompletableFuture.supplyAsync(OreberryDatagen::getProvider), Set.of(Reference.MOD_ID)));
 		}
 		if (event.includeClient()) {
 			generator.addProvider(event.includeServer(), new OreBerryLanguage(packOutput));
@@ -110,8 +109,7 @@ public class OreberryDatagen {
 
 	private static class OreBerryLoot extends LootTableProvider {
 		public OreBerryLoot(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookupProvider) {
-			super(packOutput, Set.of(), List.of(
-					new SubProviderEntry(OreBerryBlocks::new, LootContextParamSets.BLOCK)), lookupProvider);
+			super(packOutput, Set.of(), List.of(new SubProviderEntry(OreBerryBlocks::new, LootContextParamSets.BLOCK)), lookupProvider);
 		}
 
 		private static class OreBerryBlocks extends BlockLootSubProvider {
@@ -279,11 +277,46 @@ public class OreberryDatagen {
 			add("oreberriesreplanted.gui.jei.category.vat", "Vat Crushing");
 			add("oreberriesreplanted.gui.jei.category.vat.tooltip", "Produces approximately %s to %smb worth of %s");
 			add("oreberriesreplanted.gui.jei.category.vat_output.tooltip", "Produces 1 nugget per %smb");
+
+			//Config
+			config("General", "General", "General Settings");
+			config("growthChance", "Growth Chance", "Dictates the 1 in X chance the Oreberry Bush grows every time it tries to grow [Default: 20]");
+			config("Placement", "Placement", "Placement Settings");
+			config("darknessOnlyIronBush", "Darkness Only Iron Bush", "Only allow placing Iron Bushes in darkness [Default: true]");
+			config("darknessOnlyGoldBush", "Darkness Only Gold Bush", "Only allow placing Gold Bushes in darkness [Default: true]");
+			config("darknessOnlyCopperBush", "Darkness Only Copper Bush", "Only allow placing Copper Bushes in darkness [Default: true]");
+			config("darknessOnlyTinBush", "Darkness Only Tin Bush", "Only allow placing Tin Bushes in darkness [Default: true]");
+			config("darknessOnlyAluminumBush", "Darkness Only Aluminum Bush", "Only allow placing Aluminum Bushes in darkness [Default: true]");
+			config("darknessOnlyLeadBush", "Darkness Only Lead Bush", "Only allow placing Lead Bushes in darkness [Default: true]");
+			config("darknessOnlyNickelBush", "Darkness Only Nickel Bush", "Only allow placing Nickel Bushes in darkness [Default: true]");
+			config("darknessOnlyUraniumBush", "Darkness Only Uranium Bush", "Only allow placing Uranium Bushes in darkness [Default: true]");
+			config("darknessOnlyOsmiumBush", "Darkness Only Osmium Bush", "Only allow placing Osmium Bushes in darkness [Default: true]");
+			config("darknessOnlyZincBush", "Darkness Only Zinc Bush", "Only allow placing Zinc Bushes in darkness [Default: true]");
+			config("darknessOnlySilverBush", "Darkness Only Silver Bush", "Only allow placing Silver Bushes in darkness [Default: true]");
+			config("darknessOnlyEssenceBush", "Darkness Only Essence Bush", "Only allow placing Essence Bushes in darkness [Default: true]");
+			config("Density", "Density", "Density Settings");
+			config("ironBushDensity", "Iron Bush Density", "Iron Bush Density [Default: 1]");
+			config("goldBushDensity", "Gold Bush Density", "Gold Bush Density [Default: 1]");
+			config("copperBushDensity", "Copper Bush Density", "Copper Bush Density [Default: 2]");
+			config("tinBushDensity", "Tin Bush Density", "Tin Bush Density [Default: 2]");
+			config("aluminumBushDensity", "Aluminum Bush Density", "Aluminum Bush Density [Default: 2]");
+			config("leadBushDensity", "Lead Bush Density", "Lead Bush Density [Default: 1]");
+			config("nickelBushDensity", "Nickel Bush Density", "Nickel Bush Density [Default: 1]");
+			config("uraniumBushDensity", "Uranium Bush Density", "Uranium Bush Density [Default: 1]");
+			config("osmiumBushDensity", "Osmium Bush Density", "Osmium Bush Density [Default: 1]");
+			config("zincBushDensity", "Zinc Bush Density", "Zinc Bush Density [Default: 2]");
+			config("silverBushDensity", "Silver Bush Density", "Silver Bush Density [Default: 1]");
+			config("essenceBushDensity", "Essence Bush Density", "Essence Bush Density [Default: 2]");
 		}
 
 		private void addFluid(DeferredHolder<Fluid, BaseFlowingFluid> fluid, String name) {
 			ResourceLocation id = fluid.getId();
 			this.add("fluid_type." + id.getNamespace() + "." + id.getPath(), name);
+		}
+
+		private void config(String path, String name, String description) {
+			this.add("oreberriesreplanted.configuration." + path, name);
+			this.add("oreberriesreplanted.configuration." + path + ".tooltip", description);
 		}
 	}
 
@@ -387,42 +420,22 @@ public class OreberryDatagen {
 
 		private void makeBush(DeferredBlock<OreBerryBushBlock> deferredBush, String type) {
 			ResourceLocation location = deferredBush.getId();
-			ModelFile age0 = models().getBuilder(location.getPath() + "_stage0")
-					.parent(models().getExistingFile(modLoc("block/base/oreberry_stage0")))
-					.texture("all", "block/" + type + "_oreberry").renderType("cutout_mipped");
-			ModelFile age1 = models().getBuilder(location.getPath() + "_stage1")
-					.parent(models().getExistingFile(modLoc("block/base/oreberry_stage1")))
-					.texture("all", "block/" + type + "_oreberry").renderType("cutout_mipped");
-			ModelFile age2 = models().getBuilder(location.getPath() + "_stage2")
-					.parent(models().getExistingFile(modLoc("block/base/oreberry_stage2")))
-					.texture("all", "block/" + type + "_oreberry").renderType("cutout_mipped");
-			ModelFile age3 = models().getBuilder(location.getPath() + "_stage3")
-					.parent(models().getExistingFile(modLoc("block/base/oreberry_stage2")))
-					.texture("all", "block/" + type + "_oreberry_ripe").renderType("cutout_mipped");
+			ModelFile age0 = models().getBuilder(location.getPath() + "_stage0").parent(models().getExistingFile(modLoc("block/base/oreberry_stage0"))).texture("all", "block/" + type + "_oreberry").renderType("cutout_mipped");
+			ModelFile age1 = models().getBuilder(location.getPath() + "_stage1").parent(models().getExistingFile(modLoc("block/base/oreberry_stage1"))).texture("all", "block/" + type + "_oreberry").renderType("cutout_mipped");
+			ModelFile age2 = models().getBuilder(location.getPath() + "_stage2").parent(models().getExistingFile(modLoc("block/base/oreberry_stage2"))).texture("all", "block/" + type + "_oreberry").renderType("cutout_mipped");
+			ModelFile age3 = models().getBuilder(location.getPath() + "_stage3").parent(models().getExistingFile(modLoc("block/base/oreberry_stage2"))).texture("all", "block/" + type + "_oreberry_ripe").renderType("cutout_mipped");
 
-			getVariantBuilder(deferredBush.get())
-					.partialState().with(BlockStateProperties.AGE_3, 0)
-					.modelForState().modelFile(age0).addModel()
-					.partialState().with(BlockStateProperties.AGE_3, 1)
-					.modelForState().modelFile(age1).addModel()
-					.partialState().with(BlockStateProperties.AGE_3, 2)
-					.modelForState().modelFile(age2).addModel()
-					.partialState().with(BlockStateProperties.AGE_3, 3)
-					.modelForState().modelFile(age3).addModel();
+			getVariantBuilder(deferredBush.get()).partialState().with(BlockStateProperties.AGE_3, 0).modelForState().modelFile(age0).addModel().partialState().with(BlockStateProperties.AGE_3, 1).modelForState().modelFile(age1).addModel().partialState().with(BlockStateProperties.AGE_3, 2).modelForState().modelFile(age2).addModel().partialState().with(BlockStateProperties.AGE_3, 3).modelForState().modelFile(age3).addModel();
 		}
 
 		private void makePottedBush(DeferredBlock<FlowerPotBlock> deferredPot, String type) {
-			ModelFile model = models().getBuilder(deferredPot.getId().getPath())
-					.parent(models().getExistingFile(modLoc("block/base/flower_pot_bush")))
-					.texture("bush", "block/" + type + "_oreberry_ripe").renderType("cutout_mipped");
+			ModelFile model = models().getBuilder(deferredPot.getId().getPath()).parent(models().getExistingFile(modLoc("block/base/flower_pot_bush"))).texture("bush", "block/" + type + "_oreberry_ripe").renderType("cutout_mipped");
 
 			getVariantBuilder(deferredPot.get()).forAllStates(state -> ConfiguredModel.builder().modelFile(model).build());
 		}
 
 		private void makeVat(DeferredBlock<VatBlock> deferredVat, ResourceLocation planks) {
-			ModelFile model = models().getBuilder(deferredVat.getId().getPath())
-					.parent(models().getExistingFile(modLoc("block/vat/vat_base")))
-					.texture("0", planks);
+			ModelFile model = models().getBuilder(deferredVat.getId().getPath()).parent(models().getExistingFile(modLoc("block/vat/vat_base"))).texture("0", planks);
 
 			getVariantBuilder(deferredVat.get()).forAllStates(state -> ConfiguredModel.builder().modelFile(model).build());
 		}
@@ -430,17 +443,13 @@ public class OreberryDatagen {
 
 
 	public static class OreberryBlockTags extends BlockTagsProvider {
-		public OreberryBlockTags(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookupProvider,
-		                         @Nullable ExistingFileHelper existingFileHelper) {
+		public OreberryBlockTags(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookupProvider, @Nullable ExistingFileHelper existingFileHelper) {
 			super(packOutput, lookupProvider, Reference.MOD_ID, existingFileHelper);
 		}
 
 		@Override
 		protected void addTags(HolderLookup.Provider provider) {
-			this.tag(BlockTags.MINEABLE_WITH_AXE).add(OreBerryRegistry.OAK_VAT.get(), OreBerryRegistry.SPRUCE_VAT.get(),
-					OreBerryRegistry.BIRCH_VAT.get(), OreBerryRegistry.JUNGLE_VAT.get(), OreBerryRegistry.ACACIA_VAT.get(),
-					OreBerryRegistry.DARK_OAK_VAT.get(), OreBerryRegistry.MANGROVE_VAT.get(), OreBerryRegistry.CHERRY_VAT.get(),
-					OreBerryRegistry.CRIMSON_VAT.get(), OreBerryRegistry.WARPED_VAT.get());
+			this.tag(BlockTags.MINEABLE_WITH_AXE).add(OreBerryRegistry.OAK_VAT.get(), OreBerryRegistry.SPRUCE_VAT.get(), OreBerryRegistry.BIRCH_VAT.get(), OreBerryRegistry.JUNGLE_VAT.get(), OreBerryRegistry.ACACIA_VAT.get(), OreBerryRegistry.DARK_OAK_VAT.get(), OreBerryRegistry.MANGROVE_VAT.get(), OreBerryRegistry.CHERRY_VAT.get(), OreBerryRegistry.CRIMSON_VAT.get(), OreBerryRegistry.WARPED_VAT.get());
 		}
 	}
 
@@ -501,32 +510,16 @@ public class OreberryDatagen {
 
 			RecipeOutput tagOutput = recipeOutput.withConditions(new NotCondition(new TagEmptyCondition(nuggetTag.location())));
 
-			TagSmeltingRecipeBuilder.blasting(Ingredient.of(berry), RecipeCategory.MISC, nuggetIngredient, 0.2F, 100)
-					.unlockedBy("has_berry", has(berry))
-					.save(tagOutput,
-							Reference.modLoc(type + "_from_blasting"));
+			TagSmeltingRecipeBuilder.blasting(Ingredient.of(berry), RecipeCategory.MISC, nuggetIngredient, 0.2F, 100).unlockedBy("has_berry", has(berry)).save(tagOutput, Reference.modLoc(type + "_from_blasting"));
 
-			TagSmeltingRecipeBuilder.smelting(Ingredient.of(berry), RecipeCategory.MISC, nuggetIngredient, 0.2F, 200)
-					.unlockedBy("has_berry", has(berry))
-					.save(tagOutput,
-							Reference.modLoc(type + "_from_smelting"));
+			TagSmeltingRecipeBuilder.smelting(Ingredient.of(berry), RecipeCategory.MISC, nuggetIngredient, 0.2F, 200).unlockedBy("has_berry", has(berry)).save(tagOutput, Reference.modLoc(type + "_from_smelting"));
 
 			ResourceLocation fluidLocation = Reference.modLoc(type + "_oreberry_juice");
-			VatRecipeBuilder.vat(Ingredient.of(nuggetTag), FluidIngredient.of(BuiltInRegistries.FLUID.get(fluidLocation)), Ingredient.of(berry))
-					.unlockedBy("has_berry", has(berry))
-					.save(tagOutput,
-							Reference.modLoc("vat/" + type + "_nugget"));
+			VatRecipeBuilder.vat(Ingredient.of(nuggetTag), FluidIngredient.of(BuiltInRegistries.FLUID.get(fluidLocation)), Ingredient.of(berry)).unlockedBy("has_berry", has(berry)).save(tagOutput, Reference.modLoc("vat/" + type + "_nugget"));
 		}
 
 		private void generateVatRecipe(RecipeOutput recipeConsumer, ItemLike planks, ItemLike slab, ItemLike result) {
-			ShapedRecipeBuilder.shaped(RecipeCategory.MISC, result)
-					.pattern("P P")
-					.pattern("PSP")
-					.define('P', planks)
-					.define('S', slab)
-					.unlockedBy("has_planks", has(planks))
-					.unlockedBy("has_slab", has(slab))
-					.save(recipeConsumer);
+			ShapedRecipeBuilder.shaped(RecipeCategory.MISC, result).pattern("P P").pattern("PSP").define('P', planks).define('S', slab).unlockedBy("has_planks", has(planks)).unlockedBy("has_slab", has(slab)).save(recipeConsumer);
 		}
 
 		private static TagKey<Item> commonTag(String name) {
