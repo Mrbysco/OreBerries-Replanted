@@ -90,8 +90,15 @@ public class OreBerryBushBlock extends Block {
 	}
 
 	@Override
+	protected void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
+		tick(state, level, pos, random);
+	}
+
+	@Override
 	public void tick(BlockState state, ServerLevel serverLevel, BlockPos pos, RandomSource rand) {
-		if (!serverLevel.isClientSide && !isMaxAge(state) && CommonHooks.canCropGrow(serverLevel, pos, state, rand.nextInt(OreBerriesConfig.COMMON.growthChance.get()) == 0)) {
+		if (!serverLevel.isClientSide && !isMaxAge(state) &&
+				CommonHooks.canCropGrow(serverLevel, pos, state,
+						rand.nextInt(OreBerriesConfig.COMMON.growthChance.get()) == 0)) {
 			boolean flag = !oreType.getDarknessOnly() || serverLevel.getRawBrightness(pos, 0) < 10;
 			if (flag) {
 				int currentAge = getAge(state);
