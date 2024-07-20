@@ -9,6 +9,7 @@ import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.SpecialPlantable;
@@ -39,10 +40,7 @@ public class TooltipBlockItem extends BlockItem implements SpecialPlantable {
 	}
 
 	@Override
-	public void spawnPlantAtPosition(ItemStack itemStack, LevelReader levelReader, BlockPos pos, @Nullable Direction direction) {
-		if (!(levelReader instanceof Level level)) {
-			return;
-		}
-		level.setBlockAndUpdate(pos, getBlock().defaultBlockState());
+	public void spawnPlantAtPosition(ItemStack itemStack, LevelAccessor level, BlockPos pos, @Nullable Direction direction) {
+		level.setBlock(pos, getBlock().defaultBlockState(), 3);
 	}
 }
