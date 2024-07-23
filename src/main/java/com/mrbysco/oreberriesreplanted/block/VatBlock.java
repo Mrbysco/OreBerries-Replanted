@@ -115,11 +115,10 @@ public class VatBlock extends BaseEntityBlock {
 	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
 		if (!state.is(newState.getBlock())) {
 			BlockEntity blockEntity = level.getBlockEntity(pos);
-			if (blockEntity instanceof VatBlockEntity) {
-				IItemHandler itemHandler = level.getCapability(Capabilities.ItemHandler.BLOCK, pos, null);
-				if (itemHandler != null) {
-					for (int i = 0; i < itemHandler.getSlots(); ++i) {
-						Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), itemHandler.getStackInSlot(i));
+			if (blockEntity instanceof VatBlockEntity vatBlockEntity) {
+				if (vatBlockEntity.handler != null) {
+					for (int i = 0; i < vatBlockEntity.handler.getSlots(); ++i) {
+						Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), vatBlockEntity.handler.getStackInSlot(i));
 					}
 				}
 			}
