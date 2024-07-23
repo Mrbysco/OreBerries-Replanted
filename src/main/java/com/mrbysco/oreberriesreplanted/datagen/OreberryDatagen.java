@@ -480,6 +480,14 @@ public class OreberryDatagen {
 
 		@Override
 		protected void buildRecipes(RecipeOutput recipeOutput) {
+			ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Items.COPPER_INGOT, 1)
+					.pattern("NNN")
+					.pattern("NNN")
+					.pattern("NNN")
+					.define('N', OreBerryRegistry.COPPER_NUGGET.get())
+					.unlockedBy("has_copper_nugget", has(OreBerryRegistry.COPPER_NUGGET.get()))
+					.save(recipeOutput);
+
 			generateRecipes(recipeOutput, "iron", OreBerryRegistry.IRON_OREBERRY.get());
 			generateRecipes(recipeOutput, "gold", OreBerryRegistry.GOLD_OREBERRY.get());
 			generateRecipes(recipeOutput, "copper", OreBerryRegistry.COPPER_OREBERRY.get());

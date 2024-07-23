@@ -1,4 +1,6 @@
-// 1.21	2024-07-08T15:04:16.7359015	Recipes
+// 1.21	2024-07-23T23:00:05.9165897	Recipes
+9d113f0c89e299f9ac8e81f6c6b6199f7028e108 data/minecraft/advancement/recipes/misc/copper_ingot.json
+0dbc1cff395f236304465f7536ca8777863c26e1 data/minecraft/recipe/copper_ingot.json
 6b6c375bacb8cfc16a85d2974e72f22c31d72c92 data/oreberriesreplanted/advancement/recipes/misc/acacia_vat.json
 15fdf36834264438bbab5853fa76a54b176c079b data/oreberriesreplanted/advancement/recipes/misc/aluminum_from_blasting.json
 0602c6e264fdc5843f3bf5d9e2c214cd1f2c3cb9 data/oreberriesreplanted/advancement/recipes/misc/aluminum_from_smelting.json
