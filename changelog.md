@@ -1,2 +1,2 @@
-* Enable the in-game config feature of NeoForge (The mod now requires 21.0.110-beta and above)
-* Fix OreBerry Bushes not ticking properly
+* Fix vat not dropping the berries inside when broken
+* Add a Copper Nugget to Copper Ingot recipe
