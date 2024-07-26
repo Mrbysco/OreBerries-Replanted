@@ -486,7 +486,7 @@ public class OreberryDatagen {
 					.pattern("NNN")
 					.define('N', OreBerryRegistry.COPPER_NUGGET.get())
 					.unlockedBy("has_copper_nugget", has(OreBerryRegistry.COPPER_NUGGET.get()))
-					.save(recipeOutput);
+					.save(recipeOutput, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "copper_ingot_from_nugget"));
 
 			generateRecipes(recipeOutput, "iron", OreBerryRegistry.IRON_OREBERRY.get());
 			generateRecipes(recipeOutput, "gold", OreBerryRegistry.GOLD_OREBERRY.get());
