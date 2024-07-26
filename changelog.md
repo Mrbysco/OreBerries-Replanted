@@ -1,2 +1,1 @@
-* Fix vat not dropping the berries inside when broken
-* Add a Copper Nugget to Copper Ingot recipe
+* Fix copper nugget to ingot recipe being under wrong namespace
