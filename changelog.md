@@ -1,1 +1,1 @@
-* Fix copper nugget to ingot recipe being under wrong namespace
+* Add item tags for the smeltable oreberries and oreberries in general
