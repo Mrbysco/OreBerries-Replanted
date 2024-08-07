@@ -455,20 +455,43 @@ public class OreberryDatagen {
 
 	public static class OreberryItemTags extends ItemTagsProvider {
 
+
 		public OreberryItemTags(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookupProvider, BlockTagsProvider blockTagsProvider, @Nullable ExistingFileHelper existingFileHelper) {
 			super(packOutput, lookupProvider, blockTagsProvider.contentsGetter(), Reference.MOD_ID, existingFileHelper);
 		}
 
 		public static final TagKey<Item> NUGGETS_COPPER = commonTag("nuggets/copper");
+		public static final TagKey<Item> OREBERRIES = modTag("oreberries");
+		public static final TagKey<Item> OREBERRIES_SMELTABLE = modTag("oreberries/smeltable");
 
 		private static TagKey<Item> commonTag(String name) {
 			return ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", name));
+		}
+
+		private static TagKey<Item> modTag(String name) {
+			return ItemTags.create(Reference.modLoc(name));
 		}
 
 		@Override
 		protected void addTags(HolderLookup.Provider provider) {
 			this.tag(NUGGETS_COPPER).add(OreBerryRegistry.COPPER_NUGGET.get());
 			this.tag(Tags.Items.NUGGETS).addTag(NUGGETS_COPPER);
+			this.tag(OREBERRIES_SMELTABLE).add(
+					OreBerryRegistry.IRON_OREBERRY.get(),
+					OreBerryRegistry.GOLD_OREBERRY.get(),
+					OreBerryRegistry.COPPER_OREBERRY.get(),
+					OreBerryRegistry.TIN_OREBERRY.get(),
+					OreBerryRegistry.ALUMINUM_OREBERRY.get(),
+					OreBerryRegistry.LEAD_OREBERRY.get(),
+					OreBerryRegistry.NICKEL_OREBERRY.get(),
+					OreBerryRegistry.URANIUM_OREBERRY.get(),
+					OreBerryRegistry.OSMIUM_OREBERRY.get(),
+					OreBerryRegistry.ZINC_OREBERRY.get(),
+					OreBerryRegistry.SILVER_OREBERRY.get()
+			);
+			this.tag(OREBERRIES)
+					.addTag(OREBERRIES_SMELTABLE)
+					.add(OreBerryRegistry.ESSENCE_BERRY.get());
 		}
 	}
 
