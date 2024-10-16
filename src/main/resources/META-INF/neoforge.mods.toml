@@ -25,5 +25,11 @@ type="REQUIRED"
 versionRange="[21.0.110-beta,)"
 ordering="NONE"
 side="BOTH"
+[[dependencies.oreberriesreplanted]]
+modId="jei"
+type="optional"
+versionRange="[19.8.5,)"
+ordering="NONE"
+side="BOTH"
 [[mixins]]
 config="oreberriesreplanted.mixins.json"

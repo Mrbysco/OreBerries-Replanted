@@ -5,8 +5,9 @@ import com.mrbysco.oreberriesreplanted.recipes.VatRecipe;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
-import mezz.jei.api.gui.ingredient.IRecipeSlotTooltipCallback;
+import mezz.jei.api.gui.ingredient.IRecipeSlotRichTooltipCallback;
 import mezz.jei.api.gui.ingredient.IRecipeSlotView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.neoforge.NeoForgeTypes;
@@ -21,8 +22,6 @@ import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.fluids.FluidStack;
-
-import java.util.List;
 
 public class VatCategory implements IRecipeCategory<VatRecipe> {
 	private final IDrawable background;
@@ -66,12 +65,14 @@ public class VatCategory implements IRecipeCategory<VatRecipe> {
 
 		builder.addSlot(RecipeIngredientRole.INPUT, 10, 10).addIngredients(recipe.getIngredients().get(0));
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 113, 10)
-				.addItemStack(recipe.getResultItem(registryAccess)).addTooltipCallback(new OutputTooltip(recipe));
+				.addItemStack(recipe.getResultItem(registryAccess))
+				.addRichTooltipCallback(new OutputTooltip(recipe));
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 62, 10)
-				.addIngredient(NeoForgeTypes.FLUID_STACK, new FluidStack(recipe.getFluid(), 1000)).addTooltipCallback(new FluidTooltip(recipe));
+				.addIngredient(NeoForgeTypes.FLUID_STACK, new FluidStack(recipe.getFluid(), 1000))
+				.addRichTooltipCallback(new FluidTooltip(recipe));
 	}
 
-	public static class OutputTooltip implements IRecipeSlotTooltipCallback {
+	public static class OutputTooltip implements IRecipeSlotRichTooltipCallback {
 		private final VatRecipe recipe;
 
 		public OutputTooltip(VatRecipe recipe) {
@@ -79,12 +80,12 @@ public class VatCategory implements IRecipeCategory<VatRecipe> {
 		}
 
 		@Override
-		public void onTooltip(IRecipeSlotView recipeSlotView, List<Component> tooltip) {
+		public void onRichTooltip(IRecipeSlotView recipeSlotView, ITooltipBuilder tooltip) {
 			tooltip.add(Component.translatable("oreberriesreplanted.gui.jei.category.vat_output.tooltip", recipe.getEvaporationAmount()).withStyle(ChatFormatting.GOLD));
 		}
 	}
 
-	public static class FluidTooltip implements IRecipeSlotTooltipCallback {
+	public static class FluidTooltip implements IRecipeSlotRichTooltipCallback {
 		private final VatRecipe recipe;
 
 		public FluidTooltip(VatRecipe recipe) {
@@ -92,7 +93,7 @@ public class VatCategory implements IRecipeCategory<VatRecipe> {
 		}
 
 		@Override
-		public void onTooltip(IRecipeSlotView recipeSlotView, List<Component> tooltip) {
+		public void onRichTooltip(IRecipeSlotView recipeSlotView, ITooltipBuilder tooltip) {
 			recipeSlotView.getDisplayedIngredient().flatMap(fluidStack -> fluidStack.getIngredient(NeoForgeTypes.FLUID_STACK)).ifPresent(fluid ->
 					tooltip.add(Component.translatable("oreberriesreplanted.gui.jei.category.vat.tooltip",
 							((int) (recipe.getMin() * 100)), ((int) (recipe.getMax() * 100)), fluid.getHoverName().getString()).withStyle(ChatFormatting.GOLD)));
