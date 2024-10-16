@@ -1,1 +1,2 @@
-* Add item tags for the smeltable oreberries and oreberries in general
+* Add `oreberriesreplanted:vats` item tag for the vat blocks
+* Update JEI support
