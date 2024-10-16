@@ -1,5 +1,6 @@
-// 1.21	2024-08-07T16:28:57.0834612	Tags for minecraft:item mod id oreberriesreplanted
+// 1.21.1	2024-10-16T19:02:40.1492699	Tags for minecraft:item mod id oreberriesreplanted
 4c58d7939a85b3a6cb2a666e1dc3d7fc6a9ac373 data/c/tags/item/nuggets.json
 325cc74e60f196013abd76b0286d25efc87742fd data/c/tags/item/nuggets/copper.json
 0cbd985b8b312cb1a60a9085cf1e0e1a1f599e06 data/oreberriesreplanted/tags/item/oreberries.json
 fe9a36956ab3292d9c4fc833497dd7da6e44be3f data/oreberriesreplanted/tags/item/oreberries/smeltable.json
+a6ac7f8f2f1a89f63f6616de8607b6584c789342 data/oreberriesreplanted/tags/item/vats.json

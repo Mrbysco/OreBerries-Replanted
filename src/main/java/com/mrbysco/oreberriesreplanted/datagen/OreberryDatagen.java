@@ -463,6 +463,7 @@ public class OreberryDatagen {
 		public static final TagKey<Item> NUGGETS_COPPER = commonTag("nuggets/copper");
 		public static final TagKey<Item> OREBERRIES = modTag("oreberries");
 		public static final TagKey<Item> OREBERRIES_SMELTABLE = modTag("oreberries/smeltable");
+		public static final TagKey<Item> VATS = modTag("vats");
 
 		private static TagKey<Item> commonTag(String name) {
 			return ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", name));
@@ -492,6 +493,18 @@ public class OreberryDatagen {
 			this.tag(OREBERRIES)
 					.addTag(OREBERRIES_SMELTABLE)
 					.add(OreBerryRegistry.ESSENCE_BERRY.get());
+			this.tag(VATS).add(
+					OreBerryRegistry.OAK_VAT_ITEM.get(),
+					OreBerryRegistry.SPRUCE_VAT_ITEM.get(),
+					OreBerryRegistry.BIRCH_VAT_ITEM.get(),
+					OreBerryRegistry.JUNGLE_VAT_ITEM.get(),
+					OreBerryRegistry.ACACIA_VAT_ITEM.get(),
+					OreBerryRegistry.DARK_OAK_VAT_ITEM.get(),
+					OreBerryRegistry.MANGROVE_VAT_ITEM.get(),
+					OreBerryRegistry.CHERRY_VAT_ITEM.get(),
+					OreBerryRegistry.CRIMSON_VAT_ITEM.get(),
+					OreBerryRegistry.WARPED_VAT_ITEM.get()
+			);
 		}
 	}
 
