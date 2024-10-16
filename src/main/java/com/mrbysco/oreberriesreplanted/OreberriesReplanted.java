@@ -46,6 +46,7 @@ public class OreberriesReplanted {
 		if (dist.isClient()) {
 			container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
 			eventBus.addListener(ClientHandler::registerEntityRenders);
+			eventBus.addListener(ClientHandler::registerExtensions);
 			eventBus.addListener(ClientHandler::registerItemColors);
 		}
 	}

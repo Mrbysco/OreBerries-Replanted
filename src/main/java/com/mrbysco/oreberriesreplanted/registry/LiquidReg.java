@@ -1,10 +1,6 @@
 package com.mrbysco.oreberriesreplanted.registry;
 
-import com.mrbysco.oreberriesreplanted.Reference;
 import com.mrbysco.oreberriesreplanted.util.FluidHelper;
-import net.minecraft.client.Camera;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.BucketItem;
@@ -12,23 +8,19 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.fluids.BaseFlowingFluid;
 import net.neoforged.neoforge.fluids.FluidType;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredItem;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Vector3f;
 
 import javax.annotation.Nonnull;
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 public class LiquidReg {
-	private final static ResourceLocation STILL_BERRY = Reference.modLoc("block/liquid_berry_still");
-	private final static ResourceLocation FLOWING_BERRY = Reference.modLoc("block/liquid_berry_flow");
 
 	private final String name;
+	private final int color;
 	private final DeferredHolder<FluidType, FluidType> fluidType;
 	private DeferredHolder<Fluid, BaseFlowingFluid> source;
 	private DeferredHolder<Fluid, BaseFlowingFluid> flowing;
@@ -37,6 +29,11 @@ public class LiquidReg {
 	@Nonnull
 	public String getName() {
 		return name;
+	}
+
+	@NotNull
+	public int getColor() {
+		return color;
 	}
 
 	@Nonnull
@@ -65,6 +62,7 @@ public class LiquidReg {
 
 	public LiquidReg(String name, int color, boolean hot) {
 		this.name = name;
+		this.color = color;
 		this.fluidType = OreBerryRegistry.FLUID_TYPES.register(name, () -> new FluidType(FluidHelper.createTypeProperties().temperature(hot ? 300 : 1000)) {
 			@Override
 			public double motionScale(Entity entity) {
@@ -75,33 +73,6 @@ public class LiquidReg {
 			public void setItemMovement(ItemEntity entity) {
 				Vec3 vec3 = entity.getDeltaMovement();
 				entity.setDeltaMovement(vec3.x * (double) 0.95F, vec3.y + (double) (vec3.y < (double) 0.06F ? 5.0E-4F : 0.0F), vec3.z * (double) 0.95F);
-			}
-
-			@Override
-			public void initializeClient(Consumer<IClientFluidTypeExtensions> consumer) {
-				consumer.accept(new IClientFluidTypeExtensions() {
-
-					@Override
-					public ResourceLocation getStillTexture() {
-						return STILL_BERRY;
-					}
-
-					@Override
-					public ResourceLocation getFlowingTexture() {
-						return FLOWING_BERRY;
-					}
-
-					@Override
-					public int getTintColor() {
-						return color;
-					}
-
-					@Override
-					public @NotNull Vector3f modifyFogColor(Camera camera, float partialTick, ClientLevel level, int renderDistance, float darkenWorldAmount, Vector3f fluidFogColor) {
-						int color = this.getTintColor();
-						return new Vector3f((color >> 16 & 0xFF) / 255F, (color >> 8 & 0xFF) / 255F, (color & 0xFF) / 255F);
-					}
-				});
 			}
 		});
 		source = OreBerryRegistry.FLUIDS.register(name, () -> new BaseFlowingFluid.Source(
