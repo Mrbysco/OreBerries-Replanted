@@ -1,10 +1,11 @@
 package com.mrbysco.oreberriesreplanted.block;
 
 import com.mrbysco.oreberriesreplanted.config.OreBerriesConfig;
+import net.minecraft.util.StringRepresentable;
 
 import java.util.function.Supplier;
 
-public enum OreEnum {
+public enum OreEnum implements StringRepresentable {
 	IRON("iron", OreBerriesConfig.COMMON.darknessOnlyIronBush, OreBerriesConfig.COMMON.ironBushDensity),
 	GOLD("gold", OreBerriesConfig.COMMON.darknessOnlyGoldBush, OreBerriesConfig.COMMON.goldBushDensity),
 	COPPER("copper", OreBerriesConfig.COMMON.darknessOnlyCopperBush, OreBerriesConfig.COMMON.copperBushDensity),
@@ -34,5 +35,10 @@ public enum OreEnum {
 
 	public boolean getDarknessOnly() {
 		return darknessOnly.get();
+	}
+
+	@Override
+	public String getSerializedName() {
+		return name;
 	}
 }
