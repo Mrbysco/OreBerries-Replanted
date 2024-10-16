@@ -54,6 +54,7 @@ public class VatBlockEntity extends BlockEntity {
 
 		@Override
 		public boolean isFluidValid(FluidStack stack) {
+			if (level == null) return false;
 			for (RecipeHolder<VatRecipe> recipe : level.getRecipeManager().getAllRecipesFor(OreBerryRecipes.VAT_RECIPE_TYPE.get())) {
 				if (stack.getFluid().isSame(recipe.value().getFluid())) {
 					return true;
@@ -71,6 +72,7 @@ public class VatBlockEntity extends BlockEntity {
 
 		@Override
 		public boolean isItemValid(int slot, ItemStack stack) {
+			if (level == null) return false;
 			for (RecipeHolder<VatRecipe> recipe : level.getRecipeManager().getAllRecipesFor(OreBerryRecipes.VAT_RECIPE_TYPE.get())) {
 				if (recipe.value().getIngredients().getFirst().test(stack)) {
 					return true;
