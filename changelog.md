@@ -1,1 +1,1 @@
-* Fix nuggets not forming when there is exactly 100mb of fluid in the vat
+* Fix name of Dark Oak Vat
