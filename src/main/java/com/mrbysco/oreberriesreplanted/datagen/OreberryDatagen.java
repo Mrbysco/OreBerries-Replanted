@@ -212,7 +212,7 @@ public class OreberryDatagen {
 			addBlock(OreBerryRegistry.BIRCH_VAT, "Birch Vat");
 			addBlock(OreBerryRegistry.JUNGLE_VAT, "Jungle Vat");
 			addBlock(OreBerryRegistry.ACACIA_VAT, "Acacia Vat");
-			addBlock(OreBerryRegistry.DARK_OAK_VAT, "Oak Vat");
+			addBlock(OreBerryRegistry.DARK_OAK_VAT, "Dark Oak Vat");
 			addBlock(OreBerryRegistry.MANGROVE_VAT, "Mangrove Vat");
 			addBlock(OreBerryRegistry.CHERRY_VAT, "Cherry Vat");
 			addBlock(OreBerryRegistry.CRIMSON_VAT, "Crimson Vat");
