@@ -87,7 +87,7 @@ public class LiquidReg {
 	public static class Builder {
 		private final String name;
 		private final int color;
-		private boolean hot;
+		private final boolean hot;
 
 		public Builder(String name, boolean hot, int color) {
 			this.name = name;

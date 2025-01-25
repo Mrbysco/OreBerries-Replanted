@@ -7,15 +7,12 @@ import net.minecraft.world.level.levelgen.feature.configurations.FeatureConfigur
 import net.minecraft.world.level.levelgen.structure.templatesystem.RuleTest;
 
 public class OreBerryBushFeatureConfig implements FeatureConfiguration {
-	public static final Codec<OreBerryBushFeatureConfig> CODEC = RecordCodecBuilder.create((bushFeatureConfig) -> {
-		return bushFeatureConfig.group(RuleTest.CODEC.fieldOf("target").forGetter((config) -> {
-			return config.target;
-		}), BlockState.CODEC.fieldOf("state").forGetter((config) -> {
-			return config.state;
-		}), Codec.INT.fieldOf("chance").forGetter((config) -> {
-			return config.chance;
-		})).apply(bushFeatureConfig, OreBerryBushFeatureConfig::new);
-	});
+	public static final Codec<OreBerryBushFeatureConfig> CODEC = RecordCodecBuilder.create((bushFeatureConfig) ->
+			bushFeatureConfig.group(
+					RuleTest.CODEC.fieldOf("target").forGetter((config) -> config.target),
+					BlockState.CODEC.fieldOf("state").forGetter((config) -> config.state),
+					Codec.INT.fieldOf("chance").forGetter((config) -> config.chance)
+			).apply(bushFeatureConfig, OreBerryBushFeatureConfig::new));
 
 	public final RuleTest target;
 	public final BlockState state;
