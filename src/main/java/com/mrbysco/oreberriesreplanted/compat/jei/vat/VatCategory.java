@@ -9,6 +9,7 @@ import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotRichTooltipCallback;
 import mezz.jei.api.gui.ingredient.IRecipeSlotView;
+import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.neoforge.NeoForgeTypes;
 import mezz.jei.api.recipe.IFocusGroup;
@@ -17,6 +18,7 @@ import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
@@ -45,8 +47,13 @@ public class VatCategory implements IRecipeCategory<VatRecipe> {
 	}
 
 	@Override
-	public IDrawable getBackground() {
-		return background;
+	public int getWidth() {
+		return 140;
+	}
+
+	@Override
+	public int getHeight() {
+		return 37;
 	}
 
 	@Override
@@ -63,13 +70,18 @@ public class VatCategory implements IRecipeCategory<VatRecipe> {
 		}
 		RegistryAccess registryAccess = level.registryAccess();
 
-		builder.addSlot(RecipeIngredientRole.INPUT, 10, 10).addIngredients(recipe.getIngredients().get(0));
+		builder.addSlot(RecipeIngredientRole.INPUT, 10, 10).addIngredients(recipe.getIngredients().getFirst());
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 113, 10)
 				.addItemStack(recipe.getResultItem(registryAccess))
 				.addRichTooltipCallback(new OutputTooltip(recipe));
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 62, 10)
 				.addIngredient(NeoForgeTypes.FLUID_STACK, new FluidStack(recipe.getFluid(), 1000))
 				.addRichTooltipCallback(new FluidTooltip(recipe));
+	}
+
+	@Override
+	public void draw(VatRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
+		background.draw(guiGraphics);
 	}
 
 	public static class OutputTooltip implements IRecipeSlotRichTooltipCallback {
