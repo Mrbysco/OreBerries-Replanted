@@ -9,13 +9,7 @@
     }
   ],
   "type": "oreberriesreplanted:vat",
-  "fluid": {
-    "fluid": "oreberriesreplanted:nickel_oreberry_juice"
-  },
-  "ingredient": {
-    "item": "oreberriesreplanted:nickel_oreberry"
-  },
-  "result": {
-    "tag": "c:nuggets/nickel"
-  }
+  "fluid": "oreberriesreplanted:nickel_oreberry_juice",
+  "ingredient": "oreberriesreplanted:nickel_oreberry",
+  "result": "#c:nuggets/nickel"
 }

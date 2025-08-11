@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "P": {
-      "item": "minecraft:spruce_planks"
-    },
-    "S": {
-      "item": "minecraft:spruce_slab"
-    }
+    "P": "minecraft:spruce_planks",
+    "S": "minecraft:spruce_slab"
   },
   "pattern": [
     "P P",

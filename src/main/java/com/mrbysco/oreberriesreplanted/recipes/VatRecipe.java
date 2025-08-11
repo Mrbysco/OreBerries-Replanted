@@ -4,14 +4,16 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRecipes;
-import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
-import net.minecraft.core.HolderLookup;
-import net.minecraft.core.NonNullList;
+import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.PlacementInfo;
 import net.minecraft.world.item.crafting.Recipe;
+import net.minecraft.world.item.crafting.RecipeBookCategories;
+import net.minecraft.world.item.crafting.RecipeBookCategory;
+import net.minecraft.world.item.crafting.RecipeInput;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
@@ -20,11 +22,11 @@ import net.minecraft.world.level.material.Fluid;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
 
-public class VatRecipe implements Recipe<SingleRecipeInput> {
+public class VatRecipe implements Recipe<RecipeInput> {
 	protected final String group;
 	protected final Ingredient ingredient;
 	protected final FluidIngredient fluid;
-	protected final Ingredient result;
+	protected final Ingredient resultIngredient;
 	protected final int evaporationTime;
 	protected final int evaporationAmount;
 	protected final float min;
@@ -34,7 +36,7 @@ public class VatRecipe implements Recipe<SingleRecipeInput> {
 		this.group = group;
 		this.ingredient = ingredient;
 		this.fluid = fluid;
-		this.result = resultStack;
+		this.resultIngredient = resultStack;
 		this.evaporationTime = time;
 		this.evaporationAmount = amount;
 		this.min = min;
@@ -46,35 +48,18 @@ public class VatRecipe implements Recipe<SingleRecipeInput> {
 	}
 
 	public Ingredient getResultIngredient() {
-		return result;
+		return resultIngredient;
 	}
 
 	@Override
-	public boolean matches(SingleRecipeInput input, Level level) {
+	public boolean matches(RecipeInput input, Level level) {
 		return this.ingredient.test(input.getItem(0));
 	}
 
-	@Override
-	public ItemStack assemble(SingleRecipeInput input, HolderLookup.Provider registryAccess) {
-		return getResultItem(registryAccess).copy();
-	}
-
-	@Override
-	public boolean canCraftInDimensions(int x, int y) {
-		return false;
-	}
-
-	@Override
-	public NonNullList<Ingredient> getIngredients() {
-		NonNullList<Ingredient> ingredients = NonNullList.create();
-		ingredients.add(this.ingredient);
-		return ingredients;
-	}
-
 	public FluidStack getFluidStack() {
-		if (fluid.isEmpty())
+		if (fluid.test(FluidStack.EMPTY))
 			return FluidStack.EMPTY;
-		return fluid.getStacks()[0];
+		return new FluidStack(fluid.fluids().getFirst(), 1000);
 	}
 
 	public Fluid getFluid() {
@@ -82,12 +67,16 @@ public class VatRecipe implements Recipe<SingleRecipeInput> {
 	}
 
 	@Override
-	public ItemStack getResultItem(HolderLookup.Provider registryAccess) {
-		return result.getItems()[0];
+	public ItemStack assemble(RecipeInput recipeInput, Provider provider) {
+		return this.getResultItem().copy();
+	}
+
+	public ItemStack getResultItem() {
+		return new ItemStack(resultIngredient.getValues().get(0));
 	}
 
 	@Override
-	public String getGroup() {
+	public String group() {
 		return this.group;
 	}
 
@@ -100,13 +89,18 @@ public class VatRecipe implements Recipe<SingleRecipeInput> {
 	}
 
 	@Override
-	public RecipeType<?> getType() {
+	public RecipeType<VatRecipe> getType() {
 		return OreBerryRecipes.VAT_RECIPE_TYPE.get();
 	}
 
 	@Override
-	public ItemStack getToastSymbol() {
-		return new ItemStack(OreBerryRegistry.OAK_VAT.get());
+	public PlacementInfo placementInfo() {
+		return PlacementInfo.NOT_PLACEABLE;
+	}
+
+	@Override
+	public RecipeBookCategory recipeBookCategory() {
+		return RecipeBookCategories.CRAFTING_MISC;
 	}
 
 	public float getMin() {
@@ -118,7 +112,7 @@ public class VatRecipe implements Recipe<SingleRecipeInput> {
 	}
 
 	@Override
-	public RecipeSerializer<?> getSerializer() {
+	public RecipeSerializer<VatRecipe> getSerializer() {
 		return OreBerryRecipes.VAT_SERIALIZER.get();
 	}
 
@@ -131,9 +125,9 @@ public class VatRecipe implements Recipe<SingleRecipeInput> {
 		public static final MapCodec<VatRecipe> CODEC = RecordCodecBuilder.mapCodec(
 				instance -> instance.group(
 								Codec.STRING.optionalFieldOf("group", "").forGetter(recipe -> recipe.group),
-								Ingredient.CODEC_NONEMPTY.fieldOf("ingredient").forGetter(recipe -> recipe.ingredient),
+								Ingredient.CODEC.fieldOf("ingredient").forGetter(recipe -> recipe.ingredient),
 								FluidIngredient.CODEC.fieldOf("fluid").forGetter(recipe -> recipe.fluid),
-								Ingredient.CODEC_NONEMPTY.fieldOf("result").forGetter(recipe -> recipe.result),
+								Ingredient.CODEC.fieldOf("result").forGetter(recipe -> recipe.resultIngredient),
 								Codec.INT.optionalFieldOf("evaporationTime", 100).forGetter(recipe -> recipe.evaporationTime),
 								Codec.INT.optionalFieldOf("evaporationAmount", 100).forGetter(recipe -> recipe.evaporationAmount),
 								Codec.FLOAT.optionalFieldOf("min", 1.5f).forGetter(recipe -> recipe.min),
@@ -169,7 +163,7 @@ public class VatRecipe implements Recipe<SingleRecipeInput> {
 		}
 
 		public static void toNetwork(RegistryFriendlyByteBuf buffer, VatRecipe recipe) {
-			buffer.writeUtf(recipe.getGroup());
+			buffer.writeUtf(recipe.group());
 			Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.getIngredient());
 			FluidIngredient.STREAM_CODEC.encode(buffer, recipe.fluid);
 			Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.getResultIngredient());

@@ -2,9 +2,7 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "N": {
-      "item": "oreberriesreplanted:copper_nugget"
-    }
+    "N": "oreberriesreplanted:copper_nugget"
   },
   "pattern": [
     "NNN",

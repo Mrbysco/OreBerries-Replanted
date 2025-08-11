@@ -9,6 +9,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.Containers;
@@ -54,10 +55,11 @@ public class VatBlockEntity extends BlockEntity {
 
 		@Override
 		public boolean isFluidValid(FluidStack stack) {
-			if (level == null) return false;
-			for (RecipeHolder<VatRecipe> recipe : level.getRecipeManager().getAllRecipesFor(OreBerryRecipes.VAT_RECIPE_TYPE.get())) {
-				if (stack.getFluid().isSame(recipe.value().getFluid())) {
-					return true;
+			if (level != null && level instanceof ServerLevel serverLevel) {
+				for (RecipeHolder<VatRecipe> recipe : serverLevel.recipeAccess().recipeMap().byType(OreBerryRecipes.VAT_RECIPE_TYPE.get())) {
+					if (stack.getFluid().isSame(recipe.value().getFluid())) {
+						return true;
+					}
 				}
 			}
 			return false;
@@ -72,10 +74,11 @@ public class VatBlockEntity extends BlockEntity {
 
 		@Override
 		public boolean isItemValid(int slot, ItemStack stack) {
-			if (level == null) return false;
-			for (RecipeHolder<VatRecipe> recipe : level.getRecipeManager().getAllRecipesFor(OreBerryRecipes.VAT_RECIPE_TYPE.get())) {
-				if (recipe.value().getIngredients().getFirst().test(stack)) {
-					return true;
+			if (level != null && level instanceof ServerLevel serverLevel) {
+				for (RecipeHolder<VatRecipe> recipe : serverLevel.recipeAccess().recipeMap().byType(OreBerryRecipes.VAT_RECIPE_TYPE.get())) {
+					if (recipe.value().getIngredient().test(stack)) {
+						return true;
+					}
 				}
 			}
 			return false;
@@ -98,7 +101,7 @@ public class VatBlockEntity extends BlockEntity {
 	}
 
 	public VatBlockEntity(BlockPos pos, BlockState state) {
-		super(OreBerryRegistry.VAT_BLOCK_ENTITY.get(), pos, state);
+		this(OreBerryRegistry.VAT_BLOCK_ENTITY.get(), pos, state);
 	}
 
 	@Override
@@ -212,26 +215,29 @@ public class VatBlockEntity extends BlockEntity {
 	}
 
 	protected RecipeHolder<VatRecipe> getRecipe() {
-		ItemStack input = handler.getStackInSlot(0);
-		if (input.isEmpty()) {
-			FluidStack fluidStack = tank.getFluidInTank(0);
-			if (!fluidStack.isEmpty()) {
-				for (RecipeHolder<VatRecipe> recipe : level.getRecipeManager().getAllRecipesFor(OreBerryRecipes.VAT_RECIPE_TYPE.get())) {
-					if (fluidStack.getFluid().isSame(recipe.value().getFluid())) {
-						return curRecipe = recipe;
+		if (level instanceof ServerLevel serverLevel) {
+			ItemStack input = handler.getStackInSlot(0);
+			if (input.isEmpty()) {
+				FluidStack fluidStack = tank.getFluidInTank(0);
+				if (!fluidStack.isEmpty()) {
+					for (RecipeHolder<VatRecipe> recipe : serverLevel.recipeAccess().recipeMap().byType(OreBerryRecipes.VAT_RECIPE_TYPE.get())) {
+						if (fluidStack.getFluid().isSame(recipe.value().getFluid())) {
+							return curRecipe = recipe;
+						}
 					}
 				}
+				return null;
 			}
-			return null;
-		}
 
-		SingleRecipeInput inventory = new SingleRecipeInput(input);
-		if (curRecipe != null && curRecipe.value().matches(inventory, level)) return curRecipe;
-		else {
-			RecipeHolder<VatRecipe> rec = level.getRecipeManager().getRecipeFor(OreBerryRecipes.VAT_RECIPE_TYPE.get(),
-					inventory, this.level).orElse(null);
-			return curRecipe = rec;
+			SingleRecipeInput inventory = new SingleRecipeInput(input);
+			if (curRecipe != null && curRecipe.value().matches(inventory, level)) return curRecipe;
+			else {
+				RecipeHolder<VatRecipe> rec = serverLevel.recipeAccess().getRecipeFor(OreBerryRecipes.VAT_RECIPE_TYPE.get(),
+						inventory, this.level).orElse(null);
+				return curRecipe = rec;
+			}
 		}
+		return null;
 	}
 
 	protected int getMaxEvaporateTime() {

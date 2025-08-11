@@ -1,23 +1,20 @@
 package com.mrbysco.oreberriesreplanted.item;
 
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.ExperienceOrb;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 
 public class EssenceBerryItem extends OreBerryItem {
-	public EssenceBerryItem(Properties properties) {
-		super(properties);
-	}
 
 	public EssenceBerryItem(Properties properties, String tooltip) {
 		super(properties, tooltip);
 	}
 
 	@Override
-	public InteractionResultHolder<ItemStack> use(Level level, Player playerIn, InteractionHand handIn) {
+	public InteractionResult use(Level level, Player playerIn, InteractionHand handIn) {
 		ItemStack itemstack = playerIn.getItemInHand(handIn);
 		int xpGained = level.random.nextInt(14) + 6;
 		if (playerIn.isShiftKeyDown()) {
@@ -37,6 +34,6 @@ public class EssenceBerryItem extends OreBerryItem {
 				itemstack.shrink(1);
 			}
 		}
-		return InteractionResultHolder.success(itemstack);
+		return InteractionResult.SUCCESS;
 	}
 }

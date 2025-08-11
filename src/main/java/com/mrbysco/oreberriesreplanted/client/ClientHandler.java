@@ -2,22 +2,23 @@ package com.mrbysco.oreberriesreplanted.client;
 
 import com.mrbysco.oreberriesreplanted.Reference;
 import com.mrbysco.oreberriesreplanted.client.ber.VatBER;
+import com.mrbysco.oreberriesreplanted.recipes.VatRecipe;
+import com.mrbysco.oreberriesreplanted.recipes.VatRecipeCache;
 import com.mrbysco.oreberriesreplanted.registry.LiquidReg;
+import com.mrbysco.oreberriesreplanted.registry.OreBerryRecipes;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.item.BucketItem;
-import net.minecraft.world.item.Item;
+import net.minecraft.util.ARGB;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
-import net.neoforged.neoforge.client.event.RegisterColorHandlersEvent;
+import net.neoforged.neoforge.client.event.RecipesReceivedEvent;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.client.extensions.common.RegisterClientExtensionsEvent;
-import net.neoforged.neoforge.fluids.FluidUtil;
-import net.neoforged.neoforge.registries.DeferredHolder;
-import org.jetbrains.annotations.NotNull;
-import org.joml.Vector3f;
+import org.joml.Vector4f;
 
+import java.util.Collection;
 import java.util.List;
 
 public class ClientHandler {
@@ -54,24 +55,30 @@ public class ClientHandler {
 				}
 
 				@Override
-				public @NotNull Vector3f modifyFogColor(Camera camera, float partialTick, ClientLevel level, int renderDistance, float darkenWorldAmount, Vector3f fluidFogColor) {
+				public Vector4f modifyFogColor(Camera camera, float partialTick, ClientLevel level, int renderDistance, float darkenWorldAmount, Vector4f fluidFogColor) {
 					int color = this.getTintColor();
-					return new Vector3f((color >> 16 & 0xFF) / 255F, (color >> 8 & 0xFF) / 255F, (color & 0xFF) / 255F);
+					return new Vector4f(ARGB.red(color), ARGB.green(color), ARGB.blue(color), ARGB.alpha(color));
 				}
 			}, reg.getFluidType());
 		});
 	}
 
-	public static void registerItemColors(RegisterColorHandlersEvent.Item event) {
-		for (DeferredHolder<Item, ? extends Item> itemObject : OreBerryRegistry.ITEMS.getEntries()) {
-			if (itemObject.get() instanceof BucketItem) {
-				event.register((stack, tintIndex) -> {
-					if (tintIndex != 1) return 0xFFFFFFFF;
-					return FluidUtil.getFluidContained(stack)
-							.map(fluidStack -> IClientFluidTypeExtensions.of(fluidStack.getFluid()).getTintColor(fluidStack))
-							.orElse(0xFFFFFFFF);
-				}, itemObject.get());
-			}
-		}
+//	public static void registerItemColors(RegisterColorHandlersEvent.Item event) {
+//		for (DeferredHolder<Item, ? extends Item> itemObject : OreBerryRegistry.ITEMS.getEntries()) {
+//			if (itemObject.get() instanceof BucketItem) {
+//				event.register((stack, tintIndex) -> {
+//					if (tintIndex != 1) return 0xFFFFFFFF;
+//					return FluidUtil.getFluidContained(stack)
+//							.map(fluidStack -> IClientFluidTypeExtensions.of(fluidStack.getFluid()).getTintColor(fluidStack))
+//							.orElse(0xFFFFFFFF);
+//				}, itemObject.get());
+//			}
+//		}
+//	}
+
+	public static void onRecipeReceived(final RecipesReceivedEvent event) {
+		Collection<RecipeHolder<VatRecipe>> vatRecipes = event.getRecipeMap().byType(OreBerryRecipes.VAT_RECIPE_TYPE.get());
+		VatRecipeCache.vatRecipes.clear();
+		VatRecipeCache.vatRecipes.addAll(vatRecipes);
 	}
 }

@@ -9,13 +9,7 @@
     }
   ],
   "type": "oreberriesreplanted:vat",
-  "fluid": {
-    "fluid": "oreberriesreplanted:iron_oreberry_juice"
-  },
-  "ingredient": {
-    "item": "oreberriesreplanted:iron_oreberry"
-  },
-  "result": {
-    "tag": "c:nuggets/iron"
-  }
+  "fluid": "oreberriesreplanted:iron_oreberry_juice",
+  "ingredient": "oreberriesreplanted:iron_oreberry",
+  "result": "#c:nuggets/iron"
 }

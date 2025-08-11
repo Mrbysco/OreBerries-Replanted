@@ -14,30 +14,25 @@ import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.neoforge.NeoForgeTypes;
 import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
-import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import mezz.jei.api.recipe.types.IRecipeType;
 import net.minecraft.ChatFormatting;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiGraphics;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.core.RegistryAccess;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
 import net.neoforged.neoforge.fluids.FluidStack;
 
 public class VatCategory implements IRecipeCategory<VatRecipe> {
-	private final IDrawable background;
 	private final IDrawable icon;
 	private final Component title;
 
 	public VatCategory(IGuiHelper guiHelper) {
-		this.background = guiHelper.createDrawable(JeiCompat.RECIPE_VAT_JEI, 0, 0, 140, 37);
 		this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(OreBerryRegistry.OAK_VAT.get()));
 		this.title = Component.translatable("oreberriesreplanted.gui.jei.category.vat");
 	}
 
 	@Override
-	public RecipeType<VatRecipe> getRecipeType() {
+	public IRecipeType<VatRecipe> getRecipeType() {
 		return JeiCompat.VAT_TYPE;
 	}
 
@@ -63,25 +58,22 @@ public class VatCategory implements IRecipeCategory<VatRecipe> {
 
 	@Override
 	public void setRecipe(IRecipeLayoutBuilder builder, VatRecipe recipe, IFocusGroup focuses) {
-		Minecraft minecraft = Minecraft.getInstance();
-		ClientLevel level = minecraft.level;
-		if (level == null) {
-			throw new NullPointerException("level must not be null.");
-		}
-		RegistryAccess registryAccess = level.registryAccess();
-
-		builder.addSlot(RecipeIngredientRole.INPUT, 10, 10).addIngredients(recipe.getIngredients().getFirst());
+		builder.addSlot(RecipeIngredientRole.INPUT, 10, 10)
+				.add(recipe.getIngredient())
+				.setStandardSlotBackground();
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 113, 10)
-				.addItemStack(recipe.getResultItem(registryAccess))
-				.addRichTooltipCallback(new OutputTooltip(recipe));
+				.add(recipe.getResultItem())
+				.addRichTooltipCallback(new OutputTooltip(recipe))
+				.setStandardSlotBackground();
 		builder.addSlot(RecipeIngredientRole.OUTPUT, 62, 10)
-				.addIngredient(NeoForgeTypes.FLUID_STACK, new FluidStack(recipe.getFluid(), 1000))
-				.addRichTooltipCallback(new FluidTooltip(recipe));
+				.add(NeoForgeTypes.FLUID_STACK, new FluidStack(recipe.getFluid(), 1000))
+				.addRichTooltipCallback(new FluidTooltip(recipe))
+				.setStandardSlotBackground();
 	}
 
 	@Override
 	public void draw(VatRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics guiGraphics, double mouseX, double mouseY) {
-		background.draw(guiGraphics);
+
 	}
 
 	public static class OutputTooltip implements IRecipeSlotRichTooltipCallback {

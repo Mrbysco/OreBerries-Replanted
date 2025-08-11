@@ -9,13 +9,7 @@
     }
   ],
   "type": "oreberriesreplanted:vat",
-  "fluid": {
-    "fluid": "oreberriesreplanted:gold_oreberry_juice"
-  },
-  "ingredient": {
-    "item": "oreberriesreplanted:gold_oreberry"
-  },
-  "result": {
-    "tag": "c:nuggets/gold"
-  }
+  "fluid": "oreberriesreplanted:gold_oreberry_juice",
+  "ingredient": "oreberriesreplanted:gold_oreberry",
+  "result": "#c:nuggets/gold"
 }

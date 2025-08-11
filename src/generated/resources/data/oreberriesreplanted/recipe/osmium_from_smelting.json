@@ -12,10 +12,6 @@
   "category": "misc",
   "cookingtime": 200,
   "experience": 0.2,
-  "ingredient": {
-    "item": "oreberriesreplanted:osmium_oreberry"
-  },
-  "result": {
-    "tag": "c:nuggets/osmium"
-  }
+  "ingredient": "oreberriesreplanted:osmium_oreberry",
+  "result": "#c:nuggets/osmium"
 }

@@ -9,13 +9,7 @@
     }
   ],
   "type": "oreberriesreplanted:vat",
-  "fluid": {
-    "fluid": "oreberriesreplanted:copper_oreberry_juice"
-  },
-  "ingredient": {
-    "item": "oreberriesreplanted:copper_oreberry"
-  },
-  "result": {
-    "tag": "c:nuggets/copper"
-  }
+  "fluid": "oreberriesreplanted:copper_oreberry_juice",
+  "ingredient": "oreberriesreplanted:copper_oreberry",
+  "result": "#c:nuggets/copper"
 }

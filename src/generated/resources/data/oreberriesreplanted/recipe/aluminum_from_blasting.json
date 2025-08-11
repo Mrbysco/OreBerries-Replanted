@@ -12,10 +12,6 @@
   "category": "misc",
   "cookingtime": 100,
   "experience": 0.2,
-  "ingredient": {
-    "item": "oreberriesreplanted:aluminum_oreberry"
-  },
-  "result": {
-    "tag": "c:nuggets/aluminum"
-  }
+  "ingredient": "oreberriesreplanted:aluminum_oreberry",
+  "result": "#c:nuggets/aluminum"
 }

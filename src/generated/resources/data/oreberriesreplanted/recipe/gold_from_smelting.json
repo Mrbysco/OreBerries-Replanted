@@ -12,10 +12,6 @@
   "category": "misc",
   "cookingtime": 200,
   "experience": 0.2,
-  "ingredient": {
-    "item": "oreberriesreplanted:gold_oreberry"
-  },
-  "result": {
-    "tag": "c:nuggets/gold"
-  }
+  "ingredient": "oreberriesreplanted:gold_oreberry",
+  "result": "#c:nuggets/gold"
 }

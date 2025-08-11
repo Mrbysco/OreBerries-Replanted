@@ -9,13 +9,7 @@
     }
   ],
   "type": "oreberriesreplanted:vat",
-  "fluid": {
-    "fluid": "oreberriesreplanted:aluminum_oreberry_juice"
-  },
-  "ingredient": {
-    "item": "oreberriesreplanted:aluminum_oreberry"
-  },
-  "result": {
-    "tag": "c:nuggets/aluminum"
-  }
+  "fluid": "oreberriesreplanted:aluminum_oreberry_juice",
+  "ingredient": "oreberriesreplanted:aluminum_oreberry",
+  "result": "#c:nuggets/aluminum"
 }

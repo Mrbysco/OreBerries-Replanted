@@ -10,6 +10,7 @@ import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
 import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
 import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
+import me.shedaniel.rei.api.common.display.DisplaySerializerRegistry;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import me.shedaniel.rei.forge.REIPluginClient;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -38,8 +39,7 @@ public class REIPlugin implements REIClientPlugin {
 
 	@Override
 	public void registerDisplays(DisplayRegistry registry) {
-		List<RecipeHolder<VatRecipe>> vatHolders = registry.getRecipeManager().getAllRecipesFor(OreBerryRecipes.VAT_RECIPE_TYPE.get());
-		vatHolders.forEach((holder) -> registry.add(new VatDisplay(holder)));
+		REIClientPlugin.super.registerDisplays(registry);
 	}
 
 }

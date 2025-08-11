@@ -9,13 +9,7 @@
     }
   ],
   "type": "oreberriesreplanted:vat",
-  "fluid": {
-    "fluid": "oreberriesreplanted:zinc_oreberry_juice"
-  },
-  "ingredient": {
-    "item": "oreberriesreplanted:zinc_oreberry"
-  },
-  "result": {
-    "tag": "c:nuggets/zinc"
-  }
+  "fluid": "oreberriesreplanted:zinc_oreberry_juice",
+  "ingredient": "oreberriesreplanted:zinc_oreberry",
+  "result": "#c:nuggets/zinc"
 }

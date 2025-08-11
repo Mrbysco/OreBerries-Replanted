@@ -2,12 +2,8 @@
   "type": "minecraft:crafting_shaped",
   "category": "misc",
   "key": {
-    "P": {
-      "item": "minecraft:cherry_planks"
-    },
-    "S": {
-      "item": "minecraft:cherry_slab"
-    }
+    "P": "minecraft:cherry_planks",
+    "S": "minecraft:cherry_slab"
   },
   "pattern": [
     "P P",

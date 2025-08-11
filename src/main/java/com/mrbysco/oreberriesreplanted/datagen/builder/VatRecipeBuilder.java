@@ -8,9 +8,11 @@ import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.crafting.Recipe;
 import net.neoforged.neoforge.fluids.crafting.FluidIngredient;
 import org.jetbrains.annotations.Nullable;
 
@@ -59,21 +61,25 @@ public class VatRecipeBuilder implements RecipeBuilder {
 		return this;
 	}
 
+	@Override
 	public VatRecipeBuilder unlockedBy(String criteria, Criterion<?> criterion) {
 		this.criteria.put(criteria, criterion);
 		return this;
 	}
 
+	@Override
 	public VatRecipeBuilder group(@Nullable String group) {
 		this.group = group;
 		return this;
 	}
 
+	@Override
 	public Item getResult() {
-		return this.result.getItems()[0].getItem();
+		return Items.EGG;
 	}
 
-	public void save(RecipeOutput recipeOutput, ResourceLocation id) {
+	@Override
+	public void save(RecipeOutput recipeOutput, ResourceKey<Recipe<?>> id) {
 		this.ensureValid(id);
 		Advancement.Builder advancement$builder = recipeOutput.advancement()
 				.addCriterion("has_the_recipe", RecipeUnlockedTrigger.unlocked(id))
@@ -83,14 +89,15 @@ public class VatRecipeBuilder implements RecipeBuilder {
 		if (fluid == null) {
 			throw new IllegalStateException("Fluid: " + this.fluid + " does not exist");
 		} else {
-			VatRecipe vatRecipe = new VatRecipe(this.group == null ? "" : this.group, this.ingredient, fluid, this.result, this.evaporationAmount, this.evaporationTime, this.min, this.max);
-			recipeOutput.accept(id, vatRecipe, advancement$builder.build(id.withPrefix("recipes/oreberries/")));
+			VatRecipe vatRecipe = new VatRecipe(this.group == null ? "" : this.group, this.ingredient, fluid,
+					this.result, this.evaporationAmount, this.evaporationTime, this.min, this.max);
+			recipeOutput.accept(id, vatRecipe, advancement$builder.build(id.location().withPrefix("recipes/oreberries/")));
 		}
 	}
 
-	private void ensureValid(ResourceLocation id) {
+	private void ensureValid(ResourceKey<Recipe<?>> recipe) {
 		if (this.criteria.isEmpty()) {
-			throw new IllegalStateException("No way of obtaining recipe " + id);
+			throw new IllegalStateException("No way of obtaining recipe " + recipe.location());
 		}
 	}
 }

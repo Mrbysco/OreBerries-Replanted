@@ -12,10 +12,6 @@
   "category": "misc",
   "cookingtime": 100,
   "experience": 0.2,
-  "ingredient": {
-    "item": "oreberriesreplanted:copper_oreberry"
-  },
-  "result": {
-    "tag": "c:nuggets/copper"
-  }
+  "ingredient": "oreberriesreplanted:copper_oreberry",
+  "result": "#c:nuggets/copper"
 }

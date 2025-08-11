@@ -7,7 +7,7 @@ import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.ItemInteractionResult;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
@@ -84,8 +84,8 @@ public class VatBlock extends BaseEntityBlock {
 	}
 
 	@Override
-	protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
-	                                          Player player, InteractionHand hand, BlockHitResult result) {
+	protected InteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos,
+	                                      Player player, InteractionHand hand, BlockHitResult result) {
 		BlockEntity blockEntity = level.getBlockEntity(pos);
 		if (blockEntity instanceof VatBlockEntity) {
 			IItemHandler itemHandler = level.getCapability(Capabilities.ItemHandler.BLOCK, pos, result.getDirection());
@@ -106,9 +106,9 @@ public class VatBlock extends BaseEntityBlock {
 				}
 			}
 
-			return ItemInteractionResult.SUCCESS;
+			return InteractionResult.SUCCESS;
 		}
-		return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+		return InteractionResult.PASS;
 	}
 
 	@Override

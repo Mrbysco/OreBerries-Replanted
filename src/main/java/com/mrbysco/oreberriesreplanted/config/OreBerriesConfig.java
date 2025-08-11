@@ -38,7 +38,6 @@ public class OreBerriesConfig {
 		public final IntValue silverBushDensity;
 		public final IntValue essenceBushDensity;
 
-
 		Common(ModConfigSpec.Builder builder) {
 			builder.comment("General settings")
 					.push("General");

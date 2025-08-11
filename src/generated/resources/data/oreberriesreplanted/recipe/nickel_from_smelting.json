@@ -12,10 +12,6 @@
   "category": "misc",
   "cookingtime": 200,
   "experience": 0.2,
-  "ingredient": {
-    "item": "oreberriesreplanted:nickel_oreberry"
-  },
-  "result": {
-    "tag": "c:nuggets/nickel"
-  }
+  "ingredient": "oreberriesreplanted:nickel_oreberry",
+  "result": "#c:nuggets/nickel"
 }

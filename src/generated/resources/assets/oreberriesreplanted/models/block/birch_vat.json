@@ -1,6 +1,7 @@
 {
-  "parent": "oreberriesreplanted:block/vat/vat_base",
+  "parent": "junkdrawers:block/vat/vat_base",
+  "render_type": "minecraft:cutout_mipped",
   "textures": {
-    "0": "minecraft:block/birch_planks"
+    "all": "minecraft:block/birch_planks"
   }
 }

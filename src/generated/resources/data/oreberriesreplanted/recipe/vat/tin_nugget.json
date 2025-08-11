@@ -9,13 +9,7 @@
     }
   ],
   "type": "oreberriesreplanted:vat",
-  "fluid": {
-    "fluid": "oreberriesreplanted:tin_oreberry_juice"
-  },
-  "ingredient": {
-    "item": "oreberriesreplanted:tin_oreberry"
-  },
-  "result": {
-    "tag": "c:nuggets/tin"
-  }
+  "fluid": "oreberriesreplanted:tin_oreberry_juice",
+  "ingredient": "oreberriesreplanted:tin_oreberry",
+  "result": "#c:nuggets/tin"
 }

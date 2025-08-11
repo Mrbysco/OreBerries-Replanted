@@ -12,10 +12,6 @@
   "category": "misc",
   "cookingtime": 100,
   "experience": 0.2,
-  "ingredient": {
-    "item": "oreberriesreplanted:tin_oreberry"
-  },
-  "result": {
-    "tag": "c:nuggets/tin"
-  }
+  "ingredient": "oreberriesreplanted:tin_oreberry",
+  "result": "#c:nuggets/tin"
 }

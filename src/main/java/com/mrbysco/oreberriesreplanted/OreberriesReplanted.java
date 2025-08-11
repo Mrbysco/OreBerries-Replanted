@@ -18,6 +18,8 @@ import net.neoforged.neoforge.capabilities.Capabilities;
 import net.neoforged.neoforge.capabilities.RegisterCapabilitiesEvent;
 import net.neoforged.neoforge.client.gui.ConfigurationScreen;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
+import net.neoforged.neoforge.common.NeoForge;
+import net.neoforged.neoforge.event.OnDatapackSyncEvent;
 import org.slf4j.Logger;
 
 @Mod(Reference.MOD_ID)
@@ -47,7 +49,12 @@ public class OreberriesReplanted {
 			container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
 			eventBus.addListener(ClientHandler::registerEntityRenders);
 			eventBus.addListener(ClientHandler::registerExtensions);
-			eventBus.addListener(ClientHandler::registerItemColors);
+//			eventBus.addListener(ClientHandler::registerItemColors);
+			NeoForge.EVENT_BUS.addListener(ClientHandler::onRecipeReceived);
+		} else {
+			NeoForge.EVENT_BUS.addListener((OnDatapackSyncEvent event) -> {
+				event.sendRecipes(OreBerryRecipes.VAT_RECIPE_TYPE.get());
+			});
 		}
 	}
 

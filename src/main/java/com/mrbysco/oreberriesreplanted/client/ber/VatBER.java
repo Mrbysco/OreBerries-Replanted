@@ -11,8 +11,8 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
+import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
@@ -105,7 +105,7 @@ public class VatBER implements BlockEntityRenderer<VatBlockEntity> {
 
 	private TextureAtlasSprite getFluidStillSprite(Fluid fluid) {
 		return Minecraft.getInstance()
-				.getTextureAtlas(InventoryMenu.BLOCK_ATLAS)
+				.getTextureAtlas(TextureAtlas.LOCATION_BLOCKS)
 				.apply(IClientFluidTypeExtensions.of(fluid).getStillTexture());
 	}
 
