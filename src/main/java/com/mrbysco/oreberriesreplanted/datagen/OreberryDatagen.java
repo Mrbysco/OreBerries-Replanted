@@ -515,44 +515,44 @@ public class OreberryDatagen {
 		}
 
 		@Override
-		protected void buildRecipes(RecipeOutput recipeOutput) {
+		protected void buildRecipes(RecipeOutput output) {
 			ShapedRecipeBuilder.shaped(RecipeCategory.MISC, Items.COPPER_INGOT, 1)
 					.pattern("NNN")
 					.pattern("NNN")
 					.pattern("NNN")
 					.define('N', OreBerryRegistry.COPPER_NUGGET.get())
 					.unlockedBy("has_copper_nugget", has(OreBerryRegistry.COPPER_NUGGET.get()))
-					.save(recipeOutput, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "copper_ingot_from_nugget"));
+					.save(output, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "copper_ingot_from_nugget"));
 
-			generateRecipes(recipeOutput, "iron", OreBerryRegistry.IRON_OREBERRY.get());
-			generateRecipes(recipeOutput, "gold", OreBerryRegistry.GOLD_OREBERRY.get());
-			generateRecipes(recipeOutput, "copper", OreBerryRegistry.COPPER_OREBERRY.get());
-			generateRecipes(recipeOutput, "tin", OreBerryRegistry.TIN_OREBERRY.get());
-			generateRecipes(recipeOutput, "aluminum", OreBerryRegistry.ALUMINUM_OREBERRY.get());
-			generateRecipes(recipeOutput, "lead", OreBerryRegistry.LEAD_OREBERRY.get());
-			generateRecipes(recipeOutput, "nickel", OreBerryRegistry.NICKEL_OREBERRY.get());
-			generateRecipes(recipeOutput, "uranium", OreBerryRegistry.URANIUM_OREBERRY.get());
-			generateRecipes(recipeOutput, "osmium", OreBerryRegistry.OSMIUM_OREBERRY.get());
-			generateRecipes(recipeOutput, "zinc", OreBerryRegistry.ZINC_OREBERRY.get());
-			generateRecipes(recipeOutput, "silver", OreBerryRegistry.SILVER_OREBERRY.get());
+			generateRecipes(output, "iron", OreBerryRegistry.IRON_OREBERRY.get());
+			generateRecipes(output, "gold", OreBerryRegistry.GOLD_OREBERRY.get());
+			generateRecipes(output, "copper", OreBerryRegistry.COPPER_OREBERRY.get());
+			generateRecipes(output, "tin", OreBerryRegistry.TIN_OREBERRY.get());
+			generateRecipes(output, "aluminum", OreBerryRegistry.ALUMINUM_OREBERRY.get());
+			generateRecipes(output, "lead", OreBerryRegistry.LEAD_OREBERRY.get());
+			generateRecipes(output, "nickel", OreBerryRegistry.NICKEL_OREBERRY.get());
+			generateRecipes(output, "uranium", OreBerryRegistry.URANIUM_OREBERRY.get());
+			generateRecipes(output, "osmium", OreBerryRegistry.OSMIUM_OREBERRY.get());
+			generateRecipes(output, "zinc", OreBerryRegistry.ZINC_OREBERRY.get());
+			generateRecipes(output, "silver", OreBerryRegistry.SILVER_OREBERRY.get());
 
-			generateVatRecipe(recipeOutput, Items.OAK_PLANKS, Items.OAK_SLAB, OreBerryRegistry.OAK_VAT.get());
-			generateVatRecipe(recipeOutput, Items.SPRUCE_PLANKS, Items.SPRUCE_SLAB, OreBerryRegistry.SPRUCE_VAT.get());
-			generateVatRecipe(recipeOutput, Items.BIRCH_PLANKS, Items.BIRCH_SLAB, OreBerryRegistry.BIRCH_VAT.get());
-			generateVatRecipe(recipeOutput, Items.JUNGLE_PLANKS, Items.JUNGLE_SLAB, OreBerryRegistry.JUNGLE_VAT.get());
-			generateVatRecipe(recipeOutput, Items.ACACIA_PLANKS, Items.ACACIA_SLAB, OreBerryRegistry.ACACIA_VAT.get());
-			generateVatRecipe(recipeOutput, Items.DARK_OAK_PLANKS, Items.DARK_OAK_SLAB, OreBerryRegistry.DARK_OAK_VAT.get());
-			generateVatRecipe(recipeOutput, Items.MANGROVE_PLANKS, Items.MANGROVE_SLAB, OreBerryRegistry.MANGROVE_VAT.get());
-			generateVatRecipe(recipeOutput, Items.CHERRY_PLANKS, Items.CHERRY_SLAB, OreBerryRegistry.CHERRY_VAT.get());
-			generateVatRecipe(recipeOutput, Items.CRIMSON_PLANKS, Items.CRIMSON_SLAB, OreBerryRegistry.CRIMSON_VAT.get());
-			generateVatRecipe(recipeOutput, Items.WARPED_PLANKS, Items.WARPED_SLAB, OreBerryRegistry.WARPED_VAT.get());
+			generateVatRecipe(output, Items.OAK_PLANKS, Items.OAK_SLAB, OreBerryRegistry.OAK_VAT.get());
+			generateVatRecipe(output, Items.SPRUCE_PLANKS, Items.SPRUCE_SLAB, OreBerryRegistry.SPRUCE_VAT.get());
+			generateVatRecipe(output, Items.BIRCH_PLANKS, Items.BIRCH_SLAB, OreBerryRegistry.BIRCH_VAT.get());
+			generateVatRecipe(output, Items.JUNGLE_PLANKS, Items.JUNGLE_SLAB, OreBerryRegistry.JUNGLE_VAT.get());
+			generateVatRecipe(output, Items.ACACIA_PLANKS, Items.ACACIA_SLAB, OreBerryRegistry.ACACIA_VAT.get());
+			generateVatRecipe(output, Items.DARK_OAK_PLANKS, Items.DARK_OAK_SLAB, OreBerryRegistry.DARK_OAK_VAT.get());
+			generateVatRecipe(output, Items.MANGROVE_PLANKS, Items.MANGROVE_SLAB, OreBerryRegistry.MANGROVE_VAT.get());
+			generateVatRecipe(output, Items.CHERRY_PLANKS, Items.CHERRY_SLAB, OreBerryRegistry.CHERRY_VAT.get());
+			generateVatRecipe(output, Items.CRIMSON_PLANKS, Items.CRIMSON_SLAB, OreBerryRegistry.CRIMSON_VAT.get());
+			generateVatRecipe(output, Items.WARPED_PLANKS, Items.WARPED_SLAB, OreBerryRegistry.WARPED_VAT.get());
 		}
 
-		private void generateRecipes(RecipeOutput recipeOutput, String type, ItemLike berry) {
+		private void generateRecipes(RecipeOutput output, String type, ItemLike berry) {
 			TagKey<Item> nuggetTag = commonTag("nuggets/" + type);
 			Ingredient nuggetIngredient = Ingredient.of(nuggetTag);
 
-			RecipeOutput tagOutput = recipeOutput.withConditions(new NotCondition(new TagEmptyCondition(nuggetTag.location())));
+			RecipeOutput tagOutput = output.withConditions(new NotCondition(new TagEmptyCondition(nuggetTag.location())));
 
 			TagSmeltingRecipeBuilder.blasting(Ingredient.of(berry), RecipeCategory.MISC, nuggetIngredient, 0.2F, 100).unlockedBy("has_berry", has(berry)).save(tagOutput, Reference.modLoc(type + "_from_blasting"));
 
