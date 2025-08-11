@@ -18,6 +18,7 @@ import net.minecraft.world.item.crafting.RecipeBookCategories;
 import net.minecraft.world.item.crafting.RecipeBookCategory;
 import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
+import net.minecraft.world.item.crafting.SingleItemRecipe;
 import net.minecraft.world.item.crafting.SingleRecipeInput;
 
 
@@ -37,21 +38,18 @@ public class TagBlastingRecipe extends AbstractCookingRecipe {
 		return Items.BLAST_FURNACE;
 	}
 
-	public Ingredient getIngredient() {
-		return input;
-	}
-
-	public Ingredient getResultIngredient() {
+	public Ingredient resultIngredient() {
 		return resultIngredient;
 	}
 
 	@Override
 	public ItemStack assemble(SingleRecipeInput recipeInput, Provider provider) {
-		return this.getResultItem().copy();
+		return this.result().copy();
 	}
 
-	public ItemStack getResultItem() {
-		return new ItemStack(resultIngredient.getValues().get(0));
+	@Override
+	public ItemStack result() {
+		return new ItemStack(resultIngredient().getValues().get(0));
 	}
 
 	@Override
@@ -75,12 +73,12 @@ public class TagBlastingRecipe extends AbstractCookingRecipe {
 	public static class Serializer implements RecipeSerializer<TagBlastingRecipe> {
 		public static final MapCodec<TagBlastingRecipe> CODEC = RecordCodecBuilder.mapCodec(
 				instance -> instance.group(
-								CookingBookCategory.CODEC.fieldOf("category").orElse(CookingBookCategory.MISC).forGetter(recipe -> recipe.category),
-								Codec.STRING.optionalFieldOf("group", "").forGetter(recipe -> recipe.group),
-								Ingredient.CODEC.fieldOf("ingredient").forGetter(recipe -> recipe.input),
+								CookingBookCategory.CODEC.fieldOf("category").orElse(CookingBookCategory.MISC).forGetter(AbstractCookingRecipe::category),
+								Codec.STRING.optionalFieldOf("group", "").forGetter(SingleItemRecipe::group),
+								Ingredient.CODEC.fieldOf("ingredient").forGetter(SingleItemRecipe::input),
 								Ingredient.CODEC.fieldOf("result").forGetter(recipe -> recipe.resultIngredient),
-								Codec.FLOAT.fieldOf("experience").orElse(0.0F).forGetter(recipe -> recipe.experience),
-								Codec.INT.fieldOf("cookingtime").orElse(100).forGetter(recipe -> recipe.cookingTime)
+								Codec.FLOAT.fieldOf("experience").orElse(0.0F).forGetter(AbstractCookingRecipe::experience),
+								Codec.INT.fieldOf("cookingtime").orElse(100).forGetter(AbstractCookingRecipe::cookingTime)
 						)
 						.apply(instance, TagBlastingRecipe::new)
 		);
@@ -111,8 +109,8 @@ public class TagBlastingRecipe extends AbstractCookingRecipe {
 		public static void toNetwork(RegistryFriendlyByteBuf buffer, TagBlastingRecipe recipe) {
 			buffer.writeUtf(recipe.group());
 			buffer.writeEnum(recipe.category());
-			Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.getIngredient());
-			Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.getResultIngredient());
+			Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.input());
+			Ingredient.CONTENTS_STREAM_CODEC.encode(buffer, recipe.resultIngredient());
 			buffer.writeFloat(recipe.experience());
 			buffer.writeVarInt(recipe.cookingTime());
 		}
