@@ -182,19 +182,6 @@ public class OreberryDatagen {
 			add("itemGroup.oreberriesreplanted.tab", "Oreberries Replanted");
 
 			//Blocks
-			addBlock(OreBerryRegistry.IRON_OREBERRY_BUSH, "Iron Oreberry Bush");
-			addBlock(OreBerryRegistry.GOLD_OREBERRY_BUSH, "Gold Oreberry Bush");
-			addBlock(OreBerryRegistry.COPPER_OREBERRY_BUSH, "Copper Oreberry Bush");
-			addBlock(OreBerryRegistry.TIN_OREBERRY_BUSH, "Tin Oreberry Bush");
-			addBlock(OreBerryRegistry.ALUMINUM_OREBERRY_BUSH, "Aluminum Oreberry Bush");
-			addBlock(OreBerryRegistry.LEAD_OREBERRY_BUSH, "Lead Oreberry Bush");
-			addBlock(OreBerryRegistry.NICKEL_OREBERRY_BUSH, "Nickel Oreberry Bush");
-			addBlock(OreBerryRegistry.URANIUM_OREBERRY_BUSH, "Uranium Oreberry Bush");
-			addBlock(OreBerryRegistry.OSMIUM_OREBERRY_BUSH, "Osmium Oreberry Bush");
-			addBlock(OreBerryRegistry.ZINC_OREBERRY_BUSH, "Zinc Oreberry Bush");
-			addBlock(OreBerryRegistry.SILVER_OREBERRY_BUSH, "Silver Oreberry Bush");
-			addBlock(OreBerryRegistry.ESSENCE_BERRY_BUSH, "Essence Berry Bush");
-
 			addBlock(OreBerryRegistry.POTTED_IRON_OREBERRY_BUSH, "Potted Iron Oreberry Bush");
 			addBlock(OreBerryRegistry.POTTED_GOLD_OREBERRY_BUSH, "Potted Gold Oreberry Bush");
 			addBlock(OreBerryRegistry.POTTED_COPPER_OREBERRY_BUSH, "Potted Copper Oreberry Bush");
@@ -220,6 +207,19 @@ public class OreberryDatagen {
 			addBlock(OreBerryRegistry.WARPED_VAT, "Warped Vat");
 
 			//Items
+			addItem(OreBerryRegistry.IRON_OREBERRY_BUSH_ITEM, "Iron Oreberry Bush");
+			addItem(OreBerryRegistry.GOLD_OREBERRY_BUSH_ITEM, "Gold Oreberry Bush");
+			addItem(OreBerryRegistry.COPPER_OREBERRY_BUSH_ITEM, "Copper Oreberry Bush");
+			addItem(OreBerryRegistry.TIN_OREBERRY_BUSH_ITEM, "Tin Oreberry Bush");
+			addItem(OreBerryRegistry.ALUMINUM_OREBERRY_BUSH_ITEM, "Aluminum Oreberry Bush");
+			addItem(OreBerryRegistry.LEAD_OREBERRY_BUSH_ITEM, "Lead Oreberry Bush");
+			addItem(OreBerryRegistry.NICKEL_OREBERRY_BUSH_ITEM, "Nickel Oreberry Bush");
+			addItem(OreBerryRegistry.URANIUM_OREBERRY_BUSH_ITEM, "Uranium Oreberry Bush");
+			addItem(OreBerryRegistry.OSMIUM_OREBERRY_BUSH_ITEM, "Osmium Oreberry Bush");
+			addItem(OreBerryRegistry.ZINC_OREBERRY_BUSH_ITEM, "Zinc Oreberry Bush");
+			addItem(OreBerryRegistry.SILVER_OREBERRY_BUSH_ITEM, "Silver Oreberry Bush");
+			addItem(OreBerryRegistry.ESSENCE_BERRY_BUSH_ITEM, "Essence Berry Bush");
+
 			addItem(OreBerryRegistry.IRON_OREBERRY, "Iron Oreberry");
 			addItem(OreBerryRegistry.GOLD_OREBERRY, "Gold Oreberry");
 			addItem(OreBerryRegistry.COPPER_OREBERRY, "Copper Oreberry");
@@ -324,11 +324,11 @@ public class OreberryDatagen {
 	private static class OreBerryModels extends ModelProvider {
 		public static final TextureSlot BUSH = TextureSlot.create("bush");
 
-		public static final ModelTemplate BUSH_STAGE0 = ModelTemplates.create("junkdrawers:base/oreberry_stage0", TextureSlot.ALL).extend().renderType("cutout_mipped").build();
-		public static final ModelTemplate BUSH_STAGE1 = ModelTemplates.create("junkdrawers:base/oreberry_stage1", TextureSlot.ALL).extend().renderType("cutout_mipped").build();
-		public static final ModelTemplate BUSH_STAGE2 = ModelTemplates.create("junkdrawers:base/oreberry_stage2", TextureSlot.ALL).extend().renderType("cutout_mipped").build();
-		public static final ModelTemplate FLOWER_POT_BUSH = ModelTemplates.create("junkdrawers:base/flower_pot_bush", BUSH).extend().renderType("cutout_mipped").build();
-		public static final ModelTemplate VAT = ModelTemplates.create("junkdrawers:vat/vat_base", TextureSlot.ALL).extend().renderType("cutout_mipped").build();
+		public static final ModelTemplate BUSH_STAGE0 = ModelTemplates.create("oreberriesreplanted:base/oreberry_stage0", TextureSlot.ALL).extend().renderType("cutout_mipped").build();
+		public static final ModelTemplate BUSH_STAGE1 = ModelTemplates.create("oreberriesreplanted:base/oreberry_stage1", TextureSlot.ALL).extend().renderType("cutout_mipped").build();
+		public static final ModelTemplate BUSH_STAGE2 = ModelTemplates.create("oreberriesreplanted:base/oreberry_stage2", TextureSlot.ALL).extend().renderType("cutout_mipped").build();
+		public static final ModelTemplate FLOWER_POT_BUSH = ModelTemplates.create("oreberriesreplanted:base/flower_pot_bush", BUSH).extend().renderType("cutout_mipped").build();
+		public static final ModelTemplate VAT = ModelTemplates.create("oreberriesreplanted:vat/vat_base", TextureSlot.ALL).extend().renderType("cutout_mipped").build();
 
 		public OreBerryModels(PackOutput output) {
 			super(output, Reference.MOD_ID);

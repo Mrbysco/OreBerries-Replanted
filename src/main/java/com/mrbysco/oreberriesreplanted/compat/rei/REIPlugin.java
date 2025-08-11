@@ -3,19 +3,13 @@ package com.mrbysco.oreberriesreplanted.compat.rei;
 import com.mrbysco.oreberriesreplanted.Reference;
 import com.mrbysco.oreberriesreplanted.compat.rei.category.VatCategory;
 import com.mrbysco.oreberriesreplanted.compat.rei.display.VatDisplay;
-import com.mrbysco.oreberriesreplanted.recipes.VatRecipe;
-import com.mrbysco.oreberriesreplanted.registry.OreBerryRecipes;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
 import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
 import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;
 import me.shedaniel.rei.api.common.category.CategoryIdentifier;
-import me.shedaniel.rei.api.common.display.DisplaySerializerRegistry;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import me.shedaniel.rei.forge.REIPluginClient;
-import net.minecraft.world.item.crafting.RecipeHolder;
-
-import java.util.List;
 
 @REIPluginClient
 public class REIPlugin implements REIClientPlugin {

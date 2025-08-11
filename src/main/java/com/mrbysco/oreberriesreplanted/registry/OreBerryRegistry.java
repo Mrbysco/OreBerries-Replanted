@@ -140,7 +140,8 @@ public class OreBerryRegistry {
 	public static final DeferredItem<BlockItem> WARPED_VAT_ITEM = ITEMS.registerSimpleBlockItem(WARPED_VAT);
 
 	private static BlockBehaviour.Properties blockBuilder(MapColor mapColor) {
-		return BlockBehaviour.Properties.of().mapColor(mapColor).sound(SoundType.SWEET_BERRY_BUSH).noOcclusion().isSuffocating(OreBerryBushBlock::isntSolid).isViewBlocking(OreBerryBushBlock::isntSolid);
+		return BlockBehaviour.Properties.of().mapColor(mapColor).sound(SoundType.SWEET_BERRY_BUSH)
+				.noOcclusion().isSuffocating(OreBerryBushBlock::isntSolid).isViewBlocking(OreBerryBushBlock::isntSolid);
 	}
 
 	private static BlockBehaviour.Properties potBuilder() {

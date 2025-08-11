@@ -1,5 +1,5 @@
 {
-  "parent": "junkdrawers:block/vat/vat_base",
+  "parent": "oreberriesreplanted:block/vat/vat_base",
   "render_type": "minecraft:cutout_mipped",
   "textures": {
     "all": "minecraft:block/cherry_planks"
