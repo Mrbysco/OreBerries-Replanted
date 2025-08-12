@@ -40,7 +40,7 @@ public class VatBER implements BlockEntityRenderer<VatBlockEntity> {
 			poseStack.translate(0.5, 0.25, 0.5);
 			PoseStack.Pose matrixLast = poseStack.last();
 			Matrix4f pose = matrixLast.pose();
-			VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.translucent());
+			VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.translucentMovingBlock());
 
 			final int color = IClientFluidTypeExtensions.of(fluid).getTintColor(fluidStack);
 			float r = ((color >> 16) & 0xFF) / 255f;

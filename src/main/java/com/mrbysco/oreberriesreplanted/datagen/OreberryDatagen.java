@@ -32,7 +32,6 @@ import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
-import net.minecraft.data.tags.ItemTagsProvider;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
@@ -57,6 +56,7 @@ import net.neoforged.neoforge.common.conditions.NotCondition;
 import net.neoforged.neoforge.common.conditions.TagEmptyCondition;
 import net.neoforged.neoforge.common.data.BlockTagsProvider;
 import net.neoforged.neoforge.common.data.DatapackBuiltinEntriesProvider;
+import net.neoforged.neoforge.common.data.ItemTagsProvider;
 import net.neoforged.neoforge.common.data.LanguageProvider;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
 import net.neoforged.neoforge.fluids.BaseFlowingFluid;
@@ -71,7 +71,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 
-@EventBusSubscriber(bus = EventBusSubscriber.Bus.MOD)
+@EventBusSubscriber
 public class OreberryDatagen {
 	@SubscribeEvent
 	public static void gatherData(GatherDataEvent.Client event) {
@@ -83,7 +83,7 @@ public class OreberryDatagen {
 
 		BlockTagsProvider blockTagsProvider = new OreberryBlockTags(packOutput, lookupProvider);
 		generator.addProvider(true, blockTagsProvider);
-		generator.addProvider(true, new OreberryItemTags(packOutput, lookupProvider, blockTagsProvider));
+		generator.addProvider(true, new OreberryItemTags(packOutput, lookupProvider));
 		generator.addProvider(true, new OreberryRecipeProvider.Runner(packOutput, lookupProvider));
 
 		generator.addProvider(true, new OreBerryDatapack(packOutput, event.getLookupProvider(), Set.of(Reference.MOD_ID)));
@@ -481,9 +481,8 @@ public class OreberryDatagen {
 
 	public static class OreberryItemTags extends ItemTagsProvider {
 
-
-		public OreberryItemTags(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookupProvider, BlockTagsProvider blockTagsProvider) {
-			super(packOutput, lookupProvider, blockTagsProvider.contentsGetter(), Reference.MOD_ID);
+		public OreberryItemTags(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookupProvider) {
+			super(packOutput, lookupProvider, Reference.MOD_ID);
 		}
 
 		public static final TagKey<Item> NUGGETS_COPPER = commonTag("nuggets/copper");
@@ -491,8 +490,8 @@ public class OreberryDatagen {
 		public static final TagKey<Item> OREBERRIES_SMELTABLE = modTag("oreberries/smeltable");
 		public static final TagKey<Item> VATS = modTag("vats");
 
-		private static TagKey<Item> commonTag(String name) {
-			return ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", name));
+		private static TagKey<Item> commonTag(String path) {
+			return ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", path));
 		}
 
 		private static TagKey<Item> modTag(String name) {

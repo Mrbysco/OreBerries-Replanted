@@ -1,17 +1,20 @@
 package com.mrbysco.oreberriesreplanted.blockentity;
 
+import com.mrbysco.oreberriesreplanted.OreberriesReplanted;
 import com.mrbysco.oreberriesreplanted.recipes.VatRecipe;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRecipes;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
+import net.minecraft.data.registries.VanillaRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.Connection;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.Containers;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -23,6 +26,9 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.storage.TagValueOutput;
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
 import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
@@ -105,25 +111,27 @@ public class VatBlockEntity extends BlockEntity {
 	}
 
 	@Override
-	protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
-		super.loadAdditional(tag, provider);
+	protected void loadAdditional(ValueInput input) {
+		super.loadAdditional(input);
 
-		this.evaporateProgress = tag.getIntOr("evaporateProgress", 0);
-		this.evaporateTotalTime = tag.getIntOr("evaporateTotalTime", 0);
-		this.crushCooldown = tag.getIntOr("crushCooldown", 0);
+		this.evaporateProgress = input.getIntOr("evaporateProgress", 0);
+		this.evaporateTotalTime = input.getIntOr("evaporateTotalTime", 0);
+		this.crushCooldown = input.getIntOr("crushCooldown", 0);
 
-		this.handler.deserializeNBT(provider, tag.getCompoundOrEmpty("ItemStackHandler"));
-		this.tank.readFromNBT(provider, tag);
+		this.handler.deserialize(input.childOrEmpty("ItemStackHandler"));
+		this.tank.deserialize(input);
 	}
 
 	@Override
-	public void saveAdditional(CompoundTag tag, HolderLookup.Provider provider) {
-		super.saveAdditional(tag, provider);
-		tag.putInt("evaporateProgress", this.evaporateProgress);
-		tag.putInt("evaporateTotalTime", this.evaporateTotalTime);
-		tag.putInt("crushCooldown", this.crushCooldown);
-		tag.put("ItemStackHandler", handler.serializeNBT(provider));
-		tank.writeToNBT(provider, tag);
+	public void saveAdditional(ValueOutput output) {
+		super.saveAdditional(output);
+
+		output.putInt("evaporateProgress", this.evaporateProgress);
+		output.putInt("evaporateTotalTime", this.evaporateTotalTime);
+		output.putInt("crushCooldown", this.crushCooldown);
+
+		handler.serialize(output.child("ItemStackHandler"));
+		tank.serialize(output);
 	}
 
 	public static void serverTick(Level level, BlockPos pos, BlockState state, VatBlockEntity vatBlockEntity) {
@@ -269,26 +277,30 @@ public class VatBlockEntity extends BlockEntity {
 	}
 
 	@Override
-	public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt, HolderLookup.Provider lookupProvider) {
-		this.loadAdditional(pkt.getTag(), lookupProvider);
+	public void onDataPacket(Connection net, ValueInput valueInput) {
+		super.onDataPacket(net, valueInput);
 	}
 
 	@Override
 	public CompoundTag getUpdateTag(HolderLookup.Provider lookupProvider) {
 		CompoundTag tag = new CompoundTag();
-		this.saveAdditional(tag, lookupProvider);
+		try (ProblemReporter.ScopedCollector problemreporter$scopedcollector = new ProblemReporter.ScopedCollector(OreberriesReplanted.LOGGER)) {
+			TagValueOutput output = TagValueOutput.createWithContext(problemreporter$scopedcollector, lookupProvider);
+			this.saveAdditional(output);
+			tag.merge(output.buildResult());
+		}
 		return tag;
-	}
-
-	@Override
-	public void handleUpdateTag(CompoundTag tag, HolderLookup.Provider lookupProvider) {
-		super.handleUpdateTag(tag, lookupProvider);
 	}
 
 	@Override
 	public CompoundTag getPersistentData() {
 		CompoundTag tag = new CompoundTag();
-		this.saveAdditional(tag, this.getLevel().registryAccess());
+		try (ProblemReporter.ScopedCollector problemreporter$scopedcollector = new ProblemReporter.ScopedCollector(OreberriesReplanted.LOGGER)) {
+			HolderLookup.Provider lookupProvider = this.level != null ? this.level.registryAccess() : VanillaRegistries.createLookup();
+			TagValueOutput output = TagValueOutput.createWithContext(problemreporter$scopedcollector, lookupProvider);
+			this.saveAdditional(output);
+			tag.merge(output.buildResult());
+		}
 		return tag;
 	}
 
