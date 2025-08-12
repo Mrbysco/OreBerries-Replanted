@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.fluids.FluidStack;
 import org.joml.Matrix4f;
@@ -27,7 +28,8 @@ public class VatBER implements BlockEntityRenderer<VatBlockEntity> {
 	}
 
 	@Override
-	public void render(VatBlockEntity vat, float partialTicks, PoseStack poseStack, MultiBufferSource bufferSource, int combinedLightIn, int combinedOverlayIn) {
+	public void render(VatBlockEntity vat, float partialTick, PoseStack poseStack,
+	                   MultiBufferSource bufferSource, int packedLight, int packedOverlay, Vec3 cameraPos) {
 		final ClientLevel level = Minecraft.getInstance().level;
 		FluidStack fluidStack = vat.tank.getFluidInTank(0);
 		if (!fluidStack.isEmpty()) {
@@ -58,25 +60,25 @@ public class VatBER implements BlockEntityRenderer<VatBlockEntity> {
 			vertexConsumer.addVertex(pose, -width / 2, -height / 2 + percent * height, -width / 2).setColor(r, g, b, a)
 					.setUv(minU, minV)
 					.setOverlay(OverlayTexture.NO_OVERLAY)
-					.setLight(combinedLightIn)
+					.setLight(packedLight)
 					.setNormal(matrixLast, 0, 1, 0);
 
 			vertexConsumer.addVertex(pose, -width / 2, -height / 2 + percent * height, width / 2).setColor(r, g, b, a)
 					.setUv(minU, maxV)
 					.setOverlay(OverlayTexture.NO_OVERLAY)
-					.setLight(combinedLightIn)
+					.setLight(packedLight)
 					.setNormal(matrixLast, 0, 1, 0);
 
 			vertexConsumer.addVertex(pose, width / 2, -height / 2 + percent * height, width / 2).setColor(r, g, b, a)
 					.setUv(maxU, maxV)
 					.setOverlay(OverlayTexture.NO_OVERLAY)
-					.setLight(combinedLightIn)
+					.setLight(packedLight)
 					.setNormal(matrixLast, 0, 1, 0);
 
 			vertexConsumer.addVertex(pose, width / 2, -height / 2 + percent * height, -width / 2).setColor(r, g, b, a)
 					.setUv(maxU, minV)
 					.setOverlay(OverlayTexture.NO_OVERLAY)
-					.setLight(combinedLightIn)
+					.setLight(packedLight)
 					.setNormal(matrixLast, 0, 1, 0);
 
 			if (bufferSource instanceof MultiBufferSource.BufferSource) {
@@ -97,7 +99,7 @@ public class VatBER implements BlockEntityRenderer<VatBlockEntity> {
 				poseStack.mulPose(Axis.XP.rotationDegrees((float) 90));
 				poseStack.translate(i * 0.0125, i * 0.0125, 0);
 				poseStack.mulPose(Axis.ZP.rotationDegrees(i * random.nextInt(360)));
-				Minecraft.getInstance().getItemRenderer().renderStatic(berryStack, ItemDisplayContext.GROUND, combinedLightIn, combinedOverlayIn, poseStack, bufferSource, level, 0);
+				Minecraft.getInstance().getItemRenderer().renderStatic(berryStack, ItemDisplayContext.GROUND, packedLight, packedOverlay, poseStack, bufferSource, level, 0);
 				poseStack.popPose();
 			}
 		}

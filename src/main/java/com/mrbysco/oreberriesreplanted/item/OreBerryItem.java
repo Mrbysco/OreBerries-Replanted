@@ -5,8 +5,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class OreBerryItem extends Item {
 	private String tooltip = "";
@@ -21,9 +24,11 @@ public class OreBerryItem extends Item {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
+	public void appendHoverText(@NotNull ItemStack stack, @NotNull TooltipContext context,
+	                            @NotNull TooltipDisplay tooltipDisplay, @NotNull Consumer<Component> tooltipAdder,
+	                            @NotNull TooltipFlag flag) {
 		if (!tooltip.isEmpty()) {
-			tooltip.add(Component.translatable(this.tooltip).withStyle(ChatFormatting.GRAY));
+			tooltipAdder.accept(Component.translatable(this.tooltip).withStyle(ChatFormatting.GRAY));
 		}
 	}
 }

@@ -63,19 +63,6 @@ public class ClientHandler {
 		});
 	}
 
-//	public static void registerItemColors(RegisterColorHandlersEvent.Item event) {
-//		for (DeferredHolder<Item, ? extends Item> itemObject : OreBerryRegistry.ITEMS.getEntries()) {
-//			if (itemObject.get() instanceof BucketItem) {
-//				event.register((stack, tintIndex) -> {
-//					if (tintIndex != 1) return 0xFFFFFFFF;
-//					return FluidUtil.getFluidContained(stack)
-//							.map(fluidStack -> IClientFluidTypeExtensions.of(fluidStack.getFluid()).getTintColor(fluidStack))
-//							.orElse(0xFFFFFFFF);
-//				}, itemObject.get());
-//			}
-//		}
-//	}
-
 	public static void onRecipeReceived(final RecipesReceivedEvent event) {
 		Collection<RecipeHolder<VatRecipe>> vatRecipes = event.getRecipeMap().byType(OreBerryRecipes.VAT_RECIPE_TYPE.get());
 		VatRecipeCache.vatRecipes.clear();

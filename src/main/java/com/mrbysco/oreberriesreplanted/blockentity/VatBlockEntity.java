@@ -108,11 +108,11 @@ public class VatBlockEntity extends BlockEntity {
 	protected void loadAdditional(CompoundTag tag, HolderLookup.Provider provider) {
 		super.loadAdditional(tag, provider);
 
-		this.evaporateProgress = tag.getInt("evaporateProgress");
-		this.evaporateTotalTime = tag.getInt("evaporateTotalTime");
-		this.crushCooldown = tag.getInt("crushCooldown");
+		this.evaporateProgress = tag.getIntOr("evaporateProgress", 0);
+		this.evaporateTotalTime = tag.getIntOr("evaporateTotalTime", 0);
+		this.crushCooldown = tag.getIntOr("crushCooldown", 0);
 
-		this.handler.deserializeNBT(provider, tag.getCompound("ItemStackHandler"));
+		this.handler.deserializeNBT(provider, tag.getCompoundOrEmpty("ItemStackHandler"));
 		this.tank.readFromNBT(provider, tag);
 	}
 
@@ -298,5 +298,14 @@ public class VatBlockEntity extends BlockEntity {
 
 	public FluidTank getTank(@Nullable Direction direction) {
 		return tank;
+	}
+
+	@Override
+	public void preRemoveSideEffects(BlockPos pos, BlockState state) {
+		if (handler != null && this.level != null) {
+			for (int i = 0; i < handler.getSlots(); ++i) {
+				Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(i));
+			}
+		}
 	}
 }

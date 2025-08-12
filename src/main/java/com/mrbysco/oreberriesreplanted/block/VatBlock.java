@@ -9,6 +9,7 @@ import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -60,15 +61,14 @@ public class VatBlock extends BaseEntityBlock {
 	}
 
 	@Override
-	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entity) {
+	protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier) {
 		float f = (float) entity.getY() - 0.5F;
 		float yPos = (float) (pos.getY() - 0.25f);
 		if (!entity.isShiftKeyDown() && (double) f <= yPos) {
 			BlockEntity blockEntity = level.getBlockEntity(pos);
 			if (level.getGameTime() % 10 == 0 && blockEntity instanceof VatBlockEntity vat) {
-				if (entity instanceof LivingEntity && !(entity instanceof Player && ((Player) entity).isSpectator())) {
+				if (entity instanceof LivingEntity livingEntity && !(entity instanceof Player && ((Player) entity).isSpectator())) {
 					if (!vat.handler.getStackInSlot(0).isEmpty()) {
-						LivingEntity livingEntity = (LivingEntity) entity;
 						((LivingEntityAccessor) livingEntity).invokeJumpFromGround();
 					}
 
@@ -109,22 +109,6 @@ public class VatBlock extends BaseEntityBlock {
 			return InteractionResult.SUCCESS;
 		}
 		return InteractionResult.PASS;
-	}
-
-	@Override
-	public void onRemove(BlockState state, Level level, BlockPos pos, BlockState newState, boolean isMoving) {
-		if (!state.is(newState.getBlock())) {
-			BlockEntity blockEntity = level.getBlockEntity(pos);
-			if (blockEntity instanceof VatBlockEntity vatBlockEntity) {
-				if (vatBlockEntity.handler != null) {
-					for (int i = 0; i < vatBlockEntity.handler.getSlots(); ++i) {
-						Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), vatBlockEntity.handler.getStackInSlot(i));
-					}
-				}
-			}
-
-			super.onRemove(state, level, pos, newState, isMoving);
-		}
 	}
 
 	@Override

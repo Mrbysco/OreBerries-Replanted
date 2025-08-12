@@ -6,9 +6,11 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
+import net.minecraft.util.TriState;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.InsideBlockEffectApplier;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -26,7 +28,6 @@ import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.common.CommonHooks;
-import net.neoforged.neoforge.common.util.TriState;
 
 import java.util.function.Supplier;
 
@@ -142,16 +143,16 @@ public class OreBerryBushBlock extends Block {
 	public boolean canSurvive(BlockState state, LevelReader level, BlockPos pos) {
 		BlockPos belowPos = pos.below();
 		BlockState belowState = level.getBlockState(belowPos);
-		net.neoforged.neoforge.common.util.TriState soilDecision = belowState
+		TriState soilDecision = belowState
 				.canSustainPlant(level, belowPos, net.minecraft.core.Direction.UP, state);
 		boolean flag = !oreType.getDarknessOnly() || level.getRawBrightness(pos, 0) < 13;
 		return !soilDecision.isFalse() && flag;
 	}
 
 	@Override
-	public void entityInside(BlockState state, Level level, BlockPos pos, Entity entityIn) {
-		if (!(entityIn instanceof ItemEntity)) {
-			entityIn.hurt(level.damageSources().cactus(), 1.0F);
+	protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier) {
+		if (!(entity instanceof ItemEntity) && level instanceof ServerLevel serverLevel) {
+			entity.hurtServer(serverLevel, level.damageSources().cactus(), 1.0F);
 		}
 	}
 

@@ -14,8 +14,6 @@ import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.ModelProvider;
 import net.minecraft.client.data.models.blockstates.MultiVariantGenerator;
 import net.minecraft.client.data.models.blockstates.PropertyDispatch;
-import net.minecraft.client.data.models.blockstates.Variant;
-import net.minecraft.client.data.models.blockstates.VariantProperties;
 import net.minecraft.client.data.models.model.ModelTemplate;
 import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureMapping;
@@ -411,20 +409,20 @@ public class OreberryDatagen {
 
 			blockModels.blockStateOutput
 					.accept(
-							MultiVariantGenerator.multiVariant(deferredBush.get())
+							MultiVariantGenerator.dispatch(deferredBush.get())
 									.with(
-											PropertyDispatch.property(OreBerryBushBlock.AGE)
+											PropertyDispatch.initial(OreBerryBushBlock.AGE)
 													.select(0,
-															Variant.variant().with(VariantProperties.MODEL, stage0)
+															BlockModelGenerators.variants(BlockModelGenerators.plainModel(stage0))
 													)
 													.select(1,
-															Variant.variant().with(VariantProperties.MODEL, stage1)
+															BlockModelGenerators.variants(BlockModelGenerators.plainModel(stage1))
 													)
 													.select(2,
-															Variant.variant().with(VariantProperties.MODEL, stage2)
+															BlockModelGenerators.variants(BlockModelGenerators.plainModel(stage2))
 													)
 													.select(3,
-															Variant.variant().with(VariantProperties.MODEL, stage3)
+															BlockModelGenerators.variants(BlockModelGenerators.plainModel(stage3))
 													)
 									)
 					);
@@ -439,8 +437,8 @@ public class OreberryDatagen {
 
 			blockModels.blockStateOutput
 					.accept(
-							MultiVariantGenerator.multiVariant(deferredPot.get(),
-									Variant.variant().with(VariantProperties.MODEL, model)
+							MultiVariantGenerator.dispatch(deferredPot.get(),
+									BlockModelGenerators.variants(BlockModelGenerators.plainModel(model))
 							)
 					);
 		}
@@ -451,8 +449,8 @@ public class OreberryDatagen {
 
 			blockModels.blockStateOutput
 					.accept(
-							MultiVariantGenerator.multiVariant(deferredVat.get(),
-									Variant.variant().with(VariantProperties.MODEL, model)
+							MultiVariantGenerator.dispatch(deferredVat.get(),
+									BlockModelGenerators.variants(BlockModelGenerators.plainModel(model))
 							)
 					);
 			blockModels.registerSimpleItemModel(deferredVat.asItem(), model);

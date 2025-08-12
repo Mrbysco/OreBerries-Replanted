@@ -49,7 +49,6 @@ public class OreberriesReplanted {
 			container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
 			eventBus.addListener(ClientHandler::registerEntityRenders);
 			eventBus.addListener(ClientHandler::registerExtensions);
-//			eventBus.addListener(ClientHandler::registerItemColors);
 			NeoForge.EVENT_BUS.addListener(ClientHandler::onRecipeReceived);
 		} else {
 			NeoForge.EVENT_BUS.addListener((OnDatapackSyncEvent event) -> {

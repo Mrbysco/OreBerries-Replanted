@@ -8,13 +8,15 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.neoforge.common.SpecialPlantable;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.List;
+import java.util.function.Consumer;
 
 public class TooltipBlockItem extends BlockItem implements SpecialPlantable {
 	private final String tooltip;
@@ -25,13 +27,14 @@ public class TooltipBlockItem extends BlockItem implements SpecialPlantable {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltip, TooltipFlag flag) {
-		super.appendHoverText(stack, context, tooltip, flag);
-		tooltip.add(Component.translatable(this.tooltip).withStyle(ChatFormatting.GRAY));
+	public void appendHoverText(@NotNull ItemStack stack, @NotNull TooltipContext context,
+	                            @NotNull TooltipDisplay tooltipDisplay, @NotNull Consumer<Component> tooltipAdder,
+	                            @NotNull TooltipFlag flag) {
+		tooltipAdder.accept(Component.translatable(this.tooltip).withStyle(ChatFormatting.GRAY));
 	}
 
 	@Override
-	public boolean canPlacePlantAtPosition(ItemStack itemStack, LevelReader level, BlockPos pos, @Nullable Direction direction) {
+	public boolean canPlacePlantAtPosition(ItemStack stack, LevelReader level, BlockPos pos, @Nullable Direction direction) {
 		if (this.getBlock() instanceof OreBerryBushBlock berryBushBlock) {
 			return !berryBushBlock.darknessOnly() || level.getRawBrightness(pos, 0) < 13;
 		}
@@ -39,7 +42,7 @@ public class TooltipBlockItem extends BlockItem implements SpecialPlantable {
 	}
 
 	@Override
-	public void spawnPlantAtPosition(ItemStack itemStack, LevelAccessor level, BlockPos pos, @Nullable Direction direction) {
+	public void spawnPlantAtPosition(ItemStack stack, LevelAccessor level, BlockPos pos, @Nullable Direction direction) {
 		level.setBlock(pos, getBlock().defaultBlockState(), 3);
 	}
 }
