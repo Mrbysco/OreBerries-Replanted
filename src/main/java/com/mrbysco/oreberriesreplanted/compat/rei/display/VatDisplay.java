@@ -13,7 +13,7 @@ import me.shedaniel.rei.api.common.entry.type.VanillaEntryTypes;
 import me.shedaniel.rei.api.common.util.EntryIngredients;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import org.jetbrains.annotations.Nullable;
 
@@ -102,7 +102,7 @@ public class VatDisplay implements Display {
 	}
 
 	@Override
-	public Optional<ResourceLocation> getDisplayLocation() {
+	public Optional<Identifier> getDisplayLocation() {
 		return Optional.empty();
 	}
 

@@ -14,7 +14,7 @@ import mezz.jei.api.recipe.types.IRecipeType;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 
@@ -23,9 +23,9 @@ import java.util.ArrayList;
 
 @JeiPlugin
 public class JeiCompat implements IModPlugin {
-	public static final ResourceLocation RECIPE_VAT_JEI = Reference.modLoc("textures/gui/jei/vat.png");
+	public static final Identifier RECIPE_VAT_JEI = Reference.modLoc("textures/gui/jei/vat.png");
 
-	public static final ResourceLocation PLUGIN_UID = Reference.modLoc("main");
+	public static final Identifier PLUGIN_UID = Reference.modLoc("main");
 
 	public static final IRecipeType<VatRecipe> VAT_TYPE = IRecipeType.create(Reference.MOD_ID, "vat_recipe", VatRecipe.class);
 
@@ -33,7 +33,7 @@ public class JeiCompat implements IModPlugin {
 	private IRecipeCategory<VatRecipe> vatCategory;
 
 	@Override
-	public ResourceLocation getPluginUid() {
+	public Identifier getPluginUid() {
 		return PLUGIN_UID;
 	}
 

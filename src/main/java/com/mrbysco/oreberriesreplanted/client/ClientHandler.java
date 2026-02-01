@@ -9,7 +9,7 @@ import com.mrbysco.oreberriesreplanted.registry.OreBerryRecipes;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRegistry;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.util.ARGB;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import net.neoforged.neoforge.client.event.EntityRenderersEvent;
@@ -22,8 +22,8 @@ import java.util.Collection;
 import java.util.List;
 
 public class ClientHandler {
-	private final static ResourceLocation STILL_BERRY = Reference.modLoc("block/liquid_berry_still");
-	private final static ResourceLocation FLOWING_BERRY = Reference.modLoc("block/liquid_berry_flow");
+	private final static Identifier STILL_BERRY = Reference.modLoc("block/liquid_berry_still");
+	private final static Identifier FLOWING_BERRY = Reference.modLoc("block/liquid_berry_flow");
 
 	public static void registerEntityRenders(EntityRenderersEvent.RegisterRenderers event) {
 		event.registerBlockEntityRenderer(OreBerryRegistry.VAT_BLOCK_ENTITY.get(), VatBER::new);
@@ -40,12 +40,12 @@ public class ClientHandler {
 			event.registerFluidType(new IClientFluidTypeExtensions() {
 
 				@Override
-				public ResourceLocation getStillTexture() {
+				public Identifier getStillTexture() {
 					return STILL_BERRY;
 				}
 
 				@Override
-				public ResourceLocation getFlowingTexture() {
+				public Identifier getFlowingTexture() {
 					return FLOWING_BERRY;
 				}
 

@@ -58,75 +58,75 @@ public class OreBerryRegistry {
 	public static final LiquidReg SILVER_OREBERRY_JUICE = new LiquidReg.Builder("silver_oreberry_juice", true, 0xFF898fc9).build();
 
 	//Blocks
-	public static final DeferredBlock<OreBerryBushBlock> IRON_OREBERRY_BUSH = BLOCKS.registerBlock("iron_oreberry_bush", (properties) -> new OreBerryBushBlock(properties, OreBerryRegistry.IRON_OREBERRY, OreEnum.IRON), blockBuilder(Blocks.OAK_LEAVES.defaultMapColor()));
-	public static final DeferredBlock<OreBerryBushBlock> GOLD_OREBERRY_BUSH = BLOCKS.registerBlock("gold_oreberry_bush", (properties) -> new OreBerryBushBlock(properties, OreBerryRegistry.GOLD_OREBERRY, OreEnum.GOLD), blockBuilder(Blocks.OAK_LEAVES.defaultMapColor()));
-	public static final DeferredBlock<OreBerryBushBlock> COPPER_OREBERRY_BUSH = BLOCKS.registerBlock("copper_oreberry_bush", (properties) -> new OreBerryBushBlock(properties, OreBerryRegistry.COPPER_OREBERRY, OreEnum.COPPER), blockBuilder(Blocks.OAK_LEAVES.defaultMapColor()));
-	public static final DeferredBlock<OreBerryBushBlock> TIN_OREBERRY_BUSH = BLOCKS.registerBlock("tin_oreberry_bush", (properties) -> new OreBerryBushBlock(properties, OreBerryRegistry.TIN_OREBERRY, OreEnum.TIN), blockBuilder(Blocks.OAK_LEAVES.defaultMapColor()));
-	public static final DeferredBlock<OreBerryBushBlock> ALUMINUM_OREBERRY_BUSH = BLOCKS.registerBlock("aluminum_oreberry_bush", (properties) -> new OreBerryBushBlock(properties, OreBerryRegistry.ALUMINUM_OREBERRY, OreEnum.ALUMINUM), blockBuilder(Blocks.OAK_LEAVES.defaultMapColor()));
-	public static final DeferredBlock<OreBerryBushBlock> LEAD_OREBERRY_BUSH = BLOCKS.registerBlock("lead_oreberry_bush", (properties) -> new OreBerryBushBlock(properties, OreBerryRegistry.LEAD_OREBERRY, OreEnum.LEAD), blockBuilder(Blocks.OAK_LEAVES.defaultMapColor()));
-	public static final DeferredBlock<OreBerryBushBlock> NICKEL_OREBERRY_BUSH = BLOCKS.registerBlock("nickel_oreberry_bush", (properties) -> new OreBerryBushBlock(properties, OreBerryRegistry.NICKEL_OREBERRY, OreEnum.NICKEL), blockBuilder(Blocks.OAK_LEAVES.defaultMapColor()));
-	public static final DeferredBlock<OreBerryBushBlock> URANIUM_OREBERRY_BUSH = BLOCKS.registerBlock("uranium_oreberry_bush", (properties) -> new OreBerryBushBlock(properties, OreBerryRegistry.URANIUM_OREBERRY, OreEnum.URANIUM), blockBuilder(Blocks.OAK_LEAVES.defaultMapColor()));
-	public static final DeferredBlock<OreBerryBushBlock> OSMIUM_OREBERRY_BUSH = BLOCKS.registerBlock("osmium_oreberry_bush", (properties) -> new OreBerryBushBlock(properties, OreBerryRegistry.OSMIUM_OREBERRY, OreEnum.OSMIUM), blockBuilder(Blocks.OAK_LEAVES.defaultMapColor()));
-	public static final DeferredBlock<OreBerryBushBlock> ZINC_OREBERRY_BUSH = BLOCKS.registerBlock("zinc_oreberry_bush", (properties) -> new OreBerryBushBlock(properties, OreBerryRegistry.ZINC_OREBERRY, OreEnum.ZINC), blockBuilder(Blocks.OAK_LEAVES.defaultMapColor()));
-	public static final DeferredBlock<OreBerryBushBlock> SILVER_OREBERRY_BUSH = BLOCKS.registerBlock("silver_oreberry_bush", (properties) -> new OreBerryBushBlock(properties, OreBerryRegistry.SILVER_OREBERRY, OreEnum.SILVER), blockBuilder(Blocks.OAK_LEAVES.defaultMapColor()));
-	public static final DeferredBlock<OreBerryBushBlock> ESSENCE_BERRY_BUSH = BLOCKS.registerBlock("essence_berry_bush", (properties) -> new OreBerryBushBlock(properties, OreBerryRegistry.ESSENCE_BERRY, OreEnum.ESSENCE), blockBuilder(Blocks.OAK_LEAVES.defaultMapColor()));
+	public static final DeferredBlock<OreBerryBushBlock> IRON_OREBERRY_BUSH = BLOCKS.registerBlock("iron_oreberry_bush", (properties) -> new OreBerryBushBlock(properties, OreBerryRegistry.IRON_OREBERRY, OreEnum.IRON), () -> blockBuilder(Blocks.OAK_LEAVES.defaultMapColor()));
+	public static final DeferredBlock<OreBerryBushBlock> GOLD_OREBERRY_BUSH = BLOCKS.registerBlock("gold_oreberry_bush", (properties) -> new OreBerryBushBlock(properties, OreBerryRegistry.GOLD_OREBERRY, OreEnum.GOLD), () -> blockBuilder(Blocks.OAK_LEAVES.defaultMapColor()));
+	public static final DeferredBlock<OreBerryBushBlock> COPPER_OREBERRY_BUSH = BLOCKS.registerBlock("copper_oreberry_bush", (properties) -> new OreBerryBushBlock(properties, OreBerryRegistry.COPPER_OREBERRY, OreEnum.COPPER), () -> blockBuilder(Blocks.OAK_LEAVES.defaultMapColor()));
+	public static final DeferredBlock<OreBerryBushBlock> TIN_OREBERRY_BUSH = BLOCKS.registerBlock("tin_oreberry_bush", (properties) -> new OreBerryBushBlock(properties, OreBerryRegistry.TIN_OREBERRY, OreEnum.TIN), () -> blockBuilder(Blocks.OAK_LEAVES.defaultMapColor()));
+	public static final DeferredBlock<OreBerryBushBlock> ALUMINUM_OREBERRY_BUSH = BLOCKS.registerBlock("aluminum_oreberry_bush", (properties) -> new OreBerryBushBlock(properties, OreBerryRegistry.ALUMINUM_OREBERRY, OreEnum.ALUMINUM), () -> blockBuilder(Blocks.OAK_LEAVES.defaultMapColor()));
+	public static final DeferredBlock<OreBerryBushBlock> LEAD_OREBERRY_BUSH = BLOCKS.registerBlock("lead_oreberry_bush", (properties) -> new OreBerryBushBlock(properties, OreBerryRegistry.LEAD_OREBERRY, OreEnum.LEAD), () -> blockBuilder(Blocks.OAK_LEAVES.defaultMapColor()));
+	public static final DeferredBlock<OreBerryBushBlock> NICKEL_OREBERRY_BUSH = BLOCKS.registerBlock("nickel_oreberry_bush", (properties) -> new OreBerryBushBlock(properties, OreBerryRegistry.NICKEL_OREBERRY, OreEnum.NICKEL), () -> blockBuilder(Blocks.OAK_LEAVES.defaultMapColor()));
+	public static final DeferredBlock<OreBerryBushBlock> URANIUM_OREBERRY_BUSH = BLOCKS.registerBlock("uranium_oreberry_bush", (properties) -> new OreBerryBushBlock(properties, OreBerryRegistry.URANIUM_OREBERRY, OreEnum.URANIUM), () -> blockBuilder(Blocks.OAK_LEAVES.defaultMapColor()));
+	public static final DeferredBlock<OreBerryBushBlock> OSMIUM_OREBERRY_BUSH = BLOCKS.registerBlock("osmium_oreberry_bush", (properties) -> new OreBerryBushBlock(properties, OreBerryRegistry.OSMIUM_OREBERRY, OreEnum.OSMIUM), () -> blockBuilder(Blocks.OAK_LEAVES.defaultMapColor()));
+	public static final DeferredBlock<OreBerryBushBlock> ZINC_OREBERRY_BUSH = BLOCKS.registerBlock("zinc_oreberry_bush", (properties) -> new OreBerryBushBlock(properties, OreBerryRegistry.ZINC_OREBERRY, OreEnum.ZINC), () -> blockBuilder(Blocks.OAK_LEAVES.defaultMapColor()));
+	public static final DeferredBlock<OreBerryBushBlock> SILVER_OREBERRY_BUSH = BLOCKS.registerBlock("silver_oreberry_bush", (properties) -> new OreBerryBushBlock(properties, OreBerryRegistry.SILVER_OREBERRY, OreEnum.SILVER), () -> blockBuilder(Blocks.OAK_LEAVES.defaultMapColor()));
+	public static final DeferredBlock<OreBerryBushBlock> ESSENCE_BERRY_BUSH = BLOCKS.registerBlock("essence_berry_bush", (properties) -> new OreBerryBushBlock(properties, OreBerryRegistry.ESSENCE_BERRY, OreEnum.ESSENCE), () -> blockBuilder(Blocks.OAK_LEAVES.defaultMapColor()));
 
-	public static final DeferredBlock<FlowerPotBlock> POTTED_IRON_OREBERRY_BUSH = BLOCKS.registerBlock("potted_iron_oreberry_bush", (properties) -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, OreBerryRegistry.IRON_OREBERRY_BUSH, properties), potBuilder());
-	public static final DeferredBlock<FlowerPotBlock> POTTED_GOLD_OREBERRY_BUSH = BLOCKS.registerBlock("potted_gold_oreberry_bush", (properties) -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, OreBerryRegistry.GOLD_OREBERRY_BUSH, properties), potBuilder());
-	public static final DeferredBlock<FlowerPotBlock> POTTED_COPPER_OREBERRY_BUSH = BLOCKS.registerBlock("potted_copper_oreberry_bush", (properties) -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, OreBerryRegistry.COPPER_OREBERRY_BUSH, properties), potBuilder());
-	public static final DeferredBlock<FlowerPotBlock> POTTED_TIN_OREBERRY_BUSH = BLOCKS.registerBlock("potted_tin_oreberry_bush", (properties) -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, OreBerryRegistry.TIN_OREBERRY_BUSH, properties), potBuilder());
-	public static final DeferredBlock<FlowerPotBlock> POTTED_ALUMINUM_OREBERRY_BUSH = BLOCKS.registerBlock("potted_aluminum_oreberry_bush", (properties) -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, OreBerryRegistry.ALUMINUM_OREBERRY_BUSH, properties), potBuilder());
-	public static final DeferredBlock<FlowerPotBlock> POTTED_LEAD_OREBERRY_BUSH = BLOCKS.registerBlock("potted_lead_oreberry_bush", (properties) -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, OreBerryRegistry.LEAD_OREBERRY_BUSH, properties), potBuilder());
-	public static final DeferredBlock<FlowerPotBlock> POTTED_NICKEL_OREBERRY_BUSH = BLOCKS.registerBlock("potted_nickel_oreberry_bush", (properties) -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, OreBerryRegistry.NICKEL_OREBERRY_BUSH, properties), potBuilder());
-	public static final DeferredBlock<FlowerPotBlock> POTTED_URANIUM_OREBERRY_BUSH = BLOCKS.registerBlock("potted_uranium_oreberry_bush", (properties) -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, OreBerryRegistry.URANIUM_OREBERRY_BUSH, properties), potBuilder());
-	public static final DeferredBlock<FlowerPotBlock> POTTED_OSMIUM_OREBERRY_BUSH = BLOCKS.registerBlock("potted_osmium_oreberry_bush", (properties) -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, OreBerryRegistry.OSMIUM_OREBERRY_BUSH, properties), potBuilder());
-	public static final DeferredBlock<FlowerPotBlock> POTTED_ZINC_OREBERRY_BUSH = BLOCKS.registerBlock("potted_zinc_oreberry_bush", (properties) -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, OreBerryRegistry.ZINC_OREBERRY_BUSH, properties), potBuilder());
-	public static final DeferredBlock<FlowerPotBlock> POTTED_SILVER_OREBERRY_BUSH = BLOCKS.registerBlock("potted_silver_oreberry_bush", (properties) -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, OreBerryRegistry.SILVER_OREBERRY_BUSH, properties), potBuilder());
-	public static final DeferredBlock<FlowerPotBlock> POTTED_ESSENCE_BERRY_BUSH = BLOCKS.registerBlock("potted_essence_berry_bush", (properties) -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, OreBerryRegistry.ESSENCE_BERRY_BUSH, properties), potBuilder());
+	public static final DeferredBlock<FlowerPotBlock> POTTED_IRON_OREBERRY_BUSH = BLOCKS.registerBlock("potted_iron_oreberry_bush", (properties) -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, OreBerryRegistry.IRON_OREBERRY_BUSH, properties), () -> potBuilder());
+	public static final DeferredBlock<FlowerPotBlock> POTTED_GOLD_OREBERRY_BUSH = BLOCKS.registerBlock("potted_gold_oreberry_bush", (properties) -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, OreBerryRegistry.GOLD_OREBERRY_BUSH, properties), () -> potBuilder());
+	public static final DeferredBlock<FlowerPotBlock> POTTED_COPPER_OREBERRY_BUSH = BLOCKS.registerBlock("potted_copper_oreberry_bush", (properties) -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, OreBerryRegistry.COPPER_OREBERRY_BUSH, properties), () -> potBuilder());
+	public static final DeferredBlock<FlowerPotBlock> POTTED_TIN_OREBERRY_BUSH = BLOCKS.registerBlock("potted_tin_oreberry_bush", (properties) -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, OreBerryRegistry.TIN_OREBERRY_BUSH, properties), () -> potBuilder());
+	public static final DeferredBlock<FlowerPotBlock> POTTED_ALUMINUM_OREBERRY_BUSH = BLOCKS.registerBlock("potted_aluminum_oreberry_bush", (properties) -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, OreBerryRegistry.ALUMINUM_OREBERRY_BUSH, properties), () -> potBuilder());
+	public static final DeferredBlock<FlowerPotBlock> POTTED_LEAD_OREBERRY_BUSH = BLOCKS.registerBlock("potted_lead_oreberry_bush", (properties) -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, OreBerryRegistry.LEAD_OREBERRY_BUSH, properties), () -> potBuilder());
+	public static final DeferredBlock<FlowerPotBlock> POTTED_NICKEL_OREBERRY_BUSH = BLOCKS.registerBlock("potted_nickel_oreberry_bush", (properties) -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, OreBerryRegistry.NICKEL_OREBERRY_BUSH, properties), () -> potBuilder());
+	public static final DeferredBlock<FlowerPotBlock> POTTED_URANIUM_OREBERRY_BUSH = BLOCKS.registerBlock("potted_uranium_oreberry_bush", (properties) -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, OreBerryRegistry.URANIUM_OREBERRY_BUSH, properties), () -> potBuilder());
+	public static final DeferredBlock<FlowerPotBlock> POTTED_OSMIUM_OREBERRY_BUSH = BLOCKS.registerBlock("potted_osmium_oreberry_bush", (properties) -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, OreBerryRegistry.OSMIUM_OREBERRY_BUSH, properties), () -> potBuilder());
+	public static final DeferredBlock<FlowerPotBlock> POTTED_ZINC_OREBERRY_BUSH = BLOCKS.registerBlock("potted_zinc_oreberry_bush", (properties) -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, OreBerryRegistry.ZINC_OREBERRY_BUSH, properties), () -> potBuilder());
+	public static final DeferredBlock<FlowerPotBlock> POTTED_SILVER_OREBERRY_BUSH = BLOCKS.registerBlock("potted_silver_oreberry_bush", (properties) -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, OreBerryRegistry.SILVER_OREBERRY_BUSH, properties), () -> potBuilder());
+	public static final DeferredBlock<FlowerPotBlock> POTTED_ESSENCE_BERRY_BUSH = BLOCKS.registerBlock("potted_essence_berry_bush", (properties) -> new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, OreBerryRegistry.ESSENCE_BERRY_BUSH, properties), () -> potBuilder());
 
-	public static final DeferredBlock<VatBlock> OAK_VAT = BLOCKS.registerBlock("oak_vat", VatBlock::new, blockBuilder(Blocks.OAK_PLANKS.defaultMapColor()));
-	public static final DeferredBlock<VatBlock> SPRUCE_VAT = BLOCKS.registerBlock("spruce_vat", VatBlock::new, blockBuilder(Blocks.SPRUCE_PLANKS.defaultMapColor()));
-	public static final DeferredBlock<VatBlock> BIRCH_VAT = BLOCKS.registerBlock("birch_vat", VatBlock::new, blockBuilder(Blocks.BIRCH_PLANKS.defaultMapColor()));
-	public static final DeferredBlock<VatBlock> JUNGLE_VAT = BLOCKS.registerBlock("jungle_vat", VatBlock::new, blockBuilder(Blocks.JUNGLE_PLANKS.defaultMapColor()));
-	public static final DeferredBlock<VatBlock> ACACIA_VAT = BLOCKS.registerBlock("acacia_vat", VatBlock::new, blockBuilder(Blocks.ACACIA_PLANKS.defaultMapColor()));
-	public static final DeferredBlock<VatBlock> DARK_OAK_VAT = BLOCKS.registerBlock("dark_oak_vat", VatBlock::new, blockBuilder(Blocks.DARK_OAK_PLANKS.defaultMapColor()));
-	public static final DeferredBlock<VatBlock> MANGROVE_VAT = BLOCKS.registerBlock("mangrove_vat", VatBlock::new, blockBuilder(Blocks.MANGROVE_PLANKS.defaultMapColor()));
-	public static final DeferredBlock<VatBlock> CHERRY_VAT = BLOCKS.registerBlock("cherry_vat", VatBlock::new, blockBuilder(Blocks.CHERRY_PLANKS.defaultMapColor()));
-	public static final DeferredBlock<VatBlock> CRIMSON_VAT = BLOCKS.registerBlock("crimson_vat", VatBlock::new, blockBuilder(Blocks.CRIMSON_PLANKS.defaultMapColor()));
-	public static final DeferredBlock<VatBlock> WARPED_VAT = BLOCKS.registerBlock("warped_vat", VatBlock::new, blockBuilder(Blocks.WARPED_PLANKS.defaultMapColor()));
+	public static final DeferredBlock<VatBlock> OAK_VAT = BLOCKS.registerBlock("oak_vat", VatBlock::new, () -> blockBuilder(Blocks.OAK_PLANKS.defaultMapColor()));
+	public static final DeferredBlock<VatBlock> SPRUCE_VAT = BLOCKS.registerBlock("spruce_vat", VatBlock::new, () -> blockBuilder(Blocks.SPRUCE_PLANKS.defaultMapColor()));
+	public static final DeferredBlock<VatBlock> BIRCH_VAT = BLOCKS.registerBlock("birch_vat", VatBlock::new, () -> blockBuilder(Blocks.BIRCH_PLANKS.defaultMapColor()));
+	public static final DeferredBlock<VatBlock> JUNGLE_VAT = BLOCKS.registerBlock("jungle_vat", VatBlock::new, () -> blockBuilder(Blocks.JUNGLE_PLANKS.defaultMapColor()));
+	public static final DeferredBlock<VatBlock> ACACIA_VAT = BLOCKS.registerBlock("acacia_vat", VatBlock::new, () -> blockBuilder(Blocks.ACACIA_PLANKS.defaultMapColor()));
+	public static final DeferredBlock<VatBlock> DARK_OAK_VAT = BLOCKS.registerBlock("dark_oak_vat", VatBlock::new, () -> blockBuilder(Blocks.DARK_OAK_PLANKS.defaultMapColor()));
+	public static final DeferredBlock<VatBlock> MANGROVE_VAT = BLOCKS.registerBlock("mangrove_vat", VatBlock::new, () -> blockBuilder(Blocks.MANGROVE_PLANKS.defaultMapColor()));
+	public static final DeferredBlock<VatBlock> CHERRY_VAT = BLOCKS.registerBlock("cherry_vat", VatBlock::new, () -> blockBuilder(Blocks.CHERRY_PLANKS.defaultMapColor()));
+	public static final DeferredBlock<VatBlock> CRIMSON_VAT = BLOCKS.registerBlock("crimson_vat", VatBlock::new, () -> blockBuilder(Blocks.CRIMSON_PLANKS.defaultMapColor()));
+	public static final DeferredBlock<VatBlock> WARPED_VAT = BLOCKS.registerBlock("warped_vat", VatBlock::new, () -> blockBuilder(Blocks.WARPED_PLANKS.defaultMapColor()));
 
 	//Tiles
 	public static final Supplier<BlockEntityType<VatBlockEntity>> VAT_BLOCK_ENTITY = BLOCK_ENTITY_TYPES.register("vat", () -> new BlockEntityType<>(VatBlockEntity::new,
 			OAK_VAT.get(), SPRUCE_VAT.get(), BIRCH_VAT.get(), JUNGLE_VAT.get(), ACACIA_VAT.get(), DARK_OAK_VAT.get(), CRIMSON_VAT.get(), MANGROVE_VAT.get(), WARPED_VAT.get()));
 
 	//Items
-	public static final DeferredItem<TooltipBlockItem> IRON_OREBERRY_BUSH_ITEM = ITEMS.registerItem("iron_oreberry_bush", (properties) -> new TooltipBlockItem(IRON_OREBERRY_BUSH.get(), properties, Reference.IRON_TOOLTIP), itemBuilder());
-	public static final DeferredItem<TooltipBlockItem> GOLD_OREBERRY_BUSH_ITEM = ITEMS.registerItem("gold_oreberry_bush", (properties) -> new TooltipBlockItem(GOLD_OREBERRY_BUSH.get(), properties, Reference.GOLD_TOOLTIP), itemBuilder());
-	public static final DeferredItem<TooltipBlockItem> COPPER_OREBERRY_BUSH_ITEM = ITEMS.registerItem("copper_oreberry_bush", (properties) -> new TooltipBlockItem(COPPER_OREBERRY_BUSH.get(), properties, Reference.COPPER_TOOLTIP), itemBuilder());
-	public static final DeferredItem<TooltipBlockItem> TIN_OREBERRY_BUSH_ITEM = ITEMS.registerItem("tin_oreberry_bush", (properties) -> new TooltipBlockItem(TIN_OREBERRY_BUSH.get(), properties, Reference.TIN_TOOLTIP), itemBuilder());
-	public static final DeferredItem<TooltipBlockItem> ALUMINUM_OREBERRY_BUSH_ITEM = ITEMS.registerItem("aluminum_oreberry_bush", (properties) -> new TooltipBlockItem(ALUMINUM_OREBERRY_BUSH.get(), properties, Reference.ALUMINUM_TOOLTIP), itemBuilder());
-	public static final DeferredItem<TooltipBlockItem> LEAD_OREBERRY_BUSH_ITEM = ITEMS.registerItem("lead_oreberry_bush", (properties) -> new TooltipBlockItem(LEAD_OREBERRY_BUSH.get(), properties, Reference.LEAD_TOOLTIP), itemBuilder());
-	public static final DeferredItem<TooltipBlockItem> NICKEL_OREBERRY_BUSH_ITEM = ITEMS.registerItem("nickel_oreberry_bush", (properties) -> new TooltipBlockItem(NICKEL_OREBERRY_BUSH.get(), properties, Reference.NICKEL_TOOLTIP), itemBuilder());
-	public static final DeferredItem<TooltipBlockItem> URANIUM_OREBERRY_BUSH_ITEM = ITEMS.registerItem("uranium_oreberry_bush", (properties) -> new TooltipBlockItem(URANIUM_OREBERRY_BUSH.get(), properties, Reference.URANIUM_TOOLTIP), itemBuilder());
-	public static final DeferredItem<TooltipBlockItem> OSMIUM_OREBERRY_BUSH_ITEM = ITEMS.registerItem("osmium_oreberry_bush", (properties) -> new TooltipBlockItem(OSMIUM_OREBERRY_BUSH.get(), properties, Reference.OSMIUM_TOOLTIP), itemBuilder());
-	public static final DeferredItem<TooltipBlockItem> ZINC_OREBERRY_BUSH_ITEM = ITEMS.registerItem("zinc_oreberry_bush", (properties) -> new TooltipBlockItem(ZINC_OREBERRY_BUSH.get(), properties, Reference.ZINC_TOOLTIP), itemBuilder());
-	public static final DeferredItem<TooltipBlockItem> SILVER_OREBERRY_BUSH_ITEM = ITEMS.registerItem("silver_oreberry_bush", (properties) -> new TooltipBlockItem(SILVER_OREBERRY_BUSH.get(), properties, Reference.SILVER_TOOLTIP), itemBuilder());
-	public static final DeferredItem<TooltipBlockItem> ESSENCE_BERRY_BUSH_ITEM = ITEMS.registerItem("essence_berry_bush", (properties) -> new TooltipBlockItem(ESSENCE_BERRY_BUSH.get(), properties, Reference.ESSENCE_TOOLTIP), itemBuilder());
+	public static final DeferredItem<TooltipBlockItem> IRON_OREBERRY_BUSH_ITEM = ITEMS.registerItem("iron_oreberry_bush", (properties) -> new TooltipBlockItem(IRON_OREBERRY_BUSH.get(), properties, Reference.IRON_TOOLTIP));
+	public static final DeferredItem<TooltipBlockItem> GOLD_OREBERRY_BUSH_ITEM = ITEMS.registerItem("gold_oreberry_bush", (properties) -> new TooltipBlockItem(GOLD_OREBERRY_BUSH.get(), properties, Reference.GOLD_TOOLTIP));
+	public static final DeferredItem<TooltipBlockItem> COPPER_OREBERRY_BUSH_ITEM = ITEMS.registerItem("copper_oreberry_bush", (properties) -> new TooltipBlockItem(COPPER_OREBERRY_BUSH.get(), properties, Reference.COPPER_TOOLTIP));
+	public static final DeferredItem<TooltipBlockItem> TIN_OREBERRY_BUSH_ITEM = ITEMS.registerItem("tin_oreberry_bush", (properties) -> new TooltipBlockItem(TIN_OREBERRY_BUSH.get(), properties, Reference.TIN_TOOLTIP));
+	public static final DeferredItem<TooltipBlockItem> ALUMINUM_OREBERRY_BUSH_ITEM = ITEMS.registerItem("aluminum_oreberry_bush", (properties) -> new TooltipBlockItem(ALUMINUM_OREBERRY_BUSH.get(), properties, Reference.ALUMINUM_TOOLTIP));
+	public static final DeferredItem<TooltipBlockItem> LEAD_OREBERRY_BUSH_ITEM = ITEMS.registerItem("lead_oreberry_bush", (properties) -> new TooltipBlockItem(LEAD_OREBERRY_BUSH.get(), properties, Reference.LEAD_TOOLTIP));
+	public static final DeferredItem<TooltipBlockItem> NICKEL_OREBERRY_BUSH_ITEM = ITEMS.registerItem("nickel_oreberry_bush", (properties) -> new TooltipBlockItem(NICKEL_OREBERRY_BUSH.get(), properties, Reference.NICKEL_TOOLTIP));
+	public static final DeferredItem<TooltipBlockItem> URANIUM_OREBERRY_BUSH_ITEM = ITEMS.registerItem("uranium_oreberry_bush", (properties) -> new TooltipBlockItem(URANIUM_OREBERRY_BUSH.get(), properties, Reference.URANIUM_TOOLTIP));
+	public static final DeferredItem<TooltipBlockItem> OSMIUM_OREBERRY_BUSH_ITEM = ITEMS.registerItem("osmium_oreberry_bush", (properties) -> new TooltipBlockItem(OSMIUM_OREBERRY_BUSH.get(), properties, Reference.OSMIUM_TOOLTIP));
+	public static final DeferredItem<TooltipBlockItem> ZINC_OREBERRY_BUSH_ITEM = ITEMS.registerItem("zinc_oreberry_bush", (properties) -> new TooltipBlockItem(ZINC_OREBERRY_BUSH.get(), properties, Reference.ZINC_TOOLTIP));
+	public static final DeferredItem<TooltipBlockItem> SILVER_OREBERRY_BUSH_ITEM = ITEMS.registerItem("silver_oreberry_bush", (properties) -> new TooltipBlockItem(SILVER_OREBERRY_BUSH.get(), properties, Reference.SILVER_TOOLTIP));
+	public static final DeferredItem<TooltipBlockItem> ESSENCE_BERRY_BUSH_ITEM = ITEMS.registerItem("essence_berry_bush", (properties) -> new TooltipBlockItem(ESSENCE_BERRY_BUSH.get(), properties, Reference.ESSENCE_TOOLTIP));
 
-	public static final DeferredItem<OreBerryItem> IRON_OREBERRY = ITEMS.registerItem("iron_oreberry", (properties) -> new OreBerryItem(properties, Reference.IRON_TOOLTIP), itemBuilder());
-	public static final DeferredItem<OreBerryItem> GOLD_OREBERRY = ITEMS.registerItem("gold_oreberry", (properties) -> new OreBerryItem(properties, Reference.GOLD_TOOLTIP), itemBuilder());
-	public static final DeferredItem<OreBerryItem> COPPER_OREBERRY = ITEMS.registerItem("copper_oreberry", (properties) -> new OreBerryItem(properties, Reference.COPPER_TOOLTIP), itemBuilder());
-	public static final DeferredItem<OreBerryItem> TIN_OREBERRY = ITEMS.registerItem("tin_oreberry", (properties) -> new OreBerryItem(properties, Reference.TIN_TOOLTIP), itemBuilder());
-	public static final DeferredItem<OreBerryItem> ALUMINUM_OREBERRY = ITEMS.registerItem("aluminum_oreberry", (properties) -> new OreBerryItem(properties, Reference.ALUMINUM_TOOLTIP), itemBuilder());
-	public static final DeferredItem<OreBerryItem> LEAD_OREBERRY = ITEMS.registerItem("lead_oreberry", (properties) -> new OreBerryItem(properties, Reference.LEAD_TOOLTIP), itemBuilder());
-	public static final DeferredItem<OreBerryItem> NICKEL_OREBERRY = ITEMS.registerItem("nickel_oreberry", (properties) -> new OreBerryItem(properties, Reference.NICKEL_TOOLTIP), itemBuilder());
-	public static final DeferredItem<OreBerryItem> URANIUM_OREBERRY = ITEMS.registerItem("uranium_oreberry", (properties) -> new OreBerryItem(properties, Reference.URANIUM_TOOLTIP), itemBuilder());
-	public static final DeferredItem<OreBerryItem> OSMIUM_OREBERRY = ITEMS.registerItem("osmium_oreberry", (properties) -> new OreBerryItem(properties, Reference.OSMIUM_TOOLTIP), itemBuilder());
-	public static final DeferredItem<OreBerryItem> ZINC_OREBERRY = ITEMS.registerItem("zinc_oreberry", (properties) -> new OreBerryItem(properties, Reference.ZINC_TOOLTIP), itemBuilder());
-	public static final DeferredItem<OreBerryItem> SILVER_OREBERRY = ITEMS.registerItem("silver_oreberry", (properties) -> new OreBerryItem(properties, Reference.SILVER_TOOLTIP), itemBuilder());
-	public static final DeferredItem<OreBerryItem> ESSENCE_BERRY = ITEMS.registerItem("essence_berry", (properties) -> new EssenceBerryItem(properties, Reference.ESSENCE_TOOLTIP), itemBuilder());
+	public static final DeferredItem<OreBerryItem> IRON_OREBERRY = ITEMS.registerItem("iron_oreberry", (properties) -> new OreBerryItem(properties, Reference.IRON_TOOLTIP));
+	public static final DeferredItem<OreBerryItem> GOLD_OREBERRY = ITEMS.registerItem("gold_oreberry", (properties) -> new OreBerryItem(properties, Reference.GOLD_TOOLTIP));
+	public static final DeferredItem<OreBerryItem> COPPER_OREBERRY = ITEMS.registerItem("copper_oreberry", (properties) -> new OreBerryItem(properties, Reference.COPPER_TOOLTIP));
+	public static final DeferredItem<OreBerryItem> TIN_OREBERRY = ITEMS.registerItem("tin_oreberry", (properties) -> new OreBerryItem(properties, Reference.TIN_TOOLTIP));
+	public static final DeferredItem<OreBerryItem> ALUMINUM_OREBERRY = ITEMS.registerItem("aluminum_oreberry", (properties) -> new OreBerryItem(properties, Reference.ALUMINUM_TOOLTIP));
+	public static final DeferredItem<OreBerryItem> LEAD_OREBERRY = ITEMS.registerItem("lead_oreberry", (properties) -> new OreBerryItem(properties, Reference.LEAD_TOOLTIP));
+	public static final DeferredItem<OreBerryItem> NICKEL_OREBERRY = ITEMS.registerItem("nickel_oreberry", (properties) -> new OreBerryItem(properties, Reference.NICKEL_TOOLTIP));
+	public static final DeferredItem<OreBerryItem> URANIUM_OREBERRY = ITEMS.registerItem("uranium_oreberry", (properties) -> new OreBerryItem(properties, Reference.URANIUM_TOOLTIP));
+	public static final DeferredItem<OreBerryItem> OSMIUM_OREBERRY = ITEMS.registerItem("osmium_oreberry", (properties) -> new OreBerryItem(properties, Reference.OSMIUM_TOOLTIP));
+	public static final DeferredItem<OreBerryItem> ZINC_OREBERRY = ITEMS.registerItem("zinc_oreberry", (properties) -> new OreBerryItem(properties, Reference.ZINC_TOOLTIP));
+	public static final DeferredItem<OreBerryItem> SILVER_OREBERRY = ITEMS.registerItem("silver_oreberry", (properties) -> new OreBerryItem(properties, Reference.SILVER_TOOLTIP));
+	public static final DeferredItem<OreBerryItem> ESSENCE_BERRY = ITEMS.registerItem("essence_berry", (properties) -> new EssenceBerryItem(properties, Reference.ESSENCE_TOOLTIP));
 
-	public static final DeferredItem<Item> COPPER_NUGGET = ITEMS.registerItem("copper_nugget", (properties) -> new Item(properties), itemBuilder());
+	public static final DeferredItem<Item> COPPER_NUGGET = ITEMS.registerItem("copper_nugget", Item::new);
 
 	public static final DeferredItem<BlockItem> OAK_VAT_ITEM = ITEMS.registerSimpleBlockItem(OAK_VAT);
 	public static final DeferredItem<BlockItem> SPRUCE_VAT_ITEM = ITEMS.registerSimpleBlockItem(SPRUCE_VAT);
@@ -146,10 +146,6 @@ public class OreBerryRegistry {
 
 	private static BlockBehaviour.Properties potBuilder() {
 		return BlockBehaviour.Properties.of().instabreak().noOcclusion().pushReaction(PushReaction.DESTROY);
-	}
-
-	private static Item.Properties itemBuilder() {
-		return new Item.Properties();
 	}
 
 	public static void registerBlockData() {

@@ -58,8 +58,8 @@ public class OreberriesReplanted {
 	}
 
 	public void registerCapabilities(RegisterCapabilitiesEvent event) {
-		event.registerBlockEntity(Capabilities.ItemHandler.BLOCK, OreBerryRegistry.VAT_BLOCK_ENTITY.get(), VatBlockEntity::getHandler);
-		event.registerBlockEntity(Capabilities.FluidHandler.BLOCK, OreBerryRegistry.VAT_BLOCK_ENTITY.get(), VatBlockEntity::getTank);
+		event.registerBlockEntity(Capabilities.Item.BLOCK, OreBerryRegistry.VAT_BLOCK_ENTITY.get(), VatBlockEntity::getHandler);
+		event.registerBlockEntity(Capabilities.Fluid.BLOCK, OreBerryRegistry.VAT_BLOCK_ENTITY.get(), VatBlockEntity::getTank);
 	}
 
 	private void commonSetup(FMLCommonSetupEvent event) {

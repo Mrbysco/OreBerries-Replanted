@@ -1,46 +1,81 @@
 package com.mrbysco.oreberriesreplanted.client.ber;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.mrbysco.oreberriesreplanted.blockentity.VatBlockEntity;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.client.renderer.item.ItemModelResolver;
+import net.minecraft.client.renderer.item.ItemStackRenderState;
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.Material;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
 import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
 import net.neoforged.neoforge.fluids.FluidStack;
-import org.joml.Matrix4f;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import org.jspecify.annotations.Nullable;
 
 import java.util.Random;
 
-public class VatBER implements BlockEntityRenderer<VatBlockEntity> {
+public class VatBER implements BlockEntityRenderer<VatBlockEntity, VatRenderState> {
+	private final ItemModelResolver itemModelResolver;
+
 	public VatBER(BlockEntityRendererProvider.Context context) {
+		this.itemModelResolver = context.itemModelResolver();
 	}
 
 	@Override
-	public void render(VatBlockEntity vat, float partialTick, PoseStack poseStack,
-	                   MultiBufferSource bufferSource, int packedLight, int packedOverlay, Vec3 cameraPos) {
-		final ClientLevel level = Minecraft.getInstance().level;
-		FluidStack fluidStack = vat.tank.getFluidInTank(0);
+	public VatRenderState createRenderState() {
+		return new VatRenderState();
+	}
+
+	@Override
+	public void extractRenderState(VatBlockEntity blockEntity, VatRenderState renderState, float partialTick, Vec3 cameraPosition, ModelFeatureRenderer.@Nullable CrumblingOverlay breakProgress) {
+		BlockEntityRenderer.super.extractRenderState(blockEntity, renderState, partialTick, cameraPosition, breakProgress);
+		renderState.tankCapacity = blockEntity.tank.getCapacityAsInt(0, FluidResource.EMPTY);
+		if (blockEntity.tank.getAmountAsInt(0) > 0) {
+			renderState.fluidStack = blockEntity.tank.getResource(0).toStack(blockEntity.tank.getAmountAsInt(0));
+		} else {
+			renderState.fluidStack = FluidStack.EMPTY;
+		}
+
+		ItemResource berryResource = blockEntity.handler.getResource(0);
+		if (berryResource.isEmpty()) {
+			renderState.berryStack = null;
+			renderState.berryAmount = 0;
+		} else {
+			ItemStack berryStack = berryResource.toStack(blockEntity.handler.getAmountAsInt(0));
+			ItemStackRenderState itemstackrenderstate = new ItemStackRenderState();
+			this.itemModelResolver.updateForTopItem(itemstackrenderstate, berryStack, ItemDisplayContext.ON_SHELF, blockEntity.getLevel(), null, 0);
+			renderState.berryStack = itemstackrenderstate;
+			renderState.berryAmount = berryStack.getCount();
+		}
+	}
+
+	@Override
+	public void submit(VatRenderState renderState, PoseStack poseStack, SubmitNodeCollector nodeCollector, CameraRenderState cameraRenderState) {
+		final FluidStack fluidStack = renderState.fluidStack;
+		final int packedLight = renderState.lightCoords;
 		if (!fluidStack.isEmpty()) {
 			Fluid fluid = fluidStack.getFluid();
 			TextureAtlasSprite fluidTexture = getFluidStillSprite(fluid);
+			if (fluidTexture == null) return;
 
 			poseStack.pushPose();
 			poseStack.translate(0.5, 0.25, 0.5);
-			PoseStack.Pose matrixLast = poseStack.last();
-			Matrix4f pose = matrixLast.pose();
-			VertexConsumer vertexConsumer = bufferSource.getBuffer(RenderType.translucentMovingBlock());
 
 			final int color = IClientFluidTypeExtensions.of(fluid).getTintColor(fluidStack);
 			float r = ((color >> 16) & 0xFF) / 255f;
@@ -55,60 +90,59 @@ public class VatBER implements BlockEntityRenderer<VatBlockEntity> {
 			float maxU = fluidTexture.getU(1);
 			float minV = fluidTexture.getV(0);
 			float maxV = fluidTexture.getV(1);
-			float percent = fluidStack.getAmount() >= 200 ? (fluidStack.getAmount() / (float) vat.tank.getCapacity()) : 0.1f;
+			float percent = fluidStack.getAmount() >= 200 ? (fluidStack.getAmount() / (float) renderState.tankCapacity) : 0.1f;
 
-			vertexConsumer.addVertex(pose, -width / 2, -height / 2 + percent * height, -width / 2).setColor(r, g, b, a)
-					.setUv(minU, minV)
-					.setOverlay(OverlayTexture.NO_OVERLAY)
-					.setLight(packedLight)
-					.setNormal(matrixLast, 0, 1, 0);
+			nodeCollector.submitCustomGeometry(poseStack, RenderTypes.translucentMovingBlock(), (pose, vertexConsumer) -> {
+				vertexConsumer.addVertex(pose, -width / 2, -height / 2 + percent * height, -width / 2).setColor(r, g, b, a)
+						.setUv(minU, minV)
+						.setOverlay(OverlayTexture.NO_OVERLAY)
+						.setLight(packedLight)
+						.setNormal(pose, 0, 1, 0);
 
-			vertexConsumer.addVertex(pose, -width / 2, -height / 2 + percent * height, width / 2).setColor(r, g, b, a)
-					.setUv(minU, maxV)
-					.setOverlay(OverlayTexture.NO_OVERLAY)
-					.setLight(packedLight)
-					.setNormal(matrixLast, 0, 1, 0);
+				vertexConsumer.addVertex(pose, -width / 2, -height / 2 + percent * height, width / 2).setColor(r, g, b, a)
+						.setUv(minU, maxV)
+						.setOverlay(OverlayTexture.NO_OVERLAY)
+						.setLight(packedLight)
+						.setNormal(pose, 0, 1, 0);
 
-			vertexConsumer.addVertex(pose, width / 2, -height / 2 + percent * height, width / 2).setColor(r, g, b, a)
-					.setUv(maxU, maxV)
-					.setOverlay(OverlayTexture.NO_OVERLAY)
-					.setLight(packedLight)
-					.setNormal(matrixLast, 0, 1, 0);
+				vertexConsumer.addVertex(pose, width / 2, -height / 2 + percent * height, width / 2).setColor(r, g, b, a)
+						.setUv(maxU, maxV)
+						.setOverlay(OverlayTexture.NO_OVERLAY)
+						.setLight(packedLight)
+						.setNormal(pose, 0, 1, 0);
 
-			vertexConsumer.addVertex(pose, width / 2, -height / 2 + percent * height, -width / 2).setColor(r, g, b, a)
-					.setUv(maxU, minV)
-					.setOverlay(OverlayTexture.NO_OVERLAY)
-					.setLight(packedLight)
-					.setNormal(matrixLast, 0, 1, 0);
+				vertexConsumer.addVertex(pose, width / 2, -height / 2 + percent * height, -width / 2).setColor(r, g, b, a)
+						.setUv(maxU, minV)
+						.setOverlay(OverlayTexture.NO_OVERLAY)
+						.setLight(packedLight)
+						.setNormal(pose, 0, 1, 0);
+			});
 
-			if (bufferSource instanceof MultiBufferSource.BufferSource) {
-				((MultiBufferSource.BufferSource) bufferSource).endBatch();
-			}
 			poseStack.popPose();
 		}
-		ItemStack berryStack = vat.handler.getStackInSlot(0);
-		int count = berryStack.getCount();
-		if (!berryStack.isEmpty()) {
+		final ItemStackRenderState berryStack = renderState.berryStack;
+		final int count = renderState.berryAmount;
+		if (count > 0) {
 			int size = count >= 4 ? (count / 4) : 1;
 			for (int i = 0; i < size; i++) {
 				Random random = new Random(0);
 				poseStack.pushPose();
 				poseStack.translate(0.5, 1.0, 0.5);
 				poseStack.translate(0, -0.9, -0.1875);
-				poseStack.translate(0, i * 0.03125, 0.125);
+				poseStack.translate(0, i * 0.0625, 0.125);
 				poseStack.mulPose(Axis.XP.rotationDegrees((float) 90));
 				poseStack.translate(i * 0.0125, i * 0.0125, 0);
 				poseStack.mulPose(Axis.ZP.rotationDegrees(i * random.nextInt(360)));
-				Minecraft.getInstance().getItemRenderer().renderStatic(berryStack, ItemDisplayContext.GROUND, packedLight, packedOverlay, poseStack, bufferSource, level, 0);
+				berryStack.submit(poseStack, nodeCollector, renderState.lightCoords, OverlayTexture.NO_OVERLAY, 0);
 				poseStack.popPose();
 			}
 		}
 	}
 
+	@Nullable
 	private TextureAtlasSprite getFluidStillSprite(Fluid fluid) {
-		return Minecraft.getInstance()
-				.getTextureAtlas(TextureAtlas.LOCATION_BLOCKS)
-				.apply(IClientFluidTypeExtensions.of(fluid).getStillTexture());
+		if (fluid == Fluids.EMPTY) return null;
+		Identifier texture = IClientFluidTypeExtensions.of(fluid).getStillTexture();
+		return Minecraft.getInstance().getAtlasManager().get(new Material(TextureAtlas.LOCATION_BLOCKS, texture));
 	}
-
 }

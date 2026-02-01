@@ -97,7 +97,7 @@ public class OreBerryBushBlock extends Block {
 
 	@Override
 	public void tick(BlockState state, ServerLevel serverLevel, BlockPos pos, RandomSource rand) {
-		if (!serverLevel.isClientSide && !isMaxAge(state) &&
+		if (!serverLevel.isClientSide() && !isMaxAge(state) &&
 				CommonHooks.canCropGrow(serverLevel, pos, state,
 						rand.nextInt(OreBerriesConfig.COMMON.growthChance.get()) == 0)) {
 			boolean flag = !oreType.getDarknessOnly() || serverLevel.getRawBrightness(pos, 0) < 10;
@@ -122,7 +122,7 @@ public class OreBerryBushBlock extends Block {
 
 	public InteractionResult harvestBerry(BlockState state, Level level, BlockPos pos) {
 		if (isMaxAge(state)) {
-			if (level.isClientSide)
+			if (level.isClientSide())
 				return InteractionResult.SUCCESS;
 
 			level.setBlock(pos, withAge(getMaxAge() - 1), 3);
@@ -150,7 +150,7 @@ public class OreBerryBushBlock extends Block {
 	}
 
 	@Override
-	protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier) {
+	protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier applier, boolean intersects) {
 		if (!(entity instanceof ItemEntity) && level instanceof ServerLevel serverLevel) {
 			entity.hurtServer(serverLevel, level.damageSources().cactus(), 1.0F);
 		}

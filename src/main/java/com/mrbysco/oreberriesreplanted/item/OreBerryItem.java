@@ -8,15 +8,10 @@ import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.item.component.TooltipDisplay;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.List;
 import java.util.function.Consumer;
 
 public class OreBerryItem extends Item {
 	private String tooltip = "";
-
-	public OreBerryItem(Properties properties) {
-		super(properties);
-	}
 
 	public OreBerryItem(Properties properties, String tooltip) {
 		super(properties);

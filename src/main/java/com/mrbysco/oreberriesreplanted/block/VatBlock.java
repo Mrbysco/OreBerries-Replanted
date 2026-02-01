@@ -31,8 +31,9 @@ import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.Shapes;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.neoforged.neoforge.capabilities.Capabilities;
-import net.neoforged.neoforge.items.IItemHandler;
-import net.neoforged.neoforge.items.ItemHandlerHelper;
+import net.neoforged.neoforge.transfer.ResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 
 import javax.annotation.Nullable;
 import java.util.stream.Stream;
@@ -61,22 +62,22 @@ public class VatBlock extends BaseEntityBlock {
 	}
 
 	@Override
-	protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier effectApplier) {
+	protected void entityInside(BlockState state, Level level, BlockPos pos, Entity entity, InsideBlockEffectApplier applier, boolean intersects) {
 		float f = (float) entity.getY() - 0.5F;
-		float yPos = (float) (pos.getY() - 0.25f);
+		float yPos = pos.getY() - 0.25f;
 		if (!entity.isShiftKeyDown() && (double) f <= yPos) {
 			BlockEntity blockEntity = level.getBlockEntity(pos);
 			if (level.getGameTime() % 10 == 0 && blockEntity instanceof VatBlockEntity vat) {
 				if (entity instanceof LivingEntity livingEntity && !(entity instanceof Player && ((Player) entity).isSpectator())) {
-					if (!vat.handler.getStackInSlot(0).isEmpty()) {
+					if (vat.handler.getAmountAsInt(0) > 0) {
 						((LivingEntityAccessor) livingEntity).invokeJumpFromGround();
 					}
 
-					if (!level.isClientSide && level.random.nextInt(8) == 0) {
+					if (!level.isClientSide() && level.random.nextInt(8) == 0) {
 						vat.crushBerry();
 					}
 				}
-				if (!level.isClientSide && entity instanceof ItemEntity itemEntity && blockEntity instanceof VatBlockEntity) {
+				if (!level.isClientSide() && entity instanceof ItemEntity itemEntity && blockEntity instanceof VatBlockEntity) {
 					vat.addBerry(itemEntity);
 				}
 			}
@@ -88,25 +89,33 @@ public class VatBlock extends BaseEntityBlock {
 	                                      Player player, InteractionHand hand, BlockHitResult result) {
 		BlockEntity blockEntity = level.getBlockEntity(pos);
 		if (blockEntity instanceof VatBlockEntity) {
-			IItemHandler itemHandler = level.getCapability(Capabilities.ItemHandler.BLOCK, pos, result.getDirection());
+			ResourceHandler<ItemResource> itemHandler = level.getCapability(Capabilities.Item.BLOCK, pos, result.getDirection());
 			if (itemHandler != null) {
-				if (player.isShiftKeyDown()) {
-					ItemStack berryStack = itemHandler.getStackInSlot(0);
-					if (!berryStack.isEmpty()) {
-						Containers.dropItemStack(level, player.getX(), player.getY() + 0.5, player.getZ(), berryStack);
-					}
-				} else {
-					if (itemHandler.getStackInSlot(0).getCount() < itemHandler.getSlotLimit(0)) {
-						ItemStack remaining = stack.copyWithCount(stack.getCount());
-						if (!remaining.isEmpty()) {
-							remaining = ItemHandlerHelper.insertItem(itemHandler, stack, false);
-							player.setItemInHand(hand, remaining);
+				try (Transaction tx = Transaction.openRoot()) {
+					if (player.isShiftKeyDown()) {
+						ItemResource berryStack = itemHandler.getResource(0);
+						if (!berryStack.isEmpty()) {
+							Containers.dropItemStack(level, player.getX(), player.getY() + 0.5, player.getZ(),
+									berryStack.toStack(itemHandler.getAmountAsInt(0))
+							);
+						}
+					} else {
+						if (itemHandler.getAmountAsInt(0) < itemHandler.getCapacityAsInt(0, ItemResource.EMPTY)) {
+							ItemStack remaining = stack.copyWithCount(stack.getCount());
+							if (!remaining.isEmpty()) {
+								int inserted = itemHandler.insert(ItemResource.of(stack), stack.getCount(), tx);
+								if (inserted != 0) {
+									remaining.shrink(inserted);
+								}
+								player.setItemInHand(hand, remaining);
+							}
 						}
 					}
+					tx.commit();
 				}
-			}
 
-			return InteractionResult.SUCCESS;
+				return InteractionResult.SUCCESS;
+			}
 		}
 		return InteractionResult.PASS;
 	}
@@ -131,7 +140,7 @@ public class VatBlock extends BaseEntityBlock {
 	}
 
 	protected static <T extends BlockEntity> BlockEntityTicker<T> createVatTicker(Level level, BlockEntityType<T> entityType, BlockEntityType<? extends VatBlockEntity> blockEntityType) {
-		return level.isClientSide ? null : createTickerHelper(entityType, blockEntityType, VatBlockEntity::serverTick);
+		return level.isClientSide() ? null : createTickerHelper(entityType, blockEntityType, VatBlockEntity::serverTick);
 	}
 
 	@Nullable

@@ -7,7 +7,7 @@ import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRequirements;
 import net.minecraft.advancements.AdvancementRewards;
 import net.minecraft.advancements.Criterion;
-import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
+import net.minecraft.advancements.criterion.RecipeUnlockedTrigger;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
@@ -85,12 +85,12 @@ public class TagSmeltingRecipeBuilder implements RecipeBuilder {
 		else if (this.serializer == OreBerryRecipes.TAG_FURNACE_SERIALIZER.get())
 			recipe = new TagFurnaceRecipe(CookingBookCategory.MISC, this.group == null ? "" : this.group, this.ingredient, this.result, this.experience, this.cookingTime);
 		if (recipe != null)
-			recipeOutput.accept(id, recipe, advancement$builder.build(id.location().withPrefix("recipes/" + this.category.getFolderName() + "/")));
+			recipeOutput.accept(id, recipe, advancement$builder.build(id.identifier().withPrefix("recipes/" + this.category.getFolderName() + "/")));
 	}
 
 	private void ensureValid(ResourceKey<Recipe<?>> recipe) {
 		if (this.criteria.isEmpty()) {
-			throw new IllegalStateException("No way of obtaining recipe " + recipe.location());
+			throw new IllegalStateException("No way of obtaining recipe " + recipe.identifier());
 		}
 	}
 }

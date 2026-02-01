@@ -5,7 +5,7 @@ import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementRequirements;
 import net.minecraft.advancements.AdvancementRewards;
 import net.minecraft.advancements.Criterion;
-import net.minecraft.advancements.critereon.RecipeUnlockedTrigger;
+import net.minecraft.advancements.criterion.RecipeUnlockedTrigger;
 import net.minecraft.data.recipes.RecipeBuilder;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.resources.ResourceKey;
@@ -91,13 +91,13 @@ public class VatRecipeBuilder implements RecipeBuilder {
 		} else {
 			VatRecipe vatRecipe = new VatRecipe(this.group == null ? "" : this.group, this.ingredient, fluid,
 					this.result, this.evaporationAmount, this.evaporationTime, this.min, this.max);
-			recipeOutput.accept(id, vatRecipe, advancement$builder.build(id.location().withPrefix("recipes/oreberries/")));
+			recipeOutput.accept(id, vatRecipe, advancement$builder.build(id.identifier().withPrefix("recipes/oreberries/")));
 		}
 	}
 
 	private void ensureValid(ResourceKey<Recipe<?>> recipe) {
 		if (this.criteria.isEmpty()) {
-			throw new IllegalStateException("No way of obtaining recipe " + recipe.location());
+			throw new IllegalStateException("No way of obtaining recipe " + recipe.identifier());
 		}
 	}
 }

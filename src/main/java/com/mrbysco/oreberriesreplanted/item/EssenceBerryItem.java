@@ -24,7 +24,7 @@ public class EssenceBerryItem extends OreBerryItem {
 			}
 		}
 		ExperienceOrb xpEntity = new ExperienceOrb(level, player.getX(), player.getY(), player.getZ(), xpGained);
-		if (!level.isClientSide) {
+		if (!level.isClientSide()) {
 			level.addFreshEntity(xpEntity);
 		}
 		if (!player.getAbilities().instabuild) {

@@ -32,7 +32,7 @@ import net.minecraft.data.loot.LootTableProvider;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.RecipeOutput;
 import net.minecraft.data.recipes.RecipeProvider;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
@@ -309,7 +309,7 @@ public class OreberryDatagen {
 		}
 
 		private void addFluid(DeferredHolder<Fluid, BaseFlowingFluid> fluid, String name) {
-			ResourceLocation id = fluid.getId();
+			Identifier id = fluid.getId();
 			this.add("fluid_type." + id.getNamespace() + "." + id.getPath(), name);
 		}
 
@@ -360,16 +360,16 @@ public class OreberryDatagen {
 			makePottedBush(blockModels, OreBerryRegistry.POTTED_SILVER_OREBERRY_BUSH, "silver");
 			makePottedBush(blockModels, OreBerryRegistry.POTTED_ESSENCE_BERRY_BUSH, "essence");
 
-			makeVat(blockModels, OreBerryRegistry.OAK_VAT, ResourceLocation.withDefaultNamespace("block/oak_planks"));
-			makeVat(blockModels, OreBerryRegistry.SPRUCE_VAT, ResourceLocation.withDefaultNamespace("block/spruce_planks"));
-			makeVat(blockModels, OreBerryRegistry.BIRCH_VAT, ResourceLocation.withDefaultNamespace("block/birch_planks"));
-			makeVat(blockModels, OreBerryRegistry.JUNGLE_VAT, ResourceLocation.withDefaultNamespace("block/jungle_planks"));
-			makeVat(blockModels, OreBerryRegistry.ACACIA_VAT, ResourceLocation.withDefaultNamespace("block/acacia_planks"));
-			makeVat(blockModels, OreBerryRegistry.DARK_OAK_VAT, ResourceLocation.withDefaultNamespace("block/dark_oak_planks"));
-			makeVat(blockModels, OreBerryRegistry.MANGROVE_VAT, ResourceLocation.withDefaultNamespace("block/mangrove_planks"));
-			makeVat(blockModels, OreBerryRegistry.CHERRY_VAT, ResourceLocation.withDefaultNamespace("block/cherry_planks"));
-			makeVat(blockModels, OreBerryRegistry.CRIMSON_VAT, ResourceLocation.withDefaultNamespace("block/crimson_planks"));
-			makeVat(blockModels, OreBerryRegistry.WARPED_VAT, ResourceLocation.withDefaultNamespace("block/warped_planks"));
+			makeVat(blockModels, OreBerryRegistry.OAK_VAT, Identifier.withDefaultNamespace("block/oak_planks"));
+			makeVat(blockModels, OreBerryRegistry.SPRUCE_VAT, Identifier.withDefaultNamespace("block/spruce_planks"));
+			makeVat(blockModels, OreBerryRegistry.BIRCH_VAT, Identifier.withDefaultNamespace("block/birch_planks"));
+			makeVat(blockModels, OreBerryRegistry.JUNGLE_VAT, Identifier.withDefaultNamespace("block/jungle_planks"));
+			makeVat(blockModels, OreBerryRegistry.ACACIA_VAT, Identifier.withDefaultNamespace("block/acacia_planks"));
+			makeVat(blockModels, OreBerryRegistry.DARK_OAK_VAT, Identifier.withDefaultNamespace("block/dark_oak_planks"));
+			makeVat(blockModels, OreBerryRegistry.MANGROVE_VAT, Identifier.withDefaultNamespace("block/mangrove_planks"));
+			makeVat(blockModels, OreBerryRegistry.CHERRY_VAT, Identifier.withDefaultNamespace("block/cherry_planks"));
+			makeVat(blockModels, OreBerryRegistry.CRIMSON_VAT, Identifier.withDefaultNamespace("block/crimson_planks"));
+			makeVat(blockModels, OreBerryRegistry.WARPED_VAT, Identifier.withDefaultNamespace("block/warped_planks"));
 
 			itemModels.generateFlatItem(OreBerryRegistry.COPPER_NUGGET.get(), ModelTemplates.FLAT_ITEM);
 
@@ -400,12 +400,12 @@ public class OreberryDatagen {
 		}
 
 		private void makeBush(BlockModelGenerators blockModels, DeferredBlock<OreBerryBushBlock> deferredBush, String type) {
-			ResourceLocation texture = Reference.modLoc("block/" + type + "_oreberry");
+			Identifier texture = Reference.modLoc("block/" + type + "_oreberry");
 
-			ResourceLocation stage0 = BUSH_STAGE0.createWithSuffix(deferredBush.get(), "_stage0", TextureMapping.cube(texture), blockModels.modelOutput);
-			ResourceLocation stage1 = BUSH_STAGE1.createWithSuffix(deferredBush.get(), "_stage1", TextureMapping.cube(texture), blockModels.modelOutput);
-			ResourceLocation stage2 = BUSH_STAGE2.createWithSuffix(deferredBush.get(), "_stage2", TextureMapping.cube(texture), blockModels.modelOutput);
-			ResourceLocation stage3 = BUSH_STAGE2.createWithSuffix(deferredBush.get(), "_stage3", TextureMapping.cube(texture.withSuffix("_ripe")), blockModels.modelOutput);
+			Identifier stage0 = BUSH_STAGE0.createWithSuffix(deferredBush.get(), "_stage0", TextureMapping.cube(texture), blockModels.modelOutput);
+			Identifier stage1 = BUSH_STAGE1.createWithSuffix(deferredBush.get(), "_stage1", TextureMapping.cube(texture), blockModels.modelOutput);
+			Identifier stage2 = BUSH_STAGE2.createWithSuffix(deferredBush.get(), "_stage2", TextureMapping.cube(texture), blockModels.modelOutput);
+			Identifier stage3 = BUSH_STAGE2.createWithSuffix(deferredBush.get(), "_stage3", TextureMapping.cube(texture.withSuffix("_ripe")), blockModels.modelOutput);
 
 			blockModels.blockStateOutput
 					.accept(
@@ -431,8 +431,8 @@ public class OreberryDatagen {
 		}
 
 		private void makePottedBush(BlockModelGenerators blockModels, DeferredBlock<FlowerPotBlock> deferredPot, String type) {
-			ResourceLocation texture = Reference.modLoc("block/" + type + "_oreberry_ripe");
-			ResourceLocation model = FLOWER_POT_BUSH.create(deferredPot.get(),
+			Identifier texture = Reference.modLoc("block/" + type + "_oreberry_ripe");
+			Identifier model = FLOWER_POT_BUSH.create(deferredPot.get(),
 					new TextureMapping().put(BUSH, texture), blockModels.modelOutput);
 
 			blockModels.blockStateOutput
@@ -443,8 +443,8 @@ public class OreberryDatagen {
 					);
 		}
 
-		private void makeVat(BlockModelGenerators blockModels, DeferredBlock<VatBlock> deferredVat, ResourceLocation planks) {
-			ResourceLocation model = VAT.create(deferredVat.get(),
+		private void makeVat(BlockModelGenerators blockModels, DeferredBlock<VatBlock> deferredVat, Identifier planks) {
+			Identifier model = VAT.create(deferredVat.get(),
 					TextureMapping.cube(planks), blockModels.modelOutput);
 
 			blockModels.blockStateOutput
@@ -459,10 +459,10 @@ public class OreberryDatagen {
 		private void generateBucket(BlockModelGenerators blockModels, LiquidReg liquidReg) {
 			blockModels.itemModelOutput.accept(liquidReg.getBucket().get(), new DynamicFluidContainerModel.Unbaked(
 					new DynamicFluidContainerModel.Textures(
-							Optional.of(ResourceLocation.withDefaultNamespace("item/bucket")),
-							Optional.of(ResourceLocation.withDefaultNamespace("item/bucket")),
-							Optional.of(ResourceLocation.fromNamespaceAndPath("neoforge", "item/mask/bucket_fluid")),
-							Optional.of(ResourceLocation.fromNamespaceAndPath("neoforge", "item/mask/bucket_fluid_cover"))
+							Optional.of(Identifier.withDefaultNamespace("item/bucket")),
+							Optional.of(Identifier.withDefaultNamespace("item/bucket")),
+							Optional.of(Identifier.fromNamespaceAndPath("neoforge", "item/mask/bucket_fluid")),
+							Optional.of(Identifier.fromNamespaceAndPath("neoforge", "item/mask/bucket_fluid_cover"))
 					), liquidReg.getSource().get(), false, true, false
 			));
 		}
@@ -491,7 +491,7 @@ public class OreberryDatagen {
 		public static final TagKey<Item> VATS = modTag("vats");
 
 		private static TagKey<Item> commonTag(String path) {
-			return ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", path));
+			return ItemTags.create(Identifier.fromNamespaceAndPath("c", path));
 		}
 
 		private static TagKey<Item> modTag(String name) {
@@ -547,7 +547,7 @@ public class OreberryDatagen {
 					.pattern("NNN")
 					.define('N', OreBerryRegistry.COPPER_NUGGET.get())
 					.unlockedBy("has_copper_nugget", has(OreBerryRegistry.COPPER_NUGGET.get()))
-					.save(output, ResourceLocation.fromNamespaceAndPath(Reference.MOD_ID, "copper_ingot_from_nugget").toString());
+					.save(output, Identifier.fromNamespaceAndPath(Reference.MOD_ID, "copper_ingot_from_nugget").toString());
 
 			generateRecipes(output, "iron", OreBerryRegistry.IRON_OREBERRY.get());
 			generateRecipes(output, "gold", OreBerryRegistry.GOLD_OREBERRY.get());
@@ -587,7 +587,7 @@ public class OreberryDatagen {
 					.unlockedBy("has_berry", has(berry))
 					.save(tagOutput, Reference.modLoc(type + "_from_smelting").toString());
 
-			ResourceLocation fluidLocation = Reference.modLoc(type + "_oreberry_juice");
+			Identifier fluidLocation = Reference.modLoc(type + "_oreberry_juice");
 			VatRecipeBuilder.vat(nuggetIngredient, FluidIngredient.of(BuiltInRegistries.FLUID.getValue(fluidLocation)),
 							Ingredient.of(berry)).unlockedBy("has_berry", has(berry))
 					.save(tagOutput, Reference.modLoc("vat/" + type + "_nugget").toString());
@@ -602,7 +602,7 @@ public class OreberryDatagen {
 		}
 
 		private static TagKey<Item> commonTag(String name) {
-			return ItemTags.create(ResourceLocation.fromNamespaceAndPath("c", name));
+			return ItemTags.create(Identifier.fromNamespaceAndPath("c", name));
 		}
 
 		public static class Runner extends RecipeProvider.Runner {

@@ -30,40 +30,26 @@ import net.minecraft.world.level.storage.TagValueOutput;
 import net.minecraft.world.level.storage.ValueInput;
 import net.minecraft.world.level.storage.ValueOutput;
 import net.neoforged.neoforge.fluids.FluidStack;
-import net.neoforged.neoforge.fluids.capability.IFluidHandler.FluidAction;
-import net.neoforged.neoforge.fluids.capability.templates.FluidTank;
-import net.neoforged.neoforge.items.ItemStackHandler;
+import net.neoforged.neoforge.transfer.fluid.FluidResource;
+import net.neoforged.neoforge.transfer.fluid.FluidStacksResourceHandler;
+import net.neoforged.neoforge.transfer.item.ItemResource;
+import net.neoforged.neoforge.transfer.item.ItemStacksResourceHandler;
+import net.neoforged.neoforge.transfer.transaction.Transaction;
 import org.jetbrains.annotations.Nullable;
 
 public class VatBlockEntity extends BlockEntity {
-	public final FluidTank tank = new FluidTank(3200) {
-		@Override
-		public FluidStack drain(FluidStack resource, FluidAction action) {
-			if (!isFluidEqual(resource)) {
-				return FluidStack.EMPTY;
-			}
-			if (action.simulate()) {
-				int amount = tank.getFluidAmount() - resource.getAmount() < 0 ? tank.getFluidAmount() : resource.getAmount();
-				return new FluidStack(tank.getFluid().getFluidHolder(), amount);
-			}
-			return super.drain(resource.getAmount(), action);
-		}
+	public final FluidStacksResourceHandler tank = new FluidStacksResourceHandler(1, 3200) {
 
 		@Override
-		protected void onContentsChanged() {
+		protected void onContentsChanged(int index, FluidStack previousContents) {
 			refreshClient();
 		}
 
 		@Override
-		public FluidStack drain(int maxDrain, FluidAction action) {
-			return super.drain(maxDrain, action);
-		}
-
-		@Override
-		public boolean isFluidValid(FluidStack stack) {
+		public boolean isValid(int index, FluidResource resource) {
 			if (level != null && level instanceof ServerLevel serverLevel) {
 				for (RecipeHolder<VatRecipe> recipe : serverLevel.recipeAccess().recipeMap().byType(OreBerryRecipes.VAT_RECIPE_TYPE.get())) {
-					if (stack.getFluid().isSame(recipe.value().getFluid())) {
+					if (resource.getFluid().isSame(recipe.value().getFluid())) {
 						return true;
 					}
 				}
@@ -72,17 +58,17 @@ public class VatBlockEntity extends BlockEntity {
 		}
 	};
 
-	public final ItemStackHandler handler = new ItemStackHandler(1) {
+	public final ItemStacksResourceHandler handler = new ItemStacksResourceHandler(1) {
 		@Override
-		protected int getStackLimit(int slot, ItemStack stack) {
+		protected int getCapacity(int index, ItemResource resource) {
 			return 32;
 		}
 
 		@Override
-		public boolean isItemValid(int slot, ItemStack stack) {
+		public boolean isValid(int index, ItemResource resource) {
 			if (level != null && level instanceof ServerLevel serverLevel) {
 				for (RecipeHolder<VatRecipe> recipe : serverLevel.recipeAccess().recipeMap().byType(OreBerryRecipes.VAT_RECIPE_TYPE.get())) {
-					if (recipe.value().getIngredient().test(stack)) {
+					if (recipe.value().getIngredient().test(resource.toStack())) {
 						return true;
 					}
 				}
@@ -91,7 +77,7 @@ public class VatBlockEntity extends BlockEntity {
 		}
 
 		@Override
-		protected void onContentsChanged(int slot) {
+		protected void onContentsChanged(int index, ItemStack previousContents) {
 			refreshClient();
 		}
 	};
@@ -135,14 +121,14 @@ public class VatBlockEntity extends BlockEntity {
 	}
 
 	public static void serverTick(Level level, BlockPos pos, BlockState state, VatBlockEntity vatBlockEntity) {
-		if (level.isClientSide) {
+		if (level.isClientSide()) {
 			return;
 		}
 
 		if (vatBlockEntity.crushCooldown > 0) {
 			--vatBlockEntity.crushCooldown;
 		}
-		if (!vatBlockEntity.tank.isEmpty()) {
+		if (vatBlockEntity.tank.getAmountAsInt(0) > 0) {
 			RecipeHolder<VatRecipe> vatRecipe = vatBlockEntity.getRecipe();
 			boolean valid = vatBlockEntity.canEvaporate(vatRecipe);
 			if (valid) {
@@ -168,7 +154,13 @@ public class VatBlockEntity extends BlockEntity {
 		if (recipe != null) {
 			int evaporationAmount = recipe.value().getEvaporationAmount();
 			ItemStack outputStack = curRecipe.value().assemble(null, level.registryAccess());
-			tank.drain(evaporationAmount, FluidAction.EXECUTE);
+
+			try (Transaction tx = Transaction.openRoot()) {
+				FluidResource fluidResource = tank.getResource(0);
+				int extracted = tank.extract(fluidResource, evaporationAmount, tx);
+				if (extracted != evaporationAmount) return;
+				tx.commit();
+			}
 
 			BlockPos blockpos = this.getBlockPos();
 			Containers.dropItemStack(this.level, (double) blockpos.getX(), (double) blockpos.getY() + 0.1D, (double) blockpos.getZ(), outputStack);
@@ -182,51 +174,60 @@ public class VatBlockEntity extends BlockEntity {
 	}
 
 	protected boolean canEvaporate(@Nullable RecipeHolder<VatRecipe> recipe) {
-		if (!tank.isEmpty() && recipe != null) {
-			return tank.getFluidAmount() >= recipe.value().getEvaporationAmount();
+		if (tank.getAmountAsInt(0) > 0 && recipe != null) {
+			return tank.getAmountAsInt(0) >= recipe.value().getEvaporationAmount();
 		}
 		return false;
 	}
 
 	public void crushBerry() {
 		if (!isOnCooldown()) {
-			ItemStack berryStack = handler.getStackInSlot(0);
-			RecipeHolder<VatRecipe> holder = getRecipe();
-			if (holder != null && !berryStack.isEmpty()) {
-				VatRecipe recipe = holder.value();
-				int liquidAmount = level.random.nextInt((int) (recipe.getMax() * 100) - (int) (recipe.getMin() * 100)) + (int) (recipe.getMin() * 100);
-				liquidAmount = (int) Math.round(liquidAmount / 10.0) * 10;
-				FluidStack stack = new FluidStack(recipe.getFluid(), liquidAmount);
-				int accepted = tank.fill(stack, FluidAction.SIMULATE);
-				if (accepted > 0) {
-					tank.fill(stack, FluidAction.EXECUTE);
-					berryStack.shrink(1);
+			try (Transaction tx = Transaction.openRoot()) {
+				ItemResource berryStack = handler.getResource(0);
+				RecipeHolder<VatRecipe> holder = getRecipe();
+				if (holder != null && !berryStack.isEmpty()) {
+					VatRecipe recipe = holder.value();
+					int liquidAmount = level.random.nextInt((int) (recipe.getMax() * 100) - (int) (recipe.getMin() * 100)) + (int) (recipe.getMin() * 100);
+					liquidAmount = (int) Math.round(liquidAmount / 10.0) * 10;
+					FluidStack stack = new FluidStack(recipe.getFluid(), liquidAmount);
+					int insertedFluid = tank.insert(FluidResource.of(stack), stack.getAmount(), tx);
+					if (insertedFluid > 0) {
+						if (handler.extract(berryStack, 1, tx) != 1) return;
+						tx.commit();
+					}
 				}
+				setCooldown(20);
 			}
-			setCooldown(20);
 		}
 	}
 
 	public void addBerry(ItemEntity entity) {
 		ItemStack itemstack = entity.getItem().copy();
 		int originalCount = itemstack.getCount();
-		ItemStack resultStack = handler.insertItem(0, itemstack, false);
-		if (resultStack.isEmpty()) {
-			entity.discard();
-		} else {
-			entity.setItem(resultStack);
-		}
 
-		if (originalCount != resultStack.getCount()) {
-			refreshClient();
+		try (Transaction tx = Transaction.openRoot()) {
+			int inserted = handler.insert(ItemResource.of(itemstack), itemstack.getCount(), tx);
+			itemstack.shrink(inserted);
+
+			if (itemstack.isEmpty()) {
+				entity.discard();
+			} else {
+				entity.setItem(itemstack);
+			}
+
+			if (originalCount != itemstack.getCount()) {
+				refreshClient();
+			}
+
+			tx.commit();
 		}
 	}
 
 	protected RecipeHolder<VatRecipe> getRecipe() {
 		if (level instanceof ServerLevel serverLevel) {
-			ItemStack input = handler.getStackInSlot(0);
+			ItemStack input = handler.getResource(0).toStack(handler.getAmountAsInt(0));
 			if (input.isEmpty()) {
-				FluidStack fluidStack = tank.getFluidInTank(0);
+				FluidStack fluidStack = tank.getResource(0).toStack(tank.getAmountAsInt(0));
 				if (!fluidStack.isEmpty()) {
 					for (RecipeHolder<VatRecipe> recipe : serverLevel.recipeAccess().recipeMap().byType(OreBerryRecipes.VAT_RECIPE_TYPE.get())) {
 						if (fluidStack.getFluid().isSame(recipe.value().getFluid())) {
@@ -259,7 +260,7 @@ public class VatBlockEntity extends BlockEntity {
 	}
 
 	protected boolean isFluidEqual(Fluid fluid) {
-		return tank.getFluid().getFluid().equals(fluid);
+		return tank.getResource(0).getFluid().equals(fluid);
 	}
 
 	public void setCooldown(int cooldown) {
@@ -304,19 +305,20 @@ public class VatBlockEntity extends BlockEntity {
 		return tag;
 	}
 
-	public ItemStackHandler getHandler(@Nullable Direction direction) {
+	public ItemStacksResourceHandler getHandler(@Nullable Direction direction) {
 		return direction != Direction.DOWN ? handler : null;
 	}
 
-	public FluidTank getTank(@Nullable Direction direction) {
+	public FluidStacksResourceHandler getTank(@Nullable Direction direction) {
 		return tank;
 	}
 
 	@Override
 	public void preRemoveSideEffects(BlockPos pos, BlockState state) {
 		if (handler != null && this.level != null) {
-			for (int i = 0; i < handler.getSlots(); ++i) {
-				Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), handler.getStackInSlot(i));
+			for (int i = 0; i < handler.size(); ++i) {
+				ItemStack stack = handler.getResource(i).toStack(handler.getAmountAsInt(i));
+				Containers.dropItemStack(level, pos.getX(), pos.getY(), pos.getZ(), stack);
 			}
 		}
 	}

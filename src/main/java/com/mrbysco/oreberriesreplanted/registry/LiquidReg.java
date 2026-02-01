@@ -1,6 +1,7 @@
 package com.mrbysco.oreberriesreplanted.registry;
 
 import com.mrbysco.oreberriesreplanted.util.FluidHelper;
+import net.minecraft.world.attribute.EnvironmentAttributes;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.item.BucketItem;
@@ -56,7 +57,7 @@ public class LiquidReg {
 	}
 
 	public static BaseFlowingFluid.Properties createProperties(Supplier<FluidType> type, Supplier<BaseFlowingFluid> still,
-															   Supplier<BaseFlowingFluid> flowing, Supplier<BucketItem> bucket) {
+	                                                           Supplier<BaseFlowingFluid> flowing, Supplier<BucketItem> bucket) {
 		return new BaseFlowingFluid.Properties(type, still, flowing).bucket(bucket);
 	}
 
@@ -66,7 +67,7 @@ public class LiquidReg {
 		this.fluidType = OreBerryRegistry.FLUID_TYPES.register(name, () -> new FluidType(FluidHelper.createTypeProperties().temperature(hot ? 300 : 1000)) {
 			@Override
 			public double motionScale(Entity entity) {
-				return entity.level().dimensionType().ultraWarm() ? 0.007D : 0.0023333333333333335D;
+				return entity.level().environmentAttributes().getValue(EnvironmentAttributes.WATER_EVAPORATES, entity.blockPosition()) ? 0.007D : 0.0023333333333333335D;
 			}
 
 			@Override
@@ -82,7 +83,7 @@ public class LiquidReg {
 				createProperties(fluidType, source, flowing, bucket))
 		);
 		bucket = OreBerryRegistry.ITEMS.registerItem(name + "_bucket", (properties) -> new BucketItem(source.get(), properties),
-				new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1));
+				() -> new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1));
 	}
 
 	public static class Builder {
