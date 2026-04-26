@@ -16,24 +16,18 @@ public class EssenceBerryItem extends OreBerryItem {
 	@Override
 	public InteractionResult use(Level level, Player player, InteractionHand hand) {
 		ItemStack itemstack = player.getItemInHand(hand);
-		int xpGained = level.random.nextInt(14) + 6;
+		int xpGained = level.getRandom().nextInt(14) + 6;
 		if (player.isShiftKeyDown()) {
 			xpGained = 0;
 			for (int i = 0; i < itemstack.getCount(); i++) {
-				xpGained += level.random.nextInt(14) + 6;
+				xpGained += level.getRandom().nextInt(14) + 6;
 			}
 		}
 		ExperienceOrb xpEntity = new ExperienceOrb(level, player.getX(), player.getY(), player.getZ(), xpGained);
 		if (!level.isClientSide()) {
 			level.addFreshEntity(xpEntity);
 		}
-		if (!player.getAbilities().instabuild) {
-			if (player.isShiftKeyDown()) {
-				itemstack.shrink(itemstack.getCount());
-			} else {
-				itemstack.shrink(1);
-			}
-		}
+		itemstack.consume(player.isShiftKeyDown() ? itemstack.getCount() : 1, player);
 		return InteractionResult.SUCCESS;
 	}
 }

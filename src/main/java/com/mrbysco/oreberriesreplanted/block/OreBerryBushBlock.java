@@ -126,7 +126,7 @@ public class OreBerryBushBlock extends Block {
 				return InteractionResult.SUCCESS;
 
 			level.setBlock(pos, withAge(getMaxAge() - 1), 3);
-			popResource(level, pos, new ItemStack(getBerryItem(), level.random.nextInt(3) + 1));
+			popResource(level, pos, new ItemStack(getBerryItem(), level.getRandom().nextInt(3) + 1));
 		}
 
 		return InteractionResult.PASS;

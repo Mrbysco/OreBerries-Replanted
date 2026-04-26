@@ -1,5 +1,6 @@
 package com.mrbysco.oreberriesreplanted.registry;
 
+import com.mrbysco.oreberriesreplanted.fluid.BerryFluidType;
 import com.mrbysco.oreberriesreplanted.util.FluidHelper;
 import net.minecraft.world.attribute.EnvironmentAttributes;
 import net.minecraft.world.entity.Entity;
@@ -64,7 +65,7 @@ public class LiquidReg {
 	public LiquidReg(String name, int color, boolean hot) {
 		this.name = name;
 		this.color = color;
-		this.fluidType = OreBerryRegistry.FLUID_TYPES.register(name, () -> new FluidType(FluidHelper.createTypeProperties().temperature(hot ? 300 : 1000)) {
+		this.fluidType = OreBerryRegistry.FLUID_TYPES.register(name, () -> new BerryFluidType(color, FluidHelper.createTypeProperties().temperature(hot ? 300 : 1000)) {
 			@Override
 			public double motionScale(Entity entity) {
 				return entity.level().environmentAttributes().getValue(EnvironmentAttributes.WATER_EVAPORATES, entity.blockPosition()) ? 0.007D : 0.0023333333333333335D;

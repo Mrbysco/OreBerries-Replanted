@@ -18,11 +18,11 @@ import net.minecraft.client.data.models.model.ModelTemplate;
 import net.minecraft.client.data.models.model.ModelTemplates;
 import net.minecraft.client.data.models.model.TextureMapping;
 import net.minecraft.client.data.models.model.TextureSlot;
+import net.minecraft.client.resources.model.sprite.Material;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.HolderLookup.Provider;
 import net.minecraft.core.HolderSet;
 import net.minecraft.core.RegistrySetBuilder;
-import net.minecraft.core.WritableRegistry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.data.DataGenerator;
@@ -36,7 +36,6 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
-import net.minecraft.util.ProblemReporter;
 import net.minecraft.world.flag.FeatureFlags;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
@@ -45,8 +44,6 @@ import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.FlowerPotBlock;
 import net.minecraft.world.level.material.Fluid;
-import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.ValidationContext;
 import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.common.EventBusSubscriber;
@@ -159,13 +156,6 @@ public class OreberryDatagen {
 			protected Iterable<Block> getKnownBlocks() {
 				return (Iterable<Block>) OreBerryRegistry.BLOCKS.getEntries().stream().map(holder -> (Block) holder.get())::iterator;
 			}
-		}
-
-		@Override
-		protected void validate(@NotNull WritableRegistry<LootTable> writableregistry,
-		                        @NotNull ValidationContext validationcontext,
-		                        @NotNull ProblemReporter.Collector problemreporter$collector) {
-			super.validate(writableregistry, validationcontext, problemreporter$collector);
 		}
 	}
 
@@ -322,11 +312,11 @@ public class OreberryDatagen {
 	private static class OreBerryModels extends ModelProvider {
 		public static final TextureSlot BUSH = TextureSlot.create("bush");
 
-		public static final ModelTemplate BUSH_STAGE0 = ModelTemplates.create("oreberriesreplanted:base/oreberry_stage0", TextureSlot.ALL).extend().renderType("cutout_mipped").build();
-		public static final ModelTemplate BUSH_STAGE1 = ModelTemplates.create("oreberriesreplanted:base/oreberry_stage1", TextureSlot.ALL).extend().renderType("cutout_mipped").build();
-		public static final ModelTemplate BUSH_STAGE2 = ModelTemplates.create("oreberriesreplanted:base/oreberry_stage2", TextureSlot.ALL).extend().renderType("cutout_mipped").build();
-		public static final ModelTemplate FLOWER_POT_BUSH = ModelTemplates.create("oreberriesreplanted:base/flower_pot_bush", BUSH).extend().renderType("cutout_mipped").build();
-		public static final ModelTemplate VAT = ModelTemplates.create("oreberriesreplanted:vat/vat_base", TextureSlot.ALL).extend().renderType("cutout_mipped").build();
+		public static final ModelTemplate BUSH_STAGE0 = ModelTemplates.create("oreberriesreplanted:base/oreberry_stage0", TextureSlot.ALL);
+		public static final ModelTemplate BUSH_STAGE1 = ModelTemplates.create("oreberriesreplanted:base/oreberry_stage1", TextureSlot.ALL);
+		public static final ModelTemplate BUSH_STAGE2 = ModelTemplates.create("oreberriesreplanted:base/oreberry_stage2", TextureSlot.ALL);
+		public static final ModelTemplate FLOWER_POT_BUSH = ModelTemplates.create("oreberriesreplanted:base/flower_pot_bush", BUSH);
+		public static final ModelTemplate VAT = ModelTemplates.create("oreberriesreplanted:vat/vat_base", TextureSlot.ALL);
 
 		public OreBerryModels(PackOutput output) {
 			super(output, Reference.MOD_ID);
@@ -402,10 +392,10 @@ public class OreberryDatagen {
 		private void makeBush(BlockModelGenerators blockModels, DeferredBlock<OreBerryBushBlock> deferredBush, String type) {
 			Identifier texture = Reference.modLoc("block/" + type + "_oreberry");
 
-			Identifier stage0 = BUSH_STAGE0.createWithSuffix(deferredBush.get(), "_stage0", TextureMapping.cube(texture), blockModels.modelOutput);
-			Identifier stage1 = BUSH_STAGE1.createWithSuffix(deferredBush.get(), "_stage1", TextureMapping.cube(texture), blockModels.modelOutput);
-			Identifier stage2 = BUSH_STAGE2.createWithSuffix(deferredBush.get(), "_stage2", TextureMapping.cube(texture), blockModels.modelOutput);
-			Identifier stage3 = BUSH_STAGE2.createWithSuffix(deferredBush.get(), "_stage3", TextureMapping.cube(texture.withSuffix("_ripe")), blockModels.modelOutput);
+			Identifier stage0 = BUSH_STAGE0.createWithSuffix(deferredBush.get(), "_stage0", TextureMapping.cube(new Material(texture)), blockModels.modelOutput);
+			Identifier stage1 = BUSH_STAGE1.createWithSuffix(deferredBush.get(), "_stage1", TextureMapping.cube(new Material(texture)), blockModels.modelOutput);
+			Identifier stage2 = BUSH_STAGE2.createWithSuffix(deferredBush.get(), "_stage2", TextureMapping.cube(new Material(texture)), blockModels.modelOutput);
+			Identifier stage3 = BUSH_STAGE2.createWithSuffix(deferredBush.get(), "_stage3", TextureMapping.cube(new Material(texture.withSuffix("_ripe"))), blockModels.modelOutput);
 
 			blockModels.blockStateOutput
 					.accept(
@@ -433,7 +423,7 @@ public class OreberryDatagen {
 		private void makePottedBush(BlockModelGenerators blockModels, DeferredBlock<FlowerPotBlock> deferredPot, String type) {
 			Identifier texture = Reference.modLoc("block/" + type + "_oreberry_ripe");
 			Identifier model = FLOWER_POT_BUSH.create(deferredPot.get(),
-					new TextureMapping().put(BUSH, texture), blockModels.modelOutput);
+					new TextureMapping().put(BUSH, new Material(texture)), blockModels.modelOutput);
 
 			blockModels.blockStateOutput
 					.accept(
@@ -445,7 +435,7 @@ public class OreberryDatagen {
 
 		private void makeVat(BlockModelGenerators blockModels, DeferredBlock<VatBlock> deferredVat, Identifier planks) {
 			Identifier model = VAT.create(deferredVat.get(),
-					TextureMapping.cube(planks), blockModels.modelOutput);
+					TextureMapping.cube(new Material(planks)), blockModels.modelOutput);
 
 			blockModels.blockStateOutput
 					.accept(
@@ -459,10 +449,10 @@ public class OreberryDatagen {
 		private void generateBucket(BlockModelGenerators blockModels, LiquidReg liquidReg) {
 			blockModels.itemModelOutput.accept(liquidReg.getBucket().get(), new DynamicFluidContainerModel.Unbaked(
 					new DynamicFluidContainerModel.Textures(
-							Optional.of(Identifier.withDefaultNamespace("item/bucket")),
-							Optional.of(Identifier.withDefaultNamespace("item/bucket")),
-							Optional.of(Identifier.fromNamespaceAndPath("neoforge", "item/mask/bucket_fluid")),
-							Optional.of(Identifier.fromNamespaceAndPath("neoforge", "item/mask/bucket_fluid_cover"))
+							Optional.of(new Material(Identifier.withDefaultNamespace("item/bucket"))),
+							Optional.of(new Material(Identifier.withDefaultNamespace("item/bucket"))),
+							Optional.of(new Material(Identifier.fromNamespaceAndPath("neoforge", "item/mask/bucket_fluid"))),
+							Optional.empty()
 					), liquidReg.getSource().get(), false, true, false
 			));
 		}
@@ -577,15 +567,15 @@ public class OreberryDatagen {
 			TagKey<Item> nuggetTag = commonTag("nuggets/" + type);
 			Ingredient nuggetIngredient = Ingredient.of(tagSet(nuggetTag));
 
-			RecipeOutput tagOutput = output.withConditions(new NotCondition(new TagEmptyCondition<Item>(nuggetTag)));
+			RecipeOutput tagOutput = output.withConditions(new NotCondition(new TagEmptyCondition<>(nuggetTag)));
 
 			TagSmeltingRecipeBuilder.blasting(Ingredient.of(berry), RecipeCategory.MISC, nuggetIngredient, 0.2F, 100)
 					.unlockedBy("has_berry", has(berry))
-					.save(tagOutput, Reference.modLoc(type + "_from_blasting").toString());
+					.save(tagOutput, Reference.modLoc(type + "_from_blasting"));
 
 			TagSmeltingRecipeBuilder.smelting(Ingredient.of(berry), RecipeCategory.MISC, nuggetIngredient, 0.2F, 200)
 					.unlockedBy("has_berry", has(berry))
-					.save(tagOutput, Reference.modLoc(type + "_from_smelting").toString());
+					.save(tagOutput, Reference.modLoc(type + "_from_smelting"));
 
 			Identifier fluidLocation = Reference.modLoc(type + "_oreberry_juice");
 			VatRecipeBuilder.vat(nuggetIngredient, FluidIngredient.of(BuiltInRegistries.FLUID.getValue(fluidLocation)),

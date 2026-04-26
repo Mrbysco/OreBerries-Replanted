@@ -16,13 +16,13 @@ credits="Lanse505 for the idea of crushing oreberries into juice that evaporates
 [[dependencies.oreberriesreplanted]]
 modId="minecraft"
 type="REQUIRED"
-versionRange="[1.21.11,1.22)"
+versionRange="[26.1.1,)"
 ordering="NONE"
 side="BOTH"
 [[dependencies.oreberriesreplanted]]
 modId="neoforge"
 type="REQUIRED"
-versionRange="[21.11.0-beta,)"
+versionRange="[26.1.1.0-alpha,)"
 ordering="NONE"
 side="BOTH"
 [[mixins]]

@@ -5,7 +5,6 @@
     "fluid": "oreberriesreplanted:zinc_oreberry_juice",
     "textures": {
       "base": "minecraft:item/bucket",
-      "cover": "neoforge:item/mask/bucket_fluid_cover",
       "fluid": "neoforge:item/mask/bucket_fluid",
       "particle": "minecraft:item/bucket"
     }

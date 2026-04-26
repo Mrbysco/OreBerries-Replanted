@@ -153,7 +153,7 @@ public class VatBlockEntity extends BlockEntity {
 	protected void evaporateLiquid(RecipeHolder<VatRecipe> recipe) {
 		if (recipe != null) {
 			int evaporationAmount = recipe.value().getEvaporationAmount();
-			ItemStack outputStack = curRecipe.value().assemble(null, level.registryAccess());
+			ItemStack outputStack = curRecipe.value().assemble(null);
 
 			try (Transaction tx = Transaction.openRoot()) {
 				FluidResource fluidResource = tank.getResource(0);
@@ -187,7 +187,7 @@ public class VatBlockEntity extends BlockEntity {
 				RecipeHolder<VatRecipe> holder = getRecipe();
 				if (holder != null && !berryStack.isEmpty()) {
 					VatRecipe recipe = holder.value();
-					int liquidAmount = level.random.nextInt((int) (recipe.getMax() * 100) - (int) (recipe.getMin() * 100)) + (int) (recipe.getMin() * 100);
+					int liquidAmount = level.getRandom().nextInt((int) (recipe.getMax() * 100) - (int) (recipe.getMin() * 100)) + (int) (recipe.getMin() * 100);
 					liquidAmount = (int) Math.round(liquidAmount / 10.0) * 10;
 					FluidStack stack = new FluidStack(recipe.getFluid(), liquidAmount);
 					int insertedFluid = tank.insert(FluidResource.of(stack), stack.getAmount(), tx);

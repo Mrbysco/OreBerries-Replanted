@@ -5,24 +5,24 @@ import com.mojang.math.Axis;
 import com.mrbysco.oreberriesreplanted.blockentity.VatBlockEntity;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.block.FluidModel;
+import net.minecraft.client.renderer.block.FluidStateModelSet;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
-import net.minecraft.client.renderer.state.CameraRenderState;
+import net.minecraft.client.renderer.state.level.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
-import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.Material;
-import net.minecraft.resources.Identifier;
+import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 import net.minecraft.world.phys.Vec3;
-import net.neoforged.neoforge.client.extensions.common.IClientFluidTypeExtensions;
+import net.neoforged.neoforge.client.fluid.FluidTintSource;
 import net.neoforged.neoforge.fluids.FluidStack;
 import net.neoforged.neoforge.transfer.fluid.FluidResource;
 import net.neoforged.neoforge.transfer.item.ItemResource;
@@ -77,7 +77,7 @@ public class VatBER implements BlockEntityRenderer<VatBlockEntity, VatRenderStat
 			poseStack.pushPose();
 			poseStack.translate(0.5, 0.25, 0.5);
 
-			final int color = IClientFluidTypeExtensions.of(fluid).getTintColor(fluidStack);
+			final int color = getTintColor(fluid);
 			float r = ((color >> 16) & 0xFF) / 255f;
 			float g = ((color >> 8) & 0xFF) / 255f;
 			float b = ((color) & 0xFF) / 255f;
@@ -142,7 +142,22 @@ public class VatBER implements BlockEntityRenderer<VatBlockEntity, VatRenderStat
 	@Nullable
 	private TextureAtlasSprite getFluidStillSprite(Fluid fluid) {
 		if (fluid == Fluids.EMPTY) return null;
-		Identifier texture = IClientFluidTypeExtensions.of(fluid).getStillTexture();
-		return Minecraft.getInstance().getAtlasManager().get(new Material(TextureAtlas.LOCATION_BLOCKS, texture));
+		return getFluidModel(fluid).stillMaterial().sprite();
+	}
+
+	public FluidModel getFluidModel(Fluid fluid) {
+		Minecraft minecraft = Minecraft.getInstance();
+		ModelManager modelManager = minecraft.getModelManager();
+		FluidStateModelSet fluidStateModelSet = modelManager.getFluidStateModelSet();
+		return fluidStateModelSet.get(fluid.defaultFluidState());
+	}
+
+	public int getTintColor(Fluid fluid) {
+		FluidModel fluidModel = getFluidModel(fluid);
+		FluidTintSource tintSource = fluidModel.fluidTintSource();
+		if (tintSource == null) {
+			return 0xFFFFFFFF;
+		}
+		return tintSource.colorAsStack(new FluidStack(fluid, 1000));
 	}
 }

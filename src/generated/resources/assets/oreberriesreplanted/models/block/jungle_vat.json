@@ -1,6 +1,5 @@
 {
   "parent": "oreberriesreplanted:block/vat/vat_base",
-  "render_type": "minecraft:cutout_mipped",
   "textures": {
     "all": "minecraft:block/jungle_planks"
   }

@@ -73,7 +73,7 @@ public class VatBlock extends BaseEntityBlock {
 						((LivingEntityAccessor) livingEntity).invokeJumpFromGround();
 					}
 
-					if (!level.isClientSide() && level.random.nextInt(8) == 0) {
+					if (!level.isClientSide() && level.getRandom().nextInt(8) == 0) {
 						vat.crushBerry();
 					}
 				}

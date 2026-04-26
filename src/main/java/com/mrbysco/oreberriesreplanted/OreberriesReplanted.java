@@ -2,7 +2,6 @@ package com.mrbysco.oreberriesreplanted;
 
 import com.mojang.logging.LogUtils;
 import com.mrbysco.oreberriesreplanted.blockentity.VatBlockEntity;
-import com.mrbysco.oreberriesreplanted.client.ClientHandler;
 import com.mrbysco.oreberriesreplanted.config.OreBerriesConfig;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryPlacementModifiers;
 import com.mrbysco.oreberriesreplanted.registry.OreBerryRecipes;
@@ -47,9 +46,6 @@ public class OreberriesReplanted {
 
 		if (dist.isClient()) {
 			container.registerExtensionPoint(IConfigScreenFactory.class, ConfigurationScreen::new);
-			eventBus.addListener(ClientHandler::registerEntityRenders);
-			eventBus.addListener(ClientHandler::registerExtensions);
-			NeoForge.EVENT_BUS.addListener(ClientHandler::onRecipeReceived);
 		} else {
 			NeoForge.EVENT_BUS.addListener((OnDatapackSyncEvent event) -> {
 				event.sendRecipes(OreBerryRecipes.VAT_RECIPE_TYPE.get());
